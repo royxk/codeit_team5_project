@@ -19,7 +19,7 @@ const Table = ({ pageType = "employer", applyData }: TableProps) => {
   return (
     <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden tab:w-[680px] mob:w-[350px]'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
-        <table className='table-fixed'>
+        <table>
           <thead>
             <tr className='bg-red-10 text-left text-sm'>
               {headerData.map((item, idx) => {
