@@ -51,6 +51,7 @@ const Input = ({
         // 드롭다운형 input코드
         <div className="relative  border-gray-30 ">
           <button
+            type="button"
             className={`text-left w-full px-5 py-4 rounded-lg border-[1px] z-[1] ${
               isDropDownEnabled ? "text-gray-50" : "text-black"
             }`}
@@ -68,6 +69,7 @@ const Input = ({
                 ) : (
                   dataArray.map((item) => (
                     <button
+                      type="button"
                       className="bg-white py-3"
                       key={item}
                       onClick={() => {
