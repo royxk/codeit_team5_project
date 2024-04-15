@@ -1,4 +1,5 @@
 import * as React from 'react';
+import TableColumn from '../TableColumn';
 
 type Props = {};
 
@@ -33,27 +34,19 @@ const EXAMPLE= [
   },
 ]
 
+const HEADER_COL_NAME = ['가게', '날짜', '시급', '상태']
+
 const Table = (props:Props) => {
   return (
     <>
-    <div className='flex flex-col w-4/6 m-4 border border-gray-20 rounded-lg'>
-      <div className='grid grid-cols-4 bg-red-10 p-3 rounded-t-lg text-sm'>
-        <div>가게</div>
-        <div>날짜</div>
-        <div>시급</div>
-        <div>상태</div>
+      <div className='grid grid-cols-1 w-4/6 m-4 border border-gray-20 rounded-lg'>
+        <div className='grid grid-cols-4 bg-red-10 p-3 rounded-t-lg text-sm'>
+          {HEADER_COL_NAME.map((colName) => {
+            return <div key={colName}>{colName}</div>
+          })}
+        </div>
+        <TableColumn data={EXAMPLE}/>
       </div>
-      {EXAMPLE.map((item) => {
-        return (
-          <ul key={item.id} className='grid grid-cols-4 p-3 text-base border-t border-gray-20'>
-            <li>{item.title}</li>
-            <li>{item.date}</li>
-            <li>{item.cost}원</li>
-            <li>{item.status ? '승인완료' : '거절'}</li>
-          </ul>
-        )
-      })}
-    </div>
     </>
   );
 };
