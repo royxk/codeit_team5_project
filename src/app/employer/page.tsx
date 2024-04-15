@@ -6,7 +6,7 @@ type Props = {};
 const Employer = (props: Props) => {
   return (
     <>
-      <Input inputType="passwordCheck" />
+      <Input inputType="types" />
     </>
   );
 };

@@ -48,8 +48,44 @@ const Input = ({
       </label>
 
       {INPUT_SELECT_TYPE.includes(inputType) ? (
-        ""
+        // 드롭다운형 input코드
+        <div className="relative  border-gray-30 ">
+          <button
+            className={`text-left w-full px-5 py-4 rounded-lg border-[1px] z-[1] ${
+              isDropDownEnabled ? "text-gray-50" : "text-black"
+            }`}
+            onClick={() => {
+              setIsDropDownEnabled(!isDropDownEnabled);
+            }}
+          >
+            {selectedData || "값을 선택해주세요."}
+          </button>
+          {isDropDownEnabled && (
+            <div className="absolute bg-white text-center rounded-lg cursor-default border-[1px] border-gray-30 top-16 w-full  max-h-[230px] overflow-y-scroll">
+              <div className="bg-gray-20 flex flex-col gap-[1px]">
+                {dataArray.length === 0 ? (
+                  <div className="bg-white py-3">데이터가 없습니다.</div>
+                ) : (
+                  dataArray.map((item) => (
+                    <button
+                      className="bg-white py-3"
+                      key={item}
+                      onClick={() => {
+                        setSelectedData(item);
+                        setIsDropDownEnabled(false);
+                        selectData(item);
+                      }}
+                    >
+                      {item}
+                    </button>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       ) : (
+        // 일반 input형 코드
         <>
           <label
             className={`relative flex justify-between px-5 py-4 border-[1px] rounded-lg border-gray-30 focus-within:border-blue-20 z-[1] 
