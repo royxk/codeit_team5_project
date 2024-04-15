@@ -36,8 +36,8 @@ const EXAMPLE= [
 const Table = (props:Props) => {
   return (
     <>
-    <div className='flex flex-col w-3/6 border border-gray-20 rounded-lg m-4'>
-      <div className='grid grid-cols-4 bg-red-10 p-3 text-sm'>
+    <div className='flex flex-col w-4/6 m-4 border border-gray-20 rounded-lg'>
+      <div className='grid grid-cols-4 bg-red-10 p-3 rounded-t-lg text-sm'>
         <div>가게</div>
         <div>날짜</div>
         <div>시급</div>
@@ -45,7 +45,7 @@ const Table = (props:Props) => {
       </div>
       {EXAMPLE.map((item) => {
         return (
-          <ul key={item.id} className='grid grid-cols-4 p-3 text-base'>
+          <ul key={item.id} className='grid grid-cols-4 p-3 text-base border-t border-gray-20'>
             <li>{item.title}</li>
             <li>{item.date}</li>
             <li>{item.cost}원</li>
