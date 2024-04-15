@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React from "react";
 
 type Props = {};
@@ -15,7 +14,7 @@ const CssTest = (props: Props) => {
         <div>
           <h1 className="text-2xl">gray</h1>
           <ul>
-            <li className="bg-black">black</li>
+            <li className="bg-black text-white">black</li>
             <li className="bg-gray-50">gray-50</li>
             <li className="bg-gray-40">gray-40</li>
             <li className="bg-gray-30 text-black">gray-30</li>
@@ -54,6 +53,19 @@ const CssTest = (props: Props) => {
             <li className="bg-kakao text-black">kakao</li>
           </ul>
         </div>
+      </div>
+      <div className="flex justify-center gap-10 mt-5">
+        <h1>폰트 설정</h1>
+        <ul>
+          <li className="font-Pretendard">프리텐다드</li>
+          <li className="font-Pretendard font-normal">두께 400</li>
+          <li className="font-Pretendard font-bold">두께 700</li>
+        </ul>
+        <ul>
+          <li>스포카 한 산스</li>
+          <li className="font-Spoqa font-normal">두께 400</li>
+          <li className="font-Spoqa font-bold">두께 700</li>
+        </ul>
       </div>
     </>
   );
