@@ -1,5 +1,6 @@
 import * as React from 'react';
-import TableColumn from '../TableColumn';
+import TableColumn from './TableColumn';
+import TableHeader from './TableHeader';
 
 type Props = {};
 
@@ -40,11 +41,7 @@ const Table = (props:Props) => {
   return (
     <>
       <div className='grid grid-cols-1 w-4/6 m-4 border border-gray-20 rounded-lg'>
-        <div className='grid grid-cols-4 bg-red-10 p-3 rounded-t-lg text-sm'>
-          {HEADER_COL_NAME.map((colName) => {
-            return <div key={colName}>{colName}</div>
-          })}
-        </div>
+        <TableHeader headerData={HEADER_COL_NAME}/>
         <TableColumn data={EXAMPLE}/>
       </div>
     </>
