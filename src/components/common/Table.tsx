@@ -18,7 +18,7 @@ const Table = ({ pageType = "employer", applyData }: TableProps) => {
 
   return (
     <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden mob:w-[328px]'>
-      <div className='overflow-x-auto'>
+      <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
         <table className='table-fixed'>
           <thead>
             <tr className='bg-red-10 text-left text-sm'>
