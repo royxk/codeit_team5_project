@@ -4,7 +4,11 @@ import React from "react";
 type Props = {};
 
 const Employer = (props: Props) => {
-  return <Input />;
+  return (
+    <>
+      <Input inputType="passwordCheck" />
+    </>
+  );
 };
 
 export default Employer;
