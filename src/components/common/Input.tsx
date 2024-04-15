@@ -1,4 +1,8 @@
 "use client";
+import React, { useState } from "react";
+import Image from "next/image";
+
+// Contexts
 import {
   INPUT_ERROR_TYPE,
   INPUT_LABELS,
@@ -7,7 +11,6 @@ import {
   INPUT_SELECT_TYPE,
   INPUT_TYPES,
 } from "@/util/constants/INPUT_VALUES";
-import React, { useState } from "react";
 
 interface InputProps {
   inputType: string;
@@ -35,7 +38,7 @@ const Input = ({
     console.log(`selectedData : ${item}`);
   },
 }: InputProps) => {
-  const [isDropDownEnabled, setIsDropDownEnabled] = useState(false);
+  const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
   const [selectedData, setSelectedData] = useState<string>("");
   if (inputType === "default") {
     errorType = "default";
@@ -52,16 +55,25 @@ const Input = ({
         <div className="relative  border-gray-30 ">
           <button
             type="button"
-            className={`text-left w-full px-5 py-4 rounded-lg border-[1px] z-[1] ${
-              isDropDownEnabled ? "text-gray-50" : "text-black"
+            className={`flex justify-between text-left w-full px-5 py-4 rounded-lg border-[1px] z-[1] ${
+              isDropdownEnabled ? "text-gray-50" : "text-black"
             }`}
             onClick={() => {
-              setIsDropDownEnabled(!isDropDownEnabled);
+              setIsDropdownEnabled(!isDropdownEnabled);
             }}
           >
             {selectedData || "값을 선택해주세요."}
+            <Image
+              width={16}
+              height={16}
+              alt="Data_Dropdown"
+              src={"/dropdown.svg"}
+              className={`duration-300 ${
+                isDropdownEnabled ? "rotate-180" : ""
+              }`}
+            />
           </button>
-          {isDropDownEnabled && (
+          {isDropdownEnabled && (
             <div className="absolute bg-white text-center rounded-lg cursor-default border-[1px] border-gray-30 top-16 w-full  max-h-[230px] overflow-y-scroll">
               <div className="bg-gray-20 flex flex-col gap-[1px]">
                 {dataArray.length === 0 ? (
@@ -74,7 +86,7 @@ const Input = ({
                       key={item}
                       onClick={() => {
                         setSelectedData(item);
-                        setIsDropDownEnabled(false);
+                        setIsDropdownEnabled(false);
                         selectData(item);
                       }}
                     >
