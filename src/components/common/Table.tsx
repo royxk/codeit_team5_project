@@ -17,7 +17,7 @@ const Table = ({ pageType = "employer", applyData }: TableProps) => {
   const headerData = pageType === "employee" ? EMPLOYEE_TABLE_HEADER : EMPLOYER_TABLE_HEADER;
 
   return (
-    <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden mob:w-[328px]'>
+    <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden tab:w-[680px] mob:w-[350px]'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
         <table className='table-fixed'>
           <thead>
