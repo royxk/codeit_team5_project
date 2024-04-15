@@ -110,7 +110,7 @@ const Input = ({
               id={inputType}
               className="focus-visible:outline-none rounded-md w-full"
               type={INPUT_TYPES[inputType]}
-              onBlur={blurEvent}
+              onBlur={() => blurEvent()}
               placeholder={INPUT_PLACEHOLDER[inputType]}
             />
             {INPUT_LAST_WORD[inputType] && (
