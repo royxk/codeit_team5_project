@@ -3,12 +3,13 @@ interface InputValuesType {
 }
 
 export const INPUT_TYPES: InputValuesType = {
+  default: "text",
   email: "email",
   password: "password",
   passwordCheck: "password",
   date: "date",
-  workHour: "number",
   wage: "number",
+  workHour: "number",
 };
 
 export const INPUT_LABELS: InputValuesType = {
@@ -38,6 +39,12 @@ export const INPUT_LAST_WORD: InputValuesType = {
 
 export const INPUT_ERROR_TYPE: InputValuesType = {
   default: "inputType을 지정해주세요.",
+  emailInvalidRegex: "잘못된 이메일 형식입니다.",
+  emailDuplicated: "동일한 이메일이 이미 가입되어 있습니다.",
+  emailNotMatch: "이메일을 확인해주세요.",
+  passwordNotMatch: "비밀번호를 확인해주세요.",
+  passwordInvalidRegex: "8자 이상 작성해주세요.",
+  passwordCheckNotMatched: "비밀번호가 일치하지 않습니다.",
 };
 
 export const INPUT_SELECT_TYPE: string[] = ["types"];
