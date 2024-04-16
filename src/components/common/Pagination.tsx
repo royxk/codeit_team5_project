@@ -43,6 +43,12 @@ const Pagination = ({
     }
   });
   const isPaginationNeed = pageData.length > 7;
+  const firstPageList: number[] = [];
+  if (!isPaginationNeed) {
+    for (let i = 0; i < pageData.length; i++) {
+      firstPageList.push(i);
+    }
+  }
 
   // 현재 선택 가능한 페이지 리스트를 다루는 함수, pagination이 필요하지 않으면 작동하지 않음
   const handlePageList = (targetPageNumber: number) => {
@@ -100,6 +106,7 @@ const Pagination = ({
   };
 
   useEffect(() => {
+    setCurrentPageList(firstPageList);
     handlePageNumberChange(0);
   }, []);
 
