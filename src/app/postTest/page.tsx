@@ -15,7 +15,7 @@ const PostTest = () => {
   console.log(S.items);
 
   return (
-    <div>
+    <div className='flex flex-row flex-wrap gap-4'>
       {S.items.map((item, index) => (
         <Post key={index}
         imgUrl={item.item.shop.item.imageUrl}

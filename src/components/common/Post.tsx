@@ -6,9 +6,8 @@ import testImg from "../../../public/post/testImg.svg";
 import arrow from "../../../public/post/arrow.svg";
 import arrowTab from "../../../public/post/arrowTab.svg";
 
-//TODO : Mbile responsive size 만들기
-//TODO : Data Props 어떻게 받아와서 넘길지 고민해보기
-//TODO : 상태관리는 어떻게 하면 좋을지 생각하기
+//TODO: Click Event needed
+//TODO: Need to get data about "compare hourly pay" from backend
 
 interface PostProps {
   imgUrl: string;
@@ -18,9 +17,11 @@ interface PostProps {
   startTime: string;
   startHour: string;
   state: boolean;
+  // clickEvent?: () => void;
+  // compareHourlyPay?: number;
 }
 
-const Post: React.FC<PostProps> = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, state }) => {
+const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, state } : PostProps) : React.ReactElement => {
   return (
     <div
       className={`flex border flex-col rounded-xl justify-start gap-4 w-80 p-4 tab:p-3 tab:w-48 ${
