@@ -125,6 +125,7 @@ const Pagination = ({
       <div className="flex gap-1">
         {currentPageList.map((item) => (
           <button
+            type="button"
             key={item}
             className={`h-10 w-10 rounded-[4px] 
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
