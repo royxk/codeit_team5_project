@@ -41,6 +41,30 @@ const Pagination = ({
     }
   });
 
+  // 페이지 번호 설정에 따라 발생시킬 함수
+  const handlePageNumberChange = (index: number) => {
+    setCurrentPage(index);
+    setCurrentPageData(pageData[index]);
+  };
+
+  // 페이지 숫자 양 옆의 화살표 버튼 클릭 시 실행할 함수
+  const handlePaginationArrowButton = (direction: string) => {
+    switch (direction) {
+      case "left":
+        if (currentPage !== 0) {
+          handlePageNumberChange(currentPage - 1);
+        }
+        break;
+      case "right":
+        if (currentPage !== pageData.length - 1) {
+          handlePageNumberChange(currentPage + 1);
+        }
+        break;
+      default:
+        console.error("이게 뜨면 안됨");
+    }
+  };
+
   const isPaginationNeed = pageData.length > 7;
 
   return (
@@ -49,7 +73,8 @@ const Pagination = ({
         <button
           type="button"
           className={`h-full max-h-5 w-full max-w-5 
-        ${currentPage == 0 ? "bg-[url('/pagination-left-impossible.svg')]" : "bg-[url('/pagination-left-possible.svg')]"}`}
+        ${currentPage == 0 ? "cursor-default bg-[url('/pagination-left-impossible.svg')]" : "bg-[url('/pagination-left-possible.svg')]"}`}
+          onClick={() => handlePaginationArrowButton("left")}
         />
       )}
       <div className="flex gap-1">
@@ -57,10 +82,7 @@ const Pagination = ({
           <button
             key={i}
             className={`h-10 w-10 rounded-[4px] ${currentPage === i ? "bg-red-30 text-white" : "text-black"}`}
-            onClick={() => {
-              setCurrentPage(i);
-              setCurrentPageData(item);
-            }}
+            onClick={() => handlePageNumberChange(i)}
           >
             {i + 1}
           </button>
@@ -70,6 +92,7 @@ const Pagination = ({
         <button
           type="button"
           className="h-full max-h-5 w-full max-w-5 bg-[url('/pagination-right.svg')]"
+          onClick={() => handlePaginationArrowButton("right")}
         />
       )}
     </div>
