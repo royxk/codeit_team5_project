@@ -88,10 +88,10 @@ const Pagination = ({
           </button>
         ))}
       </div>
-      {isPaginationNeed && currentPage !== pageData.length - 1 && (
+      {isPaginationNeed && (
         <button
           type="button"
-          className="h-full max-h-5 w-full max-w-5 bg-[url('/pagination-right.svg')]"
+          className={`h-full max-h-5 w-full max-w-5 ${currentPage !== pageData.length - 1 ? "bg-[url('/pagination-right.svg')]" : "cursor-default"}`}
           onClick={() => handlePaginationArrowButton("right")}
         />
       )}
