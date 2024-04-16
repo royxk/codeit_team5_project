@@ -31,7 +31,7 @@ interface InputProps {
  * @returns
  */
 const Input = ({
-  inputType = "default",
+  inputType = "DEFAULT",
   inputRef,
   errorType = "",
   blurEvent = () => console.log("blured"),
@@ -42,8 +42,8 @@ const Input = ({
 }: InputProps) => {
   const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
   const [selectedData, setSelectedData] = useState<string>("");
-  if (inputType === "default") {
-    errorType = "default";
+  if (inputType === "DEFAULT") {
+    errorType = "DEFAULT";
   }
 
   return (
