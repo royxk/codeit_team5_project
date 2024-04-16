@@ -3,7 +3,7 @@ import Image from "next/image";
 import time from "../../../public/post/time.svg";
 import location from "../../../public/post/location.svg";
 import arrow from "../../../public/post/arrow.svg";
-import arrowTab from "../../../public/post/arrowTab.svg";
+// import arrowTab from "../../../public/post/arrowTab.svg";
 
 //TODO: Click Event needed
 //TODO: Need to get data about "compare hourly pay" from backend
