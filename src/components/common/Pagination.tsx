@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface PaginationProps {
   rawPageData: unknown[];
@@ -27,8 +27,10 @@ const Pagination = ({
   pageItemLimit = 5,
 }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [currentPageList, setCurrentPageList] = useState([0]);
   const pageData: unknown[][] = [];
+
+  // rawPageData 가공
   const tempPageData: unknown[] = [];
   rawPageData.map((item, index) => {
     tempPageData.push(item);
@@ -40,9 +42,41 @@ const Pagination = ({
       tempPageData.splice(0);
     }
   });
+  const isPaginationNeed = pageData.length > 7;
+
+  // 현재 선택 가능한 페이지 리스트를 다루는 함수, pagination이 필요하지 않으면 작동하지 않음
+  const handlePageList = (targetPageNumber: number) => {
+    if (isPaginationNeed) {
+      const pageListTemp: number[] = [];
+
+      /// 1,2,3을 선택할 경우
+      if (targetPageNumber <= 3) {
+        setCurrentPageList([0, 1, 2, 3, 4, 5, 6]);
+        return;
+      }
+
+      // 중앙 페이지 구간을 선택할 경우
+      if (3 < targetPageNumber && targetPageNumber < pageData.length - 3) {
+        for (let i = targetPageNumber - 3; i <= targetPageNumber + 3; i++) {
+          pageListTemp.push(i);
+        }
+        setCurrentPageList(pageListTemp);
+        return;
+      }
+
+      // 마지막 세 페이지를 선택할 경우
+      if (pageData.length - 3 <= targetPageNumber) {
+        for (let i = pageData.length - 1; i >= pageData.length - 7; i--) {
+          pageListTemp.unshift(i);
+        }
+        setCurrentPageList(pageListTemp);
+      }
+    }
+  };
 
   // 페이지 번호 설정에 따라 발생시킬 함수
   const handlePageNumberChange = (index: number) => {
+    handlePageList(index);
     setCurrentPage(index);
     setCurrentPageData(pageData[index]);
   };
@@ -65,7 +99,9 @@ const Pagination = ({
     }
   };
 
-  const isPaginationNeed = pageData.length > 7;
+  useEffect(() => {
+    handlePageNumberChange(0);
+  }, []);
 
   return (
     <div className="flex h-16 w-full items-center justify-center gap-5 bg-white p-3 mob:h-[3.625rem]">
@@ -73,25 +109,29 @@ const Pagination = ({
         <button
           type="button"
           className={`h-full max-h-5 w-full max-w-5 
-        ${currentPage == 0 ? "cursor-default bg-[url('/pagination-left-impossible.svg')]" : "bg-[url('/pagination-left-possible.svg')]"}`}
+          ${currentPage == 0 ? "cursor-default bg-[url('/pagination-left-impossible.svg')]" : "bg-[url('/pagination-left-possible.svg')]"}`}
           onClick={() => handlePaginationArrowButton("left")}
         />
       )}
+
       <div className="flex gap-1">
-        {pageData.map((item, i) => (
+        {currentPageList.map((item) => (
           <button
-            key={i}
-            className={`h-10 w-10 rounded-[4px] ${currentPage === i ? "bg-red-30 text-white" : "text-black"}`}
-            onClick={() => handlePageNumberChange(i)}
+            key={item}
+            className={`h-10 w-10 rounded-[4px] 
+            ${currentPage === item ? "bg-red-30 text-white" : "text-black"}`}
+            onClick={() => handlePageNumberChange(item)}
           >
-            {i + 1}
+            {item + 1}
           </button>
         ))}
       </div>
+
       {isPaginationNeed && (
         <button
           type="button"
-          className={`h-full max-h-5 w-full max-w-5 ${currentPage !== pageData.length - 1 ? "bg-[url('/pagination-right.svg')]" : "cursor-default"}`}
+          className={`h-full max-h-5 w-full max-w-5 
+          ${currentPage !== pageData.length - 1 ? "bg-[url('/pagination-right.svg')]" : "cursor-default"}`}
           onClick={() => handlePaginationArrowButton("right")}
         />
       )}
