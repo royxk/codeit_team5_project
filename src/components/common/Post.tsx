@@ -10,9 +10,17 @@ import arrowTab from "../../../public/post/arrowTab.svg";
 //TODO : Data Props 어떻게 받아와서 넘길지 고민해보기
 //TODO : 상태관리는 어떻게 하면 좋을지 생각하기
 
-const state = false;
+interface PostProps {
+  imgUrl: string;
+  shopName: string;
+  address1: string;
+  hourlyPay: number;
+  startTime: string;
+  startHour: string;
+  state: boolean;
+}
 
-const Post = () => {
+const Post: React.FC<PostProps> = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, state }) => {
   return (
     <div
       className={`flex border flex-col rounded-xl justify-start gap-4 w-80 p-4 tab:p-3 tab:w-48 ${
@@ -27,7 +35,7 @@ const Post = () => {
             </div>
           </div>
         )}
-        <Image className="rounded-xl" src={testImg} alt="image"></Image>
+        <img className="rounded-xl" src={imgUrl} alt="image"></img>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -37,7 +45,7 @@ const Post = () => {
               state ? "" : "text-gray-30"
             }`}
           >
-            도토리식당
+            {shopName}
           </div>
           <div className={`flex flex-row gap-4 items-start `}>
             <Image
@@ -45,20 +53,20 @@ const Post = () => {
               src={time}
               alt="time"
             />
-            <div className="flex flex-row tab:flex-col">
+            <div className="flex flex-row tab:flex-col tab:gap-0 gap-4">
               <div
                 className={`text-gray-50 text-sm tab:text-xs ${
                   state ? "" : "text-gray-30"
                 }`}
               >
-                2023-01-02
+                {startTime}
               </div>
               <div
                 className={`text-gray-50 text-sm tab:text-xs ${
                   state ? "" : "text-gray-30"
                 }`}
               >
-                15:00~18:00 (4시간)
+               {startHour}
               </div>
             </div>
           </div>
@@ -71,7 +79,7 @@ const Post = () => {
             <div
               className={`text-gray-50 text-sm ${state ? "" : "text-gray-30"}`}
             >
-              서울시 송파구
+              {address1}
             </div>
           </div>
         </div>
@@ -83,7 +91,7 @@ const Post = () => {
               state ? "" : "text-gray-30"
             }`}
           >
-            15,000원
+            {hourlyPay.toLocaleString()}원
           </div>
           <div
             className={`flex flex-row font-bold text-white tab:bg-white tab:text-red-40 p-3 tab:p-0 tab:font-light rounded-3xl ${

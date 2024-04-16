@@ -1,10 +1,9 @@
-import Post from "@/components/common/Post";
 import React from "react";
 
 type Props = {};
 
 const page = (props: Props) => {
-  return <Post />;
+  return <div>page</div>;
 };
 
 export default page;
