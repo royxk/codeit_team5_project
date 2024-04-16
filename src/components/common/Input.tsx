@@ -8,6 +8,7 @@ import {
   INPUT_LABELS,
   INPUT_LAST_WORD,
   INPUT_PLACEHOLDER,
+  INPUT_SELECT_DATA_LIST,
   INPUT_SELECT_TYPE,
   INPUT_TYPES,
 } from "@/util/constants/INPUT_VALUES";
@@ -35,7 +36,6 @@ const Input = ({
   inputRef,
   errorType = "",
   blurEvent = () => console.log("blured"),
-  dataArray = ["asdf", "sdf", "adf", "asf", "asd", "asaf", "afdf"],
   selectData = (item) => {
     console.log(`selectedData : ${item}`);
   },
@@ -45,6 +45,8 @@ const Input = ({
   if (inputType === "DEFAULT") {
     errorType = "DEFAULT";
   }
+  const isSelectType = INPUT_SELECT_TYPE.includes(inputType);
+  const dataArray = isSelectType ? INPUT_SELECT_DATA_LIST[inputType] : null;
 
   return (
     <div className="flex flex-col gap-2 relative w-full">
@@ -52,7 +54,7 @@ const Input = ({
         {INPUT_LABELS[inputType]}
       </label>
 
-      {INPUT_SELECT_TYPE.includes(inputType) ? (
+      {isSelectType ? (
         // 드롭다운형 input코드
         <div className="relative  border-gray-30 ">
           <button
@@ -78,10 +80,10 @@ const Input = ({
           {isDropdownEnabled && (
             <div className="absolute bg-white text-center rounded-lg cursor-default border-[1px] border-gray-30 top-16 w-full  max-h-[230px] overflow-y-scroll">
               <div className="bg-gray-20 flex flex-col gap-[1px]">
-                {dataArray.length === 0 ? (
+                {dataArray!.length === 0 ? (
                   <div className="bg-white py-3">데이터가 없습니다.</div>
                 ) : (
-                  dataArray.map((item) => (
+                  dataArray!.map((item) => (
                     <button
                       type="button"
                       className="bg-white py-3"
