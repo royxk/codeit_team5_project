@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import time from "../../../public/post/time.svg";
 import location from "../../../public/post/location.svg";
-import testImg from "../../../public/post/testImg.svg";
 import arrow from "../../../public/post/arrow.svg";
 import arrowTab from "../../../public/post/arrowTab.svg";
 

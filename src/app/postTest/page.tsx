@@ -2,7 +2,7 @@ import React from 'react';
 import S from '../../util/constants/TEST_POST_VALUES';
 import Post from '@/components/common/Post';
 
-interface Props {
+type Props = {
     imgUrl: string;
     shopName: string;
     address1: string;
