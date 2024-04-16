@@ -110,7 +110,7 @@ const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, sta
             )}
             <Image className={`tab:hidden`} src={arrow} alt="arrow" />
             <Image
-              src={arrowTab}
+              src={arrow}
               className={`m-1 w-4 hidden tab:inline ${
                 state ? "" : "grayscale"
               }`}
