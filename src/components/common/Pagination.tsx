@@ -13,6 +13,12 @@ const testData = [
   42, 43, 44, 45, 46, 47, 48, 49, 50,
 ];
 
+/**
+ * @param {pageData[]} rawPageData 페이지에 표시할 순수 배열 데이터를 받는 param입니다. 이 데이터를 가공하여 [페이지][페이지 데이터] 형태의 2차원 배열로 가공합니다.
+ * @param {StateSetFunction} setCurrentPageData 현재 페이지에 보여줄 데이터를 설정하는 setState함수를 받아 페이지 선택 시 그 값으로 설정합니다.
+ * @param {number} pageItemLimit 현재 페이지에 얼마나 많은 개수를 표기할 지 선택하는 인수입니다. 기본적으로 코드잇에서 제공하는 5값으로 되어있으며 필요수 추가로 수정할 수 있게 하였습니다.
+ * @returns
+ */
 const Pagination = ({
   rawPageData = testData,
   setCurrentPageData = (item) => {
