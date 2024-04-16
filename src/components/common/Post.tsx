@@ -10,7 +10,7 @@ import arrowTab from "../../../public/post/arrowTab.svg";
 //TODO : Data Props 어떻게 받아와서 넘길지 고민해보기
 //TODO : 상태관리는 어떻게 하면 좋을지 생각하기
 
-const state = true;
+const state = false;
 
 const Post = () => {
   return (
