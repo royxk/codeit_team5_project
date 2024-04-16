@@ -36,6 +36,10 @@ const config: Config = {
         "green-10": "#D4F7D4",
         kakao: "#FEE500",
       },
+      grayscale: {
+        50: "grayscale(50%)",
+        100: "grayscale(100%)",
+      },
     },
     screens: {
       pc: { raw: "(min-width: 1920px)" },
