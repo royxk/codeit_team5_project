@@ -2,13 +2,40 @@
 import React, { useState } from "react";
 
 interface PaginationProps {
-  totalNumberOfItems: number;
+  rawPageData: unknown[];
+  setCurrentPageData: (currentPageData: unknown[]) => void;
+  pageItemLimit?: number;
 }
-const pageNum = [1, 2, 3, 4, 5, 6, 7];
 
-const Pagination = ({ totalNumberOfItems }: PaginationProps) => {
+const testData = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41,
+  42, 43, 44, 45, 46, 47, 48, 49, 50,
+];
+
+const Pagination = ({
+  rawPageData = testData,
+  setCurrentPageData = (item) => {
+    console.log(`${item}`);
+  },
+  pageItemLimit = 5,
+}: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const isPaginationNeed = pageNum.length > 7;
+
+  const pageData: unknown[][] = [];
+  const tempPageData: unknown[] = [];
+  rawPageData.map((item, index) => {
+    tempPageData.push(item);
+    if (
+      index === rawPageData.length - 1 ||
+      (index !== 0 && (index + 1) % pageItemLimit === 0)
+    ) {
+      pageData.push(tempPageData.slice());
+      tempPageData.splice(0);
+    }
+  });
+
+  const isPaginationNeed = pageData.length > 7;
 
   return (
     <div className="flex h-16 w-full items-center justify-center gap-5 bg-white p-3 mob:h-[3.625rem]">
@@ -20,17 +47,20 @@ const Pagination = ({ totalNumberOfItems }: PaginationProps) => {
         />
       )}
       <div className="flex gap-1">
-        {pageNum.map((item, i) => (
+        {pageData.map((item, i) => (
           <button
             key={i}
             className={`h-10 w-10 rounded-[4px] ${currentPage === i ? "bg-red-30 text-white" : "text-black"}`}
-            onClick={() => setCurrentPage(i)}
+            onClick={() => {
+              setCurrentPage(i);
+              setCurrentPageData(item);
+            }}
           >
             {i + 1}
           </button>
         ))}
       </div>
-      {isPaginationNeed && currentPage !== pageNum.length - 1 && (
+      {isPaginationNeed && currentPage !== pageData.length - 1 && (
         <button
           type="button"
           className="h-full max-h-5 w-full max-w-5 bg-[url('/pagination-right.svg')]"
