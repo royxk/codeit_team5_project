@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { RefObject, useState } from "react";
 import Image from "next/image";
 
 // Contexts
@@ -14,6 +14,7 @@ import {
 
 interface InputProps {
   inputType: string;
+  inputRef?: RefObject<HTMLInputElement>;
   errorType?: string;
   blurEvent?: () => void;
   dataArray?: string[];
@@ -23,14 +24,15 @@ interface InputProps {
 /**
  * @description input 컴포넌트입니다. inputType이나 errorType 값을 받아 그 값에 따른 ui를 보여줍니다. 상세사항은 constant/INPUT_VALUES.ts를 참조해주세요.
  * @param {string} inputType 현재 input 컴포넌트의 입력 유형입니다.
+ * @param {RefObject<HTMLInputElement>} inputRef 해당 input와 연걸할 refObject입니다.
  * @param {string} errorType 현재 입력에서 발생한 errorType을 받습니다.
  * @param {() => void} blurEvent 현재 input에서 blur되었을 때 발생할 이벤트를 받습니다.
  * @param {string[]} dataArray 선택형 input일 경우, 데이터를 받아 처리할 string 배열을 받습니다. 이 param은 임시 지정으로, api상황에 따라 변동될 수 있습니디ㅏ.
- * @param {function} selectData 선택형 input일 경우, 선택하고자 하는 항목을 선택 했을 때, 해당 string을 이용하여 처리할 함수입니다. 마찬가지로 api상황에 따라 param에 변동이 필요할 수 있습니다.
  * @returns
  */
 const Input = ({
   inputType = "default",
+  inputRef,
   errorType = "",
   blurEvent = () => console.log("blured"),
   dataArray = ["asdf", "sdf", "adf", "asf", "asd", "asaf", "afdf"],
@@ -111,6 +113,7 @@ const Input = ({
               className="focus-visible:outline-none rounded-md w-full"
               type={INPUT_TYPES[inputType]}
               onBlur={() => blurEvent()}
+              ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
             />
             {INPUT_LAST_WORD[inputType] && (
