@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface PaginationProps {
@@ -14,7 +15,11 @@ interface PaginationProps {
  * @returns
  */
 const Pagination = ({
-  rawPageData = [],
+  rawPageData = [
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  ],
   setCurrentPageData = (item) => {
     console.log(`${item}`);
   },
@@ -116,8 +121,8 @@ const Pagination = ({
       {isPaginationNeed && (
         <button
           type="button"
-          className={`h-full max-h-5 w-full max-w-5 rounded-full
-          ${currentPage == 0 ? "cursor-default bg-[url('/pagination-left-impossible.svg')]" : "bg-[url('/pagination-left-possible.svg')] hover:bg-gray-10"}`}
+          className={`h-full max-h-5 w-full max-w-5 rotate-180 rounded-full bg-[url('/pagination-arrow.svg')]
+          ${currentPage == 0 ? "cursor-default opacity-40" : "hover:bg-gray-10"}`}
           onClick={() => handlePaginationArrowButton("left")}
         />
       )}
@@ -139,8 +144,8 @@ const Pagination = ({
       {isPaginationNeed && (
         <button
           type="button"
-          className={`h-full max-h-5 w-full max-w-5 
-          ${currentPage !== pageData.length - 1 ? "bg-[url('/pagination-right.svg')] hover:bg-gray-10" : "cursor-default"}`}
+          className={`relative h-full max-h-5 w-full max-w-5 rounded-full 
+          ${currentPage !== pageData.length - 1 ? "bg-[url('/pagination-arrow.svg')] hover:bg-gray-10" : "cursor-default"}`}
           onClick={() => handlePaginationArrowButton("right")}
         />
       )}
