@@ -86,7 +86,7 @@ const Input = ({
                   dataArray!.map((item) => (
                     <button
                       type="button"
-                      className="bg-white py-3"
+                      className="bg-white py-3 hover:bg-gray-5"
                       key={item}
                       onClick={() => {
                         setSelectedData(item);
