@@ -5,8 +5,12 @@ interface TableProps {
   applyData: any[];
 };
 
-const EMPLOYEE_TABLE_HEADER = ['가게', '날짜', '시급', '상태'];
+const EMPLOYEE_TABLE_HEADER = ['가게', '일자', '시급', '상태'];
 const EMPLOYER_TABLE_HEADER = ['신청자', '소개', '전화번호', '상태'];
+
+function showDate(startDate: string, workHour: number) {
+  return `${startDate}(${workHour}시간)`
+}
 
 /**
  * @param {string} pageType 컴포넌트를 사용할 페이지에 따라 thead에 들어갈 데이터를 정하는 파라미터입니다.
@@ -28,13 +32,17 @@ const Table = ({ pageType = "employer", applyData }: TableProps) => {
             </tr>
           </thead>
           <tbody>
-            {applyData.map(({id, title, date, cost, status}) => {
+            {applyData.map(({apply_id, shopName, startsAt, workHour, hourlyPay, status}) => {
+              const statusLabel = status === "pending" ? "대기중"
+                : status === "accepted" ? "승인 완료"
+                : status === "rejected" ? "거절"
+                : "취소";
               return (
-                <tr key={id} className='border-b border-gray-20'>
-                  <td className='bg-white p-3 w-full min-w-[226px] sticky z-10 left-0'>{title}</td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>{date}</td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>{cost}원</td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>{status ? '승인 완료' : '거절'}</td>
+                <tr key={apply_id} className='border-b border-gray-20'>
+                  <td className='bg-white p-3 w-full min-w-[226px] sticky z-10 left-0'>{shopName}</td>
+                  <td className='bg-white p-3 w-full min-w-[300px]'>{showDate(startsAt, workHour)}</td>
+                  <td className='bg-white p-3 w-full min-w-[226px]'>{hourlyPay}원</td>
+                  <td className='bg-white p-3 w-full min-w-[226px]'>{statusLabel}</td>
                 </tr>
               )
             })}
