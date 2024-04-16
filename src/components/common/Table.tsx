@@ -22,7 +22,7 @@ const Table = ({ pageType = "employer", applyData }: TableProps) => {
   return (
     <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden tab:w-[680px] mob:w-[350px]'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
-        <table>
+        <table className='table-fixed'>
           <thead>
             <tr className='bg-red-10 text-left text-sm'>
               {headerData.map((item, idx) => {
@@ -38,16 +38,16 @@ const Table = ({ pageType = "employer", applyData }: TableProps) => {
                 : "취소";
               return (
                 <tr key={data.apply_id} className='border-b border-gray-20'>
-                  <td className='bg-white p-3 w-full min-w-[226px] sticky z-10 left-0'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[226px] sticky z-10 left-0'>
                     {isEmployee ? data.shopName : data.userName}
                   </td>
-                  <td className='bg-white p-3 w-full min-w-[300px]'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[300px]'>
                     {isEmployee ? showDate(data.startsAt, data.workHour) : data.bio}
                   </td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
                     {isEmployee ? `${data.hourlyPay}원` : data.phoneNumber}
                   </td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
                     {statusLabel}
                   </td>
                 </tr>
