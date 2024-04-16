@@ -47,12 +47,10 @@ interface CommonData {
 }
 
 export interface ConvertApplyShopData extends CommonData {
-  apply_id: string;
   shopName: string;
   hourlyPay: number;
   startsAt: string;
   workHour: number;
-  status: string;
 };
 
 export interface ConvertApplicantData extends CommonData {
