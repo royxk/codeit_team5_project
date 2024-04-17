@@ -4,6 +4,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
+const FOOTER_ICON_REF = [
+  {
+    source: "/footer/gmail.svg",
+    link: "https://mail.google.com/",
+    alt: "gmail",
+  },
+  {
+    source: "/footer/facebook.svg",
+    link: "https://www.facebook.com/",
+    alt: "facebook",
+  },
+  {
+    source: "/footer/instagram.svg",
+    link: "https://www.instagram.com/",
+    alt: "instagram",
+  },
+];
+
 const Footer = () => {
   const pathName = usePathname();
   const isFooterHidden = pathName.includes("sign");
@@ -24,26 +42,17 @@ const Footer = () => {
             FAQ
           </Link>
         </div>
+
         <div className="flex justify-end gap-[10px]">
-          <Link href={""}>
-            <Image src={"/footer/gmail.svg"} width={25} height={25} alt={""} />
-          </Link>
-          <Link href={""}>
-            <Image
-              src={"/footer/facebook.svg"}
-              width={25}
-              height={25}
-              alt={""}
-            />
-          </Link>
-          <Link href={""}>
-            <Image
-              src={"/footer/instagram.svg"}
-              width={25}
-              height={25}
-              alt={""}
-            />
-          </Link>
+          {FOOTER_ICON_REF.map((item) => (
+            <Link
+              key={item.alt}
+              href={item.link}
+              className="relative h-[25px] w-[25px]"
+            >
+              <Image src={item.source} fill alt={item.alt} />
+            </Link>
+          ))}
         </div>
       </div>
     </footer>
