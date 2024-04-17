@@ -1,6 +1,10 @@
 import { deleteCookie, getCookie } from "@/util/cookieSetting";
-import { BASE_URL_WITH_TEAM, ENDPOINT, SEARCH_NOTICE, USERS_URL } from "@/util/constants/API_VALUES";
-
+import {
+  BASE_URL_WITH_TEAM,
+  ENDPOINT,
+  SEARCH_NOTICE,
+  USERS_URL,
+} from "@/util/constants/API_VALUES";
 
 /**
  * 분류의 타입 입니다.
@@ -148,8 +152,6 @@ export interface StatusBody {
 export interface ImageBody {
   name: string;
 }
-
-
 
 /**
  * 모든 API 요청을 가로채 쿠키의 액세스 토큰이 확인되면 인증을 추가하고 응답을 처리하는 함수입니다.
@@ -320,8 +322,6 @@ export function alertReadApiResponse(alertId: string) {
   return putApiResponse(url);
 }
 
-//가게 등록 하고 공고 등록 하고 공고에 지원하는 순으로 api 요청 만들어 테스트 해보자.
-
 /**
  * 가게 등록 API 함수입니다. 주어진 바디 객체를 사용해 요청을 보냅니다.
  * @param body - 요청에 포함될 바디 객체입니다.
@@ -385,7 +385,7 @@ export function searchShopNoticeApiResponse(shopId: string, query?: Query) {
 export function searchSelectedNoticeApiResponse(
   shopId: string,
   noticeId: string,
-  query?: Query
+  query?: Query,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}`;
   return query ? getApiResponse(url, query) : getApiResponse(url);
@@ -401,7 +401,7 @@ export function searchSelectedNoticeApiResponse(
 export function editSelectedNoticeApiResponse(
   shopId: string,
   noticeId: string,
-  body: NoticeBody
+  body: NoticeBody,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}`;
   return putApiResponse(url, body);
@@ -417,7 +417,7 @@ export function editSelectedNoticeApiResponse(
 export function searchSelectedNoticeApplyApiResponse(
   shopId: string,
   noticeId: string,
-  query?: Query
+  query?: Query,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}${ENDPOINT.applications}`;
   return query ? getApiResponse(url, query) : getApiResponse(url);
@@ -432,7 +432,7 @@ export function searchSelectedNoticeApplyApiResponse(
  */
 export function selectedNoticeApplyApiResponse(
   shopId: string,
-  noticeId: string
+  noticeId: string,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}${ENDPOINT.applications}`;
   return postApiResponse(url);
@@ -452,7 +452,7 @@ export function selectedNoticeApplyStatusSettingApiResponse(
   shopId: string,
   noticeId: string,
   noticeApplyId: string,
-  body: StatusBody
+  body: StatusBody,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}${ENDPOINT.applications}/${noticeApplyId}`;
   return putApiResponse(url, body);
