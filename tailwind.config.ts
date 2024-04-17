@@ -35,6 +35,7 @@ const config: Config = {
         "green-20": "#20A81E",
         "green-10": "#D4F7D4",
         kakao: "#FEE500",
+        "btn-red": "#EA3C12"
       },
     },
     screens: {
