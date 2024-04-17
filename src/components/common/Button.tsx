@@ -9,7 +9,7 @@ type Props = {
 };
 
 type Color = "red" | "white" | "gray";
-type Size = "full" | "large" | "medium" | "small";
+type Size = "large" | "medium" | "small";
 
 function colorCssString(color: Color) {
   let colorCss;
@@ -23,7 +23,7 @@ function colorCssString(color: Color) {
       break;
 
     case "gray":
-      colorCss = "bg-gray-40 text-white pointer-events-none";
+      colorCss = "bg-gray-40 text-white cursor-not-allowed";
       break;
 
     default:
@@ -36,15 +36,12 @@ function colorCssString(color: Color) {
 function sizeCssString(size: Size) {
   let sizeCss;
   switch (size) {
-    case "full":
-      sizeCss = "w-full py-[14px] font-bold leading-5 ";
-      break;
     case "large":
       sizeCss = "px-[136px] py-[14px] font-bold leading-5";
       break;
 
     case "medium":
-      sizeCss = "px-5 py-[10px] font-bold text-sm min-w-20";
+      sizeCss = "px-5 py-[10px] font-bold text-sm";
       break;
 
     case "small":
@@ -69,16 +66,13 @@ const Button = ({
   const sizeCss = sizeCssString(size);
 
   return (
-    <div
-      className={`text-center ${sizeCss === "full" && colorCss} ${sizeCss === "full" && sizeCss} ${color === "gray" ? `cursor-not-allowed` : ``} ${size === "full" ? `w-full` : ``}`}
+    <button
+      disabled={color === "gray"}
+      onClick={onClick}
+      className={`${colorCss} ${sizeCss} ${className} min-w-20 rounded-lg`}
     >
-      <button
-        onClick={onClick}
-        className={`${sizeCss !== "full" && colorCss} ${sizeCss !== "full" && sizeCss} ${className} rounded-lg`}
-      >
-        {children}
-      </button>
-    </div>
+      {children}
+    </button>
   );
 };
 
