@@ -98,7 +98,7 @@ const Pagination = ({
         }
         break;
       case "right":
-        if (currentPage !== pageData.length - 1) {
+        if (currentPage !== pageData.length - 1 && currentPage !== 0) {
           handlePageNumberChange(currentPage + 1);
         }
         break;
@@ -138,7 +138,7 @@ const Pagination = ({
       <button
         type="button"
         className={`relative h-full max-h-5 w-full max-w-5 rounded-full bg-[url('/pagination-arrow.svg')] 
-          ${currentPage !== pageData.length - 1 ? " hover:bg-gray-10" : "cursor-default opacity-40"}`}
+          ${currentPage !== pageData.length - 1 && currentPage !== 0 ? " hover:bg-gray-10" : "cursor-default opacity-40"}`}
         onClick={() => handlePaginationArrowButton("right")}
       />
     </div>
