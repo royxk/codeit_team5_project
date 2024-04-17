@@ -1,5 +1,5 @@
 import { deleteCookie, getCookie } from "@/util/cookieSetting";
-import { BASE_URL_WITH_TEAM, ENDPOINT, SEARCH_NOTICE, USERS_URL } from "./constants/API_VALUES";
+import { BASE_URL_WITH_TEAM, ENDPOINT, SEARCH_NOTICE, USERS_URL } from "@/util/constants/API_VALUES";
 
 
 /**
