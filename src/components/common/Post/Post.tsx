@@ -3,7 +3,7 @@ import Image from "next/image";
 import time from "../../../../public/post/time.svg";
 import location from "../../../../public/post/location.svg";
 import arrow from "../../../../public/post/arrow.svg";
-import arrowTab from "../../../../public/post/arrowTab.svg";
+import arrowsmall from "../../../../public/post/arrowsmall.svg";
 import SvgComponent from "./SvgComponent";
 
 
@@ -114,7 +114,7 @@ const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, sta
               </span>
             )}
             <Image className={`tab:hidden`} src={arrow} alt="arrow" />
-            <Image src={arrowTab} className={`m-1 w-4 hidden tab:inline ${state ? "" : "grayscale"}`} alt="arrowTab" />
+            <Image src={arrowsmall} className={`m-1 w-4 hidden tab:inline ${state ? "" : "grayscale"}`} alt="arrowTab" />
             <Image
               src={arrow}
               className={`m-1 w-4 hidden tab:inline ${
