@@ -1,6 +1,6 @@
 // 응답 데이터 필요한 타입 정의
 // 알바님(일반회원) 공고 지원 목록 데이터 타입
-export type ApplyShopApiResponse = {
+type ApplyShopApiResponse = {
   items:
     {
       item: {
@@ -23,7 +23,7 @@ export type ApplyShopApiResponse = {
   };
 
 // 사장님(가게) 지원자 목록 데이터 타입
-export type ApplyEmployeeApiResponse = {
+type ApplyEmployeeApiResponse = {
   items:
     {
       item: {
@@ -46,21 +46,21 @@ interface CommonData {
   status: string;
 }
 
-export interface ConvertApplyShopData extends CommonData {
+export interface EmployeeTableData extends CommonData {
   shopName: string;
   hourlyPay: number;
   startsAt: string;
   workHour: number;
 };
 
-export interface ConvertApplicantData extends CommonData {
+export interface EmployerTableData extends CommonData {
   userName?: string;
   phoneNumber?: string;
   bio?: string;
 };
 
 //Table 컴포넌트에서 사용할 수 있도록 데이터를 변환하는 함수.
-export const convertApplyShopData = (responseData: ApplyShopApiResponse): ConvertApplyShopData[] => {
+export const convertApplyShopData = (responseData: ApplyShopApiResponse): EmployeeTableData[] => {
   return responseData.items.map((data) => {
     const { shop, notice, status } = data.item;
     return {
@@ -74,7 +74,7 @@ export const convertApplyShopData = (responseData: ApplyShopApiResponse): Conver
   });
 };
 
-export const convertApplicantData = (responseData: ApplyEmployeeApiResponse): ConvertApplicantData[] => {
+export const convertApplicantData = (responseData: ApplyEmployeeApiResponse): EmployerTableData[] => {
   return responseData.items.map((data) => {
     const { user, status } = data.item;
     return {
