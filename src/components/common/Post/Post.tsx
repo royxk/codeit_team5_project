@@ -1,12 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import time from "../../../public/post/time.svg";
-import location from "../../../public/post/location.svg";
-import arrow from "../../../public/post/arrow.svg";
-// import arrowTab from "../../../public/post/arrowTab.svg";
+import time from "../../../../public/post/time.svg";
+import location from "../../../../public/post/location.svg";
+import arrow from "../../../../public/post/arrow.svg";
+import arrowTab from "../../../../public/post/arrowTab.svg";
+import SvgComponent from "./SvgComponent";
+
 
 //TODO: Click Event needed
 //TODO: Need to get data about "compare hourly pay" from backend
+//TODO: 이미지 사이즈 수정해야함
+//TODO: SVG 파일 불러오기
 
 interface PostProps {
   imgUrl: string;
@@ -23,11 +27,11 @@ interface PostProps {
 const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, state } : PostProps) : React.ReactElement => {
   return (
     <div
-      className={`flex border flex-col rounded-xl justify-start gap-4 w-80 p-4 tab:p-3 tab:w-48 ${
+      className={`flex border flex-col content-center rounded-xl justify-between gap-4 w-80 p-4 tab:p-3 tab:w-48 ${
         state && "hover:border-red-40"
       }`}
     >
-      <div className={`relative w-full`}>
+      <div className={`relative`}>
         {!state && (
           <div className="absolute inset-0 flex items-center justify-center bg-black opacity-80 rounded-xl">
             <div className="font-Spoqa font-bold text-white p-2 text-center text-3xl tab:text-xl">
@@ -35,7 +39,8 @@ const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, sta
             </div>
           </div>
         )}
-        <img className="rounded-xl" src={imgUrl} alt="image"></img>
+        <img className="rounded-xl object-cover"src={imgUrl} alt="image"></img>
+        
       </div>
 
       <div className="flex flex-col gap-4">
@@ -47,7 +52,7 @@ const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, sta
           >
             {shopName}
           </div>
-          <div className={`flex flex-row gap-4 items-start `}>
+          <div className={`flex flex-row gap-4 items-start`}>
             <Image
               className={`${state ? "" : "grayscale"}`}
               src={time}
@@ -109,6 +114,7 @@ const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, sta
               </span>
             )}
             <Image className={`tab:hidden`} src={arrow} alt="arrow" />
+            <Image src={arrowTab} className={`m-1 w-4 hidden tab:inline ${state ? "" : "grayscale"}`} alt="arrowTab" />
             <Image
               src={arrow}
               className={`m-1 w-4 hidden tab:inline ${
@@ -117,6 +123,7 @@ const Post = ({ imgUrl, shopName, address1, hourlyPay, startTime, startHour, sta
               alt="arrowTab"
             />
           </div>
+          {/* <SvgComponent /> */}
         </div>
       </div>
     </div>

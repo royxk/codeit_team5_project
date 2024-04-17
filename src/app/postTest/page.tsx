@@ -1,6 +1,6 @@
 import React from 'react';
 import S from '../../util/constants/TEST_POST_VALUES';
-import Post from '@/components/common/Post';
+import Post from '@/components/common/Post/Post';
 
 type Props = {
     imgUrl: string;
