@@ -15,7 +15,7 @@ interface PaginationProps {
  * @returns
  */
 const Pagination = ({
-  rawPageData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  rawPageData = [],
   setCurrentPageData = (item) => {
     console.log(`${item}`);
   },
