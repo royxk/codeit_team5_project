@@ -23,7 +23,7 @@ function colorCssString(color: Color) {
       break;
 
     case "gray":
-      colorCss = "bg-gray-40 text-white pointer-events-none";
+      colorCss = "bg-gray-40 text-white cursor-not-allowed";
       break;
 
     default:
@@ -66,14 +66,13 @@ const Button = ({
   const sizeCss = sizeCssString(size);
 
   return (
-    <div className={color === "gray" ? `cursor-not-allowed` : ``}>
-      <button
-        onClick={onClick}
-        className={`${colorCss} ${sizeCss} ${className} min-w-20 rounded-lg`}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      disabled={color === "gray"}
+      onClick={onClick}
+      className={`${colorCss} ${sizeCss} ${className} min-w-20 rounded-lg`}
+    >
+      {children}
+    </button>
   );
 };
 
