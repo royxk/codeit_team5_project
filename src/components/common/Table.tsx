@@ -8,16 +8,16 @@ interface TableProps<T> {
 interface ApplyData {
   apply_id: string,
   status: string,
-  shopName: string,
-  hourlyPay: number,
-  startsAt: string,
-  workHour: number
+  shopName?: string,
+  hourlyPay?: number,
+  startsAt?: string,
+  workHour?: number
   userName?: string;
   phoneNumber?: string;
   bio?: string;
 }
 
-function showDate(startDate: string, workHour: number) {
+function showDate(startDate: string | undefined, workHour: number | undefined) {
   return `${startDate}(${workHour}시간)`
 }
 
@@ -27,7 +27,7 @@ function showDate(startDate: string, workHour: number) {
 
 const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) => {
   const isEmployee = headerData.includes("가게");
-  
+
   return (
     <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden tab:w-[680px] mob:w-[350px]'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
