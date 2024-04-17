@@ -15,11 +15,7 @@ interface PaginationProps {
  * @returns
  */
 const Pagination = ({
-  rawPageData = [
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  ],
+  rawPageData = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   setCurrentPageData = (item) => {
     console.log(`${item}`);
   },
@@ -118,14 +114,12 @@ const Pagination = ({
 
   return (
     <div className="flex h-16 w-full items-center justify-center gap-5 bg-white p-3 mob:h-[3.625rem]">
-      {isPaginationNeed && (
-        <button
-          type="button"
-          className={`h-full max-h-5 w-full max-w-5 rotate-180 rounded-full bg-[url('/pagination-arrow.svg')]
-          ${currentPage == 0 ? "cursor-default opacity-40" : "hover:bg-gray-10"}`}
-          onClick={() => handlePaginationArrowButton("left")}
-        />
-      )}
+      <button
+        type="button"
+        className={`h-full max-h-5 w-full max-w-5 rotate-180 rounded-full bg-[url('/pagination-arrow.svg')]
+          ${currentPage !== 0 ? "hover:bg-gray-10" : "cursor-default opacity-40"}`}
+        onClick={() => handlePaginationArrowButton("left")}
+      />
 
       <div className="flex gap-1">
         {currentPageList.map((item) => (
@@ -141,14 +135,12 @@ const Pagination = ({
         ))}
       </div>
 
-      {isPaginationNeed && (
-        <button
-          type="button"
-          className={`relative h-full max-h-5 w-full max-w-5 rounded-full 
-          ${currentPage !== pageData.length - 1 ? "bg-[url('/pagination-arrow.svg')] hover:bg-gray-10" : "cursor-default"}`}
-          onClick={() => handlePaginationArrowButton("right")}
-        />
-      )}
+      <button
+        type="button"
+        className={`relative h-full max-h-5 w-full max-w-5 rounded-full bg-[url('/pagination-arrow.svg')] 
+          ${currentPage !== pageData.length - 1 ? " hover:bg-gray-10" : "cursor-default opacity-40"}`}
+        onClick={() => handlePaginationArrowButton("right")}
+      />
     </div>
   );
 };
