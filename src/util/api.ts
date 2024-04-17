@@ -1,14 +1,6 @@
-import { deleteCookie, getCookie } from "./cookieSetting";
-//엔드 포인트 상수입니다.
-const ENDPOINT = {
-  token: "/token",
-  users: "/users",
-  notices: "/notices",
-  shops: "/shops",
-  alerts: "/alerts",
-  applications: "/applications",
-  images: "/images",
-};
+import { deleteCookie, getCookie } from "@/util/cookieSetting";
+import { BASE_URL_WITH_TEAM, ENDPOINT, SEARCH_NOTICE, USERS_URL } from "./constants/API_VALUES";
+
 
 /**
  * 분류의 타입 입니다.
@@ -157,10 +149,7 @@ export interface ImageBody {
   name: string;
 }
 
-const BASE_URL = "https://bootcamp-api.codeit.kr";
-const BASE_URL_WITH_TEAM = `${BASE_URL}/api/4-5/the-julge`;
-const SEARCH_NOTICE = `${BASE_URL_WITH_TEAM}${ENDPOINT.notices}`;
-const USERS_URL = `${BASE_URL_WITH_TEAM}${ENDPOINT.users}/`;
+
 
 /**
  * 모든 API 요청을 가로채 쿠키의 액세스 토큰이 확인되면 인증을 추가하고 응답을 처리하는 함수입니다.
