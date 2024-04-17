@@ -4,9 +4,11 @@ import Table from "./Table";
 
 interface EmployerTableProps extends ConvertApplicantData {};
 
+const EMPLOYER_TABLE_HEADER = ['신청자', '소개', '전화번호', '상태'];
+
 const EmployerTable = () => {
   const employerData: EmployerTableProps[] = convertApplicantData(USER_API_RESPONSE);
-  return <Table<EmployerTableProps> pageType="employer" applyData={employerData} />
+  return <Table headerData={EMPLOYER_TABLE_HEADER} applyData={employerData} />
 }
 
 export default EmployerTable;
