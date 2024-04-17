@@ -195,7 +195,7 @@ async function getApiResponse(href: string, query?: Query) {
     const queryParams = new URLSearchParams();
     for (const key in query) {
       if (query[key] !== undefined) {
-        queryParams.append(key, query[key].toString());
+        queryParams.append(key, query[key]!.toString());
       }
     }
 
