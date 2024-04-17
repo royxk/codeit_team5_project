@@ -131,7 +131,7 @@ const Pagination = ({
         {currentPageList.map((item) => (
           <button
             type="button"
-            key={item}
+            key={`pagination-${item + 1}`}
             className={`h-10 w-10 rounded-[4px] 
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
             onClick={() => handlePageNumberChange(item)}
