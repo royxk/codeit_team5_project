@@ -11,6 +11,16 @@ const page = () => {
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-4xl">버튼 테스트</h1>
+      <h2 className="text-2xl">full</h2>
+      <Button color="red" size="full" onClick={handleClick}>
+        로그인 하기
+      </Button>
+      <Button color="white" size="full" onClick={handleClick}>
+        로그인 하기
+      </Button>
+      <Button color="gray" size="full" onClick={handleClick}>
+        신청 불가
+      </Button>
       <h2 className="text-2xl"> large</h2>
       <Button color="red" size="large" onClick={handleClick}>
         로그인 하기
