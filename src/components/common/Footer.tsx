@@ -51,6 +51,7 @@ const Footer = () => {
             <Link
               key={item.alt}
               href={item.link}
+              target="_blank"
               className="relative h-[25px] w-[25px]"
             >
               <Image src={item.source} fill alt={item.alt} />
