@@ -4,7 +4,7 @@ interface Props {
   user: string;
 }
 
-export const GNB: React.FC<Props> = ({ user }) => {
+const GNB: React.FC<Props> = ({ user }) => {
   return (
     <div className="flex h-80 w-full items-center">
       <div className="flex w-full justify-center">
@@ -57,3 +57,5 @@ export const GNB: React.FC<Props> = ({ user }) => {
     </div>
   );
 };
+
+export default GNB;
