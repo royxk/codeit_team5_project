@@ -45,19 +45,9 @@ const StatusLabel = ({ status }: StatusLabelProp) => {
   const statusCss = StatusCssString(status);
   const labelName = LabelString(status);
   return (
-    <>
-      <div className={`${statusCss} border-none rounded-[20px] text-center px-[10px] py-[6px] font-bold text-sm`}>
-        {labelName}
-      </div>
-      <div className='flex gap-3'>
-        <button type='button' className='flex items-center bg-white text-red-40 border border-red-40 rounded-md px-5 h-[38px] py-[10px] font-bold text-sm hover:bg-red-10'>
-          거절하기
-        </button>
-        <button type='button' className='flex items-center bg-white text-blue-20 border border-blue-20 rounded-md h-[38px] px-5 py-[10px] font-bold text-sm hover:bg-blue-10'>
-          승인하기
-        </button>
-      </div>
-    </>
+    <div className={`${statusCss} border-none rounded-[20px] text-center px-[10px] py-[6px] font-bold text-sm`}>
+      {labelName}
+    </div>
   );
 };
 
