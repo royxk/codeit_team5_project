@@ -1,40 +1,66 @@
-import * as React from 'react';
+import TableHeader from "./TableHeader";
 
-interface TableProps {
-  pageType: string;
-  applyData: any[];
-};
+interface TableProps<T> {
+  headerData: string[];
+  applyData: T[];
+}
 
-const EMPLOYEE_TABLE_HEADER = ['가게', '날짜', '시급', '상태'];
-const EMPLOYER_TABLE_HEADER = ['신청자', '소개', '전화번호', '상태'];
+interface ApplyData {
+  apply_id: string,
+  status: string,
+  shopName?: string,
+  hourlyPay?: number,
+  startsAt?: string,
+  workHour?: number
+  userName?: string;
+  phoneNumber?: string;
+  bio?: string;
+}
 
 /**
- * @param {string} pageType 컴포넌트를 사용할 페이지에 따라 thead에 들어갈 데이터를 정하는 파라미터입니다.
- * @param {any[]} applyData 지원한 사람/지원한 공고 에 대한 데이터를 받아오는 파라미터입니다.타입은 임시로 지정해 둔 것으로 이후 api 응답에 따라 차차 바뀔 예정입니다.
+ * @param {string[]} headerData 테이블의 헤더 부분의 데이터를 받아오는 파라미터입니다.
+ * @param {ApplyData} applyData 지원한 사람/지원한 공고 에 대한 데이터를 받아오는 파라미터입니다.
  */
 
-const Table = ({ pageType = "employer", applyData }: TableProps) => {
-  const headerData = pageType === "employee" ? EMPLOYEE_TABLE_HEADER : EMPLOYER_TABLE_HEADER;
+const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) => {
+  const isEmployee = headerData.includes("가게");
 
   return (
-    <div className='m-4 relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden tab:w-[680px] mob:w-[350px]'>
+    <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
-        <table>
-          <thead>
-            <tr className='bg-red-10 text-left text-sm'>
-              {headerData.map((item, idx) => {
-                return <th key={item} className={`bg-red-10 font-normal p-3 ${idx === 0 ? 'sticky z-10 left-0' : ''}`}>{item}</th>
-              })}
-            </tr>
-          </thead>
+        <table className='table-auto'>
+          <TableHeader headerData={headerData}/>
           <tbody>
-            {applyData.map(({id, title, date, cost, status}) => {
+            {applyData.map((data) => {
+              const {
+                apply_id,
+                status,
+                shopName, 
+                hourlyPay,
+                startsAt,
+                workHour,
+                userName,
+                phoneNumber,
+                bio
+              } = data;
+              const statusLabel = status === "pending" ? "대기중"
+                : status === "accepted" ? "승인 완료"
+                : status === "rejected" ? "거절"
+                : "취소";
               return (
-                <tr key={id} className='border-b border-gray-20'>
-                  <td className='bg-white p-3 w-full min-w-[226px] sticky z-10 left-0'>{title}</td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>{date}</td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>{cost}원</td>
-                  <td className='bg-white p-3 w-full min-w-[226px]'>{status ? '승인 완료' : '거절'}</td>
+                <tr key={apply_id} className='border-b border-gray-20'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[226px] sticky z-10 left-0'>
+                    {isEmployee ? shopName : userName}
+                  </td>
+                  <td className='bg-white px-3 py-5 w-full min-w-[300px]'>
+                    {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
+                  </td>
+                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
+                    {isEmployee ? `${hourlyPay}원` : phoneNumber}
+                  </td>
+                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
+                    {statusLabel}
+                  </td>
                 </tr>
               )
             })}
