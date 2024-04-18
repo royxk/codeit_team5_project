@@ -15,14 +15,16 @@ const Post = ({ isUserEmployer }: any) => {
     <>
       <div className="flex flex-col gap-3">
         <div>
-          <h1 className="body1-bold text-primary">시급</h1>
-          <h2 className="h1 mt-2">{data.name}</h2>
+          <h1 className="body1-bold mob:body2-bold text-primary">시급</h1>
+          <h2 className="h1 mob:h2 mt-2">{data.name}</h2>
         </div>
-        <p className="body1 text-gray-50">2023-01-02 15:00~18:00 (3시간)</p>
-        <p className="body1 text-gray-50">{data.mainAddress}</p>
+        <p className="body1 mob:body2 text-gray-50">
+          2023-01-02 15:00~18:00 (3시간)
+        </p>
+        <p className="body1 mob:body2 text-gray-50">{data.mainAddress}</p>
         <textarea
           disabled
-          className="body1 h-20 w-full overflow-y-scroll bg-transparent"
+          className="body1 mob:body2 h-20 w-full overflow-y-scroll bg-transparent"
           value={data.description}
         />
       </div>

@@ -15,11 +15,14 @@ const Employer = (props: Props) => {
     <>
       <div className="flex flex-col gap-3">
         <div>
-          <h1 className="body1-bold text-primary">식당</h1>
-          <h2 className="h1 mt-2">{data.name}</h2>
+          <h1 className="body1-bold text-primary mob:body2-bold">식당</h1>
+          <h2 className="h1 mob:h2 mt-2">{data.name}</h2>
         </div>
-        <div className="body1 text-gray-50">{data.mainAddress}</div>
-        <textarea disabled className="body1 h-20 w-full bg-transparent">
+        <div className="body1 mob:body2 text-gray-50">{data.mainAddress}</div>
+        <textarea
+          disabled
+          className="body1 mob:body2 h-20 w-full bg-transparent"
+        >
           {data.description}
         </textarea>
       </div>
