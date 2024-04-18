@@ -1,20 +1,29 @@
 "use client";
 import React from "react";
 import Button from "../Button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const StoreDetailButtons = ({ isUserEmployer = false }) => {
+const StoreDetailButtons = () => {
   const pathName = usePathname();
+  const router = useRouter();
   const isEmployerMainPage = pathName.includes("employer");
 
   return (
     <>
       {isEmployerMainPage ? (
         <div className="flex gap-2">
-          <Button size="full" color="white">
+          <Button
+            size="full"
+            color="white"
+            onClick={() => router.push("employer/edit")}
+          >
             편집하기
           </Button>
-          <Button size="full" color="red">
+          <Button
+            size="full"
+            color="red"
+            onClick={() => router.push("/employer/post")}
+          >
             공고 등록하기
           </Button>
         </div>
