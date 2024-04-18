@@ -9,7 +9,8 @@ type Props = {
 };
 
 type Color = "red" | "white" | "gray";
-type Size = "large" | "medium" | "small";
+
+type Size = "full" | "large" | "medium" | "small";
 
 function colorCssString(color: Color) {
   let colorCss;
@@ -36,6 +37,10 @@ function colorCssString(color: Color) {
 function sizeCssString(size: Size) {
   let sizeCss;
   switch (size) {
+    case "full":
+      sizeCss = "w-full py-[14px] font-bold leading-5 ";
+      break;
+
     case "large":
       sizeCss = "px-[136px] py-[14px] font-bold leading-5";
       break;
