@@ -1,3 +1,5 @@
+import ApproveButtons from "./ApproveButtons";
+import StatusLabel, { Status } from "./StatusLabel";
 import TableHeader from "./TableHeader";
 
 interface TableProps<T> {
@@ -7,7 +9,7 @@ interface TableProps<T> {
 
 interface ApplyData {
   apply_id: string,
-  status: string,
+  status: Status,
   shopName?: string,
   hourlyPay?: number,
   startsAt?: string,
@@ -43,10 +45,6 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                 phoneNumber,
                 bio
               } = data;
-              const statusLabel = status === "pending" ? "대기중"
-                : status === "accepted" ? "승인 완료"
-                : status === "rejected" ? "거절"
-                : "취소";
               return (
                 <tr key={apply_id} className='border-b border-gray-20'>
                   <td className='bg-white px-3 py-5 w-full min-w-[226px] sticky z-10 left-0'>
@@ -55,11 +53,12 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                   <td className='bg-white px-3 py-5 w-full min-w-[300px]'>
                     {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[200px]'>
                     {isEmployee ? `${hourlyPay}원` : phoneNumber}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
-                    {statusLabel}
+                  <td className='bg-white px-3 py-5 w-full min-w-[236px]'>
+                    {!isEmployee && status === "pending" ? <ApproveButtons />
+                      : <StatusLabel status={status}/>}
                   </td>
                 </tr>
               )
