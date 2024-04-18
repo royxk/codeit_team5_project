@@ -2,19 +2,9 @@ import React from "react";
 import Image from "next/image";
 import StoreDetailButtons from "./StoreDetailButtons";
 
-interface StoreDetailProps {
-  isEmployerMainPage?: boolean;
-}
+interface StoreDetailProps {}
 
-const sampleData = {
-  name: "도토리 식당",
-  dueTime: "2023-01-02 15:00~18:00 (3시간)",
-  mainAddress: "서울시 송파구",
-  description:
-    "알바하기 편한 너구리네 라면집!  라면 올려두고 끓이기만 하면 되어서 쉬운 편에 속하는 가게입니다. ㅁㄴㅇㄹㅇㄴㅁㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄹㅇㅁㄴㄹㅁㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄴㅁㄹㅇㄴㅁㄹㅁㅇㄴㄹㅁㅇㄴ ㄹㅇㄴㄹㅁㅇㄴ ㄹㅁㅇㄴㄹㅁㅇㄴㄹㅇㄴㄹㅁㅇㄴㅇㄹㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ ㄹㅇㄴㅁ ㄹㅇㄴㄹ ㅇㄴㅁ ㄹㅁㅇㄴ ㄹㅁㅇㄴ ㄹ",
-};
-
-const StoreDetail = ({ data = sampleData }) => {
+const StoreDetail = ({ data }: any) => {
   const isPostPage = "dueTime" in data;
 
   return (
