@@ -1,126 +1,126 @@
 export const SHOP_APPLY_API_RESPONSE_DATA = {
+  "offset": 0,
+  "limit": 10,
+  "count": 2,
+  "hasNext": false,
   "items": [
-		{
-			"item": {
-				"id": "string",
-				"status": "pending",
-				"createdAt": "string",
-				"shop": {
-					"item": {
-						"id": "string",
-		        "name": "너구리네 라면집",
-		        "category": "string",
-		        "address1": "string",
-		        "address2": "string",
-		        "description": "string",
-		        "imageUrl": "string",
-		        "originalHourlyPay": 10000,
-					},
-					"href": "string"
-				},
-				"notice": {
-					"item": {
-						"id": "어쩌구저쩌구",
-						"hourlyPay": 15000,
-            "description": "string",
-            "startsAt": "2023-01-12 10:00 ~ 12:00",
-            "workhour": 2,
-            "closed": false,
-					}
-				},
-			},
-		},
     {
-			"item": {
-				"id": "string",
-				"status": "accepted",
-				"createdAt": "string",
-				"shop": {
-					"item": {
-						"id": "string",
-		        "name": "너구리네 라면집",
-		        "category": "string",
-		        "address1": "string",
-		        "address2": "string",
-		        "description": "string",
-		        "imageUrl": "string",
-		        "originalHourlyPay": 10000,
-					},
-					"href": "string"
-				},
-				"notice": {
-					"item": {
-						"id": "어쩌구",
-						"hourlyPay": 21000,
+      "item": {
+        "id": "48874724-ecc7-4e57-bdb8-d5aa8dcc9028",
+        "status": "accepted",
+        "createdAt": "2024-04-15T07:21:57.898Z",
+        "shop": {
+          "item": {
+            "id": "52200d57-25a3-4910-9903-e524d1d67a57",
+            "name": "음머어 소갈비",
+            "category": "한식",
+            "address1": "서울시 종로구",
+            "address2": "소갈비길",
+            "description": "싸고 맛있는집",
+            "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ce383d5a-c9f3-43ff-84ce-4844dcbeb1e2-aj-McsNra2VRQQ-unsplash.jpg",
+            "originalHourlyPay": 50000
+          },
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57"
+        },
+        "notice": {
+          "item": {
+            "id": "ba1e7554-0b2b-4583-9a6f-a16dae71b46a",
+            "hourlyPay": 500000,
             "description": "string",
-            "startsAt": "2023-01-12 10:00 ~ 22:00",
-            "workhour": 12,
-            "closed": false,
-					}
-				},
-			},
-		},
+            "startsAt": "2024-05-01T00:00:00.000Z",
+            "workhour": 5,
+            "closed": true
+          },
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a"
+        }
+      },
+      "links": [
+        {
+          "rel": "shop",
+          "description": "가게 정보",
+          "method": "GET",
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57"
+        },
+        {
+          "rel": "notice",
+          "description": "공고 정보",
+          "method": "GET",
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a"
+        }
+      ]
+    },
     {
-			"item": {
-				"id": "string",
-				"status": "rejected",
-				"createdAt": "string",
-				"shop": {
-					"item": {
-						"id": "string",
-		        "name": "너구리네 라면집",
-		        "category": "string",
-		        "address1": "string",
-		        "address2": "string",
-		        "description": "string",
-		        "imageUrl": "string",
-		        "originalHourlyPay": 10000,
-					},
-					"href": "string"
-				},
-				"notice": {
-					"item": {
-						"id": "저쩌구",
-						"hourlyPay": 18000,
+      "item": {
+        "id": "a0ef59df-f27b-4659-a2ac-7c668374df69",
+        "status": "pending",
+        "createdAt": "2024-04-15T07:18:02.283Z",
+        "shop": {
+          "item": {
+            "id": "52200d57-25a3-4910-9903-e524d1d67a57",
+            "name": "음머어 소갈비",
+            "category": "한식",
+            "address1": "서울시 종로구",
+            "address2": "소갈비길",
+            "description": "싸고 맛있는집",
+            "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ce383d5a-c9f3-43ff-84ce-4844dcbeb1e2-aj-McsNra2VRQQ-unsplash.jpg",
+            "originalHourlyPay": 50000
+          },
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57"
+        },
+        "notice": {
+          "item": {
+            "id": "ba1e7554-0b2b-4583-9a6f-a16dae71b46a",
+            "hourlyPay": 500000,
             "description": "string",
-            "startsAt": "2023-01-12 10:00 ~ 14:00",
-            "workhour": 4,
-            "closed": false,
-					}
-				},
-			},
-		},
+            "startsAt": "2024-05-01T00:00:00.000Z",
+            "workhour": 5,
+            "closed": true
+          },
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a"
+        }
+      },
+      "links": [
+        {
+          "rel": "shop",
+          "description": "가게 정보",
+          "method": "GET",
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57"
+        },
+        {
+          "rel": "notice",
+          "description": "공고 정보",
+          "method": "GET",
+          "href": "/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a"
+        }
+      ]
+    }
+  ],
+  "links": [
     {
-			"item": {
-				"id": "string",
-				"status": "canceled",
-				"createdAt": "string",
-				"shop": {
-					"item": {
-						"id": "string",
-		        "name": "너구리네 라면집",
-		        "category": "string",
-		        "address1": "string",
-		        "address2": "string",
-		        "description": "string",
-		        "imageUrl": "string",
-		        "originalHourlyPay": 10000,
-					},
-					"href": "string"
-				},
-				"notice": {
-					"item": {
-						"id": "어쩌구저쩌구메롱",
-						"hourlyPay": 1000,
-            "description": "string",
-            "startsAt": "2023-01-12 10:00 ~ 11:00",
-            "workhour": 1,
-            "closed": false,
-					}
-				},
-			},
-		},
-	],
+      "rel": "self",
+      "description": "현재 페이지",
+      "method": "GET",
+      "href": "/api/0-1/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71/applications?offset=0&limit=10"
+    },
+    {
+      "rel": "prev",
+      "description": "이전 페이지",
+      "method": "GET",
+      "href": "/api/0-1/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71/applications?offset=0&limit=10"
+    },
+    {
+      "rel": "next",
+      "description": "다음 페이지",
+      "method": "GET",
+      "href": "/api/0-1/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71/applications?offset=10&limit=10"
+    },
+    {
+      "rel": "user",
+      "description": "사용자 정보",
+      "method": "GET",
+      "href": "/api/0-1/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71"
+    }
+  ]
 }
 
 export const USER_API_RESPONSE = {
