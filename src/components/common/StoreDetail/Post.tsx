@@ -7,13 +7,13 @@ const data = {
   name: "도토리 식당",
   mainAddress: "서울시 송파구",
   description:
-    "알바하기 편한 너구리네 라면집!  라면 올려두고 끓이기만 하면 되어서 쉬운 편에 속하는 가게입니다.",
+    "알바하기 편한 너구리네 라면집!  라면 올려두고 끓이기만 하면 되어서 쉬운 편에 속하는 가게입니다. ㅁㄴㅇㄹㅇㄴㅁㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄹㅇㅁㄴㄹㅁㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄴㅁㄹㅇㄴㅁㄹㅁㅇㄴㄹㅁㅇㄴ ㄹㅇㄴㄹㅁㅇㄴ ㄹㅁㅇㄴㄹㅁㅇㄴㄹㅇㄴㄹㅁㅇㄴㅇㄹㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ ㄹㅇㄴㅁ ㄹㅇㄴㄹ ㅇㄴㅁ ㄹㅁㅇㄴ ㄹㅁㅇㄴ ㄹ",
 };
 
 const Post = ({ isUserEmployer }: any) => {
   return (
     <>
-      <div className="gap-3">
+      <div className="flex flex-col gap-3">
         <div>
           <h1 className="body1-bold text-primary">시급</h1>
           <h2 className="h1 mt-2">{data.name}</h2>
@@ -22,7 +22,7 @@ const Post = ({ isUserEmployer }: any) => {
         <p className="body1 text-gray-50">{data.mainAddress}</p>
         <textarea
           disabled
-          className="body1 h-full w-full bg-transparent"
+          className="body1 h-20 w-full overflow-y-scroll bg-transparent"
           value={data.description}
         />
       </div>
