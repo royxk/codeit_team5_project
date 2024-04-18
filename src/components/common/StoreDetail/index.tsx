@@ -1,11 +1,18 @@
 import React from "react";
-import Employer from "./Employer";
-import Post from "./Post";
 import Image from "next/image";
+import StoreDetailButtons from "./StoreDetailButtons";
 
 interface StoreDetailProps {
   isEmployerMainPage?: boolean;
 }
+
+const data = {
+  name: "도토리 식당",
+  dueTime: "2023-01-02 15:00~18:00 (3시간)",
+  mainAddress: "서울시 송파구",
+  description:
+    "알바하기 편한 너구리네 라면집!  라면 올려두고 끓이기만 하면 되어서 쉬운 편에 속하는 가게입니다. ㅁㄴㅇㄹㅇㄴㅁㄹㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄹㅇㅁㄴㄹㅁㅇㄴㄹㅇㄴㄹㅇㄴㄹㅇㄴㅁㄹㅇㄴㅁㄹㅁㅇㄴㄹㅁㅇㄴ ㄹㅇㄴㄹㅁㅇㄴ ㄹㅁㅇㄴㄹㅁㅇㄴㄹㅇㄴㄹㅁㅇㄴㅇㄹㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ ㄹㅇㄴㅁ ㄹㅇㄴㄹ ㅇㄴㅁ ㄹㅁㅇㄴ ㄹㅁㅇㄴ ㄹ",
+};
 
 const StoreDetail = ({
   isEmployerMainPage = false,
@@ -29,7 +36,22 @@ const StoreDetail = ({
         className="flex min-w-[21.625rem] flex-col justify-between pt-4 
                   tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3"
       >
-        {isEmployerMainPage ? <Employer /> : <Post />}
+        <div className="flex flex-col gap-3">
+          <div>
+            <h1 className="body1-bold mob:body2-bold text-primary">시급</h1>
+            <h2 className="h1 mob:h2 mt-2">{data.name}</h2>
+          </div>
+          {data.dueTime && (
+            <p className="body1 mob:body2 text-gray-50">{data.dueTime}</p>
+          )}
+          <p className="body1 mob:body2 text-gray-50">{data.mainAddress}</p>
+          <textarea
+            disabled
+            className="body1 mob:body2 h-20 w-full overflow-y-scroll bg-transparent"
+            value={data.description}
+          />
+        </div>
+        <StoreDetailButtons />
       </section>
     </main>
   );
