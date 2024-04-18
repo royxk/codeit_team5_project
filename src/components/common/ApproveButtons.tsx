@@ -7,7 +7,7 @@ const ApproveButtons = () => {
   return (
     <div className='flex gap-3'>
       <button
-        className='flex items-center bg-white text-red-40 border border-red-40 rounded-md px-5 h-[38px] py-[10px] font-bold text-sm hover:bg-red-10'
+        className='flex items-center bg-white text-primary border border-primary rounded-md px-5 h-[38px] py-[10px] font-bold text-sm hover:bg-red-10'
         type='button'
         onClick={handleClick}
       >
