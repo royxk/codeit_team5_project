@@ -7,7 +7,7 @@ type Props = {};
 const StoreDetailPageTest = (props: Props) => {
   return (
     <div className="p-8">
-      <StoreDetail isEmployerMainPage={true} />
+      <StoreDetail isEmployerMainPage={false} />
     </div>
   );
 };
