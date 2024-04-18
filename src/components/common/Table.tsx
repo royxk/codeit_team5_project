@@ -28,7 +28,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
   const isEmployee = headerData.includes("가게");
 
   return (
-    <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden'>
+    <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden mob:text-sm'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
         <table className='table-auto'>
           <TableHeader headerData={headerData}/>
