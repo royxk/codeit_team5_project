@@ -34,8 +34,11 @@ const Footer = () => {
           ©codeit - 2023
         </a>
 
-        <div className="flex gap-[10px]">
-          <Link href={""} className="body1 text-gray-50 mob:w-min">
+        <div className="flex">
+          <Link
+            href={""}
+            className="body1 whitespace-nowrap pr-[30px] text-gray-50"
+          >
             Privacy Policy
           </Link>
           <Link href={""} className="body1 text-gray-50">
