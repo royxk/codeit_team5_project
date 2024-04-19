@@ -31,6 +31,5 @@ interface StoreDetailPostType {
     currentUserApplication: null;
   };
 }
-export default interface StoreDetailProps {
-  data: StoreDetailPostType | ShopDataType;
-}
+type StoreDetailProps = StoreDetailPostType | ShopDataType;
+export default StoreDetailProps;

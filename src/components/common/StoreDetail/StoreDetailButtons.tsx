@@ -19,10 +19,10 @@ interface assignedWorker {
 
 const StoreDetailButtons = ({
   isClosed,
-  assignedWorkers,
+  id,
 }: {
   isClosed: boolean;
-  assignedWorkers: assignedWorker[];
+  id: string;
 }) => {
   const pathName = usePathname();
   const router = useRouter();
@@ -32,7 +32,7 @@ const StoreDetailButtons = ({
   const isUserEmployer = true;
 
   //현재 유저가 해당 공고에 지원했는지 여부, 현재는 context를 이용하여 유저 id를 받고, 특정 공고 지원 목록에 유자 아이디가 포함되었는지를 판단하여 판정할 것으로 예상됨.
-  // const isUserSignToWork = ;
+  const isUserSignToWork = true;
 
   return (
     <>
@@ -41,7 +41,7 @@ const StoreDetailButtons = ({
           <Button
             size="full"
             color="white"
-            onClick={() => router.push("employer/edit")}
+            onClick={() => router.push("/employer/edit")}
           >
             편집하기
           </Button>
@@ -57,10 +57,14 @@ const StoreDetailButtons = ({
         <>
           {isClosed ? (
             <Button size="full" color="gray">
-              편집 불가
+              마감
             </Button>
           ) : (
-            <Button size="full" color="gray">
+            <Button
+              size="full"
+              color="gray"
+              onClick={() => router.push(`/employer/post/edit/${id}`)}
+            >
               공고 편집
             </Button>
           )}
@@ -68,13 +72,21 @@ const StoreDetailButtons = ({
       ) : (
         <>
           {isClosed ? (
-            <Button size="full" color="red">
+            <Button size="full" color="gray">
               신청 불가
             </Button>
           ) : (
-            <Button size="full" color="red">
-              asdf
-            </Button>
+            <>
+              {isUserSignToWork ? (
+                <Button size="full" color="white">
+                  취소하기
+                </Button>
+              ) : (
+                <Button size="full" color="red">
+                  신청하기
+                </Button>
+              )}
+            </>
           )}
         </>
       )}

@@ -3,7 +3,7 @@ export const STORE_DETAIL_POST = {
     id: "5a31787f-d878-4409-b9c7-62daefa21e69",
     hourlyPay: 60000,
     startsAt: "2024-05-01T00:00:00.000Z",
-    workhour: 9,
+    workhour: 60000,
     description: "더 오른 급여",
     closed: true,
     shop: {
