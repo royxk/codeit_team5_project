@@ -46,7 +46,7 @@ const GNB: React.FC<Props> = ({ user }) => {
               <button className="flex h-6 w-28 items-center justify-center text-base font-bold text-gray-900">
                 <img
                   className="h-5 w-5"
-                  src="notification_active.png"
+                  src="notification_inactive.png"
                   alt="notification"
                 />
               </button>
