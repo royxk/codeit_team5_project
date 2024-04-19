@@ -1,4 +1,7 @@
+'use client';
+import { useState } from "react";
 import ApproveButtons from "./ApproveButtons";
+import Pagination from "./Pagination";
 import StatusLabel, { Status } from "./StatusLabel";
 import TableHeader from "./TableHeader";
 
@@ -6,6 +9,7 @@ interface TableProps<T> {
   headerData: string[];
   applyData: T[];
 }
+
 
 interface ApplyData {
   apply_id: string,
@@ -26,6 +30,15 @@ interface ApplyData {
 
 const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) => {
   const isEmployee = headerData.includes("가게");
+  const [pageData, setPageData] = useState([]);
+  const currentPageData: any[] = [];
+  
+  for (let i = 0; i < applyData.length; i += 5) {
+    currentPageData.push(applyData.slice(i, i + 5));
+  }
+  const handleData = (pageData: number) => {
+    setPageData(currentPageData[pageData]);
+  }
 
   return (
     <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden mob:text-sm'>
@@ -33,7 +46,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
         <table className='table-auto'>
           <TableHeader headerData={headerData}/>
           <tbody>
-            {applyData.map((data) => {
+            {pageData.map((data) => {
               const {
                 apply_id,
                 status,
@@ -66,7 +79,9 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
           </tbody>
         </table>
       </div>
-      <div className='flex justify-center p-6'>페이지네이션 컴포넌트</div>
+      <div className='flex justify-center p-6'>
+        <Pagination rawPageData={applyData} setCurrentPageData={handleData}/>
+      </div>
     </div>
   );
 };
