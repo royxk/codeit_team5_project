@@ -1,4 +1,4 @@
-import BasicFilterButton from "@/components/home/BasicFilterButton";
+import BasicFilter from "@/components/home/BasicFilter";
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
           <div className="flex w-full justify-between pb-[31px] text-left text-[28px] font-bold tracking-[0.56px]">
             <h1>전체공고</h1>
             <div className="flex items-center gap-[10px]">
-              <BasicFilterButton />
+              <BasicFilter />
               <div>상세 필터</div>
             </div>
           </div>
