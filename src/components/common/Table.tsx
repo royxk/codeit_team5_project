@@ -36,6 +36,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
   for (let i = 0; i < applyData.length; i += 5) {
     currentPageData.push(applyData.slice(i, i + 5));
   }
+
   const handleData = (pageData: number) => {
     setPageData(currentPageData[pageData]);
   }
@@ -59,12 +60,14 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                 bio
               } = data;
               return (
-                <tr key={apply_id} className='border-b border-gray-20'>
+                <tr key={apply_id} className='border-b border-gray-20 max-h-[51px]'>
                   <td className='bg-white px-3 py-5 w-full min-w-[226px] sticky z-10 left-0'>
                     {isEmployee ? shopName : userName}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[300px]'>
-                    {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
+                  <td className='bg-white px-3 py-5 w-full min-w-[300px] align-middle'>
+                    <div className='line-clamp-2'>
+                      {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
+                    </div>
                   </td>
                   <td className='bg-white px-3 py-5 w-full min-w-[200px]'>
                     {isEmployee ? `${hourlyPay}원` : phoneNumber}
