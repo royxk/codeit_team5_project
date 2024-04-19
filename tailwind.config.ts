@@ -41,11 +41,11 @@ const config: Config = {
         tab: { raw: "(max-width: 1024px)" },
         mob: { raw: "(max-width: 768px)" },
       },
+
       grayscale: {
         50: "grayscale(50%)",
         100: "grayscale(100%)",
       },
-    },
     },
   },
   plugins: [],
