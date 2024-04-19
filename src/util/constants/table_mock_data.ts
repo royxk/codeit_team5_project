@@ -215,5 +215,203 @@ export const USER_API_RESPONSE = {
         },
       },
     },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저6",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "양서연",
+            "phone": "010-7777-4444",
+            "address": "string",
+            "bio": "감사합니다.",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저7",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "김세동",
+            "phone": "010-4444-7777",
+            "address": "string",
+            "bio": "최선을 다해서 일하겠습니다!",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저8",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "고기",
+            "phone": "010-8888-8888",
+            "address": "string",
+            "bio": "",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저9",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "이름",
+            "phone": "010-9999-9999",
+            "address": "string",
+            "bio": "하하하하하핳하",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저10",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "고기먹고싶다",
+            "phone": "010-6666-8888",
+            "address": "string",
+            "bio": "ㅇㅁㄹㄴㅁㄹㅇㄴㅁ",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저11",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "고기탐",
+            "phone": "010-8888-6666",
+            "address": "string",
+            "bio": "룰루",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저12",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "생선회",
+            "phone": "010-7777-8888",
+            "address": "string",
+            "bio": "유후",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저13",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "연어 최고",
+            "phone": "010-8888-7777",
+            "address": "string",
+            "bio": "언제까지 해야되는 거냐",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저14",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "그만해액",
+            "phone": "010-9999-8888",
+            "address": "string",
+            "bio": "야아아아아아아악",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저15",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "테스트",
+            "phone": "010-0000-8888",
+            "address": "string",
+            "bio": "아아 마이크 테스트 원투원투",
+          },
+        },
+      },
+    },
+    {
+      "item": {
+        "id": "string",
+        "status": "pending",
+        "createdAt": "string",
+        "user": {
+          "item": {
+            "id": "유저16",
+            "email": "string",
+            "type": "employer | employee",
+            "name": "마지막",
+            "phone": "010-1111-8888",
+            "address": "string",
+            "bio": "끝!",
+          },
+        },
+      },
+    },
   ],
 }
