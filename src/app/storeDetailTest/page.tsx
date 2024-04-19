@@ -6,7 +6,7 @@ type Props = {};
 
 const StoreDetailPageTest = () => {
   // const data = STORE_DETAIL_POST;
-  const data = null;
+  const data = STORE_DETAIL_POST;
   const item = Boolean(data) ? data : null;
 
   return (

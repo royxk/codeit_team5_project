@@ -37,16 +37,25 @@ interface StoreDetailPostType {
   };
 }
 
+const ERR_MESSAGE = {
+  address1: "에러에러에러에러",
+  description: "에러에러에러에러",
+};
+
 interface StoreDetailProps {
-  data: StoreDetailPostType | ShopDataType | null;
+  data: (StoreDetailPostType & ShopDataType) | null;
 }
 
 const StoreDetail = ({ data }: StoreDetailProps) => {
-  console.log(data);
-
   const isDataExist = data !== null;
   const isPostPage = isDataExist && "shop" in data.item;
-  const shopData = isDataExist && "shop" in data.item ? data.item.shop : data;
+  const shopData = isPostPage
+    ? data.item.shop.item
+    : isDataExist
+      ? data.item
+      : ERR_MESSAGE;
+  const hourlyPay = data?.item.hourlyPay;
+  console.log(shopData);
 
   return (
     <main
@@ -75,19 +84,21 @@ const StoreDetail = ({ data }: StoreDetailProps) => {
                   {isPostPage ? "시급" : "가게"}
                 </h1>
                 <h2 className="h1 mob:h2 mt-2">
-                  {/* {isPostPage  : item.name} */}
+                  {isPostPage ? hourlyPay : data.item.name}
                 </h2>
               </div>
-              {/* {isPostPage && (
-                <p className="body1 mob:body2 text-gray-50">{shopData.}</p>
-              )} */}
+              {isPostPage && (
+                <p className="body1 mob:body2 text-gray-50">
+                  {data.item.startsAt}
+                </p>
+              )}
               <p className="body1 mob:body2 text-gray-50">
                 {shopData.address1}
               </p>
               <textarea
                 disabled
                 className="body1 mob:body2 h-20 w-full overflow-y-scroll bg-transparent"
-                value={data.description}
+                value={shopData.description}
               />
             </div>
             <StoreDetailButtons />
