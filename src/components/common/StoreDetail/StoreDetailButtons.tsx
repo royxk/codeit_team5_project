@@ -3,7 +3,7 @@ import React from "react";
 import Button from "../Button";
 import { usePathname, useRouter } from "next/navigation";
 
-const StoreDetailButtons = () => {
+const StoreDetailButtons = ({ closed }: { closed: boolean }) => {
   const pathName = usePathname();
   const router = useRouter();
   const isEmployerMainPage = pathName.includes("employer");
@@ -27,6 +27,10 @@ const StoreDetailButtons = () => {
             공고 등록하기
           </Button>
         </div>
+      ) : closed ? (
+        <Button size="full" color="gray">
+          신청 불가
+        </Button>
       ) : (
         <Button size="full" color="red">
           공고 편집하기
