@@ -21,7 +21,8 @@
   font-weight: 400;
   font-style: normal;
   src: url("https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Regular.eot");
-  src: url("https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Regular.eot?#iefix")
+  src:
+    url("https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Regular.eot?#iefix")
       format("embedded-opentype"),
     url("https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Regular.woff2")
       format("woff2"),
@@ -35,7 +36,8 @@
 @font-face {
   font-family: "Spoqa Han Sans Neo";
   font-weight: 700;
-  src: local("Spoqa Han Sans Neo Bold"),
+  src:
+    local("Spoqa Han Sans Neo Bold"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2")
       format("woff2"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff")
@@ -47,7 +49,8 @@
 @font-face {
   font-family: "Spoqa Han Sans Neo";
   font-weight: 500;
-  src: local("Spoqa Han Sans Neo Medium"),
+  src:
+    local("Spoqa Han Sans Neo Medium"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff2")
       format("woff2"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff")
@@ -59,7 +62,8 @@
 @font-face {
   font-family: "Spoqa Han Sans Neo";
   font-weight: 400;
-  src: local("Spoqa Han Sans Neo Regular"),
+  src:
+    local("Spoqa Han Sans Neo Regular"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff2")
       format("woff2"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff")
@@ -71,7 +75,8 @@
 @font-face {
   font-family: "Spoqa Han Sans Neo";
   font-weight: 300;
-  src: local("Spoqa Han Sans Neo Light"),
+  src:
+    local("Spoqa Han Sans Neo Light"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff2")
       format("woff2"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff")
@@ -83,7 +88,8 @@
 @font-face {
   font-family: "Spoqa Han Sans Neo";
   font-weight: 100;
-  src: local("Spoqa Han Sans Neo Thin"),
+  src:
+    local("Spoqa Han Sans Neo Thin"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.woff2")
       format("woff2"),
     url("https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@latest/Subset/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.woff")
@@ -94,6 +100,48 @@
 
 body {
   font-family: "Spoqa Han Sans Neo", sans-serif;
+}
+
+@layer components {
+  .h1 {
+    @apply text-[1.75rem] font-bold leading-normal tracking-[0.035rem];
+  }
+
+  .h2 {
+    @apply text-2xl font-bold leading-normal tracking-[0.03rem];
+  }
+
+  .h3 {
+    @apply text-xl font-bold leading-normal;
+  }
+
+  .h4 {
+    @apply text-lg leading-normal;
+  }
+
+  .h4-bold {
+    @apply text-lg font-bold leading-normal;
+  }
+
+  .body1 {
+    @apply text-base leading-[1.625rem];
+  }
+
+  .body1-bold {
+    @apply text-base font-bold leading-[1.25rem];
+  }
+
+  .body2 {
+    @apply text-sm leading-[1.57rem];
+  }
+
+  .body2-bold {
+    @apply text-sm font-bold leading-normal;
+  }
+
+  .caption {
+    @apply text-xs leading-[1.33rem];
+  }
 }
 
 @layer utilities {

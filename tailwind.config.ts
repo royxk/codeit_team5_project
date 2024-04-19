@@ -35,16 +35,17 @@ const config: Config = {
         "green-20": "#20A81E",
         "green-10": "#D4F7D4",
         kakao: "#FEE500",
+        primary: "#EA3C12",
+      },
+      screens: {
+        tab: { raw: "(max-width: 1024px)" },
+        mob: { raw: "(max-width: 768px)" },
       },
       grayscale: {
         50: "grayscale(50%)",
         100: "grayscale(100%)",
       },
     },
-    screens: {
-      pc: { raw: "(min-width: 1920px)" },
-      tab: { raw: "(max-width: 744px)" },
-      mob: { raw: "(max-width: 375px)" },
     },
   },
   plugins: [],

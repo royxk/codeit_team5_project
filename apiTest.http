@@ -1,0 +1,326 @@
+## 테스트 요청과 저희 기수-팀에 해당하는 요청을 나눴습니다.
+## 모든 요청의 순서는 테스트 -> 실제 순입니다.
+## 스웨거 문서를 참조해 위에서 아래로 작성하였습니다.
+
+### 테스트에 사용된 로그인 정보
+#### 1. 사장님 => id: white@naver.com / password: qwer1234
+#### 2. 알바님 => id: white2@naver.com / password: qwer1234
+#### 사장님 테스트 토큰: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+#### 알바님 테스트 토큰: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGEyNzI5OS1hMGVjLTQ3YWQtYWYyMS1mN2U3YTA3MGIzMzkiLCJpYXQiOjE3MTMxNjk1OTB9.AoLrI1n9Oe_ylJLQI-ijTksPlJ0jqKfk2VmtHtt6Pwo
+##### 토큰은 decode 했을 경우 객체 형태로 나오며 userid 값을 추출 할 수도 있습니다.
+##### 예를 들어 사장님 테스트 토큰을 base64 decoding 할 경우 아래와 같은 객체로 변환됩니다.
+##### {"alg":"HS256","typ":"JWT"}{"userId":"52dac023-f435-4655-9b3c-8751afc65a71","iat":1713158470}c C@w=IXt8Z(OK2X*
+
+#image
+
+### Presigned URL 생성(테스트)
+POST https://bootcamp-api.codeit.kr/api/0-1/the-julge/images
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "name":"string"
+}
+
+### Presigned URL 생성
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/images
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "name":"string"
+}
+
+###################################################################
+
+# notice
+
+### 공고 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/notices
+
+### 공고 조회
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/notices
+
+
+
+### 가게의 공고 목록 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices
+
+### 가게의 공고 목록 조회
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/da8c6ed3-c73e-4057-a039-804e8eb71d7a/notices
+
+
+
+### 가게 공고 등록(테스트)
+POST https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "hourlyPay": 500000,
+  "startsAt": "2024-05-01T00:00:00Z",
+  "workhour": 5,
+  "description": "string"
+}
+
+### 가게의 공고 등록
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "hourlyPay": 50000,
+  "startsAt": "2024-05-01T00:00:00Z",
+  "workhour": 5,
+  "description": "string"
+}
+
+
+
+### 가게의 특정 공고 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/7f642440-619b-4940-95bf-90905d6498b3
+
+### 가게의 특정 공고 조회
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/da8c6ed3-c73e-4057-a039-804e8eb71d7a/notices/5a31787f-d878-4409-b9c7-62daefa21e69
+
+
+
+### 가게의 특정 공고 수정(테스트)
+PUT https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/7f642440-619b-4940-95bf-90905d6498b3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "hourlyPay": 100002,
+  "startsAt": "2024-04-29T00:00:00Z",
+  "workhour": 10,
+  "description": "string"
+}
+
+### 가게의 특정 공고 수정
+PUT https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/가게id/notices/공고id
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "hourlyPay": 50000,
+  "startsAt": "2024-05-01T00:00:00Z",
+  "workhour": 5,
+  "description": "string"
+}
+
+###################################################################
+
+#shop
+### 가게 등록(테스트)
+POST https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "name": "음머어 소갈비",
+  "category": "한식",
+  "address1": "서울시 종로구",
+  "address2": "소갈비길",
+  "description": "싸고 맛있는집",
+  "imageUrl": "string",
+  "originalHourlyPay": 50000
+}
+
+### 가게 등록
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4YmNlNDhmZS05MzkxLTRjMjAtOTdiMi1kZmI4ZTI3YWVmMDYiLCJpYXQiOjE3MTMyMTI4NDR9.Fn9kR1Tva24dcI_0vHRRuoDd-Kx7Wm1RtLeom8tHRH8
+Content-Type: application/json
+
+{
+  "name": "음머어 소갈비",
+  "category": "한식",
+  "address1": "서울시 종로구",
+  "address2": "소갈비길",
+  "description": "싸고 맛있는집",
+  "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ce383d5a-c9f3-43ff-84ce-4844dcbeb1e2-aj-McsNra2VRQQ-unsplash.jpg",
+  "originalHourlyPay": 50000
+}
+
+
+
+### 가게 정보 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57
+
+### 가게 정보 조회
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57
+
+
+### 가게 정보 수정(테스트)
+PUT https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "name": "음머어 소갈비",
+  "category": "한식",
+  "address1": "서울시 종로구",
+  "address2": "소갈비길",
+  "description": "싸고 맛있는집",
+  "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ce383d5a-c9f3-43ff-84ce-4844dcbeb1e2-aj-McsNra2VRQQ-unsplash.jpg",
+  "originalHourlyPay": 50000
+}
+
+### 가게 정보 수정
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "name": "음머어 소갈비",
+  "category": "한식",
+  "address1": "서울시 종로구",
+  "address2": "소갈비길",
+  "description": "싸고 맛있는집",
+  "imageUrl": "https://bootcamp-project-api.s3.ap-northeast-2.amazonaws.com/0-1/the-julge/ce383d5a-c9f3-43ff-84ce-4844dcbeb1e2-aj-McsNra2VRQQ-unsplash.jpg",
+  "originalHourlyPay": 50000
+}
+
+###################################################################
+
+#application
+
+### 가게의 특정 공고의 지원 목록 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a/applications?offset=''&limit=''
+
+### 가게의 특정 공고의 지원 목록 조회
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a/applications
+
+
+### 가게의 특정 공고 지원 등록(테스트)
+POST https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a/applications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+
+### 가게의 특정 공고 지원 등록
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a/applications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+
+### 가게의 특정 공고 지원 승인, 거절 또는 취소(테스트)
+PUT https://bootcamp-api.codeit.kr/api/0-1/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a/applications/a0ef59df-f27b-4659-a2ac-7c668374df69
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "status": "accepted"
+}
+
+### 가게의 특정 공고 지원 승인, 거절 또는 취소
+PUT https://bootcamp-api.codeit.kr/api/4-5/the-julge/shops/52200d57-25a3-4910-9903-e524d1d67a57/notices/ba1e7554-0b2b-4583-9a6f-a16dae71b46a/applications/a0ef59df-f27b-4659-a2ac-7c668374df69
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+Content-Type: application/json
+
+{
+  "status": "accepted"
+}
+
+### 유저의 지원 목록 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71/applications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+
+### 유저의 지원 목록 조회
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71/applications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1MmRhYzAyMy1mNDM1LTQ2NTUtOWIzYy04NzUxYWZjNjVhNzEiLCJpYXQiOjE3MTMxNTg0NzB9._5mpYyCAQ0B3Bz0ESVjvwIGktXQ4FlqpKE9LMuBYKvs
+
+###################################################################
+
+#authentication
+
+### 로그인(테스트)
+POST https://bootcamp-api.codeit.kr/api/0-1/the-julge/token
+Content-Type: application/json
+
+{
+  "email": "white@naver.com",
+  "password": "qwer1234"
+}
+
+### 로그인 - ok
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/token
+Content-Type: application/json
+
+{
+  "email": "employer@naver.com",
+  "password": "qwer1234"
+}
+
+###################################################################
+
+#user
+
+### 회원가입(테스트)
+POST https://bootcamp-api.codeit.kr/api/0-1/the-julge/users
+Content-Type: application/json
+
+{
+  "email": "gogo@naver.com",
+  "password": "qwer1234",
+  "type": "employee"
+}
+
+### 회원가입 - ok
+POST https://bootcamp-api.codeit.kr/api/4-5/the-julge/users
+Content-Type: application/json
+
+{
+  "email": "gogo10@naver.com",
+  "password": "qwer1234",
+  "type": "employee"
+}
+
+### 내 정보 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/52dac023-f435-4655-9b3c-8751afc65a71
+
+### 내 정보 조회-사장님 - ok
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/users/594f5cdb-717a-4989-b93a-dc34d75063fb
+### 내 정보 조회-알바님 - ok
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/users/8bce48fe-9391-4c20-97b2-dfb8e27aef06
+
+
+### 내 정보 수정(테스트)
+PUT https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/04a27299-a0ec-47ad-af21-f7e7a070b339
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGEyNzI5OS1hMGVjLTQ3YWQtYWYyMS1mN2U3YTA3MGIzMzkiLCJpYXQiOjE3MTMxNjk1OTB9.AoLrI1n9Oe_ylJLQI-ijTksPlJ0jqKfk2VmtHtt6Pwo
+Content-Type: application/json
+
+{
+  "name": "호호호",
+  "phone": "01022222222",
+  "address": "서울시 종로구",
+  "bio": "string"
+}
+
+### 내 정보 수정 - ok
+PUT https://bootcamp-api.codeit.kr/api/4-5/the-julge/users/04a27299-a0ec-47ad-af21-f7e7a070b339
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGEyNzI5OS1hMGVjLTQ3YWQtYWYyMS1mN2U3YTA3MGIzMzkiLCJpYXQiOjE3MTMxNjk1OTB9.AoLrI1n9Oe_ylJLQI-ijTksPlJ0jqKfk2VmtHtt6Pwo
+Content-Type: application/json
+
+{
+  "name": "호호호",
+  "phone": "01022222222",
+  "address": "서울시 종로구",
+  "bio": "string"
+}
+
+###################################################################
+
+#alert
+
+### 유저의 알림 목록 조회(테스트)
+GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/04a27299-a0ec-47ad-af21-f7e7a070b339/alerts
+
+### 유저의 알림 목록 조회 - ok
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/users/04a27299-a0ec-47ad-af21-f7e7a070b339/alerts
+
+
+### 알림 읽음 처리(테스트)
+PUT https://bootcamp-api.codeit.kr/api/0-1/the-julge/users/04a27299-a0ec-47ad-af21-f7e7a070b339/alerts/e5d39ca2-164e-4390-a05c-eee68a2deeda
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGEyNzI5OS1hMGVjLTQ3YWQtYWYyMS1mN2U3YTA3MGIzMzkiLCJpYXQiOjE3MTMxNjk1OTB9.AoLrI1n9Oe_ylJLQI-ijTksPlJ0jqKfk2VmtHtt6Pwo
+
+### 알림 읽음 처리
+PUT https://bootcamp-api.codeit.kr/api/4-5/the-julge/users/04a27299-a0ec-47ad-af21-f7e7a070b339/alerts/e5d39ca2-164e-4390-a05c-eee68a2deeda
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNGEyNzI5OS1hMGVjLTQ3YWQtYWYyMS1mN2U3YTA3MGIzMzkiLCJpYXQiOjE3MTMxNjk1OTB9.AoLrI1n9Oe_ylJLQI-ijTksPlJ0jqKfk2VmtHtt6Pwo
+
