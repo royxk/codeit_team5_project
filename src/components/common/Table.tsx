@@ -1,9 +1,15 @@
+'use client';
+import { useState } from "react";
+import ApproveButtons from "./ApproveButtons";
+import Pagination from "./Pagination";
+import StatusLabel from "./StatusLabel";
 import TableHeader from "./TableHeader";
 
 interface TableProps<T> {
   headerData: string[];
   applyData: T[];
 }
+
 
 interface ApplyData {
   apply_id: string,
@@ -24,14 +30,24 @@ interface ApplyData {
 
 const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) => {
   const isEmployee = headerData.includes("가게");
+  const [pageData, setPageData] = useState([]);
+  const currentPageData: any[] = [];
+  
+  for (let i = 0; i < applyData.length; i += 5) {
+    currentPageData.push(applyData.slice(i, i + 5));
+  }
+
+  const handleData = (pageData: number) => {
+    setPageData(currentPageData[pageData]);
+  }
 
   return (
-    <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden'>
+    <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden mob:text-sm'>
       <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
         <table className='table-auto'>
           <TableHeader headerData={headerData}/>
           <tbody>
-            {applyData.map((data) => {
+            {pageData.map((data) => {
               const {
                 apply_id,
                 status,
@@ -43,23 +59,22 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                 phoneNumber,
                 bio
               } = data;
-              const statusLabel = status === "pending" ? "대기중"
-                : status === "accepted" ? "승인 완료"
-                : status === "rejected" ? "거절"
-                : "취소";
               return (
-                <tr key={apply_id} className='border-b border-gray-20'>
+                <tr key={apply_id} className='border-b border-gray-20 max-h-[51px]'>
                   <td className='bg-white px-3 py-5 w-full min-w-[226px] sticky z-10 left-0'>
                     {isEmployee ? shopName : userName}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[300px]'>
-                    {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
+                  <td className='bg-white px-3 py-5 w-full min-w-[300px] align-middle'>
+                    <div className='line-clamp-2'>
+                      {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
+                    </div>
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
+                  <td className='bg-white px-3 py-5 w-full min-w-[200px]'>
                     {isEmployee ? `${hourlyPay}원` : phoneNumber}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[226px]'>
-                    {statusLabel}
+                  <td className='bg-white px-3 py-5 w-full min-w-[236px]'>
+                    {!isEmployee && status === "pending" ? <ApproveButtons />
+                      : <StatusLabel status={status}/>}
                   </td>
                 </tr>
               )
@@ -67,7 +82,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
           </tbody>
         </table>
       </div>
-      <div className='flex justify-center p-6'>페이지네이션 컴포넌트</div>
+      <Pagination rawPageData={applyData} setCurrentPageData={handleData}/>
     </div>
   );
 };
