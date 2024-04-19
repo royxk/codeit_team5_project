@@ -2,7 +2,7 @@ interface StatusLabelProp {
   status: Status;
 }
 
-export type Status = "pending" | "accepted" | "rejected" | "canceled";
+type Status = "pending" | "accepted" | "rejected" | "canceled";
 
 function StatusCssString(status: Status) {
   let statusCss;

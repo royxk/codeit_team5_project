@@ -2,7 +2,7 @@
 import { useState } from "react";
 import ApproveButtons from "./ApproveButtons";
 import Pagination from "./Pagination";
-import StatusLabel, { Status } from "./StatusLabel";
+import StatusLabel from "./StatusLabel";
 import TableHeader from "./TableHeader";
 
 interface TableProps<T> {
@@ -13,7 +13,7 @@ interface TableProps<T> {
 
 interface ApplyData {
   apply_id: string,
-  status: Status,
+  status: string,
   shopName?: string,
   hourlyPay?: number,
   startsAt?: string,

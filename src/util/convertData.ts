@@ -1,14 +1,11 @@
 // 응답 데이터 필요한 타입 정의
-
-import { Status } from "@/components/common/StatusLabel";
-
 // 알바님(일반회원) 공고 지원 목록 데이터 타입
 type ApplyListApiResponse = {
   items:
     {
       item: {
         id: string;
-        status: Status;
+        status: string;
         shop: {
           item: {
             name: string;
@@ -31,7 +28,7 @@ type ApplicantListApiResponse = {
   items:
     {
       item: {
-        status: Status;
+        status: string;
         user: {
           item: {
             id: string;
@@ -47,7 +44,7 @@ type ApplicantListApiResponse = {
 // 새로운 데이터 타입 정의
 interface CommonData {
   apply_id: string;
-  status: Status;
+  status: string;
 }
 
 export interface EmployeeTableData extends CommonData {
