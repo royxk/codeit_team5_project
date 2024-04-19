@@ -2,60 +2,19 @@ import React from "react";
 import Image from "next/image";
 import StoreDetailButtons from "./StoreDetailButtons";
 import Button from "../Button";
-
-interface ShopDataType {
-  item: {
-    id: string;
-    name: string;
-    category: string;
-    address1: string;
-    address2: string;
-    description: string;
-    imageUrl: string;
-    originalHourlyPay: number;
-    user?: {
-      item: {
-        id: string;
-        email: string;
-        type: string;
-      };
-      href: string;
-    };
-  };
-}
-
-interface StoreDetailPostType {
-  item: {
-    id: string;
-    hourlyPay: number;
-    startsAt: string;
-    workhour: number;
-    description: string;
-    closed: boolean;
-    shop: ShopDataType;
-    currentUserApplication: null;
-  };
-}
+import StoreDetailProps from "./StoreDetailTypes";
 
 const ERR_MESSAGE = {
   address1: "에러에러에러에러",
   description: "에러에러에러에러",
 };
 
-interface StoreDetailProps {
-  data: (StoreDetailPostType & ShopDataType) | null;
-}
-
 const StoreDetail = ({ data }: StoreDetailProps) => {
   const isDataExist = data !== null;
   const isPostPage = isDataExist && "shop" in data.item;
-  const shopData = isPostPage
-    ? data.item.shop.item
-    : isDataExist
-      ? data.item
-      : ERR_MESSAGE;
-  const hourlyPay = data?.item.hourlyPay;
-  console.log(shopData);
+  const imageUrl = data?.item.shop?.item.imageUrl || data?.item.imageUrl;
+  const shopData = data?.item.shop?.item || data?.item || ERR_MESSAGE;
+  const rawHourlyPay = data?.item.hourlyPay;
 
   return (
     <main
@@ -66,13 +25,7 @@ const StoreDetail = ({ data }: StoreDetailProps) => {
       {isDataExist ? (
         <>
           <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
-            <Image
-              // src={`https://${data.item.shop.item.imageUrl}`}
-              src={"/store-detail-sample/unsplash.png"}
-              className="object-cover"
-              fill
-              alt=""
-            />
+            <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
           </div>
           <section
             className="flex min-w-[21.625rem] flex-col justify-between pt-4 
@@ -84,7 +37,7 @@ const StoreDetail = ({ data }: StoreDetailProps) => {
                   {isPostPage ? "시급" : "가게"}
                 </h1>
                 <h2 className="h1 mob:h2 mt-2">
-                  {isPostPage ? hourlyPay : data.item.name}
+                  {rawHourlyPay || data.item.name}
                 </h2>
               </div>
               {isPostPage && (
@@ -97,11 +50,11 @@ const StoreDetail = ({ data }: StoreDetailProps) => {
               </p>
               <textarea
                 disabled
-                className="body1 mob:body2 h-20 w-full overflow-y-scroll bg-transparent"
+                className={`body1 mob:body2 w-full overflow-y-scroll bg-transparent ${isPostPage ? "h-16" : "h-20"}`}
                 value={shopData.description}
               />
             </div>
-            <StoreDetailButtons />
+            <StoreDetailButtons closed={data.item?.closed} />
           </section>
         </>
       ) : (
