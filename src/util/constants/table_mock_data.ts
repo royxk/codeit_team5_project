@@ -218,7 +218,7 @@ export const USER_API_RESPONSE = {
     {
       "item": {
         "id": "string",
-        "status": "pending",
+        "status": "accepted",
         "createdAt": "string",
         "user": {
           "item": {
@@ -236,7 +236,7 @@ export const USER_API_RESPONSE = {
     {
       "item": {
         "id": "string",
-        "status": "pending",
+        "status": "accepted",
         "createdAt": "string",
         "user": {
           "item": {
@@ -272,7 +272,7 @@ export const USER_API_RESPONSE = {
     {
       "item": {
         "id": "string",
-        "status": "pending",
+        "status": "rejected",
         "createdAt": "string",
         "user": {
           "item": {
@@ -290,7 +290,7 @@ export const USER_API_RESPONSE = {
     {
       "item": {
         "id": "string",
-        "status": "pending",
+        "status": "canceled",
         "createdAt": "string",
         "user": {
           "item": {
