@@ -5,12 +5,13 @@ import React from "react";
 type Props = {};
 
 const StoreDetailPageTest = () => {
-  const data = STORE_DETAIL_POST;
+  // const data = STORE_DETAIL_POST;
+  const data = null;
   const item = Boolean(data) ? data : null;
 
   return (
     <div className="p-8">
-      <StoreDetail item={item} />
+      <StoreDetail data={item} />
     </div>
   );
 };

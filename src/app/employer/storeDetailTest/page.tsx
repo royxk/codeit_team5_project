@@ -10,7 +10,7 @@ const StoreDetailPageTest = () => {
 
   return (
     <div className="p-8">
-      <StoreDetail item={item} />
+      <StoreDetail data={item} />
     </div>
   );
 };
