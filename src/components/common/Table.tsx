@@ -82,9 +82,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
           </tbody>
         </table>
       </div>
-      <div className='flex justify-center p-6'>
-        <Pagination rawPageData={applyData} setCurrentPageData={handleData}/>
-      </div>
+      <Pagination rawPageData={applyData} setCurrentPageData={handleData}/>
     </div>
   );
 };
