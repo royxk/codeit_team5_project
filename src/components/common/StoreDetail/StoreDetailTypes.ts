@@ -32,5 +32,5 @@ interface StoreDetailPostType {
   };
 }
 export default interface StoreDetailProps {
-  data: (StoreDetailPostType & ShopDataType) | null;
+  data: StoreDetailPostType | ShopDataType;
 }

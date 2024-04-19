@@ -3,6 +3,7 @@ import Image from "next/image";
 import StoreDetailButtons from "./StoreDetailButtons";
 import Button from "../Button";
 import StoreDetailProps from "./StoreDetailTypes";
+import { STORE_DETAIL_ASSIGNED } from "@/util/constants/STORE_DETAIL_ASSIGNED";
 
 const ERR_MESSAGE = {
   address1: "에러에러에러에러",
@@ -10,11 +11,17 @@ const ERR_MESSAGE = {
 };
 
 const StoreDetail = ({ data }: StoreDetailProps) => {
-  const isDataExist = data !== null;
-  const isPostPage = isDataExist && "shop" in data.item;
-  const imageUrl = data?.item.shop?.item.imageUrl || data?.item.imageUrl;
-  const shopData = data?.item.shop?.item || data?.item || ERR_MESSAGE;
-  const rawHourlyPay = data?.item.hourlyPay;
+  const item = Boolean(data?.item) ? data : null;
+
+  const isDataExist = item !== null;
+  const isPostPage = isDataExist && "shop" in item.item;
+  const imageUrl = isPostPage
+    ? item.item.shop.item.imageUrl
+    : item?.item.imageUrl;
+  const shopData = item?.item.shop?.item || item?.item || ERR_MESSAGE;
+  const rawHourlyPay = item?.item.hourlyPay;
+
+  const assignedWorkers = STORE_DETAIL_ASSIGNED;
 
   return (
     <main
@@ -37,12 +44,12 @@ const StoreDetail = ({ data }: StoreDetailProps) => {
                   {isPostPage ? "시급" : "가게"}
                 </h1>
                 <h2 className="h1 mob:h2 mt-2">
-                  {rawHourlyPay || data.item.name}
+                  {rawHourlyPay || item.item.name}
                 </h2>
               </div>
               {isPostPage && (
                 <p className="body1 mob:body2 text-gray-50">
-                  {data.item.startsAt}
+                  {item.item.startsAt}
                 </p>
               )}
               <p className="body1 mob:body2 text-gray-50">
@@ -54,7 +61,10 @@ const StoreDetail = ({ data }: StoreDetailProps) => {
                 value={shopData.description}
               />
             </div>
-            <StoreDetailButtons closed={data.item?.closed} />
+            <StoreDetailButtons
+              isClosed={item.item?.closed}
+              assignedWorkers={assignedWorkers}
+            />
           </section>
         </>
       ) : (
