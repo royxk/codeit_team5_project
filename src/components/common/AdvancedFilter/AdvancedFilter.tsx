@@ -4,7 +4,7 @@ import LocationBox from "./LocationBox";
 import Button from "../Button";
 import SelectedLocationBox from "./SelectedLocationBox";
 
-function Filter() {
+function AdvancedFilter() {
   const [locations, setLocations] = React.useState<string[]>([]);
   const [startDate, setStartDate] = React.useState<string>("");
   const [price, setPrice] = React.useState<string>("");
@@ -96,4 +96,4 @@ function Filter() {
   );
 }
 
-export default Filter;
+export default AdvancedFilter;

@@ -1,10 +1,10 @@
-import Filter from "@/components/common/FilterComponent/Filter";
+import AdvancedFilterComponent from "@/components/common/AdvancedFilter/AdvancedFilterComponent";
 import React from "react";
 
 const FilterTestPage = () => {
   return (
     <div>
-      <Filter></Filter>
+      <AdvancedFilterComponent />
     </div>
   );
 };
