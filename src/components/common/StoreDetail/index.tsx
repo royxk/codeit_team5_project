@@ -65,6 +65,17 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
 
   return (
     <div className="max-w-[60.25rem]">
+      <div className="mb-6 mob:mb-4 ">
+        {isPostPage ? (
+          <div>
+            <p className="body1-bold mob:body2-bold mb-2 text-primary">식당</p>
+            <h1 className="h1 mob:h3 text-black">{shopData.name}</h1>
+          </div>
+        ) : (
+          <h1 className="h1 mob:h3 mo text-black">내 가게</h1>
+        )}
+      </div>
+
       <StoreDetailCardBorder isBgWhite={isPostPage}>
         <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
           <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
