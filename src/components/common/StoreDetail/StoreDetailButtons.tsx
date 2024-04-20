@@ -2,27 +2,24 @@
 import React from "react";
 import Button from "../Button";
 import { usePathname, useRouter } from "next/navigation";
-
-interface assignedWorker {
-  item: {
-    id: string;
-    status: string;
-    createdAt: string;
-    user: {
-      id: string;
-      email: string;
-      type: string;
-    };
-    href: string;
-  };
-}
-
+import {
+  selectedNoticeApplyApiResponse,
+  selectedNoticeApplyStatusSettingApiResponse,
+} from "@/util/api";
+/**
+ * @param {boolean} isClosed post데이터에서 closed를 받아, 현재 공고가 마감된 상태인지를 표시하는 인자입니다.
+ * @param {string} shopId 현재 공고의 아이디를 받아 해당 아이디에 해당하는 동작을 실행 시킬 것으로 예상되는 인자입니다.
+ * @param {string} postId 현재 공고의 아이디를 받아 해당 아이디에 해당하는 동작을 실행 시킬 것으로 예상되는 인자입니다.
+ * @returns
+ */
 const StoreDetailButtons = ({
   isClosed,
-  id,
+  shopId,
+  postId,
 }: {
   isClosed: boolean;
-  id: string;
+  shopId: string;
+  postId: string;
 }) => {
   const pathName = usePathname();
   const router = useRouter();
@@ -53,40 +50,36 @@ const StoreDetailButtons = ({
             공고 등록하기
           </Button>
         </div>
+      ) : isClosed ? (
+        <Button size="full" color="gray">
+          {isUserEmployer ? "마감함" : "신청 불가"}
+        </Button>
       ) : isUserEmployer ? (
+        <Button
+          size="full"
+          color="white"
+          onClick={() => router.push(`/employer/post/edit/${postId}`)}
+        >
+          공고 편집
+        </Button>
+      ) : (
         <>
-          {isClosed ? (
-            <Button size="full" color="gray">
-              마감
+          {isUserSignToWork ? (
+            <Button
+              size="full"
+              color="white"
+              // onClick={() => selectedNoticeApplyStatusSettingApiResponse(shopId, postId, 추가필요)}
+            >
+              취소하기
             </Button>
           ) : (
             <Button
               size="full"
-              color="gray"
-              onClick={() => router.push(`/employer/post/edit/${id}`)}
+              color="red"
+              onClick={() => selectedNoticeApplyApiResponse(shopId, postId)}
             >
-              공고 편집
+              신청하기
             </Button>
-          )}
-        </>
-      ) : (
-        <>
-          {isClosed ? (
-            <Button size="full" color="gray">
-              신청 불가
-            </Button>
-          ) : (
-            <>
-              {isUserSignToWork ? (
-                <Button size="full" color="white">
-                  취소하기
-                </Button>
-              ) : (
-                <Button size="full" color="red">
-                  신청하기
-                </Button>
-              )}
-            </>
           )}
         </>
       )}

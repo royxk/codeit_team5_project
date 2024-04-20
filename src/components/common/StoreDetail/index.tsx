@@ -56,8 +56,6 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
   const shopData = isPostPage ? item.shop.item : item;
   const isClosed = isPostPage ? item.closed : false;
 
-  const assignedWorkers = STORE_DETAIL_ASSIGNED.items;
-
   return (
     <div className="max-w-[60.25rem]">
       <StoreDetailCardBorder isBgWhite={isPostPage}>
@@ -109,7 +107,11 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
               value={shopData.description}
             />
           </div>
-          <StoreDetailButtons isClosed={isClosed} id={item.id} />
+          <StoreDetailButtons
+            isClosed={isClosed}
+            shopId={shopData.id}
+            postId={item.id}
+          />
         </section>
       </StoreDetailCardBorder>
       {isPostPage ? (
