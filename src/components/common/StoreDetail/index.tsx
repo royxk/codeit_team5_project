@@ -75,10 +75,10 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
               <h1 className="body1-bold mob:body2-bold text-primary">
                 {isPostPage ? "시급" : "가게"}
               </h1>
-              <div className="mt-2 flex items-center gap-2">
+              <div className="mt-2 flex items-center gap-2 mob:gap-1">
                 <h2 className="h1 mob:h2">{cardTitle}</h2>
                 {isPostPage && (
-                  <a className="body2-bold flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white">
+                  <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
                     기존 시급보다{" "}
                     {(
                       (item.hourlyPay / item.shop.item.originalHourlyPay) *
@@ -122,9 +122,13 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
         </section>
       </StoreDetailCardBorder>
       {isPostPage ? (
-        <div className="mt-6 w-full bg-gray-10 p-8">
-          <h6 className="body1-bold">공고 설명</h6>
-          <p className="body1 mt-3">{item.description}</p>
+        <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
+          <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
+          <textarea
+            className="body1 mob:body2 mt-3 h-min resize-none"
+            value={item.description}
+            disabled
+          />
         </div>
       ) : (
         <></>
