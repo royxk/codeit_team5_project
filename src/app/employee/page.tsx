@@ -1,14 +1,12 @@
 import Button from "@/components/common/Button";
+import EmployeeTable from "@/components/common/EmployeeTable";
 import Link from "next/link";
 
-type Props = {};
-
-const Employee = (props: Props) => {
+const Employee = () => {
   return( 
     <>
-      <h1>프로필 navbar</h1>
-      <header className="flex flex-col justify-start items-center w-full mb-[459px] tab:mb-[568px]">
-        <div className="flex flex-col gap-6 py-[60px]">
+      <div className="flex flex-col justify-start items-center w-full">
+        <header className="flex flex-col gap-6 py-[60px]">
           <h1 className="h1">내 프로필</h1>
           <div>
             <div className="flex flex-col items-center gap-6 w-[964px] border border-gray-20 rounded-lg px-6 py-[60px] tab:w-[632px] mob:text-sm mob:w-[350px]">
@@ -18,8 +16,14 @@ const Employee = (props: Props) => {
               </Link>
             </div>
           </div>
+        </header>
+      </div>
+      <div className="flex flex-col justify-start items-center bg-gray-5 pt-[60px] pb-[120px]">
+        <div className="flex flex-col gap-8 tab:w-[632px] mob:w-[350px]">
+          <h1 className="h1">신청 내역</h1>
+          <EmployeeTable />
         </div>
-      </header>
+      </div>
     </>
   );
 };
