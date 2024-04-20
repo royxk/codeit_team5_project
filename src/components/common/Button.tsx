@@ -16,11 +16,11 @@ function colorCssString(color: Color) {
   let colorCss;
   switch (color) {
     case "red":
-      colorCss = "bg-btn-red text-white";
+      colorCss = "bg-primary text-white";
       break;
 
     case "white":
-      colorCss = "bg-white text-btn-red border-[1px] border-btn-red";
+      colorCss = "bg-white text-primary border-[1px] border-primary";
       break;
 
     case "gray":
@@ -28,7 +28,7 @@ function colorCssString(color: Color) {
       break;
 
     default:
-      colorCss = "bg-btn-red text-white";
+      colorCss = "bg-primary text-white";
       break;
   }
   return colorCss;
