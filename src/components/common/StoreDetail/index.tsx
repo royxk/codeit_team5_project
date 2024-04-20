@@ -37,18 +37,23 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
   if (item === undefined)
     return (
-      <StoreDetailCardBorder isBgWhite={true}>
-        <div className="body1 m-auto py-9 text-center">
-          내 가게를 소개하고 공고도 등록해 보세요.
-          <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
-            <Link href={"/employer/assign"}>
-              <Button size="full" color="red" className="mob:body2-bold">
-                가게 등록하기
-              </Button>
-            </Link>
-          </div>
-        </div>{" "}
-      </StoreDetailCardBorder>
+      <>
+        <h1 className="h1 mob:h3 mob:body2-bold mb-6 text-black mob:mb-4">
+          내 가게
+        </h1>
+        <StoreDetailCardBorder isBgWhite={true}>
+          <div className="body1 m-auto py-9 text-center">
+            내 가게를 소개하고 공고도 등록해 보세요.
+            <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
+              <Link href={"/employer/assign"}>
+                <Button size="full" color="red" className="mob:body2-bold">
+                  가게 등록하기
+                </Button>
+              </Link>
+            </div>
+          </div>{" "}
+        </StoreDetailCardBorder>
+      </>
     );
 
   const isPostPage = "shop" in item;
