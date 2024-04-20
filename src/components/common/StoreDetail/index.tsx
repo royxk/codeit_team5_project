@@ -25,9 +25,16 @@ function formatDate(startsAt: string, workhour: number): string[] {
   ];
 }
 
+/**
+ *
+ * @param data 현재 가게나 해당 공고 요청한 api 리스폰스를 받아올 것으로 예상되는 인자입니다.
+ * @description data.item이 존재하지 않을 경우 undefined를 반환하는 점을 이용해 가게 페이지에서의 가게 추가 기능 또한 겸할 예정입니다. 알바생의 가게 생성을 방지하기 위해, 유효하지 않은 공고 페이지로의 접근의 경우 상위 웹페이지 단에서의 리다이렉트가 필요합니다.
+ * @returns
+ */
 const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
   const item = data?.item;
 
+  // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
   if (item === undefined)
     return (
       <StoreDetailCardBorder isBgWhite={true}>
