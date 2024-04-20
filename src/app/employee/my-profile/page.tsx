@@ -1,15 +1,26 @@
+'use client';
+import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
-import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
+import Image from 'next/image';
+import closeIcon from '/public/close.svg';
+import { useRouter } from 'next/navigation';
 
 const RegisterProfile = () => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/employee');
+  }
+
   return (
     <>
       <h1>프로필 navbar</h1>
-      <div className='flex flex-col items-center gap-8 py-[60px]'>
+      <div className='flex flex-col items-center gap-8 py-[60px] bg-gray-5'>
         <div className='flex justify-between w-[964px]'>
           <h1 className='h1'>내 프로필</h1>
-          <button>x버튼</button>
+          <button type='button' onClick={handleClick}>
+            <Image src={closeIcon} alt='closeBtn'/>
+          </button>
         </div>
         <form className='grid grid-cols-3 gap-5 w-[964px]'>
           <div>
