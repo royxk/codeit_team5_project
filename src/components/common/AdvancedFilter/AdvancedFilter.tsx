@@ -4,11 +4,27 @@ import LocationBox from "./LocationBox";
 import Button from "../Button";
 import SelectedLocationBox from "./SelectedLocationBox";
 
-function AdvancedFilter() {
-  const [locations, setLocations] = React.useState<string[]>([]);
-  const [startDate, setStartDate] = React.useState<string>("");
-  const [price, setPrice] = React.useState<string>("");
+interface AdvancedFilterProps {
+  onClick: () => void;
+  setcount?: (count: number) => void;
+  locations: string[];
+  startDate: string;
+  price: string;
+  setLocations: (locations: string[]) => void;
+  setStartDate: (startDate: string) => void;
+  setPrice: (price: string) => void;
+}
 
+function AdvancedFilter({
+  onClick,
+  setcount,
+  locations,
+  startDate,
+  price,
+  setLocations,
+  setStartDate,
+  setPrice,
+}: AdvancedFilterProps) {
   const addLocation = (location: string): void => {
     if (locations.includes(location)) {
       setLocations(locations.filter((loc) => loc !== location));
@@ -28,6 +44,7 @@ function AdvancedFilter() {
       startDate: startDate,
       price: price,
     };
+    setcount && setcount(locations.length);
     console.log(filterData);
   };
 
@@ -35,15 +52,16 @@ function AdvancedFilter() {
     setLocations([]);
     setStartDate("");
     setPrice("");
+    setcount && setcount(0);
   };
 
   return (
     <div
-      className={`round flex w-96 flex-col gap-4 rounded-xl border-2 px-5 py-6`}
+      className={`flex w-96 flex-col gap-4 rounded-xl border-2 px-5 py-6 tab:w-full`}
     >
       <div className={`flex flex-row justify-between`}>
         <div>상세필터</div>
-        <div>닫기</div>
+        <div onClick={onClick}>닫기</div>
       </div>
       <div>
         <div>위치</div>
@@ -72,6 +90,7 @@ function AdvancedFilter() {
               className={`focus:outline-none`}
               placeholder="입력"
               type="number"
+              defaultValue={Number(price)}
               onChange={(e) => setPrice(e.target.value)}
             />
             <div className={``}>원</div>
