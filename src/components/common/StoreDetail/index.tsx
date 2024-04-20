@@ -7,6 +7,24 @@ import { STORE_DETAIL_ASSIGNED } from "@/util/constants/STORE_DETAIL_ASSIGNED";
 import StoreDetailCardBorder from "./StoreDetailCardBorder";
 import Link from "next/link";
 
+function formatDate(startsAt: string, workhour: number): string[] {
+  const start = new Date(startsAt);
+  const end = new Date(start.getTime() + workhour * 3600000);
+
+  // Ensuring month and day are two digits
+  const formattedMonth = (start.getMonth() + 1).toString().padStart(2, "0");
+  const formattedDay = start.getDate().toString().padStart(2, "0");
+  const formattedStartHours = start.getHours().toString().padStart(2, "0");
+  const formattedStartMinutes = start.getMinutes().toString().padStart(2, "0");
+  const formattedEndHours = end.getHours().toString().padStart(2, "0");
+  const formattedEndMinutes = end.getMinutes().toString().padStart(2, "0");
+
+  return [
+    `${start.getFullYear()}-${formattedMonth}-${formattedDay} `,
+    `${formattedStartHours}:${formattedStartMinutes}~${formattedEndHours}:${formattedEndMinutes} (${workhour}시간)`,
+  ];
+}
+
 const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
   const item = data?.item;
 
@@ -25,44 +43,84 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
         </div>{" "}
       </StoreDetailCardBorder>
     );
-  const isPostPage = "shop" in item;
 
-  const cardTitle = isPostPage ? item.workhour : item.name;
+  const isPostPage = "shop" in item;
+  const cardTitle = isPostPage
+    ? `${item.hourlyPay.toLocaleString()}원`
+    : item.name;
   const imageUrl = isPostPage ? item.shop.item.imageUrl : item?.imageUrl;
+  const workHour = isPostPage
+    ? formatDate(item.startsAt, item.workhour)
+    : "false";
+
   const shopData = isPostPage ? item.shop.item : item;
   const isClosed = isPostPage ? item.closed : false;
 
   const assignedWorkers = STORE_DETAIL_ASSIGNED.items;
 
   return (
-    <StoreDetailCardBorder isBgWhite={isPostPage}>
-      <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
-        <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
-      </div>
-      <section
-        className="flex min-w-[21.625rem] flex-col justify-between pt-4 
-                  tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3"
-      >
-        <div className="flex flex-col gap-3">
-          <div>
-            <h1 className="body1-bold mob:body2-bold text-primary">
-              {isPostPage ? "시급" : "가게"}
-            </h1>
-            <h2 className="h1 mob:h2 mt-2">{cardTitle}</h2>
-          </div>
-          {isPostPage && (
-            <p className="body1 mob:body2 text-gray-50">{item.startsAt}</p>
-          )}
-          <p className="body1 mob:body2 text-gray-50">{shopData.address1}</p>
-          <textarea
-            disabled
-            className={`body1 mob:body2 w-full overflow-y-scroll bg-transparent ${isPostPage ? "h-16" : "h-20"}`}
-            value={shopData.description}
-          />
+    <div className="max-w-[60.25rem]">
+      <StoreDetailCardBorder isBgWhite={isPostPage}>
+        <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
+          <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
         </div>
-        <StoreDetailButtons isClosed={isClosed} id={item.id} />
-      </section>
-    </StoreDetailCardBorder>
+        <section className="flex min-w-[21.625rem] flex-col justify-between pt-4 tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3">
+          <div className="flex flex-col gap-3">
+            <div>
+              <h1 className="body1-bold mob:body2-bold text-primary">
+                {isPostPage ? "시급" : "가게"}
+              </h1>
+              <div className="mt-2 flex items-center gap-2">
+                <h2 className="h1 mob:h2">{cardTitle}</h2>
+                {isPostPage && (
+                  <a className="body2-bold flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white">
+                    기존 시급보다{" "}
+                    {(
+                      (item.hourlyPay / item.shop.item.originalHourlyPay) *
+                      100
+                    ).toFixed(0)}
+                    %
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {isPostPage && (
+              <div className="flex items-center">
+                <div className="flex-rwo relative mr-1 h-5 w-5 ">
+                  <Image src={"/post/time.svg"} alt="" fill />
+                </div>
+                <a className="body1 mob:body2 text-gray-50">{workHour}</a>
+              </div>
+            )}
+
+            <div className="flex items-center">
+              <div className="flex-rwo relative mr-1 h-5 w-5 ">
+                <Image src={"/post/location.svg"} alt="" fill />
+              </div>
+              <p className="body1 mob:body2 text-gray-50">
+                {shopData.address1}
+              </p>
+            </div>
+
+            <textarea
+              disabled
+              className={`body1 mob:body2 w-full resize-none overflow-y-scroll bg-transparent ${isPostPage ? "h-16" : "h-20"}`}
+              value={shopData.description}
+            />
+          </div>
+          <StoreDetailButtons isClosed={isClosed} id={item.id} />
+        </section>
+      </StoreDetailCardBorder>
+      {isPostPage ? (
+        <div className="mt-6 w-full bg-gray-10 p-8">
+          <h6 className="body1-bold">공고 설명</h6>
+          <p className="body1 mt-3">{item.description}</p>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 };
 
