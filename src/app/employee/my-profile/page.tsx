@@ -14,7 +14,6 @@ const RegisterProfile = () => {
 
   return (
     <>
-      <h1>프로필 navbar</h1>
       <div className='flex flex-col items-center gap-8 py-[60px] bg-gray-5'>
         <div className='flex justify-between w-[964px]'>
           <h1 className='h1'>내 프로필</h1>
