@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
 import { NoticeResponse } from "@/app/page";
-import { Query, searchNoticeApiResponse } from "@/util/api";
+import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 
 const CustomNotice = () => {
