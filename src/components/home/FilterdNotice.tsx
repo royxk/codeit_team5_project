@@ -43,7 +43,7 @@ const FilterdNotice = () => {
 
   return (
     <>
-      <div className="grid w-full grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
+      <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
         {filterdNoticeList?.items.map((item, index) => (
           <Post
             key={index}
