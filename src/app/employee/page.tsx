@@ -24,35 +24,37 @@ const Employee = () => {
             </div>
           </header>
         :
-          <header className="flex flex-col gap-6 py-[60px] mob:gap-4">
+          <header className="flex flex-col gap-6 py-[60px] mob:gap-4 mob:py-10">
             <h1 className="h1 mob:h2">내 프로필</h1>
-            <div className="relative flex flex-col gap-[28px] w-[964px] bg-red-10 border-none rounded-lg p-8 tab:w-[632px] mob:text-sm mob:w-[350px] mob:p-5">
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-col gap-2">
-                  <span className="body1-bold text-primary">이름</span>
-                  <h1 className="h1 text-black">{name}</h1>
+            <div className="relative">
+              <div className="flex flex-col gap-[28px] w-[964px] bg-red-10 border-none rounded-lg p-8 tab:w-[632px] mob:text-sm mob:w-[350px] mob:p-5 mob:gap-5">
+                <div className="flex flex-col gap-3 mob:gap-2">
+                  <div className="flex flex-col gap-2">
+                    <span className="body1-bold text-primary">이름</span>
+                    <h1 className="h1 text-black mob:h2">{name}</h1>
+                  </div>
+                  <div className="flex gap-[6px] text-gray-50">
+                    <Image src={phoneIcon} alt="phone-icon" />
+                    <span className="body1">{phone}</span>
+                  </div>
+                  <div className="flex gap-[6px] text-gray-50">
+                    <Image src={locationIcon} alt="location-icon" />
+                    <div className="body1">선호 지역: {address}</div>
+                  </div>
                 </div>
-                <Link href='/employee/my-profile'>
-                  <Button size="medium" color="white" className="absolute top-8 right-8 text-base px-[55px] py-[14px] mob:px-5 mob:py-[10px] mob:font-bold mob:text-sm">
-                    편집하기
-                  </Button>
-                </Link>
-                <div className="flex gap-[6px] text-gray-50">
-                  <Image src={phoneIcon} alt="phone-icon" />
-                  <span className="body1">{phone}</span>
-                </div>
-                <div className="flex gap-[6px] text-gray-50">
-                  <Image src={locationIcon} alt="location-icon" />
-                  <div className="body1">선호 지역: {address}</div>
-                </div>
+                <p className="body1 text-black">{bio}</p>
               </div>
-              <p className="body1 text-black">{bio}</p>
+              <Link href='/employee/my-profile'>
+                <Button size="medium" color="white" className="absolute top-8 right-8 text-base px-[55px] py-[14px] mob:px-5 mob:py-[10px] mob:top-5 mob:right-5 mob:font-bold mob:text-sm">
+                  편집하기
+                </Button>
+              </Link>
             </div>
           </header>
         }
       </div>
     {!isProfileData && 
-      <div className="flex flex-col justify-start items-center bg-gray-5 pt-[60px] pb-[120px]">
+      <div className="flex flex-col justify-start items-center bg-gray-5 pt-[60px] pb-[120px] mob:pt-10 mob:pb-20">
         <div className="flex flex-col gap-8 tab:w-[632px] mob:w-[350px] mob:gap-4">
           <h1 className="h1 mob:h2">신청 내역</h1>
           <EmployeeTable />
