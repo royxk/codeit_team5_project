@@ -1,9 +1,9 @@
 import React from "react";
 
-type Props = {};
+const Toast = () => (
+  <div className="m-20 flex h-12 w-28 items-center justify-center rounded-md bg-red-30 px-4 text-base font-normal text-white">
+    거절했어요
+  </div>
+);
 
-const Signup = (props: Props) => {
-  return <h1>회원가입</h1>;
-};
-
-export default Signup;
+export default Toast;
