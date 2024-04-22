@@ -35,6 +35,7 @@ export default function Home() {
               <div>상세 필터</div>
             </div>
           </div>
+          {/* <div className="grid w-full grid-cols-3 gap-x-[14px] gap-y-[31px]"></div> */}
           <PostTest />
           {/* <Pagination rawPageData={} setCurrentPageData={} /> */}
         </div>
