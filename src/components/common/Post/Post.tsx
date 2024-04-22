@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import SvgTimeComponent from "./svgTimeComponent";
+import SvgTimeComponent from "./SvgTimeComponent";
 import SvgLocationComponent from "./SvgLocationComponent";
 import SvgArrowComponent from "./SvgArrowComponent";
 
