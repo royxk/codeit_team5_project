@@ -1,7 +1,5 @@
-import BasicFilter from "@/components/home/BasicFilter";
 import CustomNotice from "@/components/home/CustomNotice";
-import FilterdNotice from "@/components/home/FilterdNotice";
-import AdvancedFilterComponent from "@/components/common/AdvancedFilter/AdvancedFilterComponent";
+import NoticeMain from "@/components/home/NoticeMain";
 
 export interface NoticeResponse {
   offset: number;
@@ -56,18 +54,7 @@ export default function Home() {
           <CustomNotice />
         </div>
       </section>
-      <section className="flex justify-center py-[60px]">
-        <div className="flex max-w-[964px] flex-col items-center">
-          <div className="flex w-full justify-between pb-[31px] text-left text-[28px] font-bold tracking-[0.56px]">
-            <h1>전체공고</h1>
-            <div className="flex h-[42px] items-center gap-[10px]">
-              <BasicFilter />
-              <AdvancedFilterComponent />
-            </div>
-          </div>
-          <FilterdNotice />
-        </div>
-      </section>
+      <NoticeMain />
     </>
   );
 }
