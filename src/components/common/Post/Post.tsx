@@ -3,11 +3,10 @@ import Image from "next/image";
 import SvgTimeComponent from "./SvgTimeComponent";
 import SvgLocationComponent from "./SvgLocationComponent";
 import SvgArrowComponent from "./SvgArrowComponent";
+import Tooltip from "./Tooltip";
 
-//TODO: Click Event needed
-//TODO: Need to get data about "compare hourly pay" from backend
-//TODO: 이미지 사이즈 수정해야함
-//TODO: SVG 파일 불러오기
+//TODO: 회색 텍스트 같이 만들기
+//TODO:
 
 interface PostProps {
   imgUrl: string;
@@ -38,7 +37,7 @@ const Post = ({
     >
       <div className={`relative h-[160px]`}>
         {!state && (
-          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black opacity-80">
+          <div className="absolute inset-0 z-50 flex items-center justify-center rounded-xl bg-black opacity-80">
             <div className="p-2 text-center font-Spoqa text-3xl font-bold text-white mob:text-xl">
               지난 공고
             </div>
@@ -62,20 +61,21 @@ const Post = ({
           >
             {shopName}
           </div>
+
           <div className={`flex flex-row items-start gap-4 mob:gap-3`}>
             <SvgTimeComponent color={state ? "#FFAF9B" : "#CBC9CF"} />
 
-            <div className="gap- flex flex-row gap-4 mob:flex-col mob:gap-1  mob:gap-1">
+            <div className="gap- flex flex-row gap-4 mob:flex-col mob:gap-1">
               <div
-                className={`text-sm text-gray-50 mob:text-xs ${
-                  state ? "" : "text-gray-30"
+                className={`text-sm mob:text-xs ${
+                  state ? "text-gray-50" : "text-gray-30"
                 }`}
               >
                 {startTime}
               </div>
               <div
-                className={`text-sm text-gray-50 mob:text-xs ${
-                  state ? "" : "text-gray-30"
+                className={`text-sm  mob:text-xs ${
+                  state ? "text-gray-50" : "text-gray-30"
                 }`}
               >
                 {startHour}
@@ -85,42 +85,53 @@ const Post = ({
           <div className="flex flex-row gap-4">
             <SvgLocationComponent color={state ? "#FFAF9B" : "#CBC9CF"} />
             <div
-              className={`text-sm text-gray-50 mob:text-[12px] ${state ? "" : "text-gray-30"}`}
+              className={`text-sm mob:text-[12px] ${state ? "text-gray-50 " : "text-gray-30"}`}
             >
               {address1}
             </div>
           </div>
         </div>
         <div
-          className={`flex items-center justify-between gap-4 whitespace-nowrap mob:flex-col mob:items-start mob:gap-0`}
+          className={`flex w-full items-center justify-between gap-2 whitespace-nowrap mob:flex-col mob:items-start mob:gap-0`}
         >
-          <div
-            className={`w-[110px] truncate text-[22px] font-bold mob:text-[18px]  ${state ? "" : "text-gray-30"}`}
-          >
-            {hourlyPay.toLocaleString()}원
-          </div>
-          <div
-            className={`flex ${state ? "" : "w-fit"} w-[168px] rounded-3xl p-3 text-sm font-bold text-white mob:w-[130px] mob:bg-white mob:p-0 mob:font-light mob:text-red-40 ${
-              state ? "bg-red-40" : "bg-gray-30 mob:text-gray-30"
-            }`}
-          >
-            {state ? (
-              <div className="w-[145px] truncate mob:text-[12px]">{`기존 시급보다 100%`}</div>
-            ) : (
-              <span className={`${state ? "" : "text-white mob:text-gray-30"}`}>
-                <span className="hidden text-gray-30 mob:inline mob:text-[12px]">
-                  기존 시급보다{" "}
-                </span>
-                100%
-              </span>
-            )}
-            <div className="mob:hidden">
-              <SvgArrowComponent color={"#FFFFFF"} />
+          <Tooltip content={`${hourlyPay.toLocaleString()}원`}>
+            <div
+              className={`w-[110px] truncate text-[22px] font-bold mob:text-[18px]  ${state ? "" : "text-gray-30"}`}
+            >
+              {hourlyPay.toLocaleString()}원
             </div>
-            <div className="hidden mob:inline">
-              <SvgArrowComponent color={state ? "#FF4040" : "#CBC9CF"} />
+          </Tooltip>
+          <Tooltip content={`기존 시급보다 100%`}>
+            <div
+              className={`flex ${state ? "w-[168px]" : "w-fit"} rounded-3xl p-3 text-sm font-bold text-white mob:w-[130px] mob:bg-white mob:p-0 mob:font-light mob:text-red-40 ${
+                state ? "bg-red-40" : "bg-gray-30 mob:text-gray-30"
+              }`}
+            >
+              {state ? (
+                <div className="w-[145px] truncate mob:text-[12px]">{`기존 시급보다 100%`}</div>
+              ) : (
+                <div className="w-[45px] truncate mob:flex mob:w-[140px] mob:flex-row">
+                  <span
+                    className={`${state ? "" : "text-white mob:text-gray-30"}`}
+                  >
+                    <span className="hidden text-gray-30 mob:inline mob:text-[12px]">
+                      기존 시급보다{" "}
+                    </span>
+                    {`1000%`}
+                  </span>
+                  <div className="hidden mob:inline">
+                    <SvgArrowComponent color={state ? "#FF4040" : "#CBC9CF"} />
+                  </div>
+                </div>
+              )}
+              <div className="mob:hidden">
+                <SvgArrowComponent color={"#FFFFFF"} />
+              </div>
+              <div className="hidden mob:inline">
+                <SvgArrowComponent color={state ? "#FF4040" : "#CBC9CF"} />
+              </div>
             </div>
-          </div>
+          </Tooltip>
         </div>
       </div>
     </div>
