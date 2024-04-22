@@ -31,7 +31,7 @@ const Post = ({
 }: PostProps): React.ReactElement => {
   return (
     <div
-      className={`flex w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-48 mob:gap-2 mob:p-3 ${
+      className={`flex w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-[171px] mob:gap-2 mob:p-3 ${
         state && "hover:border-red-40"
       }`}
     >
