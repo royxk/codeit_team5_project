@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/common/Footer";
+import GNB from "@/components/common/GNB";
 
 export const metadata: Metadata = {
   title: "더 줄게",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
+        <GNB user="logout" />
         <main>{children}</main>
         <Footer />
       </body>
