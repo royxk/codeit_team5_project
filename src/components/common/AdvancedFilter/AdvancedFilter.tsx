@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
+import React, { useEffect } from "react";
 import LocationBox from "./LocationBox";
 import Button from "../Button";
 import SelectedLocationBox from "./SelectedLocationBox";
+import SvgCloseButton from "./SvgCloseButton";
 
 interface AdvancedFilterProps {
   onClick: () => void;
@@ -25,13 +25,24 @@ function AdvancedFilter({
   setStartDate,
   setPrice,
 }: AdvancedFilterProps) {
+  // Function to calculate and update the count based on current state
+  const updateCount = () => {
+    let newCount = locations.length; // Start with the number of locations
+    if (startDate) newCount += 1; // Add one if there's a valid startDate
+    if (price && Number(price) > 0) newCount += 1; // Add one if price is a positive number
+    setcount && setcount(newCount);
+  };
+
+  // Effect to handle inputs and locations changes
+  useEffect(() => {
+    updateCount();
+  }, [locations, startDate, price]);
+
   const addLocation = (location: string): void => {
-    if (locations.includes(location)) {
-      setLocations(locations.filter((loc) => loc !== location));
-      return;
-    }
-    setLocations([...locations, location]);
-    console.log(locations);
+    const newLocations = locations.includes(location)
+      ? locations.filter((loc) => loc !== location)
+      : [...locations, location];
+    setLocations(newLocations);
   };
 
   const deleteLocation = (location: string): void => {
@@ -44,7 +55,6 @@ function AdvancedFilter({
       startDate: startDate,
       price: price,
     };
-    setcount && setcount(locations.length);
     console.log(filterData);
   };
 
@@ -52,18 +62,19 @@ function AdvancedFilter({
     setLocations([]);
     setStartDate("");
     setPrice("");
-    setcount && setcount(0);
   };
 
   return (
     <div
-      className={`flex w-96 flex-col gap-4 rounded-xl border-2 px-5 py-6 tab:w-full`}
+      className={`z-50 flex w-96 flex-col gap-4 rounded-xl border-2 bg-white px-5 py-6 mob:w-full mob:rounded-none mob:border-none`}
     >
       <div className={`flex flex-row justify-between`}>
-        <div>상세필터</div>
-        <div onClick={onClick}>닫기</div>
+        <div className={`text-[20px] font-bold`}>상세필터</div>
+        <div onClick={onClick}>
+          <SvgCloseButton />
+        </div>
       </div>
-      <div>
+      <div className={`flex flex-col gap-2`}>
         <div>위치</div>
         <LocationBox selectedLocations={locations} handleClick={addLocation} />
         <SelectedLocationBox
@@ -71,16 +82,17 @@ function AdvancedFilter({
           handleClick={deleteLocation}
         />
       </div>
-      <div>
+      <div className={`flex flex-col gap-2 border-t-2 py-4`}>
         <div>시작일</div>
         <input
           className={`h-16 w-full rounded-xl border px-4 focus:outline-none`}
           placeholder="입력"
           type="date"
+          value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         ></input>
       </div>
-      <div className={`flex w-full flex-col gap-3`}>
+      <div className={`flex w-full flex-col gap-3 border-t-2 py-4`}>
         <div>금액</div>
         <div className={`flex w-full flex-row items-center gap-2`}>
           <div
@@ -90,17 +102,19 @@ function AdvancedFilter({
               className={`focus:outline-none`}
               placeholder="입력"
               type="number"
-              defaultValue={Number(price)}
+              value={price}
               onChange={(e) => setPrice(e.target.value)}
             />
-            <div className={``}>원</div>
+            <div>원</div>
           </div>
           <div>이상부터</div>
         </div>
       </div>
-      <div className={`flex w-full flex-row justify-between gap-3`}>
+      <div
+        className={`flex w-full flex-row justify-between gap-3 mob:sticky mob:bottom-4 mob:border-t-2 mob:bg-white mob:pt-5`}
+      >
         <Button
-          className={`w-16`}
+          className={`w-[82px]`}
           color="white"
           size="full"
           onClick={handleReset}
