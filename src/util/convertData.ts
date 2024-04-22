@@ -4,6 +4,7 @@ type ApplyListApiResponse = {
   items:
     {
       item: {
+        id: string;
         status: string;
         shop: {
           item: {
@@ -62,9 +63,9 @@ export interface EmployerTableData extends CommonData {
 //Table 컴포넌트에서 사용할 수 있도록 데이터를 변환하는 함수.
 export const convertEmployeeTableData = (responseData: ApplyListApiResponse): EmployeeTableData[] => {
   return responseData.items.map((data) => {
-    const { shop, notice, status } = data.item;
+    const { id, shop, notice, status } = data.item;
     return {
-      "apply_id": notice.item.id,
+      "apply_id": id,
       "shopName": shop.item.name,
       "hourlyPay": notice.item.hourlyPay,
       "startsAt": notice.item.startsAt,

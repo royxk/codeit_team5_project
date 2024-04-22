@@ -45,7 +45,7 @@ const StatusLabel = ({ status }: StatusLabelProp) => {
   const statusCss = StatusCssString(status);
   const labelName = LabelString(status);
   return (
-    <div className={`${statusCss} border-none rounded-[20px] text-center px-[10px] py-[6px] font-bold text-sm`}>
+    <div className={`${statusCss} border-none rounded-[20px] text-center px-[10px] py-[6px] font-bold text-sm mob:font-normal`}>
       {labelName}
     </div>
   );

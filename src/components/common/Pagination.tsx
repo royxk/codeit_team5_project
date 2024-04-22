@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 interface PaginationProps {
   rawPageData: unknown[];
-  setCurrentPageData: (currentPageData: unknown[]) => void;
+  setCurrentPageData: (currentPageData: number) => void;
   pageItemLimit?: number;
 }
 
@@ -86,7 +86,7 @@ const Pagination = ({
   const handlePageNumberChange = (index: number) => {
     handlePageList(index);
     setCurrentPage(index);
-    setCurrentPageData(pageData[index]);
+    setCurrentPageData(index);
   };
 
   // 페이지 숫자 양 옆의 화살표 버튼 클릭 시 실행할 함수

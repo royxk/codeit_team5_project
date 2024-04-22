@@ -116,7 +116,7 @@ body {
   }
 
   .h4 {
-    @apply text-lg leading-normal;
+    @apply text-lg font-normal leading-normal;
   }
 
   .h4-bold {
@@ -124,7 +124,7 @@ body {
   }
 
   .body1 {
-    @apply text-base leading-[1.625rem];
+    @apply text-base font-normal leading-[1.625rem];
   }
 
   .body1-bold {
@@ -132,7 +132,7 @@ body {
   }
 
   .body2 {
-    @apply text-sm leading-[1.57rem];
+    @apply text-sm font-normal leading-[1.57rem];
   }
 
   .body2-bold {
@@ -140,7 +140,7 @@ body {
   }
 
   .caption {
-    @apply text-xs leading-[1.33rem];
+    @apply text-xs font-normal leading-[1.33rem];
   }
 }
 
