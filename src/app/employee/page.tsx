@@ -8,6 +8,7 @@ import { USER_TEST_DATA } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
 
 const Employee = () => {
   const isProfileData = Object.keys(USER_TEST_DATA.item).length <= 3;
+  const { name, phone, address, bio } = USER_TEST_DATA.item;
 
   return( 
     <>
@@ -29,21 +30,21 @@ const Employee = () => {
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
                   <span className="body1-bold text-primary">이름</span>
-                  <h1 className="h1 text-black">김승우</h1>
+                  <h1 className="h1 text-black">{name}</h1>
                 </div>
                 <Link href='/employee/my-profile'>
                   <Button size="medium" color="white" className="absolute top-8 right-8">편집하기</Button>
                 </Link>
                 <div className="flex gap-[6px] text-gray-50">
                   <Image src={phoneIcon} alt="phone-icon" />
-                  <span className="body1">010-1234-5678</span>
+                  <span className="body1">{phone}</span>
                 </div>
                 <div className="flex gap-[6px] text-gray-50">
                   <Image src={locationIcon} alt="location-icon" />
-                  <span className="body1">선호 지역: 서울시 도봉구</span>
+                  <div className="body1">선호 지역: {address}</div>
                 </div>
               </div>
-              <p className="body1 text-black">열심히 일 하겠습니다.</p>
+              <p className="body1 text-black">{bio}</p>
             </div>
           </header>
         }
