@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="tab:px-8">
+      <body className="tab:px-8 mob:px-3">
         <GNB user="logout" />
         <main>{children}</main>
         <Footer />
