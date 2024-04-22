@@ -52,7 +52,7 @@ const CustomNotice = () => {
       <>
         {
           <div className="flex w-full snap-x items-start gap-[14px] overflow-x-scroll hide-scrollbar">
-            {[...Array(3)].map((_, index) => (
+            {[...Array(5)].map((_, index) => (
               <PostSkeleton key={index} />
             ))}
           </div>

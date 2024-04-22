@@ -32,7 +32,7 @@ const FilterdNotice = () => {
     return (
       <>
         {
-          <div className="flex w-full snap-x items-start gap-[14px] overflow-x-scroll hide-scrollbar">
+          <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
             {[...Array(6)].map((_, index) => (
               <PostSkeleton key={index} />
             ))}
@@ -43,7 +43,7 @@ const FilterdNotice = () => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
+      <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] pb-10 tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
         {filterdNoticeList?.items.map((item, index) => (
           <Post
             key={index}

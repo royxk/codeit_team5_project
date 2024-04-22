@@ -49,7 +49,7 @@ const BasicFilter = () => {
     >
       <button
         type="button"
-        className="inline-flex w-full justify-between gap-x-1.5 whitespace-nowrap rounded-md bg-gray-10 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-gray-300"
+        className="inline-flex w-full justify-between gap-x-1.5 whitespace-nowrap rounded-md bg-gray-10 px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-gray-300"
         id="menu-button"
         aria-expanded={!isHidden}
         aria-haspopup="true"
@@ -60,7 +60,7 @@ const BasicFilter = () => {
       <div
         ref={filterRef}
         onClick={handleFilterSelectedClick}
-        className={`absolute right-0 top-9 z-10 mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
+        className={`absolute right-0 top-7 z-10 mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
