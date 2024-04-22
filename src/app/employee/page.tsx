@@ -33,7 +33,9 @@ const Employee = () => {
                   <h1 className="h1 text-black">{name}</h1>
                 </div>
                 <Link href='/employee/my-profile'>
-                  <Button size="medium" color="white" className="absolute top-8 right-8">편집하기</Button>
+                  <Button size="medium" color="white" className="absolute top-8 right-8 text-base px-[55px] py-[14px] mob:px-5 mob:py-[10px] mob:font-bold mob:text-sm">
+                    편집하기
+                  </Button>
                 </Link>
                 <div className="flex gap-[6px] text-gray-50">
                   <Image src={phoneIcon} alt="phone-icon" />
