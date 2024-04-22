@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <>
       <section className="flex justify-center bg-red-10 py-[60px]">
-        <div className="flex max-w-[964px] flex-col items-center">
+        <div className="flex max-w-[964px] flex-col items-start">
           <h1 className="w-[964px] pb-[31px] text-left text-[28px] font-bold tracking-[0.56px]">
             맞춤공고
           </h1>

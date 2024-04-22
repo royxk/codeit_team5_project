@@ -63,7 +63,7 @@ const CustomNotice = () => {
   return (
     <div
       ref={scrollRef}
-      className="flex w-full snap-x items-start gap-[14px] overflow-x-scroll hide-scrollbar"
+      className="flex snap-x justify-start gap-[14px] overflow-x-scroll hide-scrollbar"
     >
       {customNoticeList?.items.map((item) => (
         <Post
