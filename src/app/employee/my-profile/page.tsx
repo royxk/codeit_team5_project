@@ -1,13 +1,15 @@
 'use client';
 import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
-import { useRouter } from 'next/navigation';
+import { USER_TEST_DATA } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 
 const RegisterProfile = () => {
   const router = useRouter();
+  const isProfileData = Object.keys(USER_TEST_DATA.item).length <= 3;
   const handleClick = () => {
     router.push('/employee');
   }
@@ -39,7 +41,7 @@ const RegisterProfile = () => {
             />
           </div>
         </form>
-        <Button size='large' color='red'>등록하기</Button>
+        <Button size='large' color='red'>{isProfileData ? '등록하기' : '수정하기'}</Button>
       </div>
     </>
   );
