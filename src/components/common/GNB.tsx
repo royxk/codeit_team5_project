@@ -8,13 +8,13 @@ const GNB: React.FC<Props> = ({ user }) => {
   return (
     <div className="flex h-80 w-full items-center">
       <div className="flex w-full flex-col justify-center align-middle md:flex-row">
-        <div className="max-w-1440px flex w-full items-center justify-around bg-white sm:justify-between">
+        <div className="ml-8 mr-8 flex w-full max-w-[1440px] items-center justify-between  bg-white">
           <img
             className="h-[40px] w-[112px]"
             src="logoIcon.png"
             alt="로고 아이콘"
           />
-          <div className="relative">
+          <div className="relative ml-2 mr-2">
             <img
               className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 transform"
               src="searchIcon.png"
