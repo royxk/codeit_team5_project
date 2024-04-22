@@ -5,7 +5,6 @@ interface MoadlProps {
 }
 
 const Moadl: React.FC<MoadlProps> = ({ user }) => {
-  user = "";
   return (
     <div className="flex h-[183px] w-[298px] flex-col items-center justify-around rounded-[12px] bg-red-10">
       <div className="mt-15 h-6 w-6">
