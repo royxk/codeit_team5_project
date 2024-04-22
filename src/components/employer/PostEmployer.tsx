@@ -13,9 +13,7 @@ interface PostDataType {
   closed: boolean;
 }
 
-// startTime: string;
-// startHour: string;
-
+// 임시 함수. 수환님이 공통으로 빼주신다고 하셨으니, 그전까지만 쓸 계획
 function formatDate(startsAt: string, workhour: number): string[] {
   const start = new Date(startsAt);
   const end = new Date(start.getTime() + workhour * 3600000);
@@ -37,7 +35,7 @@ function formatDate(startsAt: string, workhour: number): string[] {
 const PostEmployer = ({ data }: any) => {
   const data2 = EMPLOYER_POST_LIST;
 
-  function DataConvertComponentStandard(PostData: PostDataType) {
+  function dataConvertComponentStandard(PostData: PostDataType) {
     return {
       imgUrl: data.item.imageUrl,
       shopName: data.item.name,
@@ -51,11 +49,31 @@ const PostEmployer = ({ data }: any) => {
 
   return (
     <div>
-      <p className="h1 text-block mb-8">내가 등록한 공고</p>
-      <div className="grid grid-cols-3 gap-x-[0.875rem] gap-y-8">
-        {data2.items.map((item) =>
-          Post(DataConvertComponentStandard(item.item)),
-        )}
+      <p className="h1 text-block mob:h3 mb-8">내가 등록한 공고</p>
+      <div className="grid grid-cols-3 gap-x-[0.875rem] gap-y-8 tab:grid-cols-2">
+        {data2.items.map((item) => {
+          const {
+            imgUrl,
+            shopName,
+            address1,
+            hourlyPay,
+            state,
+            startTime,
+            startHour,
+          } = dataConvertComponentStandard(item.item);
+          return (
+            <Post
+              imgUrl={imgUrl}
+              shopName={shopName}
+              address1={address1}
+              hourlyPay={hourlyPay}
+              state={state}
+              startTime={startTime}
+              startHour={startHour}
+              key={item.item.id}
+            />
+          );
+        })}
       </div>
     </div>
   );
