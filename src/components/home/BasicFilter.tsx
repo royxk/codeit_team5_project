@@ -1,83 +1,87 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import BasicFilterSvg from "./BasicFilterArrow";
+import {
+  BASIC_FILTER_INITIALVALUE,
+  MENU_DATA,
+  PATH_DATA,
+} from "@/util/constants/FILTER_VALUES";
 
 const BasicFilter = () => {
+  const filterRef = useRef<HTMLDivElement>(null);
   const [isHidden, setIsHidden] = useState(true);
+  const [filterSelected, setFilterSelected] = useState(
+    BASIC_FILTER_INITIALVALUE,
+  );
+  const [pathData, setPathData] = useState(PATH_DATA.down);
   const handleFilterClick = () => {
     setIsHidden(!isHidden);
+    setPathData((prev) =>
+      prev === PATH_DATA.down ? PATH_DATA.up : PATH_DATA.down,
+    );
   };
+  const handleFilterSelectedClick = (e: React.MouseEvent) =>
+    setFilterSelected((e.target as HTMLButtonElement).innerHTML);
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      filterRef.current &&
+      !(e.target as Element).closest("#basic-filter-container") &&
+      !filterRef.current.contains(e.target as Node)
+    ) {
+      setIsHidden(true);
+      setPathData(PATH_DATA.down);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
+      id="basic-filter-container"
       onClick={handleFilterClick}
-      className="relative inline-block items-center text-left"
+      className="relative flex w-[107px] items-center text-left"
     >
       <button
         type="button"
-        className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-10 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-gray-300"
+        className="inline-flex w-full justify-between gap-x-1.5 whitespace-nowrap rounded-md bg-gray-10 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-gray-300"
         id="menu-button"
-        aria-expanded="true"
+        aria-expanded={!isHidden}
         aria-haspopup="true"
       >
-        마감임박순
-        <svg
-          className="mt-2"
-          xmlns="http://www.w3.org/2000/svg"
-          width="10"
-          height="8"
-          viewBox="0 0 10 8"
-          fill="none"
-        >
-          <path d="M5 8L0.669872 0.5L9.33013 0.5L5 8Z" fill="#111322" />
-        </svg>
+        {filterSelected}
+        <BasicFilterSvg pathData={pathData} />
       </button>
       <div
-        onClick={(e) => console.log((e.target as HTMLButtonElement).innerHTML)}
-        className={`absolute right-0 z-10 mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
+        ref={filterRef}
+        onClick={handleFilterSelectedClick}
+        className={`absolute right-0 top-9 z-10 mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
         tabIndex={-1}
       >
-        <div className="rounded-t-md py-1 hover:bg-gray-10" role="none">
-          <button
-            className="block px-4 py-2 text-sm font-normal text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-0"
+        {MENU_DATA.map((item, index) => (
+          <div
+            key={item.id}
+            className={`flex items-center justify-center ${index === 0 ? `rounded-t-md` : ``} ${index === MENU_DATA.length - 1 ? `rounded-b-md` : ``} hover:bg-gray-10`}
+            role="none"
           >
-            마감임박순
-          </button>
-        </div>
-        <div className="py-1 hover:bg-gray-10" role="none">
-          <button
-            className="block px-4 py-2 text-sm font-normal text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-1"
-          >
-            시급많은순
-          </button>
-        </div>
-        <div className="py-1 hover:bg-gray-10" role="none">
-          <button
-            className="block px-4 py-2 text-sm font-normal text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-2"
-          >
-            시간적은순
-          </button>
-        </div>
-        <div className="rounded-b-md py-1 hover:bg-gray-10" role="none">
-          <button
-            className="block px-4 py-2 text-sm font-normal text-gray-700"
-            role="menuitem"
-            tabIndex={-1}
-            id="menu-item-3"
-          >
-            가나다순
-          </button>
-        </div>
+            <button
+              className="block w-[105px] px-4 py-3 text-sm font-normal text-gray-700"
+              role="menuitem"
+              tabIndex={-1}
+              key={item.id}
+            >
+              {item.label}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
