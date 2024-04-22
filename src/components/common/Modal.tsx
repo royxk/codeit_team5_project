@@ -1,48 +1,63 @@
 import React from "react";
 
-interface ModalProps {
+interface MoadlProps {
   user: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ user }) => {
+const Moadl: React.FC<MoadlProps> = ({ user }) => {
+  user = "";
   return (
-    <div className="flex h-[183px] w-[298px] flex-col items-center justify-around rounded-[12px] bg-white">
-      <div className="relative mt-[15px] h-[24px] w-[24px]">
+    <div className="flex h-[183px] w-[298px] flex-col items-center justify-around rounded-[12px] bg-red-10">
+      <div className="mt-15 h-6 w-6">
         <img
+          className="absolute left-[137px] top-[20px] h-6 w-6"
           src="circleIcon.png"
           alt="circle icon"
-          className="absolute left-[137px] top-[86px] h-[24px] w-[24px]"
         />
+
         {user === "a" ? (
           <img
+            className="h-3.25 absolute left-[148px] top-[25px] w-0.5"
             src="exclamation_markIcon.png"
             alt="exclamation_mark icon"
-            className="absolute left-[148px] top-[91px] h-[13px] w-[12px]"
           />
         ) : (
           <img
+            className="absolute left-[143px] top-[26px] h-3 w-3"
             src="checkIcon.png"
             alt="check icon"
-            className="absolute left-[143px] top-[92px] h-[12px] w-[12px]"
           />
         )}
       </div>
-      <div className="mb-[20px] flex items-center justify-center text-[16px] font-bold text-[#111322]">
-        {user === "a"
-          ? "가게 정보를 먼저 등록해 주세요."
-          : "신청을 거절하시겠어요?"}
-      </div>
-      <div>
+      {user === "a" ? (
+        <div className="mb-2 flex items-center justify-center text-base font-medium text-gray-800">
+          가게 정보를 먼저 등록해 주세요.
+        </div>
+      ) : (
+        <div className="mb-2 flex items-center justify-center text-base font-medium text-gray-800">
+          신청을 거절하시겠어요?
+        </div>
+      )}
+      <div className="mb-2 flex items-center justify-center">
         {user === "a" ? (
-          <button className="m-[5px] h-[37px] w-[80px] gap-[8px] rounded-[6px] border border-[#ea3c12] bg-white px-[20px] font-bold text-[#ea3c12]">
+          <button
+            type="button"
+            className="m-1 flex h-9 w-20 items-center justify-center gap-2 rounded-md border border-[#ea3c12] bg-white px-5 py-2 text-[14px] font-bold text-[#ea3c12]"
+          >
             확인
           </button>
         ) : (
           <>
-            <button className="m-[5px] h-[37px] w-[80px] gap-[8px] rounded-[6px] bg-[#ea3c12] px-[20px] font-bold text-white">
+            <button
+              type="button"
+              className="m-1 flex h-9 w-20 items-center justify-center gap-2 rounded-md border border-[#ea3c12] bg-white px-4 py-2 text-[14px] font-bold text-[#ea3c12]"
+            >
               아니오
             </button>
-            <button className="m-[5px] h-[37px] w-[80px] gap-[8px] rounded-[6px] bg-[#ea3c12] px-[20px] font-bold text-white">
+            <button
+              type="button"
+              className="m-1 flex h-9 w-20 items-center justify-center gap-2 rounded-md bg-[#ea3c12] px-5 py-2 text-[14px] font-bold text-white"
+            >
               예
             </button>
           </>
@@ -52,4 +67,4 @@ const Modal: React.FC<ModalProps> = ({ user }) => {
   );
 };
 
-export default Modal;
+export default Moadl;
