@@ -69,7 +69,7 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
   const isClosed = isPostPage ? item.closed : false;
 
   return (
-    <div className="max-w-[60.25rem]">
+    <div className="w-[968px] tab:w-full">
       <div className="mb-6 mob:mb-4 ">
         {isPostPage ? (
           <div>
