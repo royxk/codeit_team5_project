@@ -4,11 +4,8 @@ import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import LogoSvg from "./GNB/logoSvg";
 import SearchSvg from "./GNB/SearchSvg";
-interface Props {
-  user: string;
-}
 
-const GNB: React.FC<Props> = () => {
+const GNB = () => {
   const isLogin = getCookie("accessToken");
   const isEmployer = getCookie("sid");
   return (
