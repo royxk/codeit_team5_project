@@ -1,6 +1,8 @@
 import EMPLOYER_POST_LIST from "@/util/constants/EMPLOYER_POST_LIST";
 import React from "react";
 import Post from "../common/Post/Post";
+import StoreDetailCardBorder from "../common/StoreDetail/StoreDetailCardBorder";
+import Button from "../common/Button";
 
 type Props = {};
 
@@ -34,6 +36,23 @@ function formatDate(startsAt: string, workhour: number): string[] {
 
 const PostEmployer = ({ shopData }: any) => {
   const postData = EMPLOYER_POST_LIST;
+  if (postData?.items === undefined) {
+    return (
+      <div>
+        <p className="h1 text-block mob:h3 mb-8 mob:mb-4">등록한 공고</p>
+        <StoreDetailCardBorder isBgWhite={true}>
+          <div className="body1 mob:body2 flex w-full flex-col items-center justify-center gap-6">
+            공고를 등록해 보세요{" "}
+            <div className="w-[348px] mob:w-[108px]">
+              <Button size="full" color="red">
+                공고 등록하기
+              </Button>
+            </div>
+          </div>
+        </StoreDetailCardBorder>
+      </div>
+    );
+  }
 
   function dataConvertComponentStandard(PostData: PostDataType) {
     return {
