@@ -44,7 +44,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
 
   return (
     <div className='relative w-full max-w-[964px] border border-gray-20 rounded-lg overflow-hidden mob:text-sm'>
-      <div className='overflow-x-auto' style={{ scrollbarWidth: 'none' }}>
+      <div className='overflow-x-auto hide-scrollbar'>
         <table>
           <TableHeader headerData={headerData}/>
           <tbody>
