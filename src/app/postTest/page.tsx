@@ -19,21 +19,19 @@ const PostTest = () => {
     <div>
       <div className="flex flex-row flex-wrap gap-4">
         {S.items.map((item, index) => (
-          <Post
-            key={index}
-            imgUrl={item.item.shop.item.imageUrl}
-            shopName={item.item.shop.item.name}
-            address1={item.item.shop.item.address1}
-            hourlyPay={item.item.hourlyPay}
-            startTime={formatDate(item.item.startsAt, item.item.workhour)[0]}
-            startHour={formatDate(item.item.startsAt, item.item.workhour)[1]}
-            state={!item.item.closed}
-          />
-        ))}
-      </div>
-      <div className="gap4 flex flex-row flex-wrap">
-        {S.items.map((item, index) => (
-          <PostSkeleton key={index} />
+          <div key={index} className={`flex flex-row`}>
+            <Post
+              key={index}
+              imgUrl={item.item.shop.item.imageUrl}
+              shopName={item.item.shop.item.name}
+              address1={item.item.shop.item.address1}
+              hourlyPay={item.item.hourlyPay}
+              startTime={formatDate(item.item.startsAt, item.item.workhour)[0]}
+              startHour={formatDate(item.item.startsAt, item.item.workhour)[1]}
+              state={!item.item.closed}
+            />
+            <PostSkeleton key={index} />
+          </div>
         ))}
       </div>
     </div>
