@@ -1,13 +1,14 @@
 import React from "react";
-import { getCookie } from "@/util/cookieSetting";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
+import { getServerSideCookie } from "@/app/utils/serverCookies";
 
 const GNB = () => {
-  const isLogin = getCookie("accessToken");
-  const isEmployer = getCookie("sid");
+  const isLogin = getServerSideCookie("accessToken");
+  const isEmployer = getServerSideCookie("sid");
+
   return (
     <div className="flex h-[70px] w-full items-center justify-center mob:h-[102px] mob:px-3">
       <div className="flex w-full max-w-[1080px] flex-col items-center justify-center px-8 tab:px-0">
@@ -32,7 +33,7 @@ const GNB = () => {
               </div>
             </div>
           </div>
-          {!isLogin ? (
+          {isLogin ? (
             <div className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm">
               <button className="flex h-5 font-bold text-black">
                 {isEmployer ? "내 가게" : "내 프로필"}
