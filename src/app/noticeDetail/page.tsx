@@ -48,13 +48,13 @@ const Page = () => {
       <StoreDetail data={STORE_DETAIL_POST} />
       <div className={`flex flex-col gap-5`}>
         <div className={`text-[28px] font-bold`}>최근에 본 공고</div>
-        <div
+        {/* <div
           onClick={() =>
             getSpecificNotice("da8c6ed3-c73e-4057-a039-804e8eb71d7a")
           }
         >
           조회
-        </div>
+        </div> */}
         <div
           className={`mb-[100px] flex w-[968px] flex-row flex-wrap gap-4 tab:w-full`}
         >
