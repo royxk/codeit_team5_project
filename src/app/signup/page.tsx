@@ -58,8 +58,12 @@ const Signin = (props: Props) => {
           </div>
         </div>
         <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-          <Button size="large" color="red">
-            로그인 하기
+          <Button
+            size="large"
+            color="red"
+            className="w-[350px] border border-primary"
+          >
+            가입하기
           </Button>
         </div>
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
