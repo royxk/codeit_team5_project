@@ -2,8 +2,8 @@ import React from "react";
 import { getCookie } from "@/util/cookieSetting";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
-import LogoSvg from "./GNB/logoSvg";
 import SearchSvg from "./GNB/SearchSvg";
+import LogoSvg from "./GNB/LogoSvg";
 
 const GNB = () => {
   const isLogin = getCookie("accessToken");
