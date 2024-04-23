@@ -60,7 +60,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                 bio
               } = data;
               return (
-                <tr key={apply_id} className='border-b border-gray-20 h-[68px] mob:h-[46px]'>
+                <tr key={apply_id} className='border-b border-gray-20 h-[68px] mob:h-[50px]'>
                   <td className='bg-white pl-3 w-full min-w-[226px] sticky z-10 left-0 mob:min-w-[188px]'>
                     {isEmployee ? shopName : userName}
                   </td>
