@@ -72,7 +72,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                   <td className='bg-white pl-3 w-full min-w-[200px]'>
                     {isEmployee ? `${hourlyPay}원` : phoneNumber}
                   </td>
-                  <td className='bg-white pl-3 w-full min-w-[236px] mob:min-w-[162px]'>
+                  <td className='bg-white pl-3 w-full min-w-[236px] mob:min-w-[168px]'>
                     {!isEmployee && status === "pending" ? <ApproveButtons />
                       : <StatusLabel status={status}/>}
                   </td>
