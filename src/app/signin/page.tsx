@@ -7,7 +7,7 @@ type Props = {};
 
 const Signup = (props: Props) => {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
         <div className="m-10 flex items-center justify-center">
           <img
@@ -31,17 +31,15 @@ const Signup = (props: Props) => {
             로그인 하기
           </Button>
         </div>
-        <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
-            <span className="mr-3">회원이 아니신가요?</span>{" "}
-            <Link
-              href="/signup"
-              className="text-[#5534Da]"
-              style={{ textDecoration: "underline" }}
-            >
-              회원가입하기
-            </Link>
-          </div>
+        <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
+          <span className="mr-3">회원이 아니신가요?</span>{" "}
+          <Link
+            href="/signup"
+            className="text-[#5534Da]"
+            style={{ textDecoration: "underline" }}
+          >
+            회원가입하기
+          </Link>
         </div>
       </div>
     </div>
