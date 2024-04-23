@@ -78,7 +78,7 @@ const StoreRegisterForm = () => {
       }}
       className="flex flex-col gap-6"
     >
-      <div className="grid w-full grid-cols-2 gap-x-5 gap-y-6">
+      <div className="grid w-full grid-cols-2 gap-x-5 gap-y-6 mob:grid-cols-1">
         <Input
           inputRef={storeNameRef}
           errorType={storeNameErr}
@@ -103,7 +103,7 @@ const StoreRegisterForm = () => {
 
       <div>
         <p className="body1 mb-2">가게 이미지</p>
-        <label className="relative block h-[276px] w-[483px]">
+        <label className="relative block h-[276px] w-[483px] mob:h-[200px] mob:w-full mob:max-w-[351px]">
           <Image
             className="object-cover"
             src={`${imagePath ? imagePath : "/require-image.svg"}`}
