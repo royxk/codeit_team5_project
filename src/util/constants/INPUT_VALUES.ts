@@ -26,8 +26,8 @@ export const INPUT_LABELS: InputValuesType = {
   WORK_HOUR: "업무 시간",
   WORK_TYPES: "분류*",
   MAIN_ADDRESS: "주소*",
-  ADDRESS: "상세 주소",
-  STORE_NAME: "가게 이름",
+  ADDRESS: "상세 주소*",
+  STORE_NAME: "가게 이름*",
 };
 
 export const INPUT_PLACEHOLDER: InputValuesType = {
@@ -38,6 +38,8 @@ export const INPUT_PLACEHOLDER: InputValuesType = {
   WAGE: "시급을 입력해 주세요.",
   WORK_HOUR: "업무 시간을 입력해 주세요.",
   STORE_NAME: "가게의 이름을 입력해 주세요.",
+  ADDRESS: "상세 주소를 입력해 주세요.",
+  BASE_WAGE: "기본 시급을 입력해 주세요.",
 };
 
 export const INPUT_LAST_WORD: InputValuesType = {
@@ -53,6 +55,7 @@ export const INPUT_ERROR_TYPE: InputValuesType = {
   PASSWORD_NOT_MATCH: "비밀번호를 확인해주세요.",
   PASSWORD_INVALID_REGEX: "8자 이상 작성해주세요.",
   PASSWORD_CHECK_NOT_MATCHED: "비밀번호가 일치하지 않습니다.",
+  BLANK_REQUIRE_VALUE: "*은 필수 항목입니다.",
 };
 
 export const INPUT_SELECT_TYPE: string[] = ["MAIN_ADDRESS", "WORK_TYPES"];
