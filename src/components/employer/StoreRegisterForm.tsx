@@ -1,31 +1,82 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
+import {
+  Address,
+  Category,
+  createImageApiResponse,
+  createShopApiResponse,
+} from "@/util/api";
 
-type Props = {};
-
-const StoreRegisterForm = (props: Props) => {
+const StoreRegisterForm = () => {
   const storeNameRef = useRef<HTMLInputElement>(null);
   const address2Ref = useRef<HTMLInputElement>(null);
-  const basePay = useRef<HTMLInputElement>(null);
+  const basePayRef = useRef<HTMLInputElement>(null);
   const storeImageRef = useRef<HTMLInputElement>(null);
   const storeDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const [storeNameErr, setStoreNameErr] = useState("");
   const [address2Err, setAddress2Err] = useState("");
   const [basePayErr, setBasePayErr] = useState("");
-  const [workType, setWorkType] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [storeImagePreview, setStoreImagePreview] = useState("");
+  const [workType, setWorkType] = useState<Category | "">("");
+  const [address1, setAddress1] = useState<Address | "">("");
   const [imagePath, setImagePath] = useState("");
+
+  const handleInputBlur = (
+    ref: RefObject<HTMLInputElement>,
+    setErr: (errType: string) => void,
+  ) => {
+    setErr("");
+    if (ref.current!.value === "") {
+      setErr("BLANK_REQUIRE_VALUE");
+    }
+  };
+
+  const handleSubmit = async () => {
+    const storeName = storeNameRef.current!.value;
+    const storeDescription = storeDescriptionRef.current!.value;
+    const basePay = basePayRef.current!.value;
+    const address2 = address2Ref.current!.value;
+    const storeImage = storeImageRef.current!.value;
+
+    if (
+      storeName === "" ||
+      basePay === "" ||
+      address2 === "" ||
+      storeImage === "" ||
+      workType === "" ||
+      address1 === ""
+    ) {
+      handleInputBlur(storeNameRef, setStoreNameErr);
+      handleInputBlur(basePayRef, setBasePayErr);
+      handleInputBlur(address2Ref, setAddress2Err);
+      return;
+    }
+    const image = await createImageApiResponse({ name: storeImage });
+    createShopApiResponse({
+      name: storeName,
+      category: workType,
+      address1: address1,
+      address2: address2,
+      description: storeDescription,
+      imageUrl: image,
+      originalHourlyPay: Number(basePay),
+    });
+  };
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(storeImageRef.current!.value);
+        handleSubmit();
       }}
       className="flex flex-col gap-6"
     >
@@ -34,6 +85,7 @@ const StoreRegisterForm = (props: Props) => {
           inputRef={storeNameRef}
           errorType={storeNameErr}
           inputType="STORE_NAME"
+          blurEvent={() => handleInputBlur(storeNameRef, setStoreNameErr)}
         />
         <Input inputType="WORK_TYPES" selectData={setWorkType} />
         <Input inputType="MAIN_ADDRESS" selectData={setAddress1} />
@@ -41,11 +93,13 @@ const StoreRegisterForm = (props: Props) => {
           inputRef={address2Ref}
           errorType={address2Err}
           inputType="ADDRESS"
+          blurEvent={() => handleInputBlur(address2Ref, setAddress2Err)}
         />
         <Input
-          inputRef={basePay}
+          inputRef={basePayRef}
           errorType={basePayErr}
           inputType="BASE_WAGE"
+          blurEvent={() => handleInputBlur(basePayRef, setBasePayErr)}
         />
       </div>
 
@@ -64,7 +118,6 @@ const StoreRegisterForm = (props: Props) => {
             accept="image/png, image/jpeg"
             onChange={() => {
               const img = storeImageRef.current!.files![0];
-              setStoreImagePreview(storeImageRef.current!.value);
 
               const reader = new FileReader();
               reader.readAsDataURL(img);
