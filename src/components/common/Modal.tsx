@@ -54,7 +54,7 @@ const Moadl: React.FC<MoadlProps> = ({ user }) => {
           <Button
             size="small"
             color="red"
-            className="m-1 flex h-9 items-center justify-center gap-2 rounded-md border border-primary bg-white px-5 py-2 text-[14px] font-bold text-[#ea3c12]"
+            className="m-2 border border-primary bg-white px-5 py-2 font-bold text-[#ea3c12]"
           >
             확인
           </Button>
@@ -64,14 +64,14 @@ const Moadl: React.FC<MoadlProps> = ({ user }) => {
             <Button
               size="small"
               color="red"
-              className="m-1 flex h-9 items-center justify-center gap-2 rounded-md border border-primary bg-white px-4 py-2 text-[14px] font-bold text-[#ea3c12]"
+              className="m-2 border border-primary bg-white px-5 py-2 font-bold text-[#ea3c12]"
             >
               아니오
             </Button>
             <Button
               size="small"
               color="red"
-              className="m-1 flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-5 py-2 text-[14px] font-bold text-white"
+              className="m-2 border border-primary bg-primary px-5 py-2 font-bold text-white"
             >
               예
             </Button>
