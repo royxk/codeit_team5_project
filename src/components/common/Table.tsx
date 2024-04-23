@@ -60,19 +60,19 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                 bio
               } = data;
               return (
-                <tr key={apply_id} className='border-b border-gray-20 max-h-[51px] mob:max-h-6'>
-                  <td className='bg-white px-3 py-5 w-full min-w-[226px] sticky z-10 left-0 mob:min-w-[188px] mob:px-2 mob:py-3'>
+                <tr key={apply_id} className='border-b border-gray-20 h-[68px] mob:h-[46px]'>
+                  <td className='bg-white pl-3 w-full min-w-[226px] sticky z-10 left-0 mob:min-w-[188px]'>
                     {isEmployee ? shopName : userName}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[300px] align-middle mob:px-2 mob:py-3'>
-                    <div className='line-clamp-2'>
+                  <td className='bg-white pl-3 w-full min-w-[300px] align-middle'>
+                    <div className='line-clamp-1'>
                       {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
                     </div>
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[200px] mob:px-2 mob:py-3'>
+                  <td className='bg-white pl-3 w-full min-w-[200px]'>
                     {isEmployee ? `${hourlyPay}원` : phoneNumber}
                   </td>
-                  <td className='bg-white px-3 py-5 w-full min-w-[236px] mob:px-2 mob:py-3 mob:min-w-[162px]'>
+                  <td className='bg-white pl-3 w-full min-w-[236px] mob:min-w-[162px]'>
                     {!isEmployee && status === "pending" ? <ApproveButtons />
                       : <StatusLabel status={status}/>}
                   </td>
