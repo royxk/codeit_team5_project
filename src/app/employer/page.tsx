@@ -9,7 +9,7 @@ import { getCookie, setShopIdCookie } from "@/util/cookieSetting";
 import { useRouter } from "next/navigation";
 
 const Employer = () => {
-  const [storeData, setStoreData] = useState({ data: { item: undefined } });
+  const [storeData, setStoreData] = useState(undefined);
   const router = useRouter();
 
   async function userStoreLoad(uid: string) {
