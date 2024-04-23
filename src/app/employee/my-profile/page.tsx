@@ -16,7 +16,7 @@ const RegisterProfile = () => {
 
   return (
     <>
-      <div className='flex flex-col items-center gap-8 py-[60px] bg-gray-5 tab:pb-[278px] mob:pb-20'>
+      <div className='flex flex-col items-center gap-8 py-[60px] bg-gray-5 tab:pb-[278px] mob:pb-20 tab:-mx-8 mob:-mx-3'>
         <div className='flex justify-between w-[964px] tab:w-[632px] mob:w-[350px]'>
           <h1 className='h1 mob:h3'>내 프로필</h1>
           <button type='button' onClick={handleClick}>

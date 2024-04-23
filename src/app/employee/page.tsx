@@ -54,7 +54,7 @@ const Employee = () => {
         }
       </div>
     {!isProfileData && 
-      <div className="flex flex-col justify-start items-center bg-gray-5 pt-[60px] pb-[120px] mob:pt-10 mob:pb-20">
+      <div className="flex flex-col justify-start items-center bg-gray-5 pt-[60px] pb-[120px] tab:-mx-8 mob:-mx-3 mob:pt-10 mob:pb-20">
         <div className="flex flex-col gap-8 tab:w-[632px] mob:w-[350px] mob:gap-4">
           <h1 className="h1 mob:h2">신청 내역</h1>
           <EmployeeTable />
