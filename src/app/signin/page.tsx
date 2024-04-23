@@ -5,7 +5,7 @@ import React from "react";
 
 type Props = {};
 
-const Signup = (props: Props) => {
+const Signin = (props: Props) => {
   return (
     <div className="flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
@@ -46,4 +46,4 @@ const Signup = (props: Props) => {
   );
 };
 
-export default Signup;
+export default Signin;
