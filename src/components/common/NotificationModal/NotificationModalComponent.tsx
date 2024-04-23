@@ -41,7 +41,7 @@ const NotificationModalComponent = () => {
         {isNotificationModalOpen && (
           <div
             ref={modalRef}
-            className={`absolute top-8 ml-10 mt-10 tab:m-0 mob:right-0 mob:top-0 mob:h-full mob:w-full`}
+            className={`absolute top-1 ml-10 mt-10 mob:fixed mob:right-0 mob:top-0 mob:top-0 mob:h-screen mob:w-full`}
           >
             <NotificationModal onClick={() => toggleNotificationModal} />
           </div>
