@@ -32,14 +32,14 @@ function formatDate(startsAt: string, workhour: number): string[] {
   ];
 }
 
-const PostEmployer = ({ data }: any) => {
-  const data2 = EMPLOYER_POST_LIST;
+const PostEmployer = ({ shopData }: any) => {
+  const postData = EMPLOYER_POST_LIST;
 
   function dataConvertComponentStandard(PostData: PostDataType) {
     return {
-      imgUrl: data.item.imageUrl,
-      shopName: data.item.name,
-      address1: data.item.address1,
+      imgUrl: shopData.item.imageUrl,
+      shopName: shopData.item.name,
+      address1: shopData.item.address1,
       hourlyPay: PostData.hourlyPay,
       state: PostData.closed,
       startTime: formatDate(PostData.startsAt, PostData.workhour)[0],
@@ -51,7 +51,7 @@ const PostEmployer = ({ data }: any) => {
     <div>
       <p className="h1 text-block mob:h3 mb-8">내가 등록한 공고</p>
       <div className="grid grid-cols-3 gap-x-[0.875rem] gap-y-8 tab:grid-cols-2">
-        {data2.items.map((item) => {
+        {postData.items.map((item) => {
           const {
             imgUrl,
             shopName,

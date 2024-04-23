@@ -7,8 +7,8 @@ type Props = {};
 const EmployerPostTest = (props: Props) => {
   const data = STORE_DETAIL_EMPLOYER;
   return (
-    <div className="max-w-[60.25rem] tab:max-w-[42.375rem] mob:max-w-[21.9375rem]">
-      <PostEmployer data={data} />
+    <div className="max-w-[60.25rem] tab:max-w-[40.375rem] mob:max-w-[21.9375rem]">
+      <PostEmployer shopData={data} />
     </div>
   );
 };
