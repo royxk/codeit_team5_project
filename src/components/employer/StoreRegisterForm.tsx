@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import {
   createShopApiResponse,
 } from "@/util/api";
 import { useRouter } from "next/navigation";
+import { getCookie } from "@/util/cookieSetting";
 
 const StoreRegisterForm = () => {
   const router = useRouter();
@@ -69,6 +70,13 @@ const StoreRegisterForm = () => {
     });
     router.push("/employer");
   };
+
+  useEffect(() => {
+    const sid = getCookie("sid");
+    if (sid !== undefined) {
+      router.push("/employer");
+    }
+  }, []);
 
   return (
     <form
