@@ -1,7 +1,5 @@
 import React from "react";
-import statusfalse from "../../../../public/NotificationModal/statusfalse.svg";
-import statustrue from "../../../../public/NotificationModal/statustrue.svg";
-import Image from "next/image";
+import SvgStatusComponent from "./SvgStatusComponent";
 
 type Props = {
   state: boolean;
@@ -18,12 +16,19 @@ const NotificationModalMessageBox = ({
     <div
       className={`flex min-h-24 flex-col gap-1 rounded-xl border bg-white px-3 py-4`}
     >
-      <Image
-        src={state ? statustrue : statusfalse}
-        alt="status"
-        className={`w-1.5`}
-      />
-      <div>{message}</div>
+      <SvgStatusComponent color={state ? "#FF0000" : "#0080FF"} />
+      <div>
+        {message}{" "}
+        {state ? (
+          <span className={`${state ? "text-red-40" : "text-blue-20"}`}>
+            거절
+          </span>
+        ) : (
+          <span className={`${state ? "text-red-40" : "text-blue-20"}`}>
+            승인
+          </span>
+        )}
+      </div>
       <div className={`text-gray-30`}>{time}</div>
     </div>
   );
