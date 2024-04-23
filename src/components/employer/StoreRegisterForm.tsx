@@ -58,13 +58,13 @@ const StoreRegisterForm = () => {
       return;
     }
     const image = await createImageApiResponse({ name: storeImage });
-    await createShopApiResponse({
+    const asdf = await createShopApiResponse({
       name: storeName,
       category: workType,
       address1: address1,
       address2: address2,
       description: storeDescription,
-      imageUrl: image,
+      imageUrl: image.item.url,
       originalHourlyPay: Number(basePay),
     });
     router.push("/employer");
