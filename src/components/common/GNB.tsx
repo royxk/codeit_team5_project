@@ -25,7 +25,7 @@ const GNB = () => {
                   <SearchSvg />
                 </div>
                 <input
-                  className="h-10 w-full rounded-[10px] bg-gray-10 pl-12 text-lg mob:pl-7 mob:text-sm"
+                  className="h-10 w-full rounded-[10px] bg-gray-10 pl-12 text-lg focus:outline-none mob:pl-7 mob:text-sm"
                   type="text"
                   placeholder="가게 이름으로 찾아보세요"
                 />
