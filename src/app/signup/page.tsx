@@ -1,11 +1,21 @@
+"use client";
+
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 type Props = {};
 
 const Signin = (props: Props) => {
+  const [selectedButtonIndex, setSelectedButtonIndex] = useState<number | null>(
+    null,
+  );
+
+  const handleButtonClick = (index: number) => {
+    setSelectedButtonIndex(index);
+  };
+
   return (
     <div className="flex h-screen items-center justify-center pb-[360px]">
       <div className="flex h-[288px] w-[350px] flex-col">
@@ -35,10 +45,15 @@ const Signin = (props: Props) => {
           <div className="mb-6  flex justify-between gap-[8px]">
             <button
               type="button"
-              className="w-[167px]items-center flex h-[50px] rounded-[30px] border border-gray-30 px-[41px] py-[13px]"
+              className={`flex h-[50px] w-[167px] items-center rounded-[30px] border px-[41px] py-[13px] ${selectedButtonIndex === 0 ? "border-primary" : "border-gray-30"}`}
+              onClick={() => handleButtonClick(0)}
             >
               <img
-                src="signup/grayCircleIcon.png"
+                src={
+                  selectedButtonIndex === 0
+                    ? "signup/circleCheckIcon.png"
+                    : "signup/grayCircleIcon.png"
+                }
                 alt="circleIcon"
                 className="relative left-[-4px] top-[1px] mr-2 h-5 w-5"
               />
@@ -46,10 +61,15 @@ const Signin = (props: Props) => {
             </button>
             <button
               type="button"
-              className="w-[167px]items-center flex h-[50px] rounded-[30px] border border-gray-30 px-[41px] py-[13px]"
+              className={`flex h-[50px] w-[167px] items-center rounded-[30px] border px-[41px] py-[13px] ${selectedButtonIndex === 1 ? "border-primary" : "border-gray-30"}`}
+              onClick={() => handleButtonClick(1)}
             >
               <img
-                src="signup/grayCircleIcon.png"
+                src={
+                  selectedButtonIndex === 1
+                    ? "signup/circleCheckIcon.png"
+                    : "signup/grayCircleIcon.png"
+                }
                 alt="circleIcon"
                 className="relative left-[-4px] top-[1px] mr-2 h-5 w-5"
               />
