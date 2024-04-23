@@ -1,3 +1,13 @@
+interface UserTestItem {
+  id: string;
+  email: string;
+  type: string;
+  name?: string; // 옵셔널 속성
+  phone?: string; // 옵셔널 속성
+  address?: string; // 옵셔널 속성
+  bio?: string; // 옵셔널 속성
+}
+
 export const USER_TEST_DATA = {
   "item": {
     "id": "dgafdsgahhsehfs1321",
@@ -19,6 +29,6 @@ export const USER_TEST_DATA = {
         "originalHourlyPay": "number",
 			}
 		} // 또는 null
-  },
+  } as UserTestItem,
   "links": [],
 }

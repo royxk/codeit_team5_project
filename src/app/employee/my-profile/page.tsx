@@ -11,23 +11,23 @@ import { USER_TEST_DATA } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 //처음 회원가입 후 내 정보 조회하면 shop은 null이 나오지만, name, phone, address 등등의 값은 없는 채로 리스폰스가 온다.
 
 const RegisterProfile = () => {
-  const nameRef = useRef<HTMLInputElement>(null);
-  const phoneNumRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const [addressValue, setAddressValue] = useState('');
-  const bioRef = useRef<HTMLTextAreaElement>(null);
+  const bioRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
   const isProfileData = Object.keys(USER_TEST_DATA.item).length <= 3;
 
   useEffect(() => {
     const { item } = USER_TEST_DATA;
-    if (nameRef.current && item.name) {
-      nameRef.current.value = item.name;
+    if (nameRef.current) {
+      nameRef.current.value = item.name ?? '';
     }
-    if (phoneNumRef.current && item.phone) {
-      phoneNumRef.current.value = item.phone;
+    if (phoneNumRef.current) {
+      phoneNumRef.current.value = item.phone ?? '';
     }
-    if (bioRef.current && item.bio) {
-      bioRef.current.value = item.bio;
+    if (bioRef.current) {
+      bioRef.current.value = item.bio ?? '';
     }
   }, [])
 
