@@ -8,9 +8,11 @@ export const INPUT_TYPES: InputValuesType = {
   PASSWORD: "password",
   PASSWORD_CHECK: "password",
   DATE: "date",
+  BASE_WAGE: "number",
   WAGE: "number",
   WORK_HOUR: "number",
   ADDRESS: "text",
+  STORE_NAME: "text",
 };
 
 export const INPUT_LABELS: InputValuesType = {
@@ -19,11 +21,13 @@ export const INPUT_LABELS: InputValuesType = {
   PASSWORD: "비밀번호",
   PASSWORD_CHECK: "비밀번호 확인",
   DATE: "시작 일시*",
+  BASE_WAGE: "기본 시급*",
   WAGE: "시급*",
   WORK_HOUR: "업무 시간",
   WORK_TYPES: "분류*",
-  MAIN_ADDRESS: "주소",
+  MAIN_ADDRESS: "주소*",
   ADDRESS: "상세 주소",
+  STORE_NAME: "가게 이름",
 };
 
 export const INPUT_PLACEHOLDER: InputValuesType = {
@@ -33,6 +37,7 @@ export const INPUT_PLACEHOLDER: InputValuesType = {
   PASSWORD_CHECK: "비밀번호를 동일하게 입력해 주세요.",
   WAGE: "시급을 입력해 주세요.",
   WORK_HOUR: "업무 시간을 입력해 주세요.",
+  STORE_NAME: "가게의 이름을 입력해 주세요.",
 };
 
 export const INPUT_LAST_WORD: InputValuesType = {
