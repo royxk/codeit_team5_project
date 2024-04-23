@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  RefObject,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { RefObject, useRef, useState } from "react";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
@@ -15,8 +9,11 @@ import {
   createImageApiResponse,
   createShopApiResponse,
 } from "@/util/api";
+import { useRouter } from "next/navigation";
 
 const StoreRegisterForm = () => {
+  const router = useRouter();
+
   const storeNameRef = useRef<HTMLInputElement>(null);
   const address2Ref = useRef<HTMLInputElement>(null);
   const basePayRef = useRef<HTMLInputElement>(null);
@@ -61,7 +58,7 @@ const StoreRegisterForm = () => {
       return;
     }
     const image = await createImageApiResponse({ name: storeImage });
-    createShopApiResponse({
+    await createShopApiResponse({
       name: storeName,
       category: workType,
       address1: address1,
@@ -70,6 +67,7 @@ const StoreRegisterForm = () => {
       imageUrl: image,
       originalHourlyPay: Number(basePay),
     });
+    router.push("/employer");
   };
 
   return (
