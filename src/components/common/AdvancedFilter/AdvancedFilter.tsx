@@ -5,7 +5,7 @@ import SelectedLocationBox from "./SelectedLocationBox";
 import SvgCloseButton from "./SvgCloseButton";
 
 interface AdvancedFilterProps {
-  onClick: () => void;
+  onClick: (event: React.MouseEvent) => void;
   setcount?: (count: number) => void;
   locations: string[];
   startDate: string;

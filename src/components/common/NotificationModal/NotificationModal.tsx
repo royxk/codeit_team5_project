@@ -4,7 +4,7 @@ import NotificationModalMessageBox from "./NotificationModalMessageBox";
 import SvgCloseComponent from "./SvgCloseComponent";
 
 interface NotificationModalProps {
-  onClick: () => void;
+  onClick: (event: React.MouseEvent) => void;
 }
 
 const NotificationModal = ({ onClick }: NotificationModalProps) => {
