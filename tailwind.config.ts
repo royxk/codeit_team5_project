@@ -48,6 +48,19 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: { addUtilities: any }) {
+      const newUtilities = {
+        ".hide-scrollbar": {
+          "-ms-overflow-style": "none", // IE and Edge
+          "scrollbar-width": "none", // Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // Chrome, Safari, Opera
+          },
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
 export default config;
