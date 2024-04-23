@@ -1,9 +1,16 @@
+import Button from "@/components/common/Button";
 import React from "react";
 
 interface MoadlProps {
   user: string;
 }
 
+/**
+ * Moadl 컴포넌트는 사용자에 따라 다른 내용을 표시하는 모달창을 렌더링합니다.
+ * @param {Object} props - 컴포넌트에 전달되는 props 객체
+ * @param {string} props.user - 사용자 식별자 (USER_NOT_REGISTERED[사용자가 가게 정보를 등록하지 않았을 경우] 또는 USER_REJECTED_APPLICATION[사용자가 신청을 거절할 경우])
+ * @returns {JSX.Element} Moadl 컴포넌트의 JSX 요소
+ */
 const Moadl: React.FC<MoadlProps> = ({ user }) => {
   return (
     <div className="flex h-[183px] w-[298px] flex-col items-center justify-around rounded-[12px] bg-white">
@@ -14,7 +21,7 @@ const Moadl: React.FC<MoadlProps> = ({ user }) => {
           alt="circle icon"
         />
 
-        {user === "a" ? (
+        {user === "USER_NOT_REGISTERED" ? (
           <img
             className="h-3.25 absolute left-[148px] top-[25px] w-0.5"
             src="exclamation_markIcon.png"
@@ -28,37 +35,46 @@ const Moadl: React.FC<MoadlProps> = ({ user }) => {
           />
         )}
       </div>
-      {user === "a" ? (
+      {/* 사용자가 USER_NOT_REGISTERED일 경우 */}
+      {user === "USER_NOT_REGISTERED" ? (
         <div className="mb-2 flex items-center justify-center text-base font-medium text-gray-800">
+          {/* 사용자가 가게 정보를 등록하지 않았을 경우 메시지 */}
           가게 정보를 먼저 등록해 주세요.
         </div>
       ) : (
+        /* 사용자가 USER_REJECTED_APPLICATION일 경우 */
         <div className="mb-2 flex items-center justify-center text-base font-medium text-gray-800">
+          {/* 사용자가 신청을 거절할 경우 메시지 */}
           신청을 거절하시겠어요?
         </div>
       )}
       <div className="mb-2 flex items-center justify-center">
-        {user === "a" ? (
-          <button
-            type="button"
-            className="m-1 flex h-9 w-20 items-center justify-center gap-2 rounded-md border border-[#ea3c12] bg-white px-5 py-2 text-[14px] font-bold text-[#ea3c12]"
+        {/* 사용자가 USER_NOT_REGISTERED일 경우 */}
+        {user === "USER_NOT_REGISTERED" ? (
+          <Button
+            size="small"
+            color="red"
+            className="m-1 flex h-9 items-center justify-center gap-2 rounded-md border border-primary bg-white px-5 py-2 text-[14px] font-bold text-[#ea3c12]"
           >
             확인
-          </button>
+          </Button>
         ) : (
+          /* 사용자가 USER_REJECTED_APPLICATION일 경우 */
           <>
-            <button
-              type="button"
-              className="m-1 flex h-9 w-20 items-center justify-center gap-2 rounded-md border border-[#ea3c12] bg-white px-4 py-2 text-[14px] font-bold text-[#ea3c12]"
+            <Button
+              size="small"
+              color="red"
+              className="m-1 flex h-9 items-center justify-center gap-2 rounded-md border border-primary bg-white px-4 py-2 text-[14px] font-bold text-[#ea3c12]"
             >
               아니오
-            </button>
-            <button
-              type="button"
-              className="m-1 flex h-9 w-20 items-center justify-center gap-2 rounded-md bg-[#ea3c12] px-5 py-2 text-[14px] font-bold text-white"
+            </Button>
+            <Button
+              size="small"
+              color="red"
+              className="m-1 flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-5 py-2 text-[14px] font-bold text-white"
             >
               예
-            </button>
+            </Button>
           </>
         )}
       </div>
