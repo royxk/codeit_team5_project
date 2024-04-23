@@ -4,6 +4,7 @@ import ApproveButtons from "./ApproveButtons";
 import Pagination from "./Pagination";
 import StatusLabel from "./StatusLabel";
 import TableHeader from "./TableHeader";
+import { formatApiDateData } from "@/util/formatDate";
 
 interface TableProps<T> {
   headerData: string[];
@@ -66,7 +67,7 @@ const Table = <T extends ApplyData>({ headerData, applyData }: TableProps<T>) =>
                   </td>
                   <td className='bg-white pl-3 w-full min-w-[300px] align-middle'>
                     <div className='line-clamp-1'>
-                      {isEmployee ? `${startsAt}(${workHour}시간)` : bio}
+                      {isEmployee ? formatApiDateData(startsAt, workHour).join(' ') : bio}
                     </div>
                   </td>
                   <td className='bg-white pl-3 w-full min-w-[200px]'>
