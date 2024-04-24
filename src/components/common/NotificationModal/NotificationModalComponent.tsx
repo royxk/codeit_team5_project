@@ -7,7 +7,9 @@ import SvgNotificationButton from "./SvgNotificationButton";
 const NotificationModalComponent = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-  const toggleNotificationModal = (event: React.MouseEvent<HTMLDivElement>) => {
+
+  const toggleNotificationModal = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setIsNotificationModalOpen(!isNotificationModalOpen);
   };
 
@@ -15,8 +17,8 @@ const NotificationModalComponent = () => {
   const handleClickOutside = (event: MouseEvent) => {
     if (
       modalRef.current &&
-      event.target instanceof Element &&
-      !modalRef.current.contains(event.target)
+      !modalRef.current.contains(event.target as Node) &&
+      !(event.target as Element).closest("#advanced-filter-modal")
     ) {
       setIsNotificationModalOpen(false);
     }
@@ -24,26 +26,27 @@ const NotificationModalComponent = () => {
 
   // Setup the event listener when the modal is open and clean it up when it closes
   useEffect(() => {
-    if (isNotificationModalOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isNotificationModalOpen]); // Only re-run if the modal open state changes
+  }, []); // Only re-run if the modal open state changes
   return (
-    <div className={`relative z-50 content-end`}>
-      <div className={`flex justify-end`} onClick={toggleNotificationModal}>
+    <div className={`relative z-[100] content-end`}>
+      <div
+        className={`flex justify-end`}
+        id="advanced-filter-modal"
+        onClick={toggleNotificationModal}
+      >
         <SvgNotificationButton status={false} />
         {isNotificationModalOpen && (
           <div
             ref={modalRef}
-            className={`absolute top-8 ml-10 mt-10 tab:m-0 mob:right-0 mob:top-0 mob:h-full mob:w-full`}
+            className={`absolute top-1 ml-10 mt-10 mob:fixed mob:right-0 mob:top-0 mob:mt-0 mob:h-screen mob:w-full`}
+            onClick={(event) => event.stopPropagation()}
           >
-            <NotificationModal onClick={() => toggleNotificationModal} />
+            <NotificationModal onClick={toggleNotificationModal} />
           </div>
         )}
       </div>
