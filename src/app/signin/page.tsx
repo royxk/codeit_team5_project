@@ -41,9 +41,14 @@ const Signin: React.FC = () => {
         setPassword("");
         setEmailError("");
         setPasswordError("");
+        setModalMessage("로그인에 성공했습니다.");
+        setShowModal(true);
       } catch (error) {
         console.error("로그인 실패:", error);
       }
+    } else {
+      if (!email.trim()) setEmailError("이메일 형식이 올바르지 않습니다.");
+      if (!password.trim()) setPasswordError("8자 이상 입력해주세요.");
     }
   };
 
