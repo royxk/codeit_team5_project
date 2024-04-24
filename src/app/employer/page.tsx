@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import StoreDetail from "@/components/common/StoreDetail";
 import {
@@ -6,43 +5,41 @@ import {
   searchShopInformationApiResponse,
 } from "@/util/api";
 import { getCookie, setShopIdCookie } from "@/util/cookieSetting";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import StoreDetailProps from "@/components/common/StoreDetail/StoreDetailTypes";
+import { getServerSideCookie } from "../utils/serverCookies";
 
-const Employer = () => {
-  const [storeData, setStoreData] = useState<StoreDetailProps>();
-  const router = useRouter();
+const getServerSideProps = async () => {
+  const uid = getServerSideCookie("uid");
 
-  async function userStoreLoad(uid: string) {
+  if (uid !== undefined) {
     const { item } = await mydataApiResponse(uid);
-    const sid = getCookie("sid");
+    const sid = getServerSideCookie("sid");
 
-    if (!sid && item.type === "employer" && item.shop) {
+    if (!sid === undefined && item.type === "employer" && item.shop) {
       const { id: shopId } = item.shop.item;
-      setShopIdCookie(shopId);
       const shopData = await searchShopInformationApiResponse(shopId);
-      setStoreData(shopData);
-      return;
+      return { uid, shopData };
     }
 
     if (sid) {
       const shopData = await searchShopInformationApiResponse(sid);
-      setStoreData(shopData);
+      return { uid, shopData };
     }
   }
 
-  useEffect(() => {
-    const uid = getCookie("uid");
-    if (uid !== undefined) {
-      userStoreLoad(uid);
-    } else {
-      router.push("/signin");
-    }
-  }, []);
+  return { uid };
+};
+
+const Employer = async () => {
+  const { uid, shopData } = await getServerSideProps();
+  if (uid === undefined) {
+    redirect("/signin");
+  }
 
   return (
     <div className="mx-auto min-h-[calc(100vh-10.625rem)] max-w-[64.25rem] px-8 py-[3.75rem]">
-      <StoreDetail data={storeData} />
+      <StoreDetail data={shopData} />
     </div>
   );
 };
