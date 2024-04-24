@@ -5,7 +5,7 @@ import SelectedLocationBox from "./SelectedLocationBox";
 import SvgCloseButton from "./SvgCloseButton";
 
 interface AdvancedFilterProps {
-  onClick: () => void;
+  onClick: (event: React.MouseEvent) => void;
   setcount?: (count: number) => void;
   locations: string[];
   startDate: string;
@@ -66,7 +66,7 @@ function AdvancedFilter({
 
   return (
     <div
-      className={`z-50 flex w-96 flex-col gap-4 rounded-xl border-2 bg-white px-5 py-6 mob:w-full mob:rounded-none mob:border-none`}
+      className={`z-50 flex w-96 flex-col justify-between gap-4 rounded-xl border-2 bg-white px-5 py-6 mob:h-screen mob:w-full mob:rounded-none mob:border-none`}
     >
       <div className={`flex flex-row justify-between`}>
         <div className={`text-[20px] font-bold`}>상세필터</div>
