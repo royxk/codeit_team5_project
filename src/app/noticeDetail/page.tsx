@@ -12,15 +12,18 @@ import ApiResponse from "@/components/common/Post/PostListType";
 import { formatApiDateData } from "@/util/formatDate";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
+import S from "@/util/constants/TEST_POST_VALUES";
 
 const Page = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<ApiResponse[]>([]);
 
   useEffect(() => {
+    // handleSearchNoticeClick();
     handleGetRecentPosts();
   }, []);
 
+  // 기존 공고 불러오기 (최근x)
   const handleSearchNoticeClick = async () => {
     setLoading(true);
     try {
@@ -34,13 +37,16 @@ const Page = () => {
     }
   };
 
+  // 최근 조회한 공고 불러오기
   const handleGetRecentPosts = () => {
+    // removeRecentPostsLocalStorage(); //최근 데이터 삭제
     const recentPosts = localStorage.getItem("recentPosts");
     if (recentPosts) {
       setItems(JSON.parse(recentPosts));
     }
   };
 
+  // 특정 공고 조회
   const getSpecificNotice = async (shopId: string) => {
     setLoading(true);
     try {
@@ -74,9 +80,15 @@ const Page = () => {
         >
           조회
         </div> */}
+        <div className={`w-fit bg-red-10`}>공고 하나 만들기</div>
         <div
           className={`mb-[100px] flex w-[968px] flex-row flex-wrap gap-4 tab:w-full`}
         >
+          {items.length === 0 && (
+            <div className={`w-full content-center text-[20px]`}>
+              최근에 본 공고가 없습니다.
+            </div>
+          )}
           {loading
             ? Array.from({ length: 5 }, (_, index) => (
                 <PostSkeleton key={index} />
