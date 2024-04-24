@@ -43,7 +43,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
 
   return (
     <div className="mb-4 flex flex-col">
-      <span className="mb-1">비밀번호</span>
+      <span className="z-0 mb-1">비밀번호</span>
       <Input
         inputType="password"
         value={password}

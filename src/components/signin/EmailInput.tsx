@@ -44,7 +44,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
 
   return (
     <div className="mb-6 flex flex-col">
-      <span className="mb-1">이메일</span>
+      <span className="z-0 mb-1">이메일</span>
       <Input
         inputType="email"
         errorType={!isTyping && emailError ? "ERROR" : ""}

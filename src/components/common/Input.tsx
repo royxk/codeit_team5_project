@@ -15,7 +15,6 @@ import {
 
 interface InputProps {
   inputType: string;
-  value?: string;
   inputRef?: RefObject<HTMLInputElement>;
   errorType?: string;
   blurEvent?: () => void;
@@ -48,18 +47,6 @@ const Input = ({
   }
   const isSelectType = INPUT_SELECT_TYPE.includes(inputType);
   const dataArray = isSelectType ? INPUT_SELECT_DATA_LIST[inputType] : null;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    if (inputType === "email") {
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!regex.test(value)) {
-        blurEvent();
-        return;
-      }
-    }
-    setSelectedData(value);
-  };
 
   return (
     <div className="relative flex w-full flex-col gap-2">
@@ -128,7 +115,6 @@ const Input = ({
               className="w-full rounded-md focus-visible:outline-none"
               type={INPUT_TYPES[inputType]}
               onBlur={() => blurEvent()}
-              onChange={handleChange}
               ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
             />

@@ -8,47 +8,47 @@ import Link from "next/link";
 import { signinApiResponse } from "@/util/api";
 import { setAccessTokenCookie, setUserIdCookie } from "@/util/cookieSetting";
 
+import Modal from "@/components/signin/Modal";
+
+interface ModalProps {
+  onClose: () => void;
+}
+
 const Signin: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
 
   const handleSubmit = async () => {
-    if (!email.trim()) {
-      setEmailError("이메일을 입력하세요.");
-      return;
-    }
+    if (email.trim() && password.trim() && !emailError && !passwordError) {
+      try {
+        const { item } = await signinApiResponse({ email, password });
 
-    if (!password.trim()) {
-      setPasswordError("비밀번호를 입력하세요.");
-      return;
-    }
+        if (!item) {
+          setModalMessage("비밀번호가 일치하지 않습니다.");
+          setShowModal(true);
+          return;
+        }
 
-    try {
-      const { item } = await signinApiResponse({ email, password });
+        const userId = item.user.item.id;
+        setAccessTokenCookie(item.token);
+        setUserIdCookie(userId);
 
-      if (!item) {
-        setEmailError("이메일이 올바르지 않습니다.");
-        setPasswordError("비밀번호가 올바르지 않습니다.");
-        return;
+        setEmail("");
+        setPassword("");
+        setEmailError("");
+        setPasswordError("");
+      } catch (error) {
+        console.error("로그인 실패:", error);
       }
-
-      const userId = item.user.item.id;
-      setAccessTokenCookie(item.token);
-      setUserIdCookie(userId);
-
-      setEmail("");
-      setPassword("");
-      setEmailError("");
-      setPasswordError("");
-    } catch (error) {
-      console.error("로그인 실패:", error);
     }
   };
 
   return (
-    <div className="flex h-screen items-center justify-center pb-[300px]">
+    <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
         <div className="m-10 flex items-center justify-center">
           <img
@@ -57,7 +57,7 @@ const Signin: React.FC = () => {
             className="h-[45px] w-[248px]"
           />
         </div>
-        <div className="mb-5 flex flex-col">
+        <div className="mb-5 flex flex-col ">
           <EmailInput
             email={email}
             setEmail={setEmail}
@@ -87,6 +87,21 @@ const Signin: React.FC = () => {
           </Link>
         </div>
       </div>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <div className="text-center">
+            <p className="mt-7">{modalMessage}</p>
+            <Button
+              color="red"
+              size="small"
+              onClick={() => setShowModal(false)}
+              className="relative top-[50px] h-[48px] w-[120px] sm:left-[180px]"
+            >
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
