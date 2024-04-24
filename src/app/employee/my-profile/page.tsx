@@ -1,16 +1,15 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
 import { useRouter } from 'next/navigation';
+import { mydataApiResponse } from '@/util/api';
+import { getCookie } from '@/util/cookieSetting';
+import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
+import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
-import { mydataApiResponse } from '@/util/api';
-import { getCookie } from '@/util/cookieSetting';
-import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 
-//처음 회원가입 후 내 정보 조회하면 shop은 null이 나오지만, name, phone, address 등등의 값은 없는 채로 리스폰스가 온다.
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
@@ -21,7 +20,7 @@ const RegisterProfile = () => {
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
   const userId = getCookie("uid");
-  
+
   async function getUserData(userId: string | undefined) {
     if (!userId) return;
     const { item } = await mydataApiResponse(userId);
