@@ -39,11 +39,12 @@ const AdvancedFilterComponent = () => {
     <div className={`relative content-end`}>
       <div className={`flex justify-end`}>
         <div
-          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} h-auto w-[79px] select-none rounded-md bg-red-20 py-2 text-center text-sm text-white`}
+          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-2 text-center text-sm text-white`}
           onClick={toggleFilterModal}
           id="advanced-filter-modal"
         >
-          상세 필터 {count > 0 && `(${count})`}
+          <div>상세필터 </div>
+          <div>{count > 0 && `(${count})`}</div>
         </div>
         {isNotAdvancedFilterOpen && (
           <div
