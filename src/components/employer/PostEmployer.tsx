@@ -6,6 +6,7 @@ import Button from "../common/Button";
 import { formatApiDateData } from "@/util/formatDate";
 import { getCookie } from "@/util/cookieSetting";
 import { searchShopNoticeApiResponse } from "@/util/api";
+import Link from "next/link";
 
 interface PostDataType {
   closed: boolean;
@@ -101,16 +102,17 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
             startHour,
           } = dataConvertComponentStandard(item);
           return (
-            <Post
-              imgUrl={imgUrl}
-              shopName={shopName}
-              address1={address1}
-              hourlyPay={hourlyPay}
-              state={state}
-              startTime={startTime}
-              startHour={startHour}
-              key={item.id}
-            />
+            <Link key={item.id} href={`/employer/${item.id}`}>
+              <Post
+                imgUrl={imgUrl}
+                shopName={shopName}
+                address1={address1}
+                hourlyPay={hourlyPay}
+                state={state}
+                startTime={startTime}
+                startHour={startHour}
+              />
+            </Link>
           );
         })}
       </div>
