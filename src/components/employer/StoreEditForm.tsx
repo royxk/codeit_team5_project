@@ -46,18 +46,26 @@ const StoreEditForm = ({ data }: any) => {
     }
   };
 
+  async function putFileFetch(href: string, bodyData?: File) {
+    const body = await fetch(href, {
+      method: "PUT",
+      body: bodyData,
+    });
+    return body;
+  }
+
   const handleSubmit = async () => {
     const storeName = storeNameRef.current!.value;
     const storeDescription = storeDescriptionRef.current!.value;
     const basePay = basePayRef.current!.value;
     const address2 = address2Ref.current!.value;
-    const storeImage = storeImageRef.current!.value || imageUrl;
+    const storeImage = storeImageRef.current!.files[0] || imageUrl;
 
     if (
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === "" ||
+      storeImage === null ||
       workType === "" ||
       mainAddress === ""
     ) {
@@ -68,8 +76,15 @@ const StoreEditForm = ({ data }: any) => {
     }
 
     const image = isImageChanged
-      ? await createImageApiResponse({ name: storeImage })
+      ? await createImageApiResponse({ name: String(storeImage) })
       : { item: { url: imageUrl } };
+    console.log(image);
+    // console.log(imagePath);
+    console.log(storeImage);
+    if (isImageChanged) {
+      const result = await putFileFetch(image.item.url, storeImage);
+      console.log(result);
+    }
 
     await editShopInformationApiResponse(id, {
       name: storeName,
@@ -80,7 +95,7 @@ const StoreEditForm = ({ data }: any) => {
       imageUrl: image.item.url,
       originalHourlyPay: Number(basePay),
     });
-    router.push("/employer");
+    // router.push("/employer");
   };
 
   return (
@@ -159,7 +174,7 @@ const StoreEditForm = ({ data }: any) => {
           ref={storeDescriptionRef}
           placeholder="가게에 대한 설명을 입력해 주세요."
           className="body1 h-40 w-full resize-none overflow-y-scroll border-[1px] border-gray-30 px-5 py-4"
-          value={description}
+          defaultValue={description}
         />
       </div>
       <div className="mt-2 flex w-full justify-center">
