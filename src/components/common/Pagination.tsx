@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface PaginationProps {
-  rawPageData: unknown[];
+  count: number;
   setCurrentPageData: (currentPageData: number) => void;
   pageItemLimit?: number;
 }
@@ -15,38 +15,25 @@ interface PaginationProps {
  * @returns
  */
 const Pagination = ({
-  rawPageData = [],
+  count,
   setCurrentPageData = (item) => {
     console.log(`${item}`);
   },
   pageItemLimit = 5,
 }: PaginationProps) => {
+  const pageData = Math.ceil(count / pageItemLimit);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageList, setCurrentPageList] = useState([0]);
-  const pageData: unknown[][] = [];
+  console.log(pageData);
 
-  // rawPageData 가공
-  const tempPageData: unknown[] = [];
-  if (rawPageData.length !== 0) {
-    rawPageData.map((item, index) => {
-      tempPageData.push(item);
-      if (
-        index === rawPageData.length - 1 ||
-        (index !== 0 && (index + 1) % pageItemLimit === 0)
-      ) {
-        pageData.push(tempPageData.slice());
-        tempPageData.splice(0);
-      }
-    });
-  }
-  const isPaginationNeed = pageData.length > 7;
+  const isPaginationNeed = pageData > 7;
 
   const firstPageList: number[] = [];
   if (!isPaginationNeed) {
-    if (pageData.length === 0) {
+    if (pageData === 0) {
       firstPageList.push(0);
     } else {
-      for (let i = 0; i < pageData.length; i++) {
+      for (let i = 0; i < pageData; i++) {
         firstPageList.push(i);
       }
     }
@@ -64,7 +51,7 @@ const Pagination = ({
       }
 
       // 중앙 페이지 구간을 선택할 경우
-      if (3 < targetPageNumber && targetPageNumber < pageData.length - 3) {
+      if (3 < targetPageNumber && targetPageNumber < pageData - 3) {
         for (let i = targetPageNumber - 3; i <= targetPageNumber + 3; i++) {
           pageListTemp.push(i);
         }
@@ -73,8 +60,8 @@ const Pagination = ({
       }
 
       // 마지막 세 페이지를 선택할 경우
-      if (pageData.length - 3 <= targetPageNumber) {
-        for (let i = pageData.length - 1; i >= pageData.length - 7; i--) {
+      if (pageData - 3 <= targetPageNumber) {
+        for (let i = pageData - 1; i >= pageData - 7; i--) {
           pageListTemp.unshift(i);
         }
         setCurrentPageList(pageListTemp);
@@ -98,7 +85,7 @@ const Pagination = ({
         }
         break;
       case "right":
-        if (currentPage !== pageData.length - 1 && currentPage !== 0) {
+        if (currentPage !== pageData - 1 && pageData !== 0) {
           handlePageNumberChange(currentPage + 1);
         }
         break;
@@ -138,7 +125,7 @@ const Pagination = ({
       <button
         type="button"
         className={`relative h-full max-h-5 w-full max-w-5 rounded-full bg-[url('/pagination-arrow.svg')] 
-          ${currentPage !== pageData.length - 1 && currentPage !== 0 ? " hover:bg-gray-10" : "cursor-default opacity-40"}`}
+          ${currentPage !== pageData - 1 && pageData !== 0 ? " hover:bg-gray-10" : "cursor-default opacity-40"}`}
         onClick={() => handlePaginationArrowButton("right")}
       />
     </div>
