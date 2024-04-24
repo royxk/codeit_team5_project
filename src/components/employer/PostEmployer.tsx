@@ -102,7 +102,7 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
             startHour,
           } = dataConvertComponentStandard(item);
           return (
-            <Link key={item.id} href={`/employer/${item.id}`}>
+            <Link key={item.id} href={`/employer/notice/${item.id}`}>
               <Post
                 imgUrl={imgUrl}
                 shopName={shopName}
