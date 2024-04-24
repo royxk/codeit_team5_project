@@ -15,9 +15,24 @@ interface PostDataType {
 }
 
 const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
+  const [isLastNoticeVisible, setIsLastNoticeVisible] = useState(false);
   const [noticeList, setNoticeList] = useState(
     fetchedNoticeList.items || undefined,
   );
+
+  const observeObject = useRef<HTMLDivElement>(null);
+
+  // useEffect를 이용하여 IntersectionObserver을 등록
+  useEffect(() => {
+    const lastNoticeObserver = new IntersectionObserver((entries) => {
+      entries.map((entry) => {
+        if (entry.isIntersecting) {
+          console.log("보다");
+        }
+      });
+    });
+    lastNoticeObserver.observe(observeObject.current!);
+  }, []);
 
   if (noticeList === undefined) {
     return (
@@ -33,6 +48,7 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
             </div>
           </div>
         </StoreDetailCardBorder>
+        <div className="h-[1px] w-full" ref={observeObject} />
       </div>
     );
   }
@@ -77,6 +93,7 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
           );
         })}
       </div>
+      <div className="h-[1px] w-full" ref={observeObject} />
     </div>
   );
 };
