@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import StoreDetail from "@/components/common/StoreDetail";
 import {
   mydataApiResponse,
   searchShopInformationApiResponse,
 } from "@/util/api";
-import { getCookie, setShopIdCookie } from "@/util/cookieSetting";
-import { redirect, useRouter } from "next/navigation";
-import StoreDetailProps from "@/components/common/StoreDetail/StoreDetailTypes";
+import { redirect } from "next/navigation";
 import { getServerSideCookie } from "../utils/serverCookies";
 
 const getServerSideProps = async () => {
