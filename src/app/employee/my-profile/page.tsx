@@ -6,30 +6,53 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
-import { USER_TEST_DATA } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
+import { mydataApiResponse } from '@/util/api';
+import { getCookie } from '@/util/cookieSetting';
+import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 
 //처음 회원가입 후 내 정보 조회하면 shop은 null이 나오지만, name, phone, address 등등의 값은 없는 채로 리스폰스가 온다.
 
 const RegisterProfile = () => {
+  const [userData, setUserData] = useState<UserItem | null>(null);
+  const [isProfileData, setIsProfileData] = useState(true);
+  const [addressValue, setAddressValue] = useState('');
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
-  const [addressValue, setAddressValue] = useState('');
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
-  const isProfileData = Object.keys(USER_TEST_DATA.item).length <= 3;
+  const userId = getCookie("uid");
+  
+  async function getUserData(userId: string | undefined) {
+    if (!userId) return;
+    const { item } = await mydataApiResponse(userId);
+    return item;
+  }
 
   useEffect(() => {
-    const { item } = USER_TEST_DATA;
-    if (nameRef.current) {
-      nameRef.current.value = item.name ?? '';
+    if (!userId) router.push('/signin');
+    const fetchUserData = async () => {
+      const data = await getUserData(userId);
+      setUserData(data);
+    };
+    fetchUserData();
+  }, [userId, router]);
+
+  useEffect(() => {
+    if (userData) {
+      if (nameRef.current) {
+        nameRef.current.value = userData.name ?? '';
+      }
+      if (phoneNumRef.current) {
+        phoneNumRef.current.value = userData.phone ?? '';
+      }
+      if (bioRef.current) {
+        bioRef.current.value = userData.bio ?? '';
+      }
+      if (Object.keys(userData).length <= 4) {
+        setIsProfileData(false);
+      }
     }
-    if (phoneNumRef.current) {
-      phoneNumRef.current.value = item.phone ?? '';
-    }
-    if (bioRef.current) {
-      bioRef.current.value = item.bio ?? '';
-    }
-  }, [])
+  }, [userData])
 
   const handleClick = () => {
     router.push('/employee');
