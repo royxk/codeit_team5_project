@@ -4,6 +4,8 @@ import Post from "../common/Post/Post";
 import StoreDetailCardBorder from "../common/StoreDetail/StoreDetailCardBorder";
 import Button from "../common/Button";
 import { formatApiDateData } from "@/util/formatDate";
+import { getCookie } from "@/util/cookieSetting";
+import { searchShopNoticeApiResponse } from "@/util/api";
 
 interface PostDataType {
   closed: boolean;
@@ -15,23 +17,43 @@ interface PostDataType {
 }
 
 const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
-  const [isLastNoticeVisible, setIsLastNoticeVisible] = useState(false);
   const [noticeList, setNoticeList] = useState(
     fetchedNoticeList.items || undefined,
   );
+  const NOTICE_COUNT = fetchedNoticeList.count;
+  let fetchOffset = 6;
 
   const observeObject = useRef<HTMLDivElement>(null);
+
+  async function handleInfiniteScroll(observer: IntersectionObserver) {
+    const sid = getCookie("sid");
+
+    const newNoticeList = await searchShopNoticeApiResponse(sid!, {
+      offset: fetchOffset,
+      limit: 6,
+    });
+    const previousNotice = noticeList;
+    setNoticeList([...previousNotice, ...newNoticeList.items]);
+
+    if (fetchOffset + 6 < NOTICE_COUNT) {
+      fetchOffset += 6;
+    } else {
+      observer.unobserve(observeObject.current!);
+    }
+  }
 
   // useEffect를 이용하여 IntersectionObserver을 등록
   useEffect(() => {
     const lastNoticeObserver = new IntersectionObserver((entries) => {
       entries.map((entry) => {
         if (entry.isIntersecting) {
-          console.log("보다");
+          handleInfiniteScroll(lastNoticeObserver);
         }
       });
     });
-    lastNoticeObserver.observe(observeObject.current!);
+    if (NOTICE_COUNT > 6) {
+      lastNoticeObserver.observe(observeObject.current!);
+    }
   }, []);
 
   if (noticeList === undefined) {
@@ -48,7 +70,6 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
             </div>
           </div>
         </StoreDetailCardBorder>
-        <div className="h-[1px] w-full" ref={observeObject} />
       </div>
     );
   }
