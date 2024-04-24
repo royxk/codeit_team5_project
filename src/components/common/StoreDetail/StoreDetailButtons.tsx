@@ -23,7 +23,8 @@ const StoreDetailButtons = ({
 }) => {
   const pathName = usePathname();
   const router = useRouter();
-  const isEmployerMainPage = pathName.includes("employer");
+  const isEmployerMainPage =
+    pathName.includes("employer") && !pathName.includes("notice");
 
   // 현재 유저의 유형을 파악하는 임시 함수, context 등을 이용하여 값을 읽는 식으로 할 필요가 있음.
   const isUserEmployer = true;
@@ -45,7 +46,7 @@ const StoreDetailButtons = ({
           <Button
             size="full"
             color="red"
-            onClick={() => router.push("/employer/post")}
+            onClick={() => router.push("/employer/notice")}
           >
             공고 등록하기
           </Button>
@@ -58,7 +59,7 @@ const StoreDetailButtons = ({
         <Button
           size="full"
           color="white"
-          onClick={() => router.push(`/employer/post/edit/${postId}`)}
+          onClick={() => router.push(`/employer/notice/edit/${postId}`)}
         >
           공고 편집
         </Button>
