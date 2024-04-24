@@ -66,22 +66,36 @@ const FilterdNotice = ({
     <>
       <div className="flex h-[760px] flex-col gap-10 tab:h-[1150px] mob:h-[820px]">
         <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
-          {filterdNoticeList?.items.map(({ item }) => (
-            <Link
-              href={`/noticeDetail/${item.shop.item.id}/${item.id}`}
-              key={item.id}
-            >
-              <Post
-                imgUrl={item.shop.item.imageUrl}
-                shopName={item.shop.item.name}
-                address1={item.shop.item.address1}
-                hourlyPay={item.hourlyPay}
-                startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
-                startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
-                state={!item.closed}
-              />
-            </Link>
-          ))}
+          {filterdNoticeList?.items.map(({ item }) =>
+            item.closed ? (
+              <div className="cursor-not-allowed" key={item.id}>
+                <Post
+                  imgUrl={item.shop.item.imageUrl}
+                  shopName={item.shop.item.name}
+                  address1={item.shop.item.address1}
+                  hourlyPay={item.hourlyPay}
+                  startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+                  startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+                  state={!item.closed}
+                />
+              </div>
+            ) : (
+              <Link
+                href={`/noticeDetail/${item.shop.item.id}/${item.id}`}
+                key={item.id}
+              >
+                <Post
+                  imgUrl={item.shop.item.imageUrl}
+                  shopName={item.shop.item.name}
+                  address1={item.shop.item.address1}
+                  hourlyPay={item.hourlyPay}
+                  startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+                  startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+                  state={!item.closed}
+                />
+              </Link>
+            ),
+          )}
         </div>
       </div>
       <Link className="w-56" href="#filterdNoticeSection">
