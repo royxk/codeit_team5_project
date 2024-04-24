@@ -14,25 +14,26 @@ const getServerSideProps = async () => {
 
   if (uid !== undefined) {
     const { item } = await mydataApiResponse(uid);
-    const sid = getServerSideCookie("sid");
+    const sid = getServerSideCookie("sid") || item.shop.item.id;
 
     if (item.type === "employee") {
-      return { uid, item };
-    }
-
-    if (!sid === undefined && item.type === "employer" && item.shop) {
-      const { id: shopId } = item.shop.item;
-      const shopData = await searchShopInformationApiResponse(shopId);
-      const noticeList = await searchShopNoticeApiResponse(shopId, {
-        limit: 6,
-      });
-      return { uid, shopData, noticeList };
+      const type = "employee";
+      return { uid, type };
     }
 
     if (sid) {
       const shopData = await searchShopInformationApiResponse(sid);
-      const noticeList = await searchShopNoticeApiResponse(sid);
-      return { uid, shopData, noticeList };
+      const noticeList = await searchShopNoticeApiResponse(sid, {
+        limit: 6,
+      });
+      const type = "employer";
+      return { uid, type, shopData, noticeList };
+    }
+
+    if (!sid) {
+      const shopData = null;
+      const type = "employer";
+      return { uid, type, shopData };
     }
   }
 
@@ -40,12 +41,13 @@ const getServerSideProps = async () => {
 };
 
 const Employer = async () => {
-  const { uid, item, shopData, noticeList } = await getServerSideProps();
+  const { uid, type, shopData, noticeList } = await getServerSideProps();
+
   if (uid === undefined) {
     redirect("/signin");
   }
 
-  if (item.type === "employee") {
+  if (type === "employee") {
     redirect("/");
   }
 
