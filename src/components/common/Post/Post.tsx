@@ -16,8 +16,6 @@ interface PostProps {
   startTime: string;
   startHour: string;
   state: boolean;
-  // clickEvent?: () => void;
-  // compareHourlyPay?: number;
 }
 
 const Post = ({

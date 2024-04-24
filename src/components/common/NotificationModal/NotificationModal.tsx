@@ -4,13 +4,13 @@ import NotificationModalMessageBox from "./NotificationModalMessageBox";
 import SvgCloseComponent from "./SvgCloseComponent";
 
 interface NotificationModalProps {
-  onClick: () => void;
+  onClick: (event: React.MouseEvent) => void;
 }
 
 const NotificationModal = ({ onClick }: NotificationModalProps) => {
   return (
     <div
-      className={`flex min-h-96 w-96 flex-col gap-5 rounded-xl border bg-red-10 px-5 py-6 mob:h-screen mob:w-full mob:rounded-none  mob:border-0 mob:pt-10`}
+      className={`flex min-h-96 w-96 flex-col gap-5 rounded-xl border border-gray-40  bg-red-10 px-5 py-6 mob:h-screen mob:w-full mob:rounded-none  mob:border-0 mob:pt-10`}
     >
       <div className={`flex flex-row justify-between`}>
         <div className={`text-xl font-bold `}>알림 6개</div>
