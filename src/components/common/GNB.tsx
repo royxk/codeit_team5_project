@@ -1,13 +1,19 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
-import { getServerSideCookie } from "@/app/utils/serverCookies";
+import { getCookie } from "@/util/cookieSetting";
+import { usePathname } from "next/navigation";
 
 const GNB = () => {
-  const isLogin = getServerSideCookie("accessToken");
-  const isEmployer = getServerSideCookie("sid");
+  const isLogin = getCookie("accessToken");
+  const isEmployer = getCookie("sid");
+
+  const pathName = usePathname();
+  const isFooterHidden = pathName.includes("sign");
+  if (isFooterHidden) return;
 
   return (
     <div className="flex h-[70px] w-full items-center justify-center mob:h-[102px] mob:px-3">
