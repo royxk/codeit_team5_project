@@ -15,7 +15,6 @@ const Signin: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>("");
 
   const handleSubmit = async () => {
-    // Check if email and password are not empty
     if (!email.trim()) {
       setEmailError("이메일을 입력하세요.");
       return;
