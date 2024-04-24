@@ -1,25 +1,25 @@
-import EMPLOYER_POST_LIST from "@/util/constants/EMPLOYER_POST_LIST";
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import Post from "../common/Post/Post";
 import StoreDetailCardBorder from "../common/StoreDetail/StoreDetailCardBorder";
 import Button from "../common/Button";
 import { formatApiDateData } from "@/util/formatDate";
 
-type Props = {};
-
 interface PostDataType {
-  id: string;
+  closed: boolean;
+  description: string;
   hourlyPay: number;
+  id: string;
   startsAt: string;
   workhour: number;
-  description: string;
-  closed: boolean;
 }
 
-const PostEmployer = ({ shopData, noticeList }: any) => {
-  const postData = noticeList;
-  console.log(noticeList);
-  if (postData?.items === undefined) {
+const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
+  const [noticeList, setNoticeList] = useState(
+    fetchedNoticeList.items || undefined,
+  );
+
+  if (noticeList === undefined) {
     return (
       <div>
         <p className="h1 text-block mob:h3 mb-8 mob:mb-4">등록한 공고</p>
@@ -53,7 +53,7 @@ const PostEmployer = ({ shopData, noticeList }: any) => {
     <div>
       <p className="h1 text-block mob:h3 mb-8">내가 등록한 공고</p>
       <div className="grid grid-cols-3 gap-x-[0.875rem] gap-y-8 tab:grid-cols-2">
-        {postData.items.map((item) => {
+        {noticeList.map(({ item }: { item: PostDataType }) => {
           const {
             imgUrl,
             shopName,
@@ -62,7 +62,7 @@ const PostEmployer = ({ shopData, noticeList }: any) => {
             state,
             startTime,
             startHour,
-          } = dataConvertComponentStandard(item.item);
+          } = dataConvertComponentStandard(item);
           return (
             <Post
               imgUrl={imgUrl}
@@ -72,7 +72,7 @@ const PostEmployer = ({ shopData, noticeList }: any) => {
               state={state}
               startTime={startTime}
               startHour={startHour}
-              key={item.item.id}
+              key={item.id}
             />
           );
         })}

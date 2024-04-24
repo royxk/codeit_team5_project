@@ -58,7 +58,9 @@ const Employer = async () => {
       </div>
       {shopData && (
         <div className="mx-auto flex w-full justify-center bg-gray-5 px-8 py-[3.75rem]">
-          <PostEmployer shopData={shopData} noticeList={noticeList} />
+          <div className="w-full max-w-[64.25rem]">
+            <PostEmployer shopData={shopData} fetchedNoticeList={noticeList} />
+          </div>
         </div>
       )}
     </div>
