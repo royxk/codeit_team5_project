@@ -4,11 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import phoneIcon from "/public/Icon_phone.svg";
 import locationIcon from "/public/post/location.svg";
-import { USER_TEST_DATA } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
+import { USER_TEST_DATA, UserApiItem } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
+import { getServerSideCookie } from "../utils/serverCookies";
+import { mydataApiResponse } from "@/util/api";
+import { GetServerSideProps } from "next";
 
-const Employee = () => {
-  const isProfileData = Object.keys(USER_TEST_DATA.item).length <= 3;
-  const { name, phone, address, bio } = USER_TEST_DATA.item;
+const getServerSideProps = async () => {
+  const uid = await getServerSideCookie("uid");
+  if (uid) {
+    const { item } = await mydataApiResponse(uid);
+    return { item };
+  }
+  return { item: {} };
+}
+
+const Employee = async () => {
+  const { item } = await getServerSideProps();
+  const isProfileData = Object.keys(item).length <= 4;
+  const { name, phone, address, bio } = item;
 
   return( 
     <>
