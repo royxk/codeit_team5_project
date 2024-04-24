@@ -29,9 +29,8 @@ const Post = ({
 }: PostProps): React.ReactElement => {
   return (
     <div
-      className={`flex h-[348px] w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-[171px] mob:gap-2 mob:p-3 ${
-        state && "hover:border-red-40"
-      }`}
+      className={`flex h-[348px] w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-[171px] mob:gap-2 mob:p-3 
+      ${state ? "hover:border-red-40" : "select-none"}`}
     >
       <div className={`relative h-[160px]`}>
         {!state && (
