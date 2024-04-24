@@ -42,22 +42,22 @@ const ProfileHeader = ({ isProfileData }: ProfileHeaderProps) => {
       </div>
     :
     <div className="relative">
-      <div className="flex flex-col gap-[28px] w-[964px] h-[256px] bg-red-10 border-none rounded-lg p-8 tab:w-[632px] mob:text-sm mob:w-[350px] mob:p-5 mob:gap-5">
+      <div className="flex flex-col gap-[28px] w-[964px] h-[256px] bg-red-10 border-none rounded-lg p-8 tab:w-[632px] mob:text-sm mob:w-[350px] mob:max-h-[216px] mob:p-5 mob:gap-5">
         <div className="flex flex-col gap-3 mob:gap-2">
           <div className="flex flex-col gap-2">
-            <span className="body1-bold text-primary">이름</span>
+            <span className="body1-bold text-primary mob:text-sm">이름</span>
             <h1 className="h1 text-black mob:h2">{userData?.name}</h1>
           </div>
           <div className="flex gap-[6px] text-gray-50">
-            <Image src={phoneIcon} alt="phone-icon" />
-            <span className="body1">{userData?.phone}</span>
+            <Image className="mob:w-4" src={phoneIcon} alt="phone-icon" />
+            <span className="body1 mob:body2">{userData?.phone}</span>
           </div>
           <div className="flex gap-[6px] text-gray-50">
-            <Image src={locationIcon} alt="location-icon" />
-            <div className="body1">{userData?.address && `선호 지역: ${userData.address}`}</div>
+            <Image className="mob:w-4" src={locationIcon} alt="location-icon" />
+            <div className="body1 mob:body2">{userData?.address && `선호 지역: ${userData.address}`}</div>
           </div>
         </div>
-        <p className="body1 text-black">{userData?.bio}</p>
+        <p className="body1 text-black mob:body2">{userData?.bio}</p>
       </div>
       <Link href='/employee/my-profile'>
         <Button size="medium" color="white" className="absolute top-8 right-8 text-base px-[55px] py-[14px] mob:px-5 mob:py-[10px] mob:top-5 mob:right-5 mob:font-bold mob:text-sm">
