@@ -119,7 +119,7 @@ const Input = ({
               onBlur={() => blurEvent()}
               ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
-              value={defaultValue || ""}
+              defaultValue={defaultValue || ""}
             />
             {INPUT_LAST_WORD[inputType] && (
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
