@@ -3,6 +3,7 @@ import React from "react";
 import Post from "../common/Post/Post";
 import StoreDetailCardBorder from "../common/StoreDetail/StoreDetailCardBorder";
 import Button from "../common/Button";
+import { formatApiDateData } from "@/util/formatDate";
 
 type Props = {};
 
@@ -15,27 +16,9 @@ interface PostDataType {
   closed: boolean;
 }
 
-// 임시 함수. 수환님이 공통으로 빼주신다고 하셨으니, 그전까지만 쓸 계획
-function formatDate(startsAt: string, workhour: number): string[] {
-  const start = new Date(startsAt);
-  const end = new Date(start.getTime() + workhour * 3600000);
-
-  // Ensuring month and day are two digits
-  const formattedMonth = (start.getMonth() + 1).toString().padStart(2, "0");
-  const formattedDay = start.getDate().toString().padStart(2, "0");
-  const formattedStartHours = start.getHours().toString().padStart(2, "0");
-  const formattedStartMinutes = start.getMinutes().toString().padStart(2, "0");
-  const formattedEndHours = end.getHours().toString().padStart(2, "0");
-  const formattedEndMinutes = end.getMinutes().toString().padStart(2, "0");
-
-  return [
-    `${start.getFullYear()}-${formattedMonth}-${formattedDay}`,
-    `${formattedStartHours}:${formattedStartMinutes}~${formattedEndHours}:${formattedEndMinutes} (${workhour}시간)`,
-  ];
-}
-
-const PostEmployer = ({ shopData }: any) => {
-  const postData = EMPLOYER_POST_LIST;
+const PostEmployer = ({ shopData, noticeList }: any) => {
+  const postData = noticeList;
+  console.log(noticeList);
   if (postData?.items === undefined) {
     return (
       <div>
@@ -61,8 +44,8 @@ const PostEmployer = ({ shopData }: any) => {
       address1: shopData.item.address1,
       hourlyPay: PostData.hourlyPay,
       state: PostData.closed,
-      startTime: formatDate(PostData.startsAt, PostData.workhour)[0],
-      startHour: formatDate(PostData.startsAt, PostData.workhour)[1],
+      startTime: formatApiDateData(PostData.startsAt, PostData.workhour)[0],
+      startHour: formatApiDateData(PostData.startsAt, PostData.workhour)[1],
     };
   }
 
