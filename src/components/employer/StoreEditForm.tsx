@@ -4,10 +4,14 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
 import {
+  Query,
   createImageApiResponse,
   editShopInformationApiResponse,
 } from "@/util/api";
 import { useRouter } from "next/navigation";
+import { getCookie } from "@/util/cookieSetting";
+import { BASE_URL_WITH_TEAM, ENDPOINT } from "@/util/constants/API_VALUES";
+import { stringify } from "querystring";
 
 const StoreEditForm = ({ data }: any) => {
   const {
@@ -46,6 +50,33 @@ const StoreEditForm = ({ data }: any) => {
     }
   };
 
+  async function fetchWithToken(href: string, options: RequestInit = {}) {
+    const headers = new Headers(options.headers as HeadersInit);
+    const accessToken = getCookie("accessToken");
+
+    if (accessToken) {
+      headers.append("Authorization", `Bearer ${accessToken}`);
+    }
+
+    if (!headers.has("Content-Type") && options.body) {
+      headers.append("Content-Type", "application/json");
+    }
+
+    const mergedOptions: RequestInit = {
+      ...options,
+      headers,
+    };
+
+    const response = await fetch(href, mergedOptions);
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      return new Error(errorResponse.message);
+    }
+
+    return response.json();
+  }
+
   async function putFileFetch(href: string, bodyData?: File) {
     const body = await fetch(href, {
       method: "PUT",
@@ -54,12 +85,31 @@ const StoreEditForm = ({ data }: any) => {
     return body;
   }
 
+  async function getApiResponse(href: string, query?: Query) {
+    if (query) {
+      const queryParams = new URLSearchParams();
+      for (const key in query) {
+        if (query[key] !== undefined) {
+          queryParams.append(key, query[key]!.toString());
+        }
+      }
+
+      const queryString = queryParams.toString();
+      if (queryString) {
+        href += `?${queryString}`;
+      }
+    }
+
+    const body = await fetchWithToken(href);
+    return body;
+  }
+
   const handleSubmit = async () => {
     const storeName = storeNameRef.current!.value;
     const storeDescription = storeDescriptionRef.current!.value;
     const basePay = basePayRef.current!.value;
     const address2 = address2Ref.current!.value;
-    const storeImage = storeImageRef.current!.files[0] || imageUrl;
+    const storeImage = storeImageRef.current!.files[0]! || imageUrl;
 
     if (
       storeName === "" ||
@@ -75,16 +125,15 @@ const StoreEditForm = ({ data }: any) => {
       return;
     }
 
-    const image = isImageChanged
-      ? await createImageApiResponse({ name: String(storeImage) })
-      : { item: { url: imageUrl } };
-    console.log(image);
-    // console.log(imagePath);
-    console.log(storeImage);
-    if (isImageChanged) {
-      const result = await putFileFetch(image.item.url, storeImage);
-      console.log(result);
-    }
+    const createdImageUrl = await createImageApiResponse({
+      name: getCookie("uid")!,
+    });
+
+    const image: any = isImageChanged
+      ? (await putFileFetch(createdImageUrl.item.url, storeImage)).url.split(
+          "?",
+        )[0]
+      : imageUrl;
 
     await editShopInformationApiResponse(id, {
       name: storeName,
@@ -92,7 +141,7 @@ const StoreEditForm = ({ data }: any) => {
       address1: address1,
       address2: address2,
       description: storeDescription,
-      imageUrl: image.item.url,
+      imageUrl: image,
       originalHourlyPay: Number(basePay),
     });
     // router.push("/employer");
@@ -145,7 +194,7 @@ const StoreEditForm = ({ data }: any) => {
         <label className="relative block h-[276px] w-[483px] mob:h-[200px] mob:w-full mob:max-w-[351px]">
           <Image
             className="object-cover"
-            src={`${imagePath ? imagePath : "/require-image.svg"}`}
+            src={`${imagePath ? imagePath : imageUrl}`}
             alt="store-preview"
             fill
           />
