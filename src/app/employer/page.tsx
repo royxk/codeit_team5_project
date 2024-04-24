@@ -16,6 +16,10 @@ const getServerSideProps = async () => {
     const { item } = await mydataApiResponse(uid);
     const sid = getServerSideCookie("sid");
 
+    if (item.type === "employee") {
+      return { uid, item };
+    }
+
     if (!sid === undefined && item.type === "employer" && item.shop) {
       const { id: shopId } = item.shop.item;
       const shopData = await searchShopInformationApiResponse(shopId);
@@ -36,15 +40,25 @@ const getServerSideProps = async () => {
 };
 
 const Employer = async () => {
-  const { uid, shopData, noticeList } = await getServerSideProps();
+  const { uid, item, shopData, noticeList } = await getServerSideProps();
   if (uid === undefined) {
     redirect("/signin");
   }
 
+  if (item.type === "employee") {
+    redirect("/");
+  }
+
   return (
-    <div className="mx-auto min-h-[calc(100vh-10.625rem)] max-w-[64.25rem] px-8 py-[3.75rem]">
-      <StoreDetail data={shopData} />
-      {shopData && <PostEmployer shopData={shopData} noticeList={noticeList} />}
+    <div className="flex min-h-[calc(100vh-10.625rem)] flex-col">
+      <div className="mx-auto flex w-full max-w-[64.25rem] flex-col px-8 py-[3.75rem] tab:mx-0">
+        <StoreDetail data={shopData} />
+      </div>
+      {shopData && (
+        <div className="mx-auto flex w-full justify-center bg-gray-5 px-8 py-[3.75rem]">
+          <PostEmployer shopData={shopData} noticeList={noticeList} />
+        </div>
+      )}
     </div>
   );
 };
