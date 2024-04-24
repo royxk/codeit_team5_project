@@ -24,8 +24,8 @@ const StoreRegisterForm = () => {
   const [storeNameErr, setStoreNameErr] = useState("");
   const [address2Err, setAddress2Err] = useState("");
   const [basePayErr, setBasePayErr] = useState("");
-  const [workType, setWorkType] = useState<Category | "">("");
-  const [address1, setAddress1] = useState<Address | "">("");
+  const [workType, setWorkType] = useState<any>("");
+  const [address1, setAddress1] = useState<any>("");
   const [imagePath, setImagePath] = useState("");
 
   const handleInputBlur = (
@@ -59,7 +59,7 @@ const StoreRegisterForm = () => {
       return;
     }
     const image = await createImageApiResponse({ name: storeImage });
-    const asdf = await createShopApiResponse({
+    await createShopApiResponse({
       name: storeName,
       category: workType,
       address1: address1,
