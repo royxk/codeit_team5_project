@@ -111,7 +111,10 @@ const CustomNotice = () => {
       className="flex w-full justify-start gap-[14px] overflow-x-scroll hide-scrollbar mob:gap-2"
     >
       {customNoticeList?.items.map(({ item }) => (
-        <Link href={`/${item.shop.item.id}/${item.id}`} key={item.id}>
+        <Link
+          href={`/noticeDetail/${item.shop.item.id}/${item.id}`}
+          key={item.id}
+        >
           <Post
             imgUrl={item.shop.item.imageUrl}
             shopName={item.shop.item.name}

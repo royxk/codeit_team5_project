@@ -67,7 +67,10 @@ const FilterdNotice = ({
       <div className="flex h-[760px] flex-col gap-10 tab:h-[1150px] mob:h-[820px]">
         <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
           {filterdNoticeList?.items.map(({ item }) => (
-            <Link href={`/${item.shop.item.id}/${item.id}`} key={item.id}>
+            <Link
+              href={`/noticeDetail/${item.shop.item.id}/${item.id}`}
+              key={item.id}
+            >
               <Post
                 imgUrl={item.shop.item.imageUrl}
                 shopName={item.shop.item.name}
