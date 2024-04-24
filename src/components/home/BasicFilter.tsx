@@ -6,8 +6,13 @@ import {
   MENU_DATA,
   PATH_DATA,
 } from "@/util/constants/FILTER_VALUES";
+import { SortType } from "@/util/convertData";
 
-const BasicFilter = () => {
+const BasicFilter = ({
+  onBasicFilterClick,
+}: {
+  onBasicFilterClick: (sortType: SortType) => void;
+}) => {
   const filterRef = useRef<HTMLDivElement>(null);
   const [isHidden, setIsHidden] = useState(true);
   const [filterSelected, setFilterSelected] = useState(
@@ -20,8 +25,10 @@ const BasicFilter = () => {
       prev === PATH_DATA.down ? PATH_DATA.up : PATH_DATA.down,
     );
   };
-  const handleFilterSelectedClick = (e: React.MouseEvent) =>
+  const handleFilterSelectedClick = (e: React.MouseEvent) => {
     setFilterSelected((e.target as HTMLButtonElement).innerHTML);
+    onBasicFilterClick((e.target as HTMLButtonElement).innerHTML as SortType);
+  };
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
