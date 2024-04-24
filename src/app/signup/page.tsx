@@ -1,69 +1,98 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
+import EmailInput from "@/components/signup/EmailInput";
+import PasswordInput from "@/components/signup/PasswordInput";
+import ConfirmPasswordInput from "@/components/signup/ConfirmPasswordInput";
 import Link from "next/link";
+import { signupApiResponse } from "@/util/api";
+import { setAccessTokenCookie, setUserIdCookie } from "@/util/cookieSetting";
 
-const Signup = () => {
+import Modal from "@/components/signup/Modal";
+
+interface ModalProps {
+  onClose: () => void;
+}
+
+export enum UserType {
+  Employee = "employee",
+  Employer = "employer",
+}
+
+const Signup: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
   const [selectedButtonIndex, setSelectedButtonIndex] = useState<number | null>(
     null,
   );
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+  const [userType, setUserType] = useState<string>("employee");
 
   const handleButtonClick = (index: number) => {
     setSelectedButtonIndex(index);
+    index === 0 ? setUserType("employee") : setUserType("employer");
   };
 
-  const validateEmail = () => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regex.test(email)) {
-      setEmailError("이메일 형식으로 작성해 주세요");
-      return false;
-    }
-    setEmailError("");
-    return true;
-  };
+  const handleSubmit = async () => {
+    if (
+      email.trim() &&
+      password.trim() &&
+      confirmPassword.trim() &&
+      !emailError &&
+      !passwordError &&
+      !confirmPasswordError &&
+      password.trim() === confirmPassword.trim()
+    ) {
+      try {
+        if (selectedButtonIndex === null) {
+          setModalMessage("회원 유형을 선택해주세요");
+          setShowModal(true);
+          return;
+        }
 
-  const validatePassword = () => {
-    if (password.length < 8) {
-      setPasswordError("8자 이상 작성해 주세요");
-      return false;
-    }
-    setPasswordError("");
-    return true;
-  };
+        const { item } = await signupApiResponse({
+          email,
+          password,
+          type: userType as UserType,
+        });
 
-  const validateConfirmPassword = () => {
-    if (password !== confirmPassword) {
-      setConfirmPasswordError("비밀번호가 일치하지 않습니다");
-      return false;
-    }
-    setConfirmPasswordError("");
-    return true;
-  };
+        if (!item) {
+          setModalMessage("아직은 회원가입이 불가능합니다.");
+          setShowModal(true);
+          return;
+        }
 
-  const handleSubmit = () => {
-    const isEmailValid = validateEmail();
-    const isPasswordValid = validatePassword();
-    const isConfirmPasswordValid = validateConfirmPassword();
+        const userId = item.user.item.id;
+        setAccessTokenCookie(item.token);
+        setUserIdCookie(userId);
 
-    if (isEmailValid && isPasswordValid && isConfirmPasswordValid) {
-      console.log("회원가입 성공");
+        setEmail("");
+        setPassword("");
+        setEmailError("");
+        setPasswordError("");
+        setConfirmPassword("");
+        setConfirmPasswordError("");
+      } catch (error) {
+        console.error("로그인 실패:", error);
+      }
+    } else {
+      if (!email.trim()) setEmailError("이메일을 입력하세요.");
+      if (!password.trim()) setPasswordError("비밀번호를 입력하세요.");
+      if (!confirmPassword.trim())
+        setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
+      if (password.trim() !== confirmPassword.trim())
+        setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
     }
   };
 
   return (
-    <div className="flex h-screen items-center justify-center pb-[300px]">
+    <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
         <div className="m-10 flex items-center justify-center">
           <img
@@ -72,42 +101,31 @@ const Signup = () => {
             className="h-[45px] w-[248px]"
           />
         </div>
-        <div className="mb-5 flex flex-col">
-          <div className="mb-6 flex flex-col">
-            <span className="mb-1">이메일</span>
-            <Input
-              inputType="email"
-              inputRef={emailRef}
-              errorType={emailError ? "ERROR" : ""}
-              blurEvent={() => validateEmail()}
-            />
-            {emailError && <p className="text-red-400">{emailError}</p>}
-          </div>
-          <div className="mb-6 flex flex-col">
-            <span className="mb-1">비밀번호</span>
-            <Input
-              inputType="password"
-              inputRef={passwordRef}
-              errorType={passwordError ? "ERROR" : ""}
-              blurEvent={() => validatePassword()}
-            />
-            {passwordError && <p className="text-red-400">{passwordError}</p>}
-          </div>
-          <div className="mb-6 flex flex-col">
-            <span className="mb-1">비밀번호 확인</span>
-            <Input
-              inputType="password"
-              inputRef={confirmPasswordRef}
-              errorType={confirmPasswordError ? "ERROR" : ""}
-              blurEvent={() => validateConfirmPassword()}
-            />
-            {confirmPasswordError && (
-              <p className="text-red-400">{confirmPasswordError}</p>
-            )}
-          </div>
+        <div className="mb-2 flex flex-col ">
+          <EmailInput
+            email={email}
+            setEmail={setEmail}
+            emailError={emailError}
+            setEmailError={setEmailError}
+          />
+          <PasswordInput
+            password={password}
+            setPassword={setPassword}
+            passwordError={passwordError}
+            setPasswordError={setPasswordError}
+          />
+          <ConfirmPasswordInput
+            password={password}
+            confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
+            confirmPasswordError={confirmPasswordError}
+            setConfirmPasswordError={setConfirmPasswordError}
+          />
         </div>
         <div className="flex flex-col">
-          <span className="mb-1">회원 유형</span>
+          <div>
+            <span className="mb-1">회원 유형</span>
+          </div>
           <div className="mb-6  flex justify-between gap-[8px]">
             <button
               type="button"
@@ -151,8 +169,8 @@ const Signup = () => {
           <Button
             size="large"
             color="red"
+            onClick={handleSubmit}
             className="w-[350px] border border-primary"
-            onClick={() => handleSubmit()}
           >
             가입하기
           </Button>
@@ -168,6 +186,21 @@ const Signup = () => {
           </Link>
         </div>
       </div>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <div className="text-center">
+            <p className="mt-7">{modalMessage}</p>
+            <Button
+              color="red"
+              size="small"
+              onClick={() => setShowModal(false)}
+              className="relative top-[50px] h-[48px] w-[120px] sm:left-[180px]"
+            >
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
