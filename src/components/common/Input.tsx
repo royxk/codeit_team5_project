@@ -20,6 +20,7 @@ interface InputProps {
   blurEvent?: () => void;
   dataArray?: string[];
   selectData?: (data: string) => void;
+  defaultValue?: string;
 }
 
 /**
@@ -39,6 +40,7 @@ const Input = ({
   selectData = (item) => {
     console.log(`selectedData : ${item}`);
   },
+  defaultValue,
 }: InputProps) => {
   const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
   const [selectedData, setSelectedData] = useState<string>("");
@@ -49,7 +51,7 @@ const Input = ({
   const dataArray = isSelectType ? INPUT_SELECT_DATA_LIST[inputType] : null;
 
   return (
-    <div className="flex flex-col gap-2 relative w-full">
+    <div className="relative flex w-full flex-col gap-2">
       <label className="text-black" htmlFor={inputType}>
         {INPUT_LABELS[inputType]}
       </label>
@@ -59,14 +61,14 @@ const Input = ({
         <div className="relative  border-gray-30 ">
           <button
             type="button"
-            className={`flex justify-between text-left w-full px-5 py-4 rounded-lg border-[1px] z-[1] ${
+            className={`z-[1] flex w-full justify-between rounded-lg border-[1px] px-5 py-4 text-left ${
               isDropdownEnabled ? "text-gray-50" : "text-black"
             }`}
             onClick={() => {
               setIsDropdownEnabled(!isDropdownEnabled);
             }}
           >
-            {selectedData || "값을 선택해주세요."}
+            {selectedData || defaultValue || "값을 선택해주세요."}
             <Image
               width={16}
               height={16}
@@ -78,8 +80,8 @@ const Input = ({
             />
           </button>
           {isDropdownEnabled && (
-            <div className="absolute bg-white text-center rounded-lg cursor-default border-[1px] border-gray-30 top-16 w-full  max-h-[230px] overflow-y-scroll">
-              <div className="bg-gray-20 flex flex-col gap-[1px]">
+            <div className="absolute top-16 max-h-[230px] w-full cursor-default overflow-y-scroll rounded-lg border-[1px] border-gray-30  bg-white text-center">
+              <div className="flex flex-col gap-[1px] bg-gray-20">
                 {dataArray!.length === 0 ? (
                   <div className="bg-white py-3">데이터가 없습니다.</div>
                 ) : (
@@ -106,17 +108,18 @@ const Input = ({
         // 일반 input형 코드
         <>
           <label
-            className={`relative flex justify-between px-5 py-4 border-[1px] rounded-lg border-gray-30 focus-within:border-blue-20 z-[1] 
+            className={`relative z-[1] flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-blue-20 
             ${inputType !== "date" ? "cursor-text" : ""} bg-white`}
             htmlFor={inputType}
           >
             <input
               id={inputType}
-              className="focus-visible:outline-none rounded-md w-full"
+              className="w-full rounded-md focus-visible:outline-none"
               type={INPUT_TYPES[inputType]}
               onBlur={() => blurEvent()}
               ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
+              value={defaultValue || ""}
             />
             {INPUT_LAST_WORD[inputType] && (
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
