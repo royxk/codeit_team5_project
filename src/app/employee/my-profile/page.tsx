@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { mydataApiResponse } from '@/util/api';
+import { mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
 import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
@@ -61,15 +61,16 @@ const RegisterProfile = () => {
     setAddressValue(data);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const editValue = {
-      name: nameRef.current?.value,
-      phone: phoneNumRef.current?.value,
+      name: nameRef.current?.value ?? "",
+      phone: phoneNumRef.current?.value ?? "",
       address: addressValue,
-      bio: bioRef.current?.value,
+      bio: bioRef.current?.value ?? "",
     }
 
-    console.log(editValue)
+    await mydataEditApiResponse(editValue);
+    router.push('/employee');
   }
 
   return (
@@ -104,7 +105,7 @@ const RegisterProfile = () => {
             />
           </div>
         </form>
-        <Button size='large' color='red' onClick={handleSubmit}>{isProfileData ? '등록하기' : '수정하기'}</Button>
+        <Button size='large' color='red' onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
       </div>
     </>
   );
