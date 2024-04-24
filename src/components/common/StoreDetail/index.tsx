@@ -6,24 +6,7 @@ import StoreDetailProps from "./StoreDetailTypes";
 import { STORE_DETAIL_ASSIGNED } from "@/util/constants/STORE_DETAIL_ASSIGNED";
 import StoreDetailCardBorder from "./StoreDetailCardBorder";
 import Link from "next/link";
-
-function formatDate(startsAt: string, workhour: number): string[] {
-  const start = new Date(startsAt);
-  const end = new Date(start.getTime() + workhour * 3600000);
-
-  // Ensuring month and day are two digits
-  const formattedMonth = (start.getMonth() + 1).toString().padStart(2, "0");
-  const formattedDay = start.getDate().toString().padStart(2, "0");
-  const formattedStartHours = start.getHours().toString().padStart(2, "0");
-  const formattedStartMinutes = start.getMinutes().toString().padStart(2, "0");
-  const formattedEndHours = end.getHours().toString().padStart(2, "0");
-  const formattedEndMinutes = end.getMinutes().toString().padStart(2, "0");
-
-  return [
-    `${start.getFullYear()}-${formattedMonth}-${formattedDay} `,
-    `${formattedStartHours}:${formattedStartMinutes}~${formattedEndHours}:${formattedEndMinutes} (${workhour}시간)`,
-  ];
-}
+import { formatApiDateData } from "@/util/formatDate";
 
 /**
  *
@@ -62,7 +45,7 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
     : item.name;
   const imageUrl = isPostPage ? item.shop.item.imageUrl : item?.imageUrl;
   const workHour = isPostPage
-    ? formatDate(item.startsAt, item.workhour)
+    ? formatApiDateData(item.startsAt, item.workhour)
     : "false";
 
   const shopData = isPostPage ? item.shop.item : item;
@@ -84,6 +67,11 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
       <StoreDetailCardBorder isBgWhite={isPostPage}>
         <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
           <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
+          {isClosed && (
+            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-80">
+              <h1 className="h1 text-white">마감 완료</h1>
+            </div>
+          )}
         </div>
         <section className="flex min-w-[21.625rem] flex-col justify-between pt-4 tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3">
           <div className="flex flex-col gap-3">
