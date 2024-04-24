@@ -4,15 +4,22 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
 import {
-  Address,
-  Category,
   createImageApiResponse,
-  createShopApiResponse,
+  editShopInformationApiResponse,
 } from "@/util/api";
 import { useRouter } from "next/navigation";
-import { getCookie } from "@/util/cookieSetting";
 
-const StoreRegisterForm = () => {
+const StoreEditForm = ({ data }: any) => {
+  const {
+    address1,
+    address2,
+    category,
+    description,
+    imageUrl,
+    name,
+    id,
+    originalHourlyPay,
+  } = data.item;
   const router = useRouter();
 
   const storeNameRef = useRef<HTMLInputElement>(null);
@@ -24,9 +31,10 @@ const StoreRegisterForm = () => {
   const [storeNameErr, setStoreNameErr] = useState("");
   const [address2Err, setAddress2Err] = useState("");
   const [basePayErr, setBasePayErr] = useState("");
-  const [workType, setWorkType] = useState<any>("");
-  const [address1, setAddress1] = useState<any>("");
-  const [imagePath, setImagePath] = useState("");
+  const [workType, setWorkType] = useState<any>(category);
+  const [mainAddress, setMainAddress] = useState<any>(address1);
+  const [imagePath, setImagePath] = useState(imageUrl);
+  const [isImageChanged, setIsImageChanged] = useState(false);
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -43,7 +51,7 @@ const StoreRegisterForm = () => {
     const storeDescription = storeDescriptionRef.current!.value;
     const basePay = basePayRef.current!.value;
     const address2 = address2Ref.current!.value;
-    const storeImage = storeImageRef.current!.value;
+    const storeImage = storeImageRef.current!.value || imageUrl;
 
     if (
       storeName === "" ||
@@ -51,15 +59,19 @@ const StoreRegisterForm = () => {
       address2 === "" ||
       storeImage === "" ||
       workType === "" ||
-      address1 === ""
+      mainAddress === ""
     ) {
       handleInputBlur(storeNameRef, setStoreNameErr);
       handleInputBlur(basePayRef, setBasePayErr);
       handleInputBlur(address2Ref, setAddress2Err);
       return;
     }
-    const image = await createImageApiResponse({ name: storeImage });
-    await createShopApiResponse({
+
+    const image = isImageChanged
+      ? await createImageApiResponse({ name: storeImage })
+      : { item: { url: imageUrl } };
+
+    await editShopInformationApiResponse(id, {
       name: storeName,
       category: workType,
       address1: address1,
@@ -70,13 +82,6 @@ const StoreRegisterForm = () => {
     });
     router.push("/employer");
   };
-
-  useEffect(() => {
-    const sid = getCookie("sid");
-    if (sid !== undefined) {
-      router.push("/employer");
-    }
-  }, []);
 
   return (
     <form
@@ -92,20 +97,31 @@ const StoreRegisterForm = () => {
           errorType={storeNameErr}
           inputType="STORE_NAME"
           blurEvent={() => handleInputBlur(storeNameRef, setStoreNameErr)}
+          defaultValue={name}
         />
-        <Input inputType="WORK_TYPES" selectData={setWorkType} />
-        <Input inputType="MAIN_ADDRESS" selectData={setAddress1} />
+        <Input
+          inputType="WORK_TYPES"
+          selectData={setWorkType}
+          defaultValue={category}
+        />
+        <Input
+          inputType="MAIN_ADDRESS"
+          selectData={setMainAddress}
+          defaultValue={address1}
+        />
         <Input
           inputRef={address2Ref}
           errorType={address2Err}
           inputType="ADDRESS"
           blurEvent={() => handleInputBlur(address2Ref, setAddress2Err)}
+          defaultValue={address2}
         />
         <Input
           inputRef={basePayRef}
           errorType={basePayErr}
           inputType="BASE_WAGE"
           blurEvent={() => handleInputBlur(basePayRef, setBasePayErr)}
+          defaultValue={originalHourlyPay}
         />
       </div>
 
@@ -123,6 +139,7 @@ const StoreRegisterForm = () => {
             type="file"
             accept="image/png, image/jpeg"
             onChange={() => {
+              setIsImageChanged(true);
               const img = storeImageRef.current!.files![0];
 
               const reader = new FileReader();
@@ -142,15 +159,16 @@ const StoreRegisterForm = () => {
           ref={storeDescriptionRef}
           placeholder="가게에 대한 설명을 입력해 주세요."
           className="body1 h-40 w-full resize-none overflow-y-scroll border-[1px] border-gray-30 px-5 py-4"
+          value={description}
         />
       </div>
       <div className="mt-2 flex w-full justify-center">
         <Button size="large" color="red">
-          등록하기
+          수정하기
         </Button>
       </div>
     </form>
   );
 };
 
-export default StoreRegisterForm;
+export default StoreEditForm;
