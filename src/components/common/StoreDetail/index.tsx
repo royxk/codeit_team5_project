@@ -6,24 +6,7 @@ import StoreDetailProps from "./StoreDetailTypes";
 import { STORE_DETAIL_ASSIGNED } from "@/util/constants/STORE_DETAIL_ASSIGNED";
 import StoreDetailCardBorder from "./StoreDetailCardBorder";
 import Link from "next/link";
-
-function formatDate(startsAt: string, workhour: number): string[] {
-  const start = new Date(startsAt);
-  const end = new Date(start.getTime() + workhour * 3600000);
-
-  // Ensuring month and day are two digits
-  const formattedMonth = (start.getMonth() + 1).toString().padStart(2, "0");
-  const formattedDay = start.getDate().toString().padStart(2, "0");
-  const formattedStartHours = start.getHours().toString().padStart(2, "0");
-  const formattedStartMinutes = start.getMinutes().toString().padStart(2, "0");
-  const formattedEndHours = end.getHours().toString().padStart(2, "0");
-  const formattedEndMinutes = end.getMinutes().toString().padStart(2, "0");
-
-  return [
-    `${start.getFullYear()}-${formattedMonth}-${formattedDay} `,
-    `${formattedStartHours}:${formattedStartMinutes}~${formattedEndHours}:${formattedEndMinutes} (${workhour}시간)`,
-  ];
-}
+import { formatApiDateData } from "@/util/formatDate";
 
 /**
  *
@@ -31,7 +14,7 @@ function formatDate(startsAt: string, workhour: number): string[] {
  * @description data.item이 존재하지 않을 경우 undefined를 반환하는 점을 이용해 가게 페이지에서의 가게 추가 기능 또한 겸할 예정입니다. 알바생의 가게 생성을 방지하기 위해, 유효하지 않은 공고 페이지로의 접근의 경우 상위 웹페이지 단에서의 리다이렉트가 필요합니다.
  * @returns
  */
-const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
+const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
   const item = data?.item;
 
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
@@ -62,7 +45,7 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
     : item.name;
   const imageUrl = isPostPage ? item.shop.item.imageUrl : item?.imageUrl;
   const workHour = isPostPage
-    ? formatDate(item.startsAt, item.workhour)
+    ? formatApiDateData(item.startsAt, item.workhour)
     : "false";
 
   const shopData = isPostPage ? item.shop.item : item;
