@@ -86,6 +86,7 @@ const FilterdNotice = ({
       </div>
       <Link className="w-56" href="#filterdNoticeSection">
         <Pagination
+          pageRefreshSwitch={isSortedQueryChanged}
           count={pageCount}
           setCurrentPageData={handlePageData}
           pageItemLimit={6}
