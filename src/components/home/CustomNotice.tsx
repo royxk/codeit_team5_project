@@ -5,6 +5,7 @@ import { formatApiDateData } from "@/util/formatDate";
 import { NoticeResponse } from "@/app/page";
 import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
+import Link from "next/link";
 
 function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
   let timeout: NodeJS.Timeout | null = null;
@@ -29,6 +30,8 @@ const CustomNotice = () => {
   const [scrollDistance, setScrollDistance] = useState<number>(326);
   const getCustomNoticeData = async () => {
     const res = await searchNoticeApiResponse({
+      offset: 0,
+      limit: 6,
       // address: "유저의 주소 사용",
     });
     console.log(res);
@@ -107,21 +110,18 @@ const CustomNotice = () => {
       ref={scrollRef}
       className="flex w-full justify-start gap-[14px] overflow-x-scroll hide-scrollbar mob:gap-2"
     >
-      {customNoticeList?.items.map((item) => (
-        <Post
-          key={item.item.id}
-          imgUrl={item.item.shop.item.imageUrl}
-          shopName={item.item.shop.item.name}
-          address1={item.item.shop.item.address1}
-          hourlyPay={item.item.hourlyPay}
-          startTime={
-            formatApiDateData(item.item.startsAt, item.item.workhour)[0]
-          }
-          startHour={
-            formatApiDateData(item.item.startsAt, item.item.workhour)[1]
-          }
-          state={!item.item.closed}
-        />
+      {customNoticeList?.items.map(({ item }) => (
+        <Link href={`/${item.shop.item.id}/${item.id}`} key={item.id}>
+          <Post
+            imgUrl={item.shop.item.imageUrl}
+            shopName={item.shop.item.name}
+            address1={item.shop.item.address1}
+            hourlyPay={item.hourlyPay}
+            startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+            startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+            state={!item.closed}
+          />
+        </Link>
       ))}
     </div>
   );
