@@ -44,7 +44,7 @@ const Employer = async () => {
   return (
     <div className="mx-auto min-h-[calc(100vh-10.625rem)] max-w-[64.25rem] px-8 py-[3.75rem]">
       <StoreDetail data={shopData} />
-      <PostEmployer shopData={shopData} noticeList={noticeList} />
+      {shopData && <PostEmployer shopData={shopData} noticeList={noticeList} />}
     </div>
   );
 };
