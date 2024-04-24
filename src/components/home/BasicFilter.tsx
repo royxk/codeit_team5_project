@@ -67,7 +67,7 @@ const BasicFilter = ({
       <div
         ref={filterRef}
         onClick={handleFilterSelectedClick}
-        className={`absolute right-0 top-7 z-10 mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
+        className={`absolute right-0 top-7 z-[55] mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
