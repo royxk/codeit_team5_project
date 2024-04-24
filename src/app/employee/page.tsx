@@ -24,7 +24,11 @@ const Employee = async () => {
   return( 
     <>
       <div className="flex flex-col justify-start items-center w-full">
-        <ProfileHeader isProfileData={isProfileData}/>
+        <header className={`flex flex-col gap-6 py-[60px] mob:py-10 
+          ${isProfileData ? 'mb-[459px] tab:mb-[568px] mob:mb-[269px]': 'mob:gap-4'}`}>
+          <h1 className="h1 mob:h2">내 프로필</h1>
+          <ProfileHeader isProfileData={isProfileData}/>
+        </header>
       </div>
     {!isProfileData && 
       <div className="flex flex-col justify-start items-center bg-gray-5 pt-[60px] pb-[120px] tab:-mx-8 mob:-mx-3 mob:pt-10 mob:pb-20">
