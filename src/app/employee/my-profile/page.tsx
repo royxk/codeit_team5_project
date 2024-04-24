@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { mydataApiResponse, mydataEditApiResponse } from '@/util/api';
+import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
 import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
@@ -65,7 +65,7 @@ const RegisterProfile = () => {
     const editValue = {
       name: nameRef.current?.value ?? "",
       phone: phoneNumRef.current?.value ?? "",
-      address: addressValue,
+      address: addressValue as Address,
       bio: bioRef.current?.value ?? "",
     }
 
