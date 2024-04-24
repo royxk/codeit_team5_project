@@ -1,13 +1,11 @@
+import { getServerSideCookie } from "../utils/serverCookies";
+import { mydataApiResponse } from "@/util/api";
 import Button from "@/components/common/Button";
 import EmployeeTable from "@/components/common/EmployeeTable";
 import Image from "next/image";
 import Link from "next/link";
 import phoneIcon from "/public/Icon_phone.svg";
 import locationIcon from "/public/post/location.svg";
-import { USER_TEST_DATA, UserApiItem } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
-import { getServerSideCookie } from "../utils/serverCookies";
-import { mydataApiResponse } from "@/util/api";
-import { GetServerSideProps } from "next";
 
 const getServerSideProps = async () => {
   const uid = await getServerSideCookie("uid");
