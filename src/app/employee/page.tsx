@@ -6,20 +6,25 @@ import Image from "next/image";
 import Link from "next/link";
 import phoneIcon from "/public/Icon_phone.svg";
 import locationIcon from "/public/post/location.svg";
+import { redirect } from "next/navigation";
 
-const getServerSideProps = async () => {
+const getServerSideData = async () => {
   const uid = await getServerSideCookie("uid");
   if (uid) {
     const { item } = await mydataApiResponse(uid);
-    return { item };
+    return { uid, item };
   }
-  return { item: {} };
+  return { uid, item: {} };
 }
 
 const Employee = async () => {
-  const { item } = await getServerSideProps();
-  const isProfileData = Object.keys(item).length <= 4;
+  const { uid, item } = await getServerSideData();
   const { name, phone, address, bio } = item;
+  const isProfileData = Object.keys(item).length <= 4;
+
+  if (!uid) {
+    redirect('/signin');
+  }
 
   return( 
     <>
