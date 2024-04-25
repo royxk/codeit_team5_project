@@ -63,10 +63,8 @@ const CustomNotice = () => {
     const interval = setInterval(() => {
       if (scrollRef.current) {
         const currentScrollPosition = scrollRef.current.scrollLeft;
-        console.log(`Current scroll position: ${currentScrollPosition}px`);
 
         const newScrollPosition = currentScrollPosition + scrollDistance;
-        console.log(`Scrolling to: ${newScrollPosition}px`);
 
         scrollRef.current.scrollTo({
           left: newScrollPosition,
@@ -75,7 +73,6 @@ const CustomNotice = () => {
 
         setTimeout(() => {
           if (scrollRef?.current?.scrollLeft === currentScrollPosition) {
-            console.log("Reached the end, scrolling back to start.");
             scrollRef.current.scrollTo({
               left: 0,
               behavior: "smooth",
