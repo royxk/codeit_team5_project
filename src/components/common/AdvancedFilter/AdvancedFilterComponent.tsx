@@ -46,7 +46,7 @@ const AdvancedFilterComponent = ({
     <div className={`relative content-end`}>
       <div className={`flex justify-end`}>
         <div
-          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-2 text-center text-sm text-white`}
+          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-1 text-center text-sm text-white`}
           onClick={toggleFilterModal}
           id="advanced-filter-modal"
         >
@@ -57,7 +57,7 @@ const AdvancedFilterComponent = ({
           <div
             ref={modalRef}
             onClick={(event) => event.stopPropagation()}
-            className={`ml-13 absolute z-[100] mt-10 tab:right-0 mob:fixed mob:top-0 mob:mt-0 mob:h-screen`}
+            className={`ml-13 absolute z-[100] mt-9 tab:right-0 mob:fixed mob:top-0 mob:mt-0 mob:h-screen`}
           >
             <AdvancedFilter
               setIsAdvancedFilterOpen={setIsAdvancedFilterOpen}
