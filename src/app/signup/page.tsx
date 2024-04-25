@@ -1,4 +1,4 @@
-"use client";
+import React from "react";
 
 import React, { useState } from "react";
 import Button from "@/components/common/Button";
@@ -202,6 +202,6 @@ const Signup: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
 export default Signup;

@@ -1,27 +1,14 @@
 "use client";
-import NotificationModal from "@/components/common/NotificationModal/NotificationModal";
+import NotificationModalComponent from "@/components/common/NotificationModal/NotificationModalComponent";
 import React, { useState } from "react";
 
-const NotificationTest = () => {
-  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
-  const toggleNotificationModal = () => {
-    setIsNotificationModalOpen(!isNotificationModalOpen);
-  };
+//TODO: 높이 조절
+//TODO: shade 띄우기
+//TODO: Mouse Hover 했을때 커서 올라가게 하기
+//TODO: 자기 클릭했을때 사리지지 않게 하기
 
-  return (
-    <div className={`relative content-end`}>
-      <div className={`flex justify-end`}>
-        <button onClick={toggleNotificationModal}>버튼</button>
-        {isNotificationModalOpen && (
-          <div
-            className={`absolute right-5 ml-10 mt-10 tab:right-0 tab:m-0 tab:h-full tab:w-full`}
-          >
-            <NotificationModal onClick={toggleNotificationModal} />
-          </div>
-        )}
-      </div>
-    </div>
-  );
+const NotificationTest = () => {
+  return <NotificationModalComponent />;
 };
 
 export default NotificationTest;
