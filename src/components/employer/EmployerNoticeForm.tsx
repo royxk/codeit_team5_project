@@ -8,6 +8,7 @@ import {
 } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface EmployerNoticeForm {
   hourlyPay?: number;
@@ -22,6 +23,8 @@ const EmployerNoticeForm = ({
   workHour,
   noticeDescription,
 }: EmployerNoticeForm) => {
+  const router = useRouter();
+
   const hourlyPayRef = useRef<HTMLInputElement>(null);
   const startDateRef = useRef<HTMLInputElement>(null);
   const workHourRef = useRef<HTMLInputElement>(null);
@@ -82,7 +85,9 @@ const EmployerNoticeForm = ({
           workhour: Number(workHour),
           description: noticeDescription,
         });
-        if (res.includes("Error:")) throw new Error();
+        if (typeof res === "string") throw new Error();
+
+        router.push(`../employer/notice/${res.item.id}`);
       } catch {
         alert(
           "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
@@ -96,7 +101,9 @@ const EmployerNoticeForm = ({
           workhour: Number(workHour),
           description: noticeDescription,
         });
-        if (res.includes("Error:")) throw new Error();
+        if (typeof res === "string") throw new Error();
+
+        router.push(`../employer/notice/${res.item.id}`);
       } catch {
         alert(
           "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
