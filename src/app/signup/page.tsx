@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "@/components/common/Button";
 import EmailInput from "@/components/signup/EmailInput";
 import PasswordInput from "@/components/signup/PasswordInput";
