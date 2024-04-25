@@ -1,3 +1,7 @@
+//notice_apply_id = item.id
+//shop_id = item.shop.item.id
+//notice_id = item.notice.item.id
+
 export const SHOP_APPLY_API_RESPONSE_DATA = {
   "offset": 0,
   "limit": 10,
