@@ -1,4 +1,4 @@
-'use client';
+"use client"
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
@@ -10,11 +10,10 @@ import Input from '@/components/common/Input';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
 
-
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
   const [isProfileData, setIsProfileData] = useState(true);
-  const [addressValue, setAddressValue] = useState('');
+  const [addressValue, setAddressValue] = useState(userData?.address);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
@@ -34,24 +33,13 @@ const RegisterProfile = () => {
       setUserData(data);
     };
     fetchUserData();
-  }, [userId, router]);
-
-  useEffect(() => {
-    if (userData) {
-      if (nameRef.current) {
-        nameRef.current.value = userData.name ?? '';
-      }
-      if (phoneNumRef.current) {
-        phoneNumRef.current.value = userData.phone ?? '';
-      }
-      if (bioRef.current) {
-        bioRef.current.value = userData.bio ?? '';
-      }
+    if(userData) {
       if (Object.keys(userData).length <= 4) {
         setIsProfileData(false);
       }
+      setIsProfileData(true);
     }
-  }, [userData])
+  }, [userId, router, userData]);
 
   const handleClick = () => {
     router.push('/employee');
@@ -65,7 +53,7 @@ const RegisterProfile = () => {
     const editValue = {
       name: nameRef.current?.value ?? "",
       phone: phoneNumRef.current?.value ?? "",
-      address: addressValue as Address,
+      address: addressValue as Address ?? userData?.address,
       bio: bioRef.current?.value ?? "",
     }
 
@@ -84,16 +72,17 @@ const RegisterProfile = () => {
         </div>
         <form className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'>
           <div>
-            <Input inputType="NAME" inputRef={nameRef}/>
+            <Input inputType="NAME" inputRef={nameRef} defaultValue={userData?.name}/>
           </div>
           <div>
-            <Input inputType="PHONE_NUMBER" inputRef={phoneNumRef}/>
+            <Input inputType="PHONE_NUMBER" inputRef={phoneNumRef} defaultValue={userData?.phone}/>
           </div>
           <div>
             <Input
               inputType={INPUT_SELECT_TYPE[2]}
               dataArray={INPUT_SELECT_DATA_LIST.MAIN_ADDRESS}
               selectData={handleSelect}
+              defaultValue={userData?.address}
             />
           </div>
           <div className='col-span-3 flex flex-col gap-2 tab:col-span-2 mob:col-span-1'>
@@ -102,6 +91,7 @@ const RegisterProfile = () => {
               className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 focus:outline-none focus:border-blue-20'
               placeholder='자기 소개를 입력해 주세요.'
               ref={bioRef}
+              value={userData?.bio}
             />
           </div>
         </form>
