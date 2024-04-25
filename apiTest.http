@@ -42,7 +42,7 @@ GET https://bootcamp-api.codeit.kr/api/0-1/the-julge/notices
 GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/notices
 
 ### 공고 조회(쿼리 추가)
-GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/notices?offset=0&limit=6
+GET https://bootcamp-api.codeit.kr/api/4-5/the-julge/notices?offset=0&limit=6&address=서울시%20중구&address=서울시%20강남구&address=서울시%20노원구&address=서울시%20영등포구
 
 
 
