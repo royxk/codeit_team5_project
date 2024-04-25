@@ -1,25 +1,27 @@
+import type { Address } from "@/util/api";
 import React from "react";
+import AdvancedFilterCloseSvg from "./AdvancedFilterCloseSvg";
 
 type SelectedLocationBoxProps = {
-  selectedLocations: string[];
-  handleClick: (location: string) => void;
+  selectedLocations: Address[];
+  onClick: (location: Address) => void;
 };
 
 const SelectedLocationBox = ({
   selectedLocations,
-  handleClick,
+  onClick: onClick,
 }: SelectedLocationBoxProps) => {
   return (
     <div
-      className={`flex w-full select-none flex-row flex-wrap gap-2 gap-4 px-1.5 py-3`}
+      className={`flex w-full select-none flex-row flex-wrap  gap-4 px-1.5 py-3`}
     >
       {selectedLocations.map((location, index) => (
         <div
           key={index}
-          className={`color-red-20 flex h-9 flex-row items-center justify-between gap-1 gap-3 rounded-2xl bg-red-10 px-4 font-bold text-red-40`}
+          className={`flex h-9 flex-row items-center justify-between gap-3 rounded-2xl bg-red-10 px-4 font-bold text-primary `}
         >
           {location}
-          <div onClick={(e) => handleClick(location)}>x</div>
+          <AdvancedFilterCloseSvg onClick={onClick} location={location} />
         </div>
       ))}
     </div>
