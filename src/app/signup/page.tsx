@@ -8,7 +8,6 @@ import ConfirmPasswordInput from "@/components/signup/ConfirmPasswordInput";
 import Link from "next/link";
 import { signupApiResponse } from "@/util/api";
 import { setAccessTokenCookie, setUserIdCookie } from "@/util/cookieSetting";
-
 import Modal from "@/components/signup/Modal";
 
 interface ModalProps {
