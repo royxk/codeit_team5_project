@@ -6,9 +6,11 @@ import React from "react";
 
 const FormCloseButton = () => {
   const router = useRouter();
-  console.log(router);
   return (
-    <button onClick={() => router.back()} className="relative h-8 w-8">
+    <button
+      onClick={() => router.back()}
+      className="relative h-8 w-8 mob:h-6 mob:w-6"
+    >
       <Image fill src={"/close.svg"} alt="close-notice-register" />
     </button>
   );

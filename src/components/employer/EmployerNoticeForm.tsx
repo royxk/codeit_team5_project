@@ -137,38 +137,44 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   }, []);
 
   return (
-    <section className="grid grid-cols-3 gap-x-5">
-      <Input
-        inputType="WAGE"
-        inputRef={hourlyPayRef}
-        defaultValue={hourlyPay ? String(hourlyPay) : ""}
-        errorType={payError}
-        blurEvent={() => handleInputBlur(hourlyPayRef, setPayError)}
-      />
-      <Input
-        inputType="DATE"
-        inputRef={startDateRef}
-        defaultValue={startDate ? String(startDate) : ""}
-        errorType={dateError}
-        blurEvent={() => handleInputBlur(startDateRef, setDateError)}
-      />
-      <Input
-        inputType="WORK_HOUR"
-        inputRef={workHourRef}
-        defaultValue={workHour ? String(workHour) : ""}
-        errorType={hourError}
-        blurEvent={() => handleInputBlur(hourlyPayRef, setHourError)}
-      />
-      <label htmlFor="noticeDescription" className="mb-2 mt-6">
-        공고 설명
-      </label>
-      <textarea
-        id="noticeDescription"
-        className="col-start-1 col-end-4 min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4"
-        ref={noticeDescriptionRef}
-        defaultValue={noticeDescription}
-      />
-      <div className="col-start-2 mt-8">
+    <section className="mobgap-y-5 grid grid-cols-3 gap-x-5 gap-y-8 tab:grid-cols-4 mob:grid-cols-1">
+      <div className="col-start-1 tab:col-end-3 mob:col-end-2">
+        <Input
+          inputType="WAGE"
+          inputRef={hourlyPayRef}
+          defaultValue={hourlyPay ? String(hourlyPay) : ""}
+          errorType={payError}
+          blurEvent={() => handleInputBlur(hourlyPayRef, setPayError)}
+        />
+      </div>
+      <div className="tab:col-start-3 tab:col-end-5 mob:col-end-2 mob:tab:col-start-1">
+        <Input
+          inputType="DATE"
+          inputRef={startDateRef}
+          defaultValue={startDate ? String(startDate) : ""}
+          errorType={dateError}
+          blurEvent={() => handleInputBlur(startDateRef, setDateError)}
+        />
+      </div>
+      <div className="tab:col-start-1 tab:col-end-3 mob:col-start-1 mob:col-end-2">
+        <Input
+          inputType="WORK_HOUR"
+          inputRef={workHourRef}
+          defaultValue={workHour ? String(workHour) : ""}
+          errorType={hourError}
+          blurEvent={() => handleInputBlur(hourlyPayRef, setHourError)}
+        />
+      </div>
+      <div className="col-start-1 col-end-4 flex flex-col tab:col-end-6 mob:col-end-2">
+        <label htmlFor="noticeDescription">공고 설명</label>
+        <textarea
+          id="noticeDescription"
+          className="min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4 "
+          ref={noticeDescriptionRef}
+          defaultValue={noticeDescription}
+        />
+      </div>
+      <div className="col-start-2 col-end-3 tab:col-start-2 tab:col-end-4 mob:col-start-1 mob:col-end-2">
         <Button size="full" color="red" onClick={() => handleButtonClick()}>
           {isEditPage ? "수정하기" : "등록하기"}
         </Button>
