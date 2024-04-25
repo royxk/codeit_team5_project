@@ -73,7 +73,7 @@ export interface Query {
   [key: string]: number | string | string[] | undefined;
   offset?: number;
   limit?: number;
-  address?: string[];
+  address?: Address[];
   keyword?: string;
   startsAtGte?: string;
   hourlyPayGte?: number;
