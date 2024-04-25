@@ -2,31 +2,48 @@
 import React, { useEffect, useState } from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
-import { NoticeResponse } from "@/app/page";
+import type { NoticeResponse } from "@/app/page";
 import { Query, searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
-
-const FilterdNotice = () => {
+import Link from "next/link";
+import { ConvertedSortType } from "@/util/convertData";
+interface FIlterNoticeProps {
+  setIsFilterChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  isFilterChanged: boolean;
+  sortedQuery: ConvertedSortType | null;
+  basicNoticeList: NoticeResponse | null;
+}
+const FilterdNotice = ({
+  setIsFilterChanged,
+  isFilterChanged,
+  sortedQuery,
+  basicNoticeList,
+}: FIlterNoticeProps) => {
   const [filterdNoticeList, setFilterdNoticeList] = useState<NoticeResponse>();
-
+  const [pageCount, setPageCount] = useState(6);
   const getFilterdNoticeData = async (query?: Query) => {
     const res = await searchNoticeApiResponse(query);
-    console.log(res);
+    setPageCount(res.count);
     setFilterdNoticeList(res);
   };
   const handlePageData = async (num: number) => {
+    const offsetNum = num * 6;
     const res = await searchNoticeApiResponse({
-      offset: num ? (num - 1) * 6 : 0,
+      offset: offsetNum,
       limit: 6,
-      // 설정된 상세필터 적용
+      ...(sortedQuery && { sort: sortedQuery }),
     });
-    console.log(res);
+    console.log(sortedQuery);
     setFilterdNoticeList(res);
   };
   useEffect(() => {
-    getFilterdNoticeData();
-  }, []);
+    if (basicNoticeList) {
+      setFilterdNoticeList(basicNoticeList);
+    } else {
+      getFilterdNoticeData({ limit: 6 });
+    }
+  }, [basicNoticeList]);
 
   if (!filterdNoticeList)
     return (
@@ -43,27 +60,47 @@ const FilterdNotice = () => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] pb-10 tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
-        {filterdNoticeList?.items.map((item, index) => (
-          <Post
-            key={index}
-            imgUrl={item.item.shop.item.imageUrl}
-            shopName={item.item.shop.item.name}
-            address1={item.item.shop.item.address1}
-            hourlyPay={item.item.hourlyPay}
-            startTime={
-              formatApiDateData(item.item.startsAt, item.item.workhour)[0]
-            }
-            startHour={
-              formatApiDateData(item.item.startsAt, item.item.workhour)[1]
-            }
-            state={!item.item.closed}
-          />
-        ))}
+      <div className="flex h-[760px] flex-col gap-10 tab:h-[1150px] mob:h-[820px]">
+        <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
+          {filterdNoticeList?.items.map(({ item }) =>
+            item.closed ? (
+              <div className="cursor-not-allowed" key={item.id}>
+                <Post
+                  imgUrl={item.shop.item.imageUrl}
+                  shopName={item.shop.item.name}
+                  address1={item.shop.item.address1}
+                  hourlyPay={item.hourlyPay}
+                  startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+                  startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+                  state={!item.closed}
+                />
+              </div>
+            ) : (
+              <Link
+                href={`/noticeDetail/${item.shop.item.id}/${item.id}`}
+                key={item.id}
+              >
+                <Post
+                  imgUrl={item.shop.item.imageUrl}
+                  shopName={item.shop.item.name}
+                  address1={item.shop.item.address1}
+                  hourlyPay={item.hourlyPay}
+                  startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+                  startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+                  state={!item.closed}
+                />
+              </Link>
+            ),
+          )}
+        </div>
       </div>
       <Pagination
-        rawPageData={filterdNoticeList.items}
+        setIsFilterChanged={setIsFilterChanged}
+        pageRefreshSwitch={isFilterChanged}
+        count={pageCount}
         setCurrentPageData={handlePageData}
+        pageItemLimit={6}
+        enableAnchorNavigation={true}
       />
     </>
   );
