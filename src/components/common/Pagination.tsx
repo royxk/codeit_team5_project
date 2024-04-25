@@ -34,6 +34,7 @@ const Pagination = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageList, setCurrentPageList] = useState([0]);
   console.log(pageData);
+
   const isPaginationNeed = pageData > 7;
 
   const firstPageList: number[] = [];
@@ -46,7 +47,6 @@ const Pagination = ({
       }
     }
   }
-
   // 현재 선택 가능한 페이지 리스트를 다루는 함수, pagination이 필요하지 않으면 작동하지 않음
   const handlePageList = (targetPageNumber: number) => {
     if (isPaginationNeed) {
@@ -151,12 +151,11 @@ const Pagination = ({
 
       <div className="flex gap-1">
         {currentPageList.map((item) => (
-          <>
+          <React.Fragment key={`pagination-${item + 1}`}>
             {enableAnchorNavigation ? (
               <Link href={`#filterdNoticeSection`}>
                 <button
                   type="button"
-                  key={`pagination-${item + 1}`}
                   className={`h-10 w-10 rounded-[4px] mob:h-8 mob:w-8 mob:text-xs 
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
                   onClick={() => handlePageNumberChange(item)}
@@ -167,7 +166,6 @@ const Pagination = ({
             ) : (
               <button
                 type="button"
-                key={`pagination-${item + 1}`}
                 className={`h-10 w-10 rounded-[4px] mob:h-8 mob:w-8 mob:text-xs
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
                 onClick={() => handlePageNumberChange(item)}
@@ -175,7 +173,7 @@ const Pagination = ({
                 {item + 1}
               </button>
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
       {enableAnchorNavigation ? (
