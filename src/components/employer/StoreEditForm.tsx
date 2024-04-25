@@ -4,9 +4,9 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
 import {
-  Query,
   createImageApiResponse,
   editShopInformationApiResponse,
+  putFileFetch,
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
@@ -48,14 +48,6 @@ const StoreEditForm = ({ data }: any) => {
     }
   };
 
-  async function putFileFetch(href: string, bodyData?: File) {
-    const body = await fetch(href, {
-      method: "PUT",
-      body: bodyData,
-    });
-    return body;
-  }
-
   const handleSubmit = async () => {
     const storeName = storeNameRef.current!.value;
     const storeDescription = storeDescriptionRef.current!.value;
@@ -81,7 +73,7 @@ const StoreEditForm = ({ data }: any) => {
       name: getCookie("uid")!,
     });
 
-    const image: any = isImageChanged
+    const image: string = isImageChanged
       ? (await putFileFetch(createdImageUrl.item.url, storeImage)).url.split(
           "?",
         )[0]

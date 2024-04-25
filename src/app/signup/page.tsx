@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 
 import React, { useState } from "react";
 import Button from "@/components/common/Button";
@@ -203,6 +203,6 @@ const Signup: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default Signup;
