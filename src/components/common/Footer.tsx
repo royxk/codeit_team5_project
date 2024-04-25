@@ -28,7 +28,7 @@ const Footer = () => {
   if (isFooterHidden) return;
 
   return (
-    <footer className="mx-0 flex w-full justify-center bg-gray-10 px-8 py-[37px] mob:pb-4">
+    <footer className="mx-0 flex w-full justify-center bg-gray-10 px-8 py-[37px] tab:-mx-8 tab:w-screen tab:px-8 mob:-mx-4 mob:w-screen mob:px-5 mob:pb-4">
       <div className="flex w-full max-w-[964px] flex-row items-start justify-between gap-y-10 mob:grid mob:grid-cols-2 ">
         <a className="body1 col-span-2 row-start-2 cursor-default text-gray-50">
           ©codeit - 2023
