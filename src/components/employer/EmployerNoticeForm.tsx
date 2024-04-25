@@ -18,15 +18,25 @@ const EmployerNoticeForm = ({
 }: EmployerNoticeForm) => {
   return (
     <section className="grid grid-cols-3 gap-x-5">
-      <Input inputType="WAGE" />
-      <Input inputType="DATE" />
-      <Input inputType="WORK_HOUR" />
+      <Input
+        inputType="WAGE"
+        defaultValue={hourlyPay ? String(hourlyPay) : ""}
+      />
+      <Input
+        inputType="DATE"
+        defaultValue={startDate ? String(startDate) : ""}
+      />
+      <Input
+        inputType="WORK_HOUR"
+        defaultValue={workHour ? String(workHour) : ""}
+      />
       <label htmlFor="noticeDescription" className="mb-2 mt-6">
         공고 설명
       </label>
       <textarea
         id="noticeDescription"
         className="col-start-1 col-end-4 min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4"
+        defaultValue={noticeDescription}
       />
       <div className="col-start-2 mt-8">
         <Button size="full" color="red" onClick={() => {}}>
