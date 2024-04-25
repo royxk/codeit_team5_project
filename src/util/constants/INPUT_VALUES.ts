@@ -7,7 +7,7 @@ export const INPUT_TYPES: InputValuesType = {
   EMAIL: "email",
   PASSWORD: "password",
   PASSWORD_CHECK: "password",
-  DATE: "date",
+  DATE: "datetime-local",
   BASE_WAGE: "number",
   WAGE: "number",
   WORK_HOUR: "number",
