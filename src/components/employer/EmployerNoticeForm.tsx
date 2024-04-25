@@ -1,28 +1,25 @@
 "use client";
-import React, { RefObject, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import {
   addNoticeApiResponse,
   editSelectedNoticeApiResponse,
+  searchSelectedNoticeApiResponse,
 } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { formatApiDateData } from "@/util/formatDate";
 
 interface EmployerNoticeForm {
   hourlyPay?: number;
-  startDate?: Date;
+  startDate?: string;
   workHour?: number;
   noticeDescription?: string;
 }
 
-const EmployerNoticeForm = ({
-  hourlyPay,
-  startDate,
-  workHour,
-  noticeDescription,
-}: EmployerNoticeForm) => {
+const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   const router = useRouter();
 
   const hourlyPayRef = useRef<HTMLInputElement>(null);
@@ -35,6 +32,11 @@ const EmployerNoticeForm = ({
   const noticeId = isEditPage
     ? currentUrl.split("notice/")[1].split("/edit")[0]
     : null;
+
+  const [hourlyPay, sethourlyPay] = useState(0);
+  const [startDate, setStartDate] = useState("");
+  const [workHour, setWorkHour] = useState(0);
+  const [noticeDescription, setNoticeDescription] = useState<string>("");
 
   const [payError, setPayError] = useState("");
   const [dateError, setDateError] = useState("");
@@ -49,6 +51,22 @@ const EmployerNoticeForm = ({
       setErr("BLANK_REQUIRE_VALUE");
     }
   };
+
+  async function handleEditPage() {
+    const shopId = getCookie("sid")!;
+    const noticeData = await searchSelectedNoticeApiResponse(shopId, noticeId!);
+
+    const hourlyPay = noticeData.item.hourlyPay;
+    const workHour = noticeData.item.workhour;
+    const startDate = formatApiDateData(noticeData.item.startsAt, workHour);
+    const noticeDescription = noticeData.item.description;
+    const startDateString = startDate[0] + "T" + startDate[1].split("~")[0];
+
+    sethourlyPay(hourlyPay);
+    setWorkHour(workHour);
+    setNoticeDescription(noticeDescription);
+    setStartDate(startDateString);
+  }
 
   async function handleButtonClick() {
     const hourlyPay = hourlyPayRef.current!.value;
@@ -86,8 +104,7 @@ const EmployerNoticeForm = ({
           description: noticeDescription,
         });
         if (typeof res === "string") throw new Error();
-
-        router.push(`../employer/notice/${res.item.id}`);
+        router.push(`/employer/notice/${res.item.id}`);
       } catch {
         alert(
           "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
@@ -103,7 +120,7 @@ const EmployerNoticeForm = ({
         });
         if (typeof res === "string") throw new Error();
 
-        router.push(`../employer/notice/${res.item.id}`);
+        router.push(`/employer/notice/${res.item.id}`);
       } catch {
         alert(
           "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
@@ -111,6 +128,13 @@ const EmployerNoticeForm = ({
       }
     }
   }
+
+  useEffect(() => {
+    if (isEditPage) {
+      handleEditPage();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className="grid grid-cols-3 gap-x-5">
