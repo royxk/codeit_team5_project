@@ -61,6 +61,7 @@ const Input = ({
         <div className="relative">
           <button
             type="button"
+
             className={`z-[1] flex w-full justify-between rounded-lg border-[1px]  border-gray-30  bg-white px-5 py-4 text-left ${
               isDropdownEnabled ? "text-gray-50" : "text-black"
             }`}
