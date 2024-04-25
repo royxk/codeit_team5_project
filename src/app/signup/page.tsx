@@ -1,6 +1,7 @@
-import React from "react";
+"use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import Button from "@/components/common/Button";
 import EmailInput from "@/components/signup/EmailInput";
 import PasswordInput from "@/components/signup/PasswordInput";
@@ -202,6 +203,6 @@ const Signup: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default Signup;
