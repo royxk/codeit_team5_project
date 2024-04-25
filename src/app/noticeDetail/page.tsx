@@ -9,14 +9,17 @@ import {
 import Post from "@/components/common/Post/Post";
 import PostSkeleton from "@/components/common/Post/PostSkeleton";
 import ApiResponse from "@/components/common/Post/PostListType";
+import { formatApiDateData } from "@/util/formatDate";
+import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
+import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 
 const Page = () => {
-  useEffect(() => {
-    handleSearchNoticeClick();
-  }, []);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<ApiResponse[]>([]);
+
+  useEffect(() => {
+    handleGetRecentPosts();
+  }, []);
 
   const handleSearchNoticeClick = async () => {
     setLoading(true);
@@ -31,6 +34,13 @@ const Page = () => {
     }
   };
 
+  const handleGetRecentPosts = () => {
+    const recentPosts = localStorage.getItem("recentPosts");
+    if (recentPosts) {
+      setItems(JSON.parse(recentPosts));
+    }
+  };
+
   const getSpecificNotice = async (shopId: string) => {
     setLoading(true);
     try {
@@ -41,6 +51,15 @@ const Page = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const saveOnLocalStorage = (data: ApiResponse) => {
+    // Save the data to local storage
+    if (data) {
+      saveRecentPostsLocalStorage(data);
+    }
+    const recentPosts = localStorage.getItem("recentPosts");
+    console.log(JSON.parse(recentPosts as string));
   };
 
   return (
@@ -63,16 +82,31 @@ const Page = () => {
                 <PostSkeleton key={index} />
               ))
             : items.map((data) => (
-                <Post
+                <div
                   key={data.item.id}
-                  imgUrl={data.item.shop.item.imageUrl}
-                  shopName={data.item.shop.item.name}
-                  address1={data.item.shop.item.address1}
-                  hourlyPay={data.item.hourlyPay}
-                  startTime={data.item.startsAt}
-                  startHour={data.item.workhour.toString()}
-                  state={!data.item.closed}
-                />
+                  onClick={() => saveOnLocalStorage(data)}
+                >
+                  <Post
+                    key={data.item.id}
+                    imgUrl={data.item.shop.item.imageUrl}
+                    shopName={data.item.shop.item.name}
+                    address1={data.item.shop.item.address1}
+                    hourlyPay={data.item.hourlyPay}
+                    startTime={
+                      formatApiDateData(
+                        data.item.startsAt,
+                        data.item.workhour,
+                      )[0]
+                    }
+                    startHour={
+                      formatApiDateData(
+                        data.item.startsAt,
+                        data.item.workhour,
+                      )[1]
+                    }
+                    state={!data.item.closed}
+                  />
+                </div>
               ))}
         </div>
       </div>
