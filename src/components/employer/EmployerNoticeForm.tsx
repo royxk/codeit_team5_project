@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useRef } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import Input from "../common/Input";
 import Button from "../common/Button";
 
@@ -22,6 +22,10 @@ const EmployerNoticeForm = ({
   const workHourRef = useRef<HTMLInputElement>(null);
   const noticeDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
+  const [payError, setPayError] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [hourError, setHourError] = useState("");
+
   function handleButtonClick() {}
 
   return (
@@ -30,16 +34,19 @@ const EmployerNoticeForm = ({
         inputType="WAGE"
         inputRef={hourlyPayRef}
         defaultValue={hourlyPay ? String(hourlyPay) : ""}
+        errorType={payError}
       />
       <Input
         inputType="DATE"
         inputRef={startDateRef}
         defaultValue={startDate ? String(startDate) : ""}
+        errorType={dateError}
       />
       <Input
         inputType="WORK_HOUR"
         inputRef={workHourRef}
         defaultValue={workHour ? String(workHour) : ""}
+        errorType={hourError}
       />
       <label htmlFor="noticeDescription" className="mb-2 mt-6">
         공고 설명
@@ -51,7 +58,7 @@ const EmployerNoticeForm = ({
         defaultValue={noticeDescription}
       />
       <div className="col-start-2 mt-8">
-        <Button size="full" color="red" onClick={() => {}}>
+        <Button size="full" color="red" onClick={() => handleButtonClick()}>
           {isEditPage ? "수정하기" : "등록하기"}
         </Button>
       </div>
