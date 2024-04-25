@@ -26,7 +26,7 @@ export const INPUT_LABELS: InputValuesType = {
   DATE: "시작 일시*",
   BASE_WAGE: "기본 시급*",
   WAGE: "시급*",
-  WORK_HOUR: "업무 시간",
+  WORK_HOUR: "업무 시간*",
   WORK_TYPES: "분류*",
   STORE_NAME: "가게 이름*",
   MAIN_ADDRESS: "주소",
