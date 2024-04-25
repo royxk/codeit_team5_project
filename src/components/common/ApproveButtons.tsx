@@ -40,9 +40,10 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
     setShowModal(false);
   }
 
-  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
-    setShowModal(false);
-  }
+  // 모달 컴포넌트 수정될 때까지 대기
+  // const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+  //   setShowModal(false);
+  // }
 
   return (
     <>
@@ -65,7 +66,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         </button>
       </div>
       {showModal && (
-        <Modal onClose={handleOutsideClick}>
+        <Modal onClose={() => setShowModal(false)}>
           <div className="flex flex-col gap-8">
             <p className="text-center">{modalMessage}</p>
             <div className="flex gap-2">
