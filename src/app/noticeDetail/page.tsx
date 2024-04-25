@@ -12,15 +12,14 @@ import ApiResponse from "@/components/common/Post/PostListType";
 import { formatApiDateData } from "@/util/formatDate";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
-import S from "@/util/constants/TEST_POST_VALUES";
 
 const Page = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<ApiResponse[]>([]);
 
   useEffect(() => {
-    // handleSearchNoticeClick();
-    handleGetRecentPosts();
+    handleSearchNoticeClick();
+    // handleGetRecentPosts();
   }, []);
 
   // 기존 공고 불러오기 (최근x)

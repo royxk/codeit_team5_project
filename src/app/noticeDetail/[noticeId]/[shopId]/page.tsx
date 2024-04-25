@@ -11,6 +11,7 @@ import ApiResponse from "@/components/common/Post/PostListType";
 import StoreDetailProps from "@/components/common/StoreDetail/StoreDetailTypes";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 import { searchSelectedNoticeApiResponse } from "@/util/api";
+import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 import { get } from "http";
 
 const StoreDetailPage = () => {
@@ -22,7 +23,7 @@ const StoreDetailPage = () => {
   useEffect(() => {
     // handleSearchNoticeClick();
     getSelectedNotice(router.shopId, router.noticeId);
-    // handleGetRecentPosts();
+    handleGetRecentPosts();
   }, []);
 
   const getSelectedNotice = async (shopId: string, noticeId: string) => {
@@ -30,11 +31,19 @@ const StoreDetailPage = () => {
     try {
       const response = await searchSelectedNoticeApiResponse(shopId, noticeId);
       setIem(response);
-      console.log(response);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 최근 조회한 공고 불러오기
+  const handleGetRecentPosts = () => {
+    // removeRecentPostsLocalStorage(); //최근 데이터 삭제
+    const recentPosts = localStorage.getItem("recentPosts");
+    if (recentPosts) {
+      setItems(JSON.parse(recentPosts));
     }
   };
 
@@ -46,6 +55,7 @@ const StoreDetailPage = () => {
     const recentPosts = localStorage.getItem("recentPosts");
     console.log(JSON.parse(recentPosts as string));
   };
+
   return (
     <div className={`flex w-full flex-col items-center justify-center gap-10`}>
       <StoreDetail data={item} />
