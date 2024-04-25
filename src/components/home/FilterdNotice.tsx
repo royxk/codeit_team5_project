@@ -9,12 +9,14 @@ import Pagination from "../common/Pagination";
 import Link from "next/link";
 import { ConvertedSortType } from "@/util/convertData";
 interface FIlterNoticeProps {
-  isSortedQueryChanged: boolean;
+  setIsFilterChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  isFilterChanged: boolean;
   sortedQuery: ConvertedSortType | null;
   basicNoticeList: NoticeResponse | null;
 }
 const FilterdNotice = ({
-  isSortedQueryChanged,
+  setIsFilterChanged,
+  isFilterChanged,
   sortedQuery,
   basicNoticeList,
 }: FIlterNoticeProps) => {
@@ -26,13 +28,7 @@ const FilterdNotice = ({
     setFilterdNoticeList(res);
   };
   const handlePageData = async (num: number) => {
-    let offsetNum;
-    if (isSortedQueryChanged) {
-      offsetNum = 0;
-    } else {
-      offsetNum = num * 6;
-    }
-
+    const offsetNum = num * 6;
     const res = await searchNoticeApiResponse({
       offset: offsetNum,
       limit: 6,
@@ -98,14 +94,14 @@ const FilterdNotice = ({
           )}
         </div>
       </div>
-      <Link className="w-56" href="#filterdNoticeSection">
-        <Pagination
-          pageRefreshSwitch={isSortedQueryChanged}
-          count={pageCount}
-          setCurrentPageData={handlePageData}
-          pageItemLimit={6}
-        />
-      </Link>
+      <Pagination
+        setIsFilterChanged={setIsFilterChanged}
+        pageRefreshSwitch={isFilterChanged}
+        count={pageCount}
+        setCurrentPageData={handlePageData}
+        pageItemLimit={6}
+        enableAnchorNavigation={true}
+      />
     </>
   );
 };
