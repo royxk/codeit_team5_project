@@ -216,7 +216,7 @@ export default function ApiTest() {
        */
       const res = await searchSelectedNoticeApiResponse(
         shopId,
-        noticeIdArray[0]
+        noticeIdArray[0],
       );
       console.log(res);
     } else {
@@ -240,7 +240,7 @@ export default function ApiTest() {
           startsAt: "2024-05-01T00:00:00.000Z",
           workhour: 9,
           description: "더 오른 급여",
-        }
+        },
       );
       console.log(res);
     } else {
@@ -258,7 +258,7 @@ export default function ApiTest() {
        */
       const { items } = await searchSelectedNoticeApplyApiResponse(
         shopId,
-        noticeIdArray[0]
+        noticeIdArray[0],
       );
       console.log(items);
       const noticeApplyId = items.map((item: any) => item.item.id);
@@ -278,7 +278,7 @@ export default function ApiTest() {
        */
       const res = await selectedNoticeApplyApiResponse(
         shopId,
-        noticeIdArray[0]
+        noticeIdArray[0],
       );
       console.log(res);
     } else {
@@ -301,7 +301,7 @@ export default function ApiTest() {
         shopId,
         noticeIdArray[0],
         noticeApplyIdArray[0],
-        { status: "accepted" }
+        { status: "accepted" },
       );
       console.log(res);
     } else {
@@ -322,21 +322,21 @@ export default function ApiTest() {
   return (
     <>
       <div>
-        <h1 className="flex place-content-center text-lg py-5 bg-blue-300">
+        <h1 className="flex place-content-center bg-blue-300 py-5 text-lg">
           api 테스트입니다
         </h1>
-        <h2 className="flex place-content-center text-sm bg-blue-300 text-red-700">
+        <h2 className="flex place-content-center bg-blue-300 text-sm text-red-700">
           주의: 현재 1시간마다 쿠키 값이 삭제되니 테스트 실패되면 다시 로그인
           하세요
         </h2>
-        <h2 className="flex place-content-center text-sm mb-5 bg-blue-300 text-red-700">
+        <h2 className="mb-5 flex place-content-center bg-blue-300 text-sm text-red-700">
           주의: 해당 테스트는 응답의 성공 여부에 대해서만 다루고 있습니다.
           상세한 body와 query를 포함한 요청은 각자의 페이지나 swagger에서
           해주세요
         </h2>
       </div>
       <div className="grid place-content-center">
-        <div className="flex flex-col align-center">
+        <div className="align-center flex flex-col">
           <div className="bg-blue-200 text-center">
             <div className="bg-blue-400">실시간 쿠키 정보</div>
             <div>
@@ -358,7 +358,7 @@ export default function ApiTest() {
               </span>
             </div>
           </div>
-          <div className=" text-center flex flex-col">
+          <div className=" flex flex-col text-center">
             <div className="bg-green-400">로그인 정보 입력</div>
             <input
               className="border-2 border-black"
@@ -374,121 +374,121 @@ export default function ApiTest() {
             />
           </div>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSearchNoticeClick}
           >
             공고 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSignupClick}
           >
             회원가입
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSigninClick}
           >
             로그인
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleLogoutClick}
           >
             로그아웃
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleMydataClick}
           >
             내 정보 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleMydataEditClick}
           >
             내 정보 수정
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleAlertListClick}
           >
             유저의 알림 목록 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleAlertReadedClick}
           >
             알림 읽음 처리
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleCreateShopClick}
           >
             가게 등록
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSearchShopInformationClick}
           >
             가게 정보 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleEditShopInformationClick}
           >
             가게 정보 수정
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleAddNoticeClick}
           >
             가게의 공고 등록
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSearchShopNoticeClick}
           >
             가게의 공고 목록 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSearchSelectedNoticeClick}
           >
             가게의 특정 공고 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleEditSelectedNoticeClick}
           >
             가게의 특정 공고 수정
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSearchSelectedNoticeApplyClick}
           >
             가게의 특정 공고의 지원 목록 조회
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleSelectedNoticeApplyClick}
           >
             가게의 특정 공고 지원 등록
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleStatusSettingClick}
           >
             가게의 특정 공고 지원 승인, 거절 또는 취소
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleUserApplyClick}
           >
             유저의 지원 목록
           </button>
           <button
-            className="hover:bg-green-300 hover:font-bold rounded-sm border-1 h-10"
+            className="border-1 h-10 rounded-sm hover:bg-green-300 hover:font-bold"
             onClick={handleImageApiClick}
           >
             Presigned URL 생성

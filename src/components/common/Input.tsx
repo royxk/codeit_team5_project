@@ -20,6 +20,7 @@ interface InputProps {
   blurEvent?: () => void;
   dataArray?: string[];
   selectData?: (data: string) => void;
+  defaultValue?: string;
 }
 
 /**
@@ -39,6 +40,7 @@ const Input = ({
   selectData = (item) => {
     console.log(`selectedData : ${item}`);
   },
+  defaultValue,
 }: InputProps) => {
   const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
   const [selectedData, setSelectedData] = useState<string>("");
@@ -56,17 +58,18 @@ const Input = ({
 
       {isSelectType ? (
         // 드롭다운형 input코드
-        <div className="relative  border-gray-30 ">
+        <div className="relative">
           <button
             type="button"
-            className={`z-[1] flex w-full justify-between rounded-lg border-[1px] px-5 py-4 text-left ${
+
+            className={`z-[1] flex w-full justify-between rounded-lg border-[1px]  border-gray-30  bg-white px-5 py-4 text-left ${
               isDropdownEnabled ? "text-gray-50" : "text-black"
             }`}
             onClick={() => {
               setIsDropdownEnabled(!isDropdownEnabled);
             }}
           >
-            {selectedData || "값을 선택해주세요."}
+            {selectedData || defaultValue || "값을 선택해주세요."}
             <Image
               width={16}
               height={16}
@@ -78,7 +81,7 @@ const Input = ({
             />
           </button>
           {isDropdownEnabled && (
-            <div className="absolute top-16 max-h-[230px] w-full cursor-default overflow-y-scroll rounded-lg border-[1px] border-gray-30  bg-white text-center">
+            <div className="absolute top-16 z-[2] max-h-[230px] w-full cursor-default overflow-y-scroll rounded-lg border-[1px] border-gray-30  bg-white text-center">
               <div className="flex flex-col gap-[1px] bg-gray-20">
                 {dataArray!.length === 0 ? (
                   <div className="bg-white py-3">데이터가 없습니다.</div>
@@ -117,6 +120,7 @@ const Input = ({
               onBlur={() => blurEvent()}
               ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
+              defaultValue={defaultValue || ""}
             />
             {INPUT_LAST_WORD[inputType] && (
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
