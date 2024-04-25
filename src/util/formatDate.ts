@@ -1,4 +1,4 @@
-import { format, addHours } from "date-fns";
+import { format, addHours, formatRFC3339 } from "date-fns";
 export function formatApiDateData(
   startsAt: string,
   workhour: number,
@@ -14,4 +14,10 @@ export function formatApiDateData(
     `${formattedDate}`,
     `${formattedStartTime}~${formattedEndTime} (${workhour}시간)`,
   ];
+}
+
+export function formatDateToRFC3339(date: string) {
+  const d = new Date(date);
+  const formattedDate = formatRFC3339(d);
+  return formattedDate;
 }
