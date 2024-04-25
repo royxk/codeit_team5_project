@@ -20,6 +20,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "bootcamp-api.codeit.kr",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -1,18 +1,21 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import BasicFilterSvg from "./BasicFilterArrow";
-import {
-  BASIC_FILTER_INITIALVALUE,
-  MENU_DATA,
-  PATH_DATA,
-} from "@/util/constants/FILTER_VALUES";
+import { MENU_DATA, PATH_DATA } from "@/util/constants/FILTER_VALUES";
+import type { SortType } from "@/util/convertData";
 
-const BasicFilter = () => {
+interface BasicFilterProps {
+  filterSelected: SortType;
+  onFilterSelectedClick: (e: React.MouseEvent) => void;
+}
+
+const BasicFilter = ({
+  filterSelected,
+  onFilterSelectedClick,
+}: BasicFilterProps) => {
   const filterRef = useRef<HTMLDivElement>(null);
   const [isHidden, setIsHidden] = useState(true);
-  const [filterSelected, setFilterSelected] = useState(
-    BASIC_FILTER_INITIALVALUE,
-  );
+
   const [pathData, setPathData] = useState(PATH_DATA.down);
   const handleFilterClick = () => {
     setIsHidden(!isHidden);
@@ -20,8 +23,6 @@ const BasicFilter = () => {
       prev === PATH_DATA.down ? PATH_DATA.up : PATH_DATA.down,
     );
   };
-  const handleFilterSelectedClick = (e: React.MouseEvent) =>
-    setFilterSelected((e.target as HTMLButtonElement).innerHTML);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -59,8 +60,8 @@ const BasicFilter = () => {
       </button>
       <div
         ref={filterRef}
-        onClick={handleFilterSelectedClick}
-        className={`absolute right-0 top-7 z-10 mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
+        onClick={onFilterSelectedClick}
+        className={`absolute right-0 top-7 z-[55] mt-2 flex w-[105px] origin-top-right flex-col items-center divide-y divide-gray-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isHidden ? `hidden` : `block`}`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
