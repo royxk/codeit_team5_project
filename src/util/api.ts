@@ -1,6 +1,10 @@
 import { deleteCookie, getCookie } from "@/util/cookieSetting";
-import { BASE_URL_WITH_TEAM, ENDPOINT, SEARCH_NOTICE, USERS_URL } from "@/util/constants/API_VALUES";
-
+import {
+  BASE_URL_WITH_TEAM,
+  ENDPOINT,
+  SEARCH_NOTICE,
+  USERS_URL,
+} from "@/util/constants/API_VALUES";
 
 /**
  * 분류의 타입 입니다.
@@ -148,8 +152,6 @@ export interface StatusBody {
 export interface ImageBody {
   name: string;
 }
-
-
 
 /**
  * 모든 API 요청을 가로채 쿠키의 액세스 토큰이 확인되면 인증을 추가하고 응답을 처리하는 함수입니다.
@@ -385,7 +387,7 @@ export function searchShopNoticeApiResponse(shopId: string, query?: Query) {
 export function searchSelectedNoticeApiResponse(
   shopId: string,
   noticeId: string,
-  query?: Query
+  query?: Query,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}`;
   return query ? getApiResponse(url, query) : getApiResponse(url);
@@ -401,7 +403,7 @@ export function searchSelectedNoticeApiResponse(
 export function editSelectedNoticeApiResponse(
   shopId: string,
   noticeId: string,
-  body: NoticeBody
+  body: NoticeBody,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}`;
   return putApiResponse(url, body);
@@ -417,7 +419,7 @@ export function editSelectedNoticeApiResponse(
 export function searchSelectedNoticeApplyApiResponse(
   shopId: string,
   noticeId: string,
-  query?: Query
+  query?: Query,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}${ENDPOINT.applications}`;
   return query ? getApiResponse(url, query) : getApiResponse(url);
@@ -432,7 +434,7 @@ export function searchSelectedNoticeApplyApiResponse(
  */
 export function selectedNoticeApplyApiResponse(
   shopId: string,
-  noticeId: string
+  noticeId: string,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}${ENDPOINT.applications}`;
   return postApiResponse(url);
@@ -452,7 +454,7 @@ export function selectedNoticeApplyStatusSettingApiResponse(
   shopId: string,
   noticeId: string,
   noticeApplyId: string,
-  body: StatusBody
+  body: StatusBody,
 ) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.shops}/${shopId}${ENDPOINT.notices}/${noticeId}${ENDPOINT.applications}/${noticeApplyId}`;
   return putApiResponse(url, body);
@@ -477,4 +479,18 @@ export function searchUserApplyApiResponse(userId: string, query?: Query) {
 export function createImageApiResponse(body: ImageBody) {
   const url = `${BASE_URL_WITH_TEAM}${ENDPOINT.images}`;
   return postApiResponse(url, body);
+}
+
+/**
+ * 생성된 Presigned URL에 파일을 넣어 보내는 함수입니다.
+ * @param href - Presigned URl을 받습니다.
+ * @param bodyData - 등록할 이미지 파일을 받습니다.
+ * @returns - 이미지 등록 결과를 반환합니다.
+ */
+export async function putFileFetch(href: string, bodyData?: File) {
+  const body = await fetch(href, {
+    method: "PUT",
+    body: bodyData,
+  });
+  return body;
 }

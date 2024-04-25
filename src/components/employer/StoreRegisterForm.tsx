@@ -4,10 +4,9 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
 import {
-  Address,
-  Category,
   createImageApiResponse,
   createShopApiResponse,
+  putFileFetch,
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
@@ -43,13 +42,13 @@ const StoreRegisterForm = () => {
     const storeDescription = storeDescriptionRef.current!.value;
     const basePay = basePayRef.current!.value;
     const address2 = address2Ref.current!.value;
-    const storeImage = storeImageRef.current!.value;
+    const storeImage = storeImageRef.current!.files![0];
 
     if (
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === "" ||
+      storeImage === null ||
       workType === "" ||
       address1 === ""
     ) {
@@ -58,16 +57,24 @@ const StoreRegisterForm = () => {
       handleInputBlur(address2Ref, setAddress2Err);
       return;
     }
-    const image = await createImageApiResponse({ name: storeImage });
+    const createdImageUrl = await createImageApiResponse({
+      name: getCookie("uid")!,
+    });
+
+    const image: string = (
+      await putFileFetch(createdImageUrl.item.url, storeImage)
+    ).url.split("?")[0];
+
     await createShopApiResponse({
       name: storeName,
       category: workType,
       address1: address1,
       address2: address2,
       description: storeDescription,
-      imageUrl: image.item.url,
+      imageUrl: image,
       originalHourlyPay: Number(basePay),
     });
+
     router.push("/employer");
   };
 
