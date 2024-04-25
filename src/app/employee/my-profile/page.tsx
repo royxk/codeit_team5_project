@@ -14,6 +14,7 @@ const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
   const [isProfileData, setIsProfileData] = useState(true);
   const [addressValue, setAddressValue] = useState(userData?.address);
+  const [phonErr, setPhoneErr] = useState('');
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
@@ -52,10 +53,14 @@ const RegisterProfile = () => {
     const phoneNum = target.replace(/\D/g, '');
     let formattedValue = target;
 
-    if (phoneNum?.length === 10) {
+    (phoneNum.length < 10 || phoneNum.slice(0, 3) !== '010')
+    ? setPhoneErr("INVALID_PHONE_NUMBER")
+    : setPhoneErr('');
+
+    if (phoneNum.length === 10) {
       formattedValue = phoneNum?.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     }
-    if (phoneNum?.length > 10) {
+    if (phoneNum.length > 10) {
       formattedValue = phoneNum?.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
     }
 
@@ -97,6 +102,7 @@ const RegisterProfile = () => {
             <Input
               inputType="PHONE_NUMBER"
               inputRef={phoneNumRef}
+              errorType={phonErr}
               blurEvent={() => handleBlur(phoneNumRef.current?.value)}
               defaultValue={userData?.phone}/>
           </div>
