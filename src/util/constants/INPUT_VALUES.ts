@@ -53,6 +53,7 @@ export const INPUT_PLACEHOLDER: InputValuesType = {
 export const INPUT_LAST_WORD: InputValuesType = {
   DEFAULT: "기본 어미",
   WAGE: "원",
+  WORK_HOUR: "시간",
 };
 
 export const INPUT_ERROR_TYPE: InputValuesType = {
@@ -66,7 +67,11 @@ export const INPUT_ERROR_TYPE: InputValuesType = {
   BLANK_REQUIRE_VALUE: "*은 필수 항목입니다.",
 };
 
-export const INPUT_SELECT_TYPE: string[] = ["MAIN_ADDRESS", "WORK_TYPES", "FAVOR_ADDRESS"];
+export const INPUT_SELECT_TYPE: string[] = [
+  "MAIN_ADDRESS",
+  "WORK_TYPES",
+  "FAVOR_ADDRESS",
+];
 
 export const INPUT_SELECT_DATA_LIST: { [key: string]: string[] } = {
   MAIN_ADDRESS: [
