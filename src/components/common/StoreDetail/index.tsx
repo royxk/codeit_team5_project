@@ -14,7 +14,7 @@ import { formatApiDateData } from "@/util/formatDate";
  * @description data.item이 존재하지 않을 경우 undefined를 반환하는 점을 이용해 가게 페이지에서의 가게 추가 기능 또한 겸할 예정입니다. 알바생의 가게 생성을 방지하기 위해, 유효하지 않은 공고 페이지로의 접근의 경우 상위 웹페이지 단에서의 리다이렉트가 필요합니다.
  * @returns
  */
-const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
+const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
   const item = data?.item;
   console.log(item);
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
@@ -28,7 +28,7 @@ const StoreDetail = ({ data }: { data: StoreDetailProps }) => {
           <div className="body1 m-auto py-9 text-center">
             내 가게를 소개하고 공고도 등록해 보세요.
             <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
-              <Link href={"/employer/assign"}>
+              <Link href={"/employer/register"}>
                 <Button size="full" color="red" className="mob:body2-bold">
                   가게 등록하기
                 </Button>

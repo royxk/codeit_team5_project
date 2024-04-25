@@ -14,13 +14,13 @@ const SearchSvg = () => {
         r="7.4437"
         transform="rotate(-45 9.08435 9.08398)"
         stroke="#A4A1AA"
-        stroke-width="1.75"
+        strokeWidth="1.75"
       />
       <path
         d="M14.7155 13.9795L18.3944 17.6584"
         stroke="#A4A1AA"
-        stroke-width="1.75"
-        stroke-linecap="round"
+        strokeWidth="1.75"
+        strokeLinecap="round"
       />
     </svg>
   );
