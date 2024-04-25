@@ -114,11 +114,11 @@ const NoticeMain = () => {
   }, [filterSelected]);
 
   return (
-    <section className="flex justify-center py-[60px]">
+    <section className="flex justify-center py-[60px] mob:py-10">
       <div className=" mx-auto flex w-[964px] flex-col items-center">
         <div
           id="filterdNoticeSection"
-          className="flex w-full justify-between pb-[31px] text-left tracking-[0.56px] mob:flex-col mob:gap-4"
+          className="flex w-full justify-between pb-[31px] text-left tracking-[0.56px] mob:flex-col mob:gap-4 mob:pb-3"
         >
           <h1 className="text-[28px] font-bold mob:text-xl">전체공고</h1>
           <div className="flex h-[42px] items-center gap-[10px]">
