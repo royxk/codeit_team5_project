@@ -28,14 +28,18 @@ const CustomNotice = () => {
   const [customNoticeList, setCustomNoticeList] = useState<NoticeResponse>();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollDistance, setScrollDistance] = useState<number>(326);
+  const [isLoading, setIsLoading] = useState(true);
   const getCustomNoticeData = async () => {
+    setIsLoading(true);
     const res = await searchNoticeApiResponse({
       offset: 0,
       limit: 6,
+      address: ["서울시 노원구"],
       // address: "유저의 주소 사용",
     });
     console.log(res);
     setCustomNoticeList(res);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -89,7 +93,7 @@ const CustomNotice = () => {
     };
   }, [scrollDistance]);
 
-  if (!customNoticeList)
+  if (isLoading)
     return (
       <>
         {
@@ -123,6 +127,13 @@ const CustomNotice = () => {
           />
         </Link>
       ))}
+      {customNoticeList?.items.length === 0 && (
+        <>
+          <div className="flex h-[348px] w-full items-center justify-center text-5xl">
+            공고가 없습니다
+          </div>
+        </>
+      )}
     </div>
   );
 };
