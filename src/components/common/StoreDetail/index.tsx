@@ -16,7 +16,7 @@ import { formatApiDateData } from "@/util/formatDate";
  */
 const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
   const item = data?.item;
-
+  console.log(item);
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
   if (item === undefined)
     return (
@@ -45,7 +45,7 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
     : item.name;
   const imageUrl = isPostPage ? item.shop.item.imageUrl : item?.imageUrl;
   const workHour = isPostPage
-    ? formatApiDateData(item.startsAt, item.workhour)
+    ? formatApiDateData(item?.startsAt, item?.workhour)
     : "false";
 
   const shopData = isPostPage ? item.shop.item : item;
@@ -67,6 +67,11 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
       <StoreDetailCardBorder isBgWhite={isPostPage}>
         <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
           <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
+          {isClosed && (
+            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-80">
+              <h1 className="h1 text-white">마감 완료</h1>
+            </div>
+          )}
         </div>
         <section className="flex min-w-[21.625rem] flex-col justify-between pt-4 tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3">
           <div className="flex flex-col gap-3">

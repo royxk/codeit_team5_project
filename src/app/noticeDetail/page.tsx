@@ -9,15 +9,20 @@ import {
 import Post from "@/components/common/Post/Post";
 import PostSkeleton from "@/components/common/Post/PostSkeleton";
 import ApiResponse from "@/components/common/Post/PostListType";
+import { formatApiDateData } from "@/util/formatDate";
+import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
+import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 
 const Page = () => {
-  useEffect(() => {
-    handleSearchNoticeClick();
-  }, []);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<ApiResponse[]>([]);
 
+  useEffect(() => {
+    handleSearchNoticeClick();
+    // handleGetRecentPosts();
+  }, []);
+
+  // 기존 공고 불러오기 (최근x)
   const handleSearchNoticeClick = async () => {
     setLoading(true);
     try {
@@ -31,6 +36,17 @@ const Page = () => {
     }
   };
 
+  // 최근 조회한 공고 불러오기
+  const handleGetRecentPosts = () => {
+    // removeRecentPostsLocalStorage(); //최근 데이터 삭제
+    const recentPosts = localStorage.getItem("recentPosts");
+    if (recentPosts) {
+      setItems(JSON.parse(recentPosts));
+      console.log(JSON.parse(recentPosts));
+    }
+  };
+
+  // 특정 공고 조회
   const getSpecificNotice = async (shopId: string) => {
     setLoading(true);
     try {
@@ -41,6 +57,15 @@ const Page = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const saveOnLocalStorage = (data: ApiResponse) => {
+    // Save the data to local storage
+    if (data) {
+      saveRecentPostsLocalStorage(data);
+    }
+    const recentPosts = localStorage.getItem("recentPosts");
+    console.log(JSON.parse(recentPosts as string));
   };
 
   return (
@@ -55,24 +80,45 @@ const Page = () => {
         >
           조회
         </div> */}
+        <div className={`w-fit bg-red-10`}>공고 하나 만들기</div>
         <div
           className={`mb-[100px] flex w-[968px] flex-row flex-wrap gap-4 tab:w-full`}
         >
+          {items.length === 0 && (
+            <div className={`w-full content-center text-[20px]`}>
+              최근에 본 공고가 없습니다.
+            </div>
+          )}
           {loading
             ? Array.from({ length: 5 }, (_, index) => (
                 <PostSkeleton key={index} />
               ))
             : items.map((data) => (
-                <Post
+                <div
                   key={data.item.id}
-                  imgUrl={data.item.shop.item.imageUrl}
-                  shopName={data.item.shop.item.name}
-                  address1={data.item.shop.item.address1}
-                  hourlyPay={data.item.hourlyPay}
-                  startTime={data.item.startsAt}
-                  startHour={data.item.workhour.toString()}
-                  state={!data.item.closed}
-                />
+                  onClick={() => saveOnLocalStorage(data)}
+                >
+                  <Post
+                    key={data.item.id}
+                    imgUrl={data.item.shop.item.imageUrl}
+                    shopName={data.item.shop.item.name}
+                    address1={data.item.shop.item.address1}
+                    hourlyPay={data.item.hourlyPay}
+                    startTime={
+                      formatApiDateData(
+                        data.item.startsAt,
+                        data.item.workhour,
+                      )[0]
+                    }
+                    startHour={
+                      formatApiDateData(
+                        data.item.startsAt,
+                        data.item.workhour,
+                      )[1]
+                    }
+                    state={!data.item.closed}
+                  />
+                </div>
               ))}
         </div>
       </div>

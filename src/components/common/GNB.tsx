@@ -1,13 +1,38 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
-import { getServerSideCookie } from "@/app/utils/serverCookies";
+import { getCookie } from "@/util/cookieSetting";
+import { usePathname } from "next/navigation";
 
 const GNB = () => {
-  const isLogin = getServerSideCookie("accessToken");
-  const isEmployer = getServerSideCookie("sid");
+  const pathname = usePathname();
+  const isSign = pathname.includes("sign");
+  const [isLogin, setIsLogin] = useState(false);
+  const [isEmployer, setIsEmployer] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const pathName = usePathname();
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    if (getCookie("accessToken")) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+
+    if (getCookie("sid")) {
+      setIsEmployer(true);
+    } else {
+      setIsEmployer(false);
+    }
+    setIsLoading(false);
+  }, [pathName]);
+
+  if (isSign) return;
 
   return (
     <div className="flex h-[70px] w-full items-center justify-center mob:h-[102px] mob:px-3">
@@ -33,23 +58,49 @@ const GNB = () => {
               </div>
             </div>
           </div>
-          {isLogin ? (
-            <div className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm">
-              <button className="flex h-5 font-bold text-black">
-                {isEmployer ? "내 가게" : "내 프로필"}
-              </button>
-              <button className="flex h-5 font-bold text-black">
-                로그아웃
-              </button>
-              <NotificationModalComponent />
-            </div>
+          {isLoading ? (
+            <></>
           ) : (
-            <div className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm">
-              <button className="flex h-5 font-bold text-black">로그인</button>
-              <button className="flex h-5 font-bold text-black">
-                회원 가입
-              </button>
-            </div>
+            <>
+              {isLogin ? (
+                <div
+                  className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
+                  suppressHydrationWarning
+                >
+                  <button
+                    className="flex h-5 font-bold text-black"
+                    suppressHydrationWarning
+                  >
+                    {isEmployer ? "내 가게" : "내 프로필"}
+                  </button>
+                  <button
+                    className="flex h-5 font-bold text-black"
+                    suppressHydrationWarning
+                  >
+                    로그아웃
+                  </button>
+                  <NotificationModalComponent />
+                </div>
+              ) : (
+                <div
+                  className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
+                  suppressHydrationWarning
+                >
+                  <button
+                    className="flex h-5 font-bold text-black"
+                    suppressHydrationWarning
+                  >
+                    로그인
+                  </button>
+                  <button
+                    className="flex h-5 font-bold text-black"
+                    suppressHydrationWarning
+                  >
+                    회원 가입
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

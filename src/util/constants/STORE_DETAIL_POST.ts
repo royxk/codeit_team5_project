@@ -1,17 +1,19 @@
+import StoreDetailProps from "@/components/common/StoreDetail/StoreDetailTypes";
+
 export const STORE_DETAIL_POST = {
   item: {
     id: "5a31787f-d878-4409-b9c7-62daefa21e69",
     hourlyPay: 60000,
     startsAt: "2024-05-01T00:00:00.000Z",
     workhour: 3,
-    description: "더 오른 급여",
+    description: "더 오른 급여여",
     closed: true,
     shop: {
       item: {
         id: "da8c6ed3-c73e-4057-a039-804e8eb71d7a",
         name: "음머어 소갈비 2호점",
         category: "한식",
-        address1: "서울시 종로구",
+        address1: "서울시 ",
         address2: "소갈비길",
         description: "싸고 맛있는집이라네",
         imageUrl:
@@ -74,4 +76,29 @@ export const STORE_DETAIL_POST = {
       },
     },
   ],
+};
+
+export const initialStoreDetailPost: StoreDetailProps = {
+  item: {
+    id: "",
+    hourlyPay: 0,
+    startsAt: "2024-05-01T00:00:00.000Z",
+    workhour: 0,
+    description: "",
+    closed: false,
+    shop: {
+      item: {
+        id: "",
+        name: "",
+        category: "",
+        address1: "",
+        address2: "",
+        description: "",
+        imageUrl: "",
+        originalHourlyPay: 0,
+        user: undefined,
+      },
+    },
+    currentUserApplication: null,
+  },
 };
