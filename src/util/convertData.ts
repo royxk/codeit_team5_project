@@ -62,6 +62,7 @@ export interface EmployerTableData extends CommonData {
 export const convertEmployeeTableData = (
   responseData: ApplyListApiResponse,
 ): EmployeeTableData[] => {
+  if (!responseData.items) return [];
   return responseData.items.map((data) => {
     const { id, shop, notice, status } = data.item;
     return {
@@ -78,6 +79,7 @@ export const convertEmployeeTableData = (
 export const convertEmployerTableData = (
   responseData: ApplicantListApiResponse,
 ): EmployerTableData[] => {
+  if (!responseData.items) return [];
   return responseData.items.map((data) => {
     const { user, status } = data.item;
     return {
