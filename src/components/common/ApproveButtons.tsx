@@ -40,6 +40,10 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
     setShowModal(false);
   }
 
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  }
+
   return (
     <>
       <div className='flex gap-3 mob:gap-2'>
@@ -61,7 +65,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         </button>
       </div>
       {showModal && (
-        <Modal onClose={handleNoBtnClick}>
+        <Modal onClose={handleOutsideClick}>
           <div className="flex flex-col gap-8">
             <p className="text-center">{modalMessage}</p>
             <div className="flex gap-2">
