@@ -20,6 +20,7 @@ interface InputProps {
   blurEvent?: () => void;
   dataArray?: string[];
   selectData?: (data: string) => void;
+  defaultValue?: string;
 }
 
 /**
@@ -39,6 +40,7 @@ const Input = ({
   selectData = (item) => {
     console.log(`selectedData : ${item}`);
   },
+  defaultValue,
 }: InputProps) => {
   const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
   const [selectedData, setSelectedData] = useState<string>("");
@@ -66,7 +68,7 @@ const Input = ({
               setIsDropdownEnabled(!isDropdownEnabled);
             }}
           >
-            {selectedData || "값을 선택해주세요."}
+            {selectedData || defaultValue || "값을 선택해주세요."}
             <Image
               width={16}
               height={16}
@@ -117,6 +119,7 @@ const Input = ({
               onBlur={() => blurEvent()}
               ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
+              defaultValue={defaultValue || ""}
             />
             {INPUT_LAST_WORD[inputType] && (
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
