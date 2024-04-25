@@ -70,10 +70,10 @@ export type UserType = "employee" | "employer";
  * @property {string} [sort] - 정렬 기준()
  */
 export interface Query {
-  [key: string]: number | string | undefined;
+  [key: string]: number | string | string[] | undefined;
   offset?: number;
   limit?: number;
-  address?: string;
+  address?: string[];
   keyword?: string;
   startsAtGte?: string;
   hourlyPayGte?: number;
@@ -196,7 +196,12 @@ async function getApiResponse(href: string, query?: Query) {
   if (query) {
     const queryParams = new URLSearchParams();
     for (const key in query) {
-      if (query[key] !== undefined) {
+      const value = query[key];
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          queryParams.append(key, item);
+        });
+      } else if (value !== undefined) {
         queryParams.append(key, query[key]!.toString());
       }
     }
