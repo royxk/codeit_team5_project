@@ -11,7 +11,7 @@ export interface NoticeResponse {
   links: Link[];
 }
 
-interface NoticeItem {
+export interface NoticeItem {
   item: {
     id: string;
     hourlyPay: number;
