@@ -16,7 +16,7 @@ import { formatApiDateData } from "@/util/formatDate";
  */
 const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
   const item = data?.item;
-
+  console.log(item);
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
   if (item === undefined)
     return (
@@ -45,7 +45,7 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
     : item.name;
   const imageUrl = isPostPage ? item.shop.item.imageUrl : item?.imageUrl;
   const workHour = isPostPage
-    ? formatApiDateData(item.startsAt, item.workhour)
+    ? formatApiDateData(item?.startsAt, item?.workhour)
     : "false";
 
   const shopData = isPostPage ? item.shop.item : item;

@@ -10,7 +10,7 @@ export function getRecentPostsLocalStorage(): PostType[] {
 export function saveRecentPostsLocalStorage(data: PostType) {
   // Check if the data is already in the local storage do Nothing
   const recentPosts = getRecentPostsLocalStorage();
-  //   if (recentPosts.some((post) => post.item.id === data.item.id)) return;
+  if (recentPosts.some((post) => post.item.id === data.item.id)) return;
   const newRecentPosts = [data, ...recentPosts].slice(0, 6);
   localStorage.setItem("recentPosts", JSON.stringify(newRecentPosts));
 }
