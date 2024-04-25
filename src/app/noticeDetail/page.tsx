@@ -43,6 +43,7 @@ const Page = () => {
     const recentPosts = localStorage.getItem("recentPosts");
     if (recentPosts) {
       setItems(JSON.parse(recentPosts));
+      console.log(JSON.parse(recentPosts));
     }
   };
 
