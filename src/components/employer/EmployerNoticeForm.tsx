@@ -8,12 +8,6 @@ interface EmployerNoticeForm {
   startDate?: Date;
   workHour?: number;
   noticeDescription?: string;
-  onClick: (
-    payRef: RefObject<HTMLInputElement>,
-    dateRef: RefObject<HTMLInputElement>,
-    hourRef: RefObject<HTMLInputElement>,
-    descRef: RefObject<HTMLTextAreaElement>,
-  ) => void;
 }
 
 const EmployerNoticeForm = ({
@@ -21,12 +15,14 @@ const EmployerNoticeForm = ({
   startDate,
   workHour,
   noticeDescription,
-  onClick,
 }: EmployerNoticeForm) => {
+  const isEditPage = noticeDescription !== "";
   const hourlyPayRef = useRef<HTMLInputElement>(null);
   const startDateRef = useRef<HTMLInputElement>(null);
   const workHourRef = useRef<HTMLInputElement>(null);
   const noticeDescriptionRef = useRef<HTMLTextAreaElement>(null);
+
+  function handleButtonClick() {}
 
   return (
     <section className="grid grid-cols-3 gap-x-5">
@@ -55,19 +51,8 @@ const EmployerNoticeForm = ({
         defaultValue={noticeDescription}
       />
       <div className="col-start-2 mt-8">
-        <Button
-          size="full"
-          color="red"
-          onClick={() =>
-            onClick(
-              hourlyPayRef,
-              startDateRef,
-              workHourRef,
-              noticeDescriptionRef,
-            )
-          }
-        >
-          {noticeDescription ? "수정하기" : "등록하기"}
+        <Button size="full" color="red" onClick={() => {}}>
+          {isEditPage ? "수정하기" : "등록하기"}
         </Button>
       </div>
     </section>

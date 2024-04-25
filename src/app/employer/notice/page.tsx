@@ -2,8 +2,6 @@ import EmployerNoticeForm from "@/components/employer/EmployerNoticeForm";
 import FormCloseButton from "@/components/employer/FormCloseButton";
 import React from "react";
 
-type Props = {};
-
 const EmployerNoticeRegister = () => {
   return (
     <div className="min-h-[calc(100vh-170px)] w-full bg-gray-5">
