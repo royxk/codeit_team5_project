@@ -26,6 +26,7 @@ type ApplyListApiResponse = {
 type ApplicantListApiResponse = {
   items: {
     item: {
+      id: string;
       status: string;
       user: {
         item: {
@@ -81,9 +82,9 @@ export const convertEmployerTableData = (
 ): EmployerTableData[] => {
   if (!responseData.items) return [];
   return responseData.items.map((data) => {
-    const { user, status } = data.item;
+    const { id, user, status } = data.item;
     return {
-      apply_id: user.item.id,
+      apply_id: id,
       userName: user.item.name,
       phoneNumber: user.item.phone,
       bio: user.item.bio,
