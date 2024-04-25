@@ -34,7 +34,7 @@ const CustomNotice = () => {
     const res = await searchNoticeApiResponse({
       offset: 0,
       limit: 6,
-      address: ["서울시 노원구"],
+      // address: ["서울시 노원구"],
       // address: "유저의 주소 사용",
     });
     console.log(res);
