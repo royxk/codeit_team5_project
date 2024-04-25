@@ -45,6 +45,25 @@ const RegisterProfile = () => {
     router.push('/employee');
   }
 
+  //phoneNum의 포커스가 사라질 때, 자동으로 '-'을 넣어주는 함수.
+  const handleBlur = (target: string | undefined) => {
+    if (!target) return;
+
+    const phoneNum = target.replace(/\D/g, '');
+    let formattedValue = target;
+
+    if (phoneNum?.length === 10) {
+      formattedValue = phoneNum?.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+    if (phoneNum?.length > 10) {
+      formattedValue = phoneNum?.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    }
+
+    if(phoneNumRef.current) {
+      phoneNumRef.current.value = formattedValue;
+    }
+  }
+
   const handleSelect = (data: string) => {
     setAddressValue(data);
   }
@@ -75,7 +94,11 @@ const RegisterProfile = () => {
             <Input inputType="NAME" inputRef={nameRef} defaultValue={userData?.name}/>
           </div>
           <div>
-            <Input inputType="PHONE_NUMBER" inputRef={phoneNumRef} defaultValue={userData?.phone}/>
+            <Input
+              inputType="PHONE_NUMBER"
+              inputRef={phoneNumRef}
+              blurEvent={() => handleBlur(phoneNumRef.current?.value)}
+              defaultValue={userData?.phone}/>
           </div>
           <div>
             <Input
