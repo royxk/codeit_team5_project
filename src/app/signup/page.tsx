@@ -15,7 +15,7 @@ interface ModalProps {
   onClose: () => void;
 }
 
-export enum UserType {
+enum UserType {
   Employee = "employee",
   Employer = "employer",
 }
