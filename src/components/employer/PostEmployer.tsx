@@ -81,14 +81,14 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
       shopName: shopData.item.name,
       address1: shopData.item.address1,
       hourlyPay: PostData.hourlyPay,
-      state: PostData.closed,
+      state: !PostData.closed,
       startTime: formatApiDateData(PostData.startsAt, PostData.workhour)[0],
       startHour: formatApiDateData(PostData.startsAt, PostData.workhour)[1],
     };
   }
 
   return (
-    <div>
+    <div className="tab:max-w-[42.375rem]">
       <p className="h1 text-block mob:h3 mb-8">내가 등록한 공고</p>
       <div className="grid grid-cols-3 gap-x-[0.875rem] gap-y-8 tab:grid-cols-2">
         {noticeList.map(({ item }: { item: PostDataType }) => {
