@@ -3,7 +3,7 @@ import React from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
 import type { NoticeResponse, NoticeItem } from "@/app/page";
-import { Query, searchNoticeApiResponse } from "@/util/api";
+import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
 import Link from "next/link";
@@ -62,7 +62,6 @@ const FilterdNotice = ({
     });
     console.log(sortedQuery);
     setPageCount(res.count);
-
     setFilterdNoticeList(res);
     console.log(res);
     console.log(filterdNoticeList);
