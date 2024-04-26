@@ -15,6 +15,7 @@ const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
   const [isProfileData, setIsProfileData] = useState(true);
   const [addressValue, setAddressValue] = useState(userData?.address);
+  const [nameErr, setNameErr] = useState('');
   const [phoneErr, setPhoneErr] = useState('');
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
@@ -71,15 +72,17 @@ const RegisterProfile = () => {
 
   //이름, 전화번호 글자 제한
   const handleSubmit = async () => {
-    const editValue = {
-      name: nameRef.current?.value ?? "",
-      phone: phoneNumRef.current?.value ?? "",
-      address: addressValue as Address ?? userData?.address,
-      bio: bioRef.current?.value ?? "",
+    if (!phoneErr && !nameErr){
+      const editValue = {
+        name: nameRef.current?.value ?? "",
+        phone: phoneNumRef.current?.value ?? "",
+        address: addressValue as Address ?? userData?.address,
+        bio: bioRef.current?.value ?? "",
+      }
+  
+      await mydataEditApiResponse(editValue);
+      router.push('/employee');
     }
-
-    await mydataEditApiResponse(editValue);
-    router.push('/employee');
   }
 
   return (
@@ -93,7 +96,11 @@ const RegisterProfile = () => {
         </div>
         <form className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'>
           <div>
-            <Input inputType="NAME" inputRef={nameRef} defaultValue={userData?.name}/>
+            <Input
+              inputType="NAME"
+              inputRef={nameRef}
+              defaultValue={userData?.name}
+              maxLength={15}/>
           </div>
           <div>
             <Input
@@ -101,7 +108,8 @@ const RegisterProfile = () => {
               inputRef={phoneNumRef}
               errorType={phoneErr}
               blurEvent={() => handleBlur(phoneNumRef.current?.value)}
-              defaultValue={userData?.phone}/>
+              defaultValue={userData?.phone}
+              maxLength={11}/>
           </div>
           <div>
             <Input
@@ -114,7 +122,7 @@ const RegisterProfile = () => {
           <div className='col-span-3 flex flex-col gap-2 tab:col-span-2 mob:col-span-1'>
             <label>소개</label>
             <textarea
-              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-blue-20'
+              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-primary'
               placeholder='자기 소개를 입력해 주세요.'
               ref={bioRef}
               defaultValue={userData?.bio}
