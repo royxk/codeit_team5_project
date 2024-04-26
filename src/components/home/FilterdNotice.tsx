@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
-import type { NoticeResponse } from "@/app/page";
+import type { NoticeResponse, NoticeItem } from "@/app/page";
 import { Query, searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
 import Link from "next/link";
 import { ConvertedSortType } from "@/util/convertData";
+import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 interface FIlterNoticeProps {
   setIsFilterChanged: React.Dispatch<React.SetStateAction<boolean>>;
   isFilterChanged: boolean;
@@ -37,6 +38,15 @@ const FilterdNotice = ({
     console.log(sortedQuery);
     setFilterdNoticeList(res);
   };
+  const saveOnLocalStorage = (data: NoticeItem) => {
+    // Save the data to local storage
+    if (data) {
+      saveRecentPostsLocalStorage(data);
+    }
+    const recentPosts = localStorage.getItem("recentPosts");
+    console.log(JSON.parse(recentPosts as string));
+  };
+
   useEffect(() => {
     if (basicNoticeList) {
       setFilterdNoticeList(basicNoticeList);
@@ -73,12 +83,14 @@ const FilterdNotice = ({
                   startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
                   startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
                   state={!item.closed}
+                  originalHourlyPay={item.shop.item.originalHourlyPay}
                 />
               </div>
             ) : (
               <Link
-                href={`/noticeDetail/${item.shop.item.id}/${item.id}`}
+                href={`/noticeDetail/${item.id}/${item.shop.item.id}`}
                 key={item.id}
+                onClick={() => saveOnLocalStorage({ item, links: [] })}
               >
                 <Post
                   imgUrl={item.shop.item.imageUrl}
@@ -88,6 +100,7 @@ const FilterdNotice = ({
                   startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
                   startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
                   state={!item.closed}
+                  originalHourlyPay={item.shop.item.originalHourlyPay}
                 />
               </Link>
             ),
