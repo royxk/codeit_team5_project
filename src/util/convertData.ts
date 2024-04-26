@@ -1,4 +1,7 @@
 // 응답 데이터 필요한 타입 정의
+
+import type { Address } from "./api";
+
 // 알바님(일반회원) 공고 지원 목록 데이터 타입
 type ApplyListApiResponse = {
   items: {
@@ -26,6 +29,7 @@ type ApplyListApiResponse = {
 type ApplicantListApiResponse = {
   items: {
     item: {
+      id: string;
       status: string;
       user: {
         item: {
@@ -62,6 +66,7 @@ export interface EmployerTableData extends CommonData {
 export const convertEmployeeTableData = (
   responseData: ApplyListApiResponse,
 ): EmployeeTableData[] => {
+  if (!responseData?.items) return [];
   return responseData.items.map((data) => {
     const { id, shop, notice, status } = data.item;
     return {
@@ -78,10 +83,11 @@ export const convertEmployeeTableData = (
 export const convertEmployerTableData = (
   responseData: ApplicantListApiResponse,
 ): EmployerTableData[] => {
+  if (!responseData?.items) return [];
   return responseData.items.map((data) => {
-    const { user, status } = data.item;
+    const { id, user, status } = data.item;
     return {
-      apply_id: user.item.id,
+      apply_id: id,
       userName: user.item.name,
       phoneNumber: user.item.phone,
       bio: user.item.bio,
@@ -92,6 +98,11 @@ export const convertEmployerTableData = (
 //쿼리 정렬 타입
 export type SortType = "마감임박순" | "시급많은순" | "시간적은순" | "가나다순";
 export type ConvertedSortType = "time" | "pay" | "hour" | "shop";
+export interface AdvancedFilterQuery {
+  address?: Address[];
+  startsAtGte?: string;
+  hourlyPayGte?: number;
+}
 export function convertSortType(sortType: SortType): ConvertedSortType {
   let convertedType: ConvertedSortType;
   switch (sortType) {

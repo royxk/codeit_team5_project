@@ -82,7 +82,7 @@ const Table = <T extends ApplyData>({
                   </td>
                   <td className="w-full min-w-[236px] bg-white pl-3 mob:min-w-[168px]">
                     {!isEmployee && status === "pending" ? (
-                      <ApproveButtons />
+                      <ApproveButtons noticeApplyId={apply_id}/>
                     ) : (
                       <StatusLabel status={status} />
                     )}

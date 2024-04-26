@@ -5,7 +5,7 @@ import { MENU_DATA, PATH_DATA } from "@/util/constants/FILTER_VALUES";
 import type { SortType } from "@/util/convertData";
 
 interface BasicFilterProps {
-  filterSelected: SortType;
+  filterSelected: SortType | null;
   onFilterSelectedClick: (e: React.MouseEvent) => void;
 }
 
@@ -55,7 +55,7 @@ const BasicFilter = ({
         aria-expanded={!isHidden}
         aria-haspopup="true"
       >
-        {filterSelected}
+        {filterSelected ? filterSelected : "마감임박순"}
         <BasicFilterSvg pathData={pathData} />
       </button>
       <div
@@ -70,7 +70,7 @@ const BasicFilter = ({
         {MENU_DATA.map((item, index) => (
           <div
             key={item.id}
-            className={`flex items-center justify-center ${index === 0 ? `rounded-t-md` : ``} ${index === MENU_DATA.length - 1 ? `rounded-b-md` : ``} hover:bg-gray-10`}
+            className={`flex select-none items-center justify-center ${index === 0 ? `rounded-t-md` : ``} ${index === MENU_DATA.length - 1 ? `rounded-b-md` : ``} hover:bg-gray-10`}
             role="none"
           >
             <button
