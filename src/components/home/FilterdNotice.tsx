@@ -7,6 +7,7 @@ import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
 import Link from "next/link";
+
 import type {
   AdvancedFilterQuery,
   ConvertedSortType,
@@ -48,12 +49,11 @@ const FilterdNotice = ({
       ...(sortedAdvancedQuery && { ...sortedAdvancedQuery }),
     });
     console.log(sortedQuery);
-    setPageCount(res.count);
-    setFilterdNoticeList(res);
     console.log(res);
     console.log(filterdNoticeList);
+    setPageCount(res.count);
+    setFilterdNoticeList(res);
   };
-
   const saveOnLocalStorage = (data: NoticeItem) => {
     // Save the data to local storage
     if (data) {
