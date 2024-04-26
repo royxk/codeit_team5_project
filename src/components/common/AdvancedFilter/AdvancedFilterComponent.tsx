@@ -1,12 +1,20 @@
 "use client";
-import React, { use, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import AdvancedFilter from "./AdvancedFilter";
 import { useEffect } from "react";
+import type { AdvancedFilterQuery } from "@/util/convertData";
+import type { Address } from "@/util/api";
 
-const AdvancedFilterComponent = () => {
+export interface AdvencedFilterComponentProp {
+  onAdvencedFilterSubmit: (query: AdvancedFilterQuery) => void;
+}
+
+const AdvancedFilterComponent = ({
+  onAdvencedFilterSubmit,
+}: AdvencedFilterComponentProp) => {
   const [isNotAdvancedFilterOpen, setIsAdvancedFilterOpen] = useState(false);
   const [count, setCount] = useState(0);
-  const [locations, setLocations] = React.useState<string[]>([]);
+  const [locations, setLocations] = React.useState<Address[]>([]);
   const [startDate, setStartDate] = React.useState<string>("");
   const [price, setPrice] = React.useState<string>("");
 
@@ -15,7 +23,6 @@ const AdvancedFilterComponent = () => {
   const toggleFilterModal = (event: React.MouseEvent) => {
     event.stopPropagation();
     setIsAdvancedFilterOpen(!isNotAdvancedFilterOpen);
-    setCount(0);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -39,7 +46,7 @@ const AdvancedFilterComponent = () => {
     <div className={`relative content-end`}>
       <div className={`flex justify-end`}>
         <div
-          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-2 text-center text-sm text-white`}
+          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-1 text-center text-sm text-white`}
           onClick={toggleFilterModal}
           id="advanced-filter-modal"
         >
@@ -50,9 +57,11 @@ const AdvancedFilterComponent = () => {
           <div
             ref={modalRef}
             onClick={(event) => event.stopPropagation()}
-            className={`ml-13 absolute z-[100] mt-14 tab:right-0 mob:fixed mob:top-0 mob:mt-0 mob:h-screen`}
+            className={`ml-13 absolute z-[100] mt-9 tab:right-0 mob:fixed mob:top-0 mob:mt-0 mob:h-screen`}
           >
             <AdvancedFilter
+              setIsAdvancedFilterOpen={setIsAdvancedFilterOpen}
+              onAdvencedFilterSubmit={onAdvencedFilterSubmit}
               locations={locations}
               startDate={startDate}
               price={price}
