@@ -136,7 +136,6 @@ const FilterdNotice = ({
           </>
         )}
       </div>
-      <div>{pageCount}</div>
       <Pagination
         setIsFilterChanged={setIsFilterChanged}
         pageRefreshSwitch={isFilterChanged || isAdvancedFilterChanged}
