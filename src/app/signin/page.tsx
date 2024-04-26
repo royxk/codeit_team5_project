@@ -1,31 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Button from "@/components/common/Button";
 import Link from "next/link";
-import { signinApiResponse } from "@/util/api";
-import { setAccessTokenCookie, setUserIdCookie } from "@/util/cookieSetting";
+import { mydataApiResponse, signinApiResponse } from "@/util/api";
+import {
+  getCookie,
+  setAccessTokenCookie,
+  setShopIdCookie,
+  setUserIdCookie,
+} from "@/util/cookieSetting";
 import Image from "next/image";
 import EmailInput from "@/components/signin/EmailInput";
 import PasswordInput from "@/components/signin/PasswordInput";
 import Modal from "@/components/common/SignModal";
+import ModalPortal from "@/components/common/ModalPortal";
+import { useRouter } from "next/navigation";
 
 interface ModalProps {
   onClose: () => void;
 }
 
-function getCookieValue(cookieName: string): string | undefined {
-  const cookies = document.cookie.split(";");
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim();
-    if (cookie.startsWith(`${cookieName}=`)) {
-      return cookie.substring(`${cookieName}=`.length);
-    }
-  }
-  return undefined;
-}
-
 const Signin: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
@@ -35,7 +32,10 @@ const Signin: React.FC = () => {
   const [uid, setUid] = useState("");
   const [accessToken, setAccessToken] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
     if (email.trim() && password.trim() && !emailError && !passwordError) {
       try {
         const { item } = await signinApiResponse({ email, password });
@@ -45,8 +45,23 @@ const Signin: React.FC = () => {
           setShowModal(true);
           return;
         }
+
+        console.log(item);
         const userId = item.user.item.id;
         const userAccessToken = item.token;
+        const userType = item.user.item.type;
+
+        if (userType === "employer") {
+          const { item } = await mydataApiResponse(userId);
+          if (item.type === "employer") {
+            if (item.shop === null) {
+              setShopIdCookie("");
+            } else {
+              const { id: shopId } = item.shop.item;
+              setShopIdCookie(shopId);
+            }
+          }
+        }
 
         setAccessTokenCookie(userAccessToken);
         setUserIdCookie(userId);
@@ -54,19 +69,14 @@ const Signin: React.FC = () => {
         setAccessToken(item.token);
         setUid(userId);
 
-        const accessCookie = getCookieValue("accessToken");
-        const userIdCookie = getCookieValue("uid");
-
-        console.log(`accessCookie: ${accessCookie}`);
-        console.log(`userIdCookie: ${userIdCookie}`);
-        console.log(`uid: ${uid}`);
-        console.log(`accessToken: ${accessToken}`);
+        console.log(`accessCookie: ${getCookie("accessToken")}`);
+        console.log(`userIdCookie: ${getCookie("uid")}`);
 
         setEmail("");
         setPassword("");
         setEmailError("");
         setPasswordError("");
-        window.location.href = "/";
+        router.push("/");
       } catch (error) {
         console.error("로그인 실패:", error);
       }
@@ -89,25 +99,32 @@ const Signin: React.FC = () => {
             />
           </Link>
         </div>
-        <div className="mb-5 flex flex-col ">
-          <EmailInput
-            email={email}
-            setEmail={setEmail}
-            emailError={emailError}
-            setEmailError={setEmailError}
-          />
-          <PasswordInput
-            password={password}
-            setPassword={setPassword}
-            passwordError={passwordError}
-            setPasswordError={setPasswordError}
-          />
-        </div>
-        <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-          <Button size="large" color="red" onClick={handleSubmit}>
-            로그인 하기
-          </Button>
-        </div>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div className="mb-5 flex flex-col ">
+            <EmailInput
+              email={email}
+              setEmail={setEmail}
+              emailError={emailError}
+              setEmailError={setEmailError}
+            />
+            <PasswordInput
+              password={password}
+              setPassword={setPassword}
+              passwordError={passwordError}
+              setPasswordError={setPasswordError}
+            />
+          </div>
+          <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
+            <Button
+              type="submit"
+              size="large"
+              color="red"
+              onClick={(e) => handleSubmit(e)}
+            >
+              로그인 하기
+            </Button>
+          </div>
+        </form>
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
           <span className="mr-3">회원이 아니신가요?</span>{" "}
           <Link
@@ -120,19 +137,21 @@ const Signin: React.FC = () => {
         </div>
       </div>
       {showModal && (
-        <Modal type="bad" onClose={() => setShowModal(false)}>
-          <div className="text-center">
-            <p className="mt-7">{modalMessage}</p>
-            <Button
-              color="red"
-              size="small"
-              onClick={() => setShowModal(false)}
-              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
-            >
-              확인
-            </Button>
-          </div>
-        </Modal>
+        <ModalPortal>
+          <Modal type="bad" onClose={() => setShowModal(false)}>
+            <div className="text-center">
+              <p className="mt-7">{modalMessage}</p>
+              <Button
+                color="red"
+                size="small"
+                onClick={() => setShowModal(false)}
+                className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
+              >
+                확인
+              </Button>
+            </div>
+          </Modal>
+        </ModalPortal>
       )}
     </div>
   );
