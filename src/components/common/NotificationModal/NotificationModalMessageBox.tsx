@@ -1,35 +1,33 @@
 import React from "react";
 import SvgStatusComponent from "./SvgStatusComponent";
+import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
+import { formatApiDateData } from "@/util/formatDate";
 
 type Props = {
-  state: boolean;
-  message: string;
-  time: string;
+  data: NOTIFICATION_API_ITEM_TYPE;
 };
 
-const NotificationModalMessageBox = ({
-  state = true,
-  message,
-  time,
-}: Props) => {
+const NotificationModalMessageBox = ({ data }: Props) => {
+  const createdAt = formatApiDateData(
+    data.item.notice.item.startsAt,
+    data.item.notice.item.workhour,
+  );
   return (
     <div
-      className={`flex min-h-24 flex-col gap-1 rounded-xl border bg-white px-3 py-4`}
+      className={`min-h-25 flex flex-col gap-1 rounded-xl border bg-white px-3 py-4 mob:min-h-24`}
     >
-      <SvgStatusComponent color={state ? "#FF0000" : "#0080FF"} />
+      <SvgStatusComponent
+        color={data.item.result === "rejected" ? "#FF0080" : "#0080FF"}
+      />
       <div>
-        {message}{" "}
-        {state ? (
-          <span className={`${state ? "text-red-40" : "text-blue-20"}`}>
-            거절
-          </span>
+        {data.item.shop.item.name} {createdAt[0]} {createdAt[1]} 공고지원이{" "}
+        {data.item.result == `rejected` ? (
+          <span className={`text-red-40`}>거절</span>
         ) : (
-          <span className={`${state ? "text-red-40" : "text-blue-20"}`}>
-            승인
-          </span>
+          <span className={`text-blue-20`}>승인</span>
         )}
+        되었어요.
       </div>
-      <div className={`text-gray-30`}>{time}</div>
     </div>
   );
 };
