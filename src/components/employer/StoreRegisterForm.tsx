@@ -167,7 +167,7 @@ const StoreRegisterForm = () => {
       {showModal && (
         <Modal onClose={() => handleModalClose()}>
           <div className="mt-5">
-            <p className="mb-10">수정이 완료되었습니다</p>
+            <p className="mb-10">등록이 완료되었습니다</p>
             <div className="absolute min-w-40">
               <Button
                 onClick={() => handleModalClose()}
