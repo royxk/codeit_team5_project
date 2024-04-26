@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BasicFilter from "./BasicFilter";
 import AdvancedFilterComponent from "../common/AdvancedFilter/AdvancedFilterComponent";
 import FilterdNotice from "./FilterdNotice";
@@ -11,6 +11,7 @@ import {
 } from "@/util/convertData";
 import type { NoticeResponse } from "@/app/page";
 import { Query, searchNoticeApiResponse } from "@/util/api";
+
 interface Keyword {
   keyword?: string | null;
 }
