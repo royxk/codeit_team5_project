@@ -117,7 +117,7 @@ const Input = ({
         // 일반 input형 코드
         <>
           <label
-            className={`relative z-[1] flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-primary 
+            className={`relative z-[1] mb-6 flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-primary 
             ${inputType !== "date" ? "cursor-text" : ""} bg-white`}
             htmlFor={inputType}
           >
@@ -135,9 +135,10 @@ const Input = ({
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
             )}
           </label>
-          {INPUT_ERROR_TYPE[errorType] && (
-            <p className="ml-2 text-red-400">{INPUT_ERROR_TYPE[errorType]}</p>
-          )}
+
+          <p className="caption absolute bottom-0 ml-2 text-red-400">
+            {INPUT_ERROR_TYPE[errorType]}
+          </p>
         </>
       )}
     </div>
