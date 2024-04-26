@@ -14,6 +14,7 @@ import type {
 } from "@/util/convertData";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 interface FIlterNoticeProps {
+  keyword: string | null | undefined;
   isLoading: boolean;
   pageCount: number;
   setPageCount: React.Dispatch<React.SetStateAction<number>>;
@@ -27,6 +28,7 @@ interface FIlterNoticeProps {
   >;
 }
 const FilterdNotice = ({
+  keyword,
   isLoading,
   pageCount,
   setPageCount,
@@ -47,6 +49,7 @@ const FilterdNotice = ({
       limit: 6,
       ...(sortedQuery && { sort: sortedQuery }),
       ...(sortedAdvancedQuery && { ...sortedAdvancedQuery }),
+      ...(keyword && { keyword: keyword }),
     });
     console.log(sortedQuery);
     console.log(res);
