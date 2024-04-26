@@ -5,7 +5,7 @@ import NotificationModalComponent from "./NotificationModal/NotificationModalCom
 import { MockData } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
-import { deleteCookie, getCookie } from "@/util/cookieSetting";
+import { getCookie } from "@/util/cookieSetting";
 import { usePathname } from "next/navigation";
 import { logout } from "@/util/api";
 
@@ -75,19 +75,34 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    {isEmployer ? "내 가게" : "내 프로필"}
-                  </button>
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    onClick={handleLogout}
-                    suppressHydrationWarning
-                  >
-                    로그아웃
-                  </button>
+                  {isEmployer ? (
+                    <Link href={"/employer"}>
+                      <button
+                        className="flex h-5 font-bold text-black"
+                        suppressHydrationWarning
+                      >
+                        내 가게
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link href={"/employee"}>
+                      <button
+                        className="flex h-5 font-bold text-black"
+                        suppressHydrationWarning
+                      >
+                        내 프로필
+                      </button>
+                    </Link>
+                  )}
+                  <Link href={"/"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      onClick={handleLogout}
+                      suppressHydrationWarning
+                    >
+                      로그아웃
+                    </button>
+                  </Link>
                   <NotificationModalComponent data={MockData} />
                 </div>
               ) : (

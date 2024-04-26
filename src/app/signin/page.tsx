@@ -120,14 +120,14 @@ const Signin: React.FC = () => {
         </div>
       </div>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal type="bad" onClose={() => setShowModal(false)}>
           <div className="text-center">
             <p className="mt-7">{modalMessage}</p>
             <Button
               color="red"
               size="small"
               onClick={() => setShowModal(false)}
-              className="relative left-[180px] top-[50px] h-[48px] w-[120px]"
+              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
             >
               확인
             </Button>
