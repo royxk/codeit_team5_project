@@ -9,6 +9,7 @@ import { Address } from "@/util/api";
 import Link from "next/link";
 
 interface AdvancedFilterProps {
+  handleReset: () => void;
   setIsAdvancedFilterOpen: (value: React.SetStateAction<boolean>) => void;
   onAdvencedFilterSubmit: (query: AdvancedFilterQuery) => void;
   onClick: (event: React.MouseEvent) => void;
@@ -22,6 +23,7 @@ interface AdvancedFilterProps {
 }
 
 function AdvancedFilter({
+  handleReset,
   setIsAdvancedFilterOpen,
   onAdvencedFilterSubmit,
   onClick,
@@ -40,11 +42,6 @@ function AdvancedFilter({
     if (price && Number(price) > 0) newCount += 1; // Add one if price is a positive number
     setcount && setcount(newCount);
   };
-
-  // Effect to handle inputs and locations changes
-  useEffect(() => {
-    updateCount();
-  }, [locations, startDate, price]);
 
   const addLocation = (location: Address): void => {
     const newLocations = locations.includes(location)
@@ -73,11 +70,10 @@ function AdvancedFilter({
     setIsAdvancedFilterOpen(false);
   };
 
-  const handleReset = (): void => {
-    setLocations([]);
-    setStartDate("");
-    setPrice("");
-  };
+  // Effect to handle inputs and locations changes
+  useEffect(() => {
+    updateCount();
+  }, [locations, startDate, price]);
 
   return (
     <div
@@ -85,7 +81,7 @@ function AdvancedFilter({
     >
       <div className={`flex flex-row justify-between`}>
         <div className={`text-[20px] font-bold`}>상세필터</div>
-        <div onClick={onClick}>
+        <div onClick={onClick} className="hover:cursor-pointer">
           <SvgCloseButton />
         </div>
       </div>
