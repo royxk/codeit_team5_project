@@ -14,12 +14,12 @@ const getServerSideProps = async () => {
 
   if (uid !== undefined) {
     const { item } = await mydataApiResponse(uid);
-    const sid = getServerSideCookie("sid") || item.shop.item.id;
 
     if (item.type === "employee") {
       const type = "employee";
       return { uid, type };
     }
+    const sid = getServerSideCookie("sid") || item.shop.item.id;
 
     if (sid) {
       const shopData = await searchShopInformationApiResponse(sid);
