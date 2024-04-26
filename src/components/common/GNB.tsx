@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
+import { MockData } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
 import { getCookie } from "@/util/cookieSetting";
@@ -79,7 +80,7 @@ const GNB = () => {
                   >
                     로그아웃
                   </button>
-                  <NotificationModalComponent />
+                  <NotificationModalComponent data={MockData} />
                 </div>
               ) : (
                 <div
