@@ -81,7 +81,7 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
       shopName: shopData.item.name,
       address1: shopData.item.address1,
       hourlyPay: PostData.hourlyPay,
-      state: PostData.closed,
+      state: new Date(PostData.startsAt) > new Date(),
       startTime: formatApiDateData(PostData.startsAt, PostData.workhour)[0],
       startHour: formatApiDateData(PostData.startsAt, PostData.workhour)[1],
     };
