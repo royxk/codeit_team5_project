@@ -7,7 +7,6 @@ import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
 import Link from "next/link";
-
 import type {
   AdvancedFilterQuery,
   ConvertedSortType,
@@ -20,7 +19,9 @@ interface FIlterNoticeProps {
   setPageCount: React.Dispatch<React.SetStateAction<number>>;
   setIsFilterChanged: React.Dispatch<React.SetStateAction<boolean>>;
   isFilterChanged: boolean;
+  isAdvancedFilterChanged: boolean;
   sortedAdvancedQuery: AdvancedFilterQuery | null;
+  prevSortedAdvancedQuery: AdvancedFilterQuery | null;
   sortedQuery: ConvertedSortType | null;
   filterdNoticeList: NoticeResponse | null;
   setFilterdNoticeList: React.Dispatch<
@@ -34,7 +35,9 @@ const FilterdNotice = ({
   setPageCount,
   setIsFilterChanged,
   isFilterChanged,
+  isAdvancedFilterChanged,
   sortedAdvancedQuery,
+  prevSortedAdvancedQuery,
   sortedQuery,
   filterdNoticeList,
   setFilterdNoticeList,
@@ -42,6 +45,13 @@ const FilterdNotice = ({
   const handlePageData = async (num: number) => {
     const offsetNum = num * 6;
     console.log(sortedAdvancedQuery);
+    console.log(prevSortedAdvancedQuery);
+    if (sortedAdvancedQuery !== prevSortedAdvancedQuery) {
+      setIsFilterChanged(true);
+    } else {
+      setIsFilterChanged(false);
+    }
+
     console.log(sortedQuery);
 
     const res = await searchNoticeApiResponse({
@@ -52,11 +62,12 @@ const FilterdNotice = ({
       ...(keyword && { keyword: keyword }),
     });
     console.log(sortedQuery);
-    console.log(res);
-    console.log(filterdNoticeList);
     setPageCount(res.count);
     setFilterdNoticeList(res);
+    console.log(res);
+    console.log(filterdNoticeList);
   };
+
   const saveOnLocalStorage = (data: NoticeItem) => {
     // Save the data to local storage
     if (data) {
@@ -128,7 +139,7 @@ const FilterdNotice = ({
       <div>{pageCount}</div>
       <Pagination
         setIsFilterChanged={setIsFilterChanged}
-        pageRefreshSwitch={isFilterChanged}
+        pageRefreshSwitch={isFilterChanged || isAdvancedFilterChanged}
         count={pageCount}
         setCurrentPageData={handlePageData}
         pageItemLimit={6}
