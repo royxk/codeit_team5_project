@@ -8,6 +8,8 @@ import LogoSvg from "./GNB/LogoSvg";
 import { getCookie } from "@/util/cookieSetting";
 import { usePathname } from "next/navigation";
 
+//TODO: 유져의 알림 목록 조회 API 연동 필요
+
 const GNB = () => {
   const pathname = usePathname();
   const isSign = pathname.includes("sign");
@@ -18,7 +20,8 @@ const GNB = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
+    // const cookie = getCookie("uid");
+    // console.log(cookie);
     if (getCookie("accessToken")) {
       setIsLogin(true);
     } else {

@@ -15,13 +15,13 @@ const NotificationModalMessageBox = ({ data }: Props) => {
   );
   return (
     <div
-      className={`min-h-25 flex flex-col gap-1 rounded-xl border bg-white px-3 py-4 mob:min-h-24`}
+      className={`min-h-25 flex flex-col gap-1 rounded-xl border bg-white px-3 py-4 text-[14px] mob:min-h-24`}
     >
       <SvgStatusComponent
         color={data.item.result === "rejected" ? "#FF0080" : "#0080FF"}
       />
       <div>
-        {data.item.shop.item.name} {createdAt[0]} {createdAt[1]} 공고지원이{" "}
+        {`${data.item.shop.item.name} (${createdAt[0]} ${createdAt[1]}) 공고지원이`}{" "}
         {data.item.result == `rejected` ? (
           <span className={`text-red-40`}>거절</span>
         ) : (
