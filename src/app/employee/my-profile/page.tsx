@@ -16,7 +16,7 @@ const RegisterProfile = () => {
   const [isProfileData, setIsProfileData] = useState(true);
   const [addressValue, setAddressValue] = useState(userData?.address);
   const [bioValue, setBioValue] = useState(userData?.bio);
-  const [phonErr, setPhoneErr] = useState('');
+  const [phoneErr, setPhoneErr] = useState('');
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
@@ -47,20 +47,23 @@ const RegisterProfile = () => {
     router.push('/employee');
   }
 
-  //phoneNum의 포커스가 사라질 때, 자동으로 '-'을 넣어주는 함수.
-  const handleBlur = (target: string | undefined) => {
-    if (!target) return;
+  const checkPhoneNumValid = () => {
+    if (!phoneNumRef.current) return setPhoneErr("INVALID_PHONE_NUMBER");
 
-    const phoneNum = target.replace(/\D/g, '');
-    const formattedValue = formatPhoneNumber(phoneNum);
-
-    (phoneNum.length < 10 || phoneNum.slice(0, 3) !== '010')
+    const phoneNum = phoneNumRef.current.value.replace(/\D/g, '');
+    return (phoneNum.length < 10 || phoneNum.slice(0, 3) !== '010')
     ? setPhoneErr("INVALID_PHONE_NUMBER")
     : setPhoneErr('');
+  }
 
+  //phoneNum의 포커스가 사라질 때, 자동으로 '-'을 넣어주는 함수.
+  const handleBlur = (target: string | undefined) => {
+    if (!target) return setPhoneErr("INVALID_PHONE_NUMBER");
+
+    checkPhoneNumValid();
     
-    if(phoneNumRef.current) {
-      phoneNumRef.current.value = formattedValue;
+    if(phoneNumRef.current && phoneErr === '') {
+      phoneNumRef.current.value = formatPhoneNumber(target.replace(/\D/g, ''));
     }
   }
 
@@ -69,19 +72,21 @@ const RegisterProfile = () => {
   }
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setBioValue(e.target.value)
+    setBioValue(e.target.value);
   }
 
   const handleSubmit = async () => {
-    const editValue = {
-      name: nameRef.current?.value ?? "",
-      phone: phoneNumRef.current?.value ?? "",
-      address: addressValue as Address ?? userData?.address,
-      bio: bioValue as string,
+    if (!phoneErr) {
+      const editValue = {
+        name: nameRef.current?.value ?? "",
+        phone: phoneNumRef.current?.value ?? "",
+        address: addressValue as Address ?? userData?.address,
+        bio: bioValue as string,
+      }
+  
+      await mydataEditApiResponse(editValue);
+      router.push('/employee');
     }
-
-    await mydataEditApiResponse(editValue);
-    router.push('/employee');
   }
 
   return (
@@ -101,7 +106,7 @@ const RegisterProfile = () => {
             <Input
               inputType="PHONE_NUMBER"
               inputRef={phoneNumRef}
-              errorType={phonErr}
+              errorType={phoneErr}
               blurEvent={() => handleBlur(phoneNumRef.current?.value)}
               defaultValue={userData?.phone}/>
           </div>
@@ -119,7 +124,7 @@ const RegisterProfile = () => {
               className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 focus:outline-none focus:border-blue-20'
               placeholder='자기 소개를 입력해 주세요.'
               onChange={handleChange}
-              value={bioValue}
+              defaultValue={userData?.bio}
             />
           </div>
         </form>
