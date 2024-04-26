@@ -6,10 +6,12 @@ import type { AdvancedFilterQuery } from "@/util/convertData";
 import type { Address } from "@/util/api";
 
 export interface AdvencedFilterComponentProp {
+  keyword: string | null | undefined;
   onAdvencedFilterSubmit: (query: AdvancedFilterQuery) => void;
 }
 
 const AdvancedFilterComponent = ({
+  keyword,
   onAdvencedFilterSubmit,
 }: AdvencedFilterComponentProp) => {
   const [isNotAdvancedFilterOpen, setIsAdvancedFilterOpen] = useState(false);
@@ -35,6 +37,17 @@ const AdvancedFilterComponent = ({
     }
   };
 
+  const handleReset = (): void => {
+    setLocations([]);
+    setStartDate("");
+    setPrice("");
+  };
+
+  useEffect(() => {
+    handleReset();
+    setCount(0);
+  }, [keyword]);
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -43,10 +56,10 @@ const AdvancedFilterComponent = ({
   }, [isNotAdvancedFilterOpen, count]);
 
   return (
-    <div className={`relative content-end`}>
+    <div className={`relative content-end `}>
       <div className={`flex justify-end`}>
         <div
-          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-1 text-center text-sm text-white`}
+          className={`${isNotAdvancedFilterOpen ? "mob:invisible" : ""} flex h-auto w-fit select-none flex-row gap-1 rounded-md bg-red-20 px-2 py-1 text-center text-sm text-white hover:cursor-pointer`}
           onClick={toggleFilterModal}
           id="advanced-filter-modal"
         >
@@ -60,6 +73,7 @@ const AdvancedFilterComponent = ({
             className={`ml-13 absolute z-[100] mt-9 tab:right-0 mob:fixed mob:top-0 mob:mt-0 mob:h-screen`}
           >
             <AdvancedFilter
+              handleReset={handleReset}
               setIsAdvancedFilterOpen={setIsAdvancedFilterOpen}
               onAdvencedFilterSubmit={onAdvencedFilterSubmit}
               locations={locations}
