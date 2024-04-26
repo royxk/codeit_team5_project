@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
@@ -9,15 +9,16 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
+import { formatPhoneNumber } from '@/util/formatPhoneNumber';
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
   const [isProfileData, setIsProfileData] = useState(true);
   const [addressValue, setAddressValue] = useState(userData?.address);
+  const [bioValue, setBioValue] = useState(userData?.bio);
   const [phonErr, setPhoneErr] = useState('');
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
-  const bioRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
   const userId = getCookie("uid");
 
@@ -51,19 +52,13 @@ const RegisterProfile = () => {
     if (!target) return;
 
     const phoneNum = target.replace(/\D/g, '');
-    let formattedValue = target;
+    const formattedValue = formatPhoneNumber(phoneNum);
 
     (phoneNum.length < 10 || phoneNum.slice(0, 3) !== '010')
     ? setPhoneErr("INVALID_PHONE_NUMBER")
     : setPhoneErr('');
 
-    if (phoneNum.length === 10) {
-      formattedValue = phoneNum?.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    }
-    if (phoneNum.length > 10) {
-      formattedValue = phoneNum?.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-    }
-
+    
     if(phoneNumRef.current) {
       phoneNumRef.current.value = formattedValue;
     }
@@ -73,12 +68,16 @@ const RegisterProfile = () => {
     setAddressValue(data);
   }
 
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setBioValue(e.target.value)
+  }
+
   const handleSubmit = async () => {
     const editValue = {
       name: nameRef.current?.value ?? "",
       phone: phoneNumRef.current?.value ?? "",
       address: addressValue as Address ?? userData?.address,
-      bio: bioRef.current?.value ?? "",
+      bio: bioValue as string,
     }
 
     await mydataEditApiResponse(editValue);
@@ -119,8 +118,8 @@ const RegisterProfile = () => {
             <textarea
               className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 focus:outline-none focus:border-blue-20'
               placeholder='자기 소개를 입력해 주세요.'
-              ref={bioRef}
-              value={userData?.bio}
+              onChange={handleChange}
+              value={bioValue}
             />
           </div>
         </form>
