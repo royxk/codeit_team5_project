@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import { MockData } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
 import { getCookie } from "@/util/cookieSetting";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { logout } from "@/util/api";
 
 const GNB = () => {
   const pathname = usePathname();
@@ -14,20 +15,7 @@ const GNB = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-  const searchRef = useRef<HTMLInputElement>(null);
-
   const pathName = usePathname();
-
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      if (searchRef.current) {
-        const value = searchRef.current.value;
-        searchRef.current.value = "";
-        router.push(`/search?keyword=${value}`);
-      }
-    }
-  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -48,6 +36,12 @@ const GNB = () => {
 
   if (isSign) return;
 
+  const handleLogout = () => {
+    logout();
+    setIsLogin(false);
+    setIsEmployer(false);
+  };
+
   return (
     <div className="flex h-[70px] w-full items-center justify-center mob:h-[102px] mob:px-3">
       <div className="flex w-full max-w-[1080px] flex-col items-center justify-center px-8 tab:px-0">
@@ -65,8 +59,6 @@ const GNB = () => {
                   <SearchSvg />
                 </div>
                 <input
-                  onKeyDown={handleSearchKeyDown}
-                  ref={searchRef}
                   className="h-10 w-full rounded-[10px] bg-gray-10 pl-12 text-lg focus:outline-none mob:pl-7 mob:text-sm"
                   type="text"
                   placeholder="가게 이름으로 찾아보세요"
@@ -83,18 +75,34 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    {isEmployer ? "내 가게" : "내 프로필"}
-                  </button>
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    로그아웃
-                  </button>
+                  {isEmployer ? (
+                    <Link href={"/employer"}>
+                      <button
+                        className="flex h-5 font-bold text-black"
+                        suppressHydrationWarning
+                      >
+                        내 가게
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link href={"/employee"}>
+                      <button
+                        className="flex h-5 font-bold text-black"
+                        suppressHydrationWarning
+                      >
+                        내 프로필
+                      </button>
+                    </Link>
+                  )}
+                  <Link href={"/"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      onClick={handleLogout}
+                      suppressHydrationWarning
+                    >
+                      로그아웃
+                    </button>
+                  </Link>
                   <NotificationModalComponent data={MockData} />
                 </div>
               ) : (
@@ -102,18 +110,22 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    로그인
-                  </button>
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    회원 가입
-                  </button>
+                  <Link href={"/signin"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      suppressHydrationWarning
+                    >
+                      로그인
+                    </button>
+                  </Link>
+                  <Link href={"/signup"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      suppressHydrationWarning
+                    >
+                      회원 가입
+                    </button>
+                  </Link>
                 </div>
               )}
             </>
