@@ -27,7 +27,7 @@ type ApplicantListApiResponse = {
   }[];
 };
 
-const EmployerTable = ({ noticeId }: { noticeId: string }) => {
+const EmployerTable = ({ noticeId }: { noticeId?: string }) => {
   const [rawEmployerData, setRawEmployerData] =
     useState<ApplicantListApiResponse>();
   const shopId = getCookie("sid")!;
@@ -36,9 +36,11 @@ const EmployerTable = ({ noticeId }: { noticeId: string }) => {
     convertEmployerTableData(rawEmployerData);
 
   async function handleApplyData() {
-    const res: ApplicantListApiResponse =
-      await searchSelectedNoticeApplyApiResponse(shopId, noticeId);
-    setRawEmployerData(res);
+    if (noticeId) {
+      const res: ApplicantListApiResponse =
+        await searchSelectedNoticeApplyApiResponse(shopId, noticeId);
+      setRawEmployerData(res);
+    }
   }
 
   useEffect(() => {
