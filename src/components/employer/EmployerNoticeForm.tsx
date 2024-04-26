@@ -8,9 +8,9 @@ import {
   searchSelectedNoticeApiResponse,
 } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { formatApiDateData } from "@/util/formatDate";
+import useNoticeId from "./Hook/useNoticeId";
 
 interface EmployerNoticeForm {
   hourlyPay?: number;
@@ -27,11 +27,8 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   const workHourRef = useRef<HTMLInputElement>(null);
   const noticeDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
-  const currentUrl = usePathname();
-  const isEditPage = currentUrl.includes("notice/");
-  const noticeId = isEditPage
-    ? currentUrl.split("notice/")[1].split("/edit")[0]
-    : null;
+  const noticeId = useNoticeId();
+  const isEditPage = noticeId !== null ? true : false;
 
   const [hourlyPay, sethourlyPay] = useState(0);
   const [startDate, setStartDate] = useState("");

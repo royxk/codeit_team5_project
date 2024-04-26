@@ -81,7 +81,7 @@ export const convertEmployeeTableData = (
 };
 
 export const convertEmployerTableData = (
-  responseData: ApplicantListApiResponse,
+  responseData?: ApplicantListApiResponse,
 ): EmployerTableData[] => {
   if (!responseData?.items) return [];
   return responseData.items.map((data) => {
