@@ -1,24 +1,23 @@
 //Save Local Storage with array that contains object max 6
+import { NoticeItem } from "@/components/common/Post/PostListType";
 
-import PostType from "@/components/common/Post/PostListType";
-
-export function getRecentPostsLocalStorage(): PostType[] {
+export function getRecentPostsLocalStorage(): NoticeItem[] {
   const recentPosts = localStorage.getItem("recentPosts");
   return recentPosts ? JSON.parse(recentPosts) : [];
 }
 
-export function saveRecentPostsLocalStorage(data: PostType) {
+export function saveRecentPostsLocalStorage(data: NoticeItem) {
   // Check if the data is already in the local storage do Nothing
   const recentPosts = getRecentPostsLocalStorage();
-  if (recentPosts.some((post) => post.item.id === data.item.id)) return;
+  const isExist = recentPosts.find((post) => post.item.id === data.item.id);
   const newRecentPosts = [data, ...recentPosts].slice(0, 6);
   localStorage.setItem("recentPosts", JSON.stringify(newRecentPosts));
 }
 
-//Remove Local Storage last item
+//Remove Local Storage remove all data
 export function removeRecentPostsLocalStorage() {
   const recentPosts = getRecentPostsLocalStorage();
-  recentPosts.pop();
+  recentPosts.length = 0;
   localStorage.setItem("recentPosts", JSON.stringify(recentPosts));
 }
 

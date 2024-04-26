@@ -33,20 +33,9 @@ const Pagination = ({
   const pageData = Math.ceil(count / pageItemLimit);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageList, setCurrentPageList] = useState([0]);
-  console.log(pageData);
 
   const isPaginationNeed = pageData > 7;
 
-  const firstPageList: number[] = [];
-  if (!isPaginationNeed) {
-    if (pageData === 0) {
-      firstPageList.push(0);
-    } else {
-      for (let i = 0; i < pageData; i++) {
-        firstPageList.push(i);
-      }
-    }
-  }
   // 현재 선택 가능한 페이지 리스트를 다루는 함수, pagination이 필요하지 않으면 작동하지 않음
   const handlePageList = (targetPageNumber: number) => {
     if (isPaginationNeed) {
@@ -105,12 +94,24 @@ const Pagination = ({
   };
 
   useEffect(() => {
+    const firstPageList: number[] = [];
+    if (!isPaginationNeed) {
+      if (pageData === 0) {
+        firstPageList.push(0);
+      } else {
+        for (let i = 0; i < pageData; i++) {
+          firstPageList.push(i);
+        }
+      }
+    }
     setCurrentPageList(firstPageList);
     handlePageNumberChange(0);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count]);
 
   useEffect(() => {
     handlePageNumberChange(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageRefreshSwitch]);
 
   return (

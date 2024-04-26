@@ -16,6 +16,7 @@ interface PostProps {
   startTime: string;
   startHour: string;
   state: boolean;
+  originalHourlyPay: number;
 }
 
 const Post = ({
@@ -26,11 +27,12 @@ const Post = ({
   startTime,
   startHour,
   state,
+  originalHourlyPay,
 }: PostProps): React.ReactElement => {
   return (
     <div
       className={`flex h-[348px] w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-[171px] mob:gap-2 mob:p-3 
-      ${state ? "hover:border-red-40" : "select-none"}`}
+      ${state ? "duration-300 ease-in hover:border-red-40 hover:shadow-lg" : "select-none"}`}
     >
       <div className={`relative h-[160px]`}>
         {!state && (
@@ -98,14 +100,22 @@ const Post = ({
               {hourlyPay.toLocaleString()}원
             </div>
           </Tooltip>
-          <Tooltip content={`기존 시급보다 100%`}>
+          <Tooltip
+            content={`기존 시급보다 ${((hourlyPay / originalHourlyPay) * 100).toFixed(0)}%`}
+          >
             <div
               className={`flex ${state ? "w-[168px]" : "w-fit"} rounded-3xl p-3 text-sm font-bold text-white mob:w-[130px] mob:bg-white mob:p-0 mob:font-light mob:text-red-40 ${
                 state ? "bg-red-40" : "bg-gray-30 mob:text-gray-30"
               }`}
             >
               {state ? (
-                <div className="w-[145px] truncate mob:text-[12px]">{`기존 시급보다 100%`}</div>
+                <div className="flex w-[145px] flex-row gap-1 truncate mob:text-[12px] ">
+                  <div>기존시급보다</div>
+
+                  <div>
+                    {((hourlyPay / originalHourlyPay) * 100).toFixed(0)}%
+                  </div>
+                </div>
               ) : (
                 <div className="w-[45px] truncate mob:flex mob:w-[140px] mob:flex-row">
                   <span
@@ -114,7 +124,9 @@ const Post = ({
                     <span className="hidden text-gray-30 mob:inline mob:text-[12px]">
                       기존 시급보다{" "}
                     </span>
-                    {`1000%`}
+                    <div>
+                      {((hourlyPay / originalHourlyPay) * 100).toFixed(0)}%
+                    </div>
                   </span>
                   <div className="hidden mob:inline">
                     <SvgArrowComponent color={state ? "#FF4040" : "#CBC9CF"} />

@@ -83,6 +83,7 @@ const StoreRegisterForm = () => {
     if (sid !== undefined) {
       router.push("/employer");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
