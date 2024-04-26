@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
 import { getCookie } from "@/util/cookieSetting";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const GNB = () => {
   const pathname = usePathname();
@@ -13,7 +13,20 @@ const GNB = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const searchRef = useRef<HTMLInputElement>(null);
+
   const pathName = usePathname();
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (searchRef.current) {
+        const value = searchRef.current.value;
+        searchRef.current.value = "";
+        router.push(`/search?keyword=${value}`);
+      }
+    }
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -51,6 +64,8 @@ const GNB = () => {
                   <SearchSvg />
                 </div>
                 <input
+                  onKeyDown={handleSearchKeyDown}
+                  ref={searchRef}
                   className="h-10 w-full rounded-[10px] bg-gray-10 pl-12 text-lg focus:outline-none mob:pl-7 mob:text-sm"
                   type="text"
                   placeholder="가게 이름으로 찾아보세요"
