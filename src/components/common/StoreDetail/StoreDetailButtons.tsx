@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  mydataApiResponse,
+  searchUserApplyApiResponse,
   selectedNoticeApplyApiResponse,
   selectedNoticeApplyStatusSettingApiResponse,
 } from "@/util/api";
+import { getCookie } from "@/util/cookieSetting";
 /**
  * @param {boolean} isClosed post데이터에서 closed를 받아, 현재 공고가 마감된 상태인지를 표시하는 인자입니다.
  * @param {string} shopId 현재 공고의 아이디를 받아 해당 아이디에 해당하는 동작을 실행 시킬 것으로 예상되는 인자입니다.
@@ -21,16 +24,93 @@ const StoreDetailButtons = ({
   shopId: string;
   postId: string;
 }) => {
+  const [reloadSwitch, setReloadSwitch] = useState(false);
+  const [isUserEmployer, setIsUserEmployer] = useState(false);
+  const [isUserSignToWork, setIsUserSignToWork] = useState(false);
+  const [userSignId, setUserSignId] = useState("");
+
   const pathName = usePathname();
+
   const router = useRouter();
   const isEmployerMainPage =
     pathName.includes("employer") && !pathName.includes("notice");
 
-  // 현재 유저의 유형을 파악하는 임시 함수, context 등을 이용하여 값을 읽는 식으로 할 필요가 있음.
-  const isUserEmployer = true;
+  const userId = getCookie("uid")!;
 
-  //현재 유저가 해당 공고에 지원했는지 여부, 현재는 context를 이용하여 유저 id를 받고, 특정 공고 지원 목록에 유자 아이디가 포함되었는지를 판단하여 판정할 것으로 예상됨.
-  const isUserSignToWork = true;
+  // 현재 유저가 사장인지 아닌지, 현재 보고있는 공고에 지원했는지 하지않았는지의 여부를 판단하는 함수입니다.
+  async function handleUserData() {
+    const userData = await mydataApiResponse(userId);
+    const isUserEmployer = userData.item.type === "employer";
+    setIsUserEmployer(isUserEmployer);
+
+    if (!isUserEmployer) {
+      const noticeId = pathName.split("/")[2];
+      const shopId = pathName.split("/")[3];
+      const signList = await searchUserApplyApiResponse(userId);
+      let offset = 0;
+      const count = signList.count;
+
+      if (count <= 10) {
+        const workerVerification = signList.items.filter(
+          (item: any) =>
+            item.item.notice.item.id === noticeId &&
+            item.item.shop.item.id === shopId &&
+            item.item.status === "pending",
+        );
+
+        const isWorkerSigned = workerVerification.length > 0;
+
+        if (isWorkerSigned) {
+          setIsUserSignToWork(isWorkerSigned);
+          setUserSignId(workerVerification[0].item.id);
+          return;
+        }
+      } else {
+        while (count > offset) {
+          const signList = await searchUserApplyApiResponse(userId, {
+            offset: offset,
+          });
+          offset += 10;
+
+          const workerVerification = signList.items.filter(
+            (item: any) =>
+              item.item.notice.item.id === noticeId &&
+              item.item.shop.item.id === shopId &&
+              item.item.status === "pending",
+          );
+
+          if (workerVerification.length > 0) {
+            setIsUserSignToWork(true);
+            setUserSignId(workerVerification[0].item.id);
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  const handleSignApply = async () => {
+    await selectedNoticeApplyApiResponse(shopId, postId);
+    setIsUserSignToWork(true);
+    setReloadSwitch(!reloadSwitch);
+    router.refresh();
+  };
+
+  const handleCancelApply = async () => {
+    await selectedNoticeApplyStatusSettingApiResponse(
+      shopId,
+      postId,
+      userSignId,
+      { status: "canceled" },
+    );
+    setIsUserSignToWork(false);
+    setReloadSwitch(!reloadSwitch);
+    router.refresh();
+  };
+
+  useEffect(() => {
+    handleUserData();
+  }, [reloadSwitch]);
 
   return (
     <>
@@ -69,16 +149,12 @@ const StoreDetailButtons = ({
             <Button
               size="full"
               color="white"
-              // onClick={() => selectedNoticeApplyStatusSettingApiResponse(shopId, postId, 추가필요)}
+              onClick={() => handleCancelApply()}
             >
               취소하기
             </Button>
           ) : (
-            <Button
-              size="full"
-              color="red"
-              onClick={() => selectedNoticeApplyApiResponse(shopId, postId)}
-            >
+            <Button size="full" color="red" onClick={() => handleSignApply()}>
               신청하기
             </Button>
           )}
