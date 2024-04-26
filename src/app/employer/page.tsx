@@ -57,8 +57,8 @@ const Employer = async () => {
         <StoreDetail data={shopData} />
       </div>
       {shopData && (
-        <div className="mx-auto flex w-full justify-center bg-gray-5 px-8 py-[3.75rem]">
-          <div className="w-full max-w-[64.25rem]">
+        <div className="mx-auto flex w-full justify-center bg-gray-5 px-8 py-[3.75rem] tab:mx-0">
+          <div className="w-full max-w-[60.25rem] tab:flex tab:justify-center">
             <PostEmployer shopData={shopData} fetchedNoticeList={noticeList} />
           </div>
         </div>
