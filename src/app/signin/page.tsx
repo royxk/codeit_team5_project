@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import Button from "@/components/common/Button";
-import EmailInput from "@/components/signin/EmailInput";
-import PasswordInput from "@/components/signin/PasswordInput";
 import Link from "next/link";
 import { signinApiResponse } from "@/util/api";
 import { setAccessTokenCookie, setUserIdCookie } from "@/util/cookieSetting";
-import Modal from "@/components/common/SignModal";
 import Image from "next/image";
+import EmailInput from "@/components/signin/EmailInput";
+import PasswordInput from "@/components/signin/PasswordInput";
+import Modal from "@/components/common/SignModal";
 
 interface ModalProps {
   onClose: () => void;
@@ -127,7 +127,7 @@ const Signin: React.FC = () => {
               color="red"
               size="small"
               onClick={() => setShowModal(false)}
-              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
+              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
             >
               확인
             </Button>

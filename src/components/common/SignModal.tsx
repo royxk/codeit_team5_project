@@ -34,7 +34,7 @@ const Modal: React.FC<ModalProps> = ({
             src="/circleIcon.png"
             alt="circle icon"
           />
-          {type === "good" ? (
+          {type === "bad" ? (
             <Image
               className="relative bottom-[18px] left-[11px]"
               width={2}

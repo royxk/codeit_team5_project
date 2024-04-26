@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import Button from "@/components/common/Button";
+import Link from "next/link";
+import { signupApiResponse } from "@/util/api";
+import Image from "next/image";
 import EmailInput from "@/components/signup/EmailInput";
 import PasswordInput from "@/components/signup/PasswordInput";
 import ConfirmPasswordInput from "@/components/signup/ConfirmPasswordInput";
-import Link from "next/link";
-import { signupApiResponse } from "@/util/api";
 import Modal from "@/components/common/SignModal";
-import Image from "next/image";
 
 enum UserType {
   Employee = "employee",
@@ -198,14 +198,14 @@ const Signup: React.FC = () => {
         </div>
       </div>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal type="bad" onClose={() => setShowModal(false)}>
           <div className="text-center">
             <p className="mt-7">{modalMessage}</p>
             <Button
               color="red"
               size="small"
               onClick={() => setShowModal(false)}
-              className="relative left-[180px] top-[50px] h-[48px] w-[120px]"
+              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
             >
               확인
             </Button>
@@ -213,7 +213,7 @@ const Signup: React.FC = () => {
         </Modal>
       )}
       {confirmShowModal && (
-        <Modal onClose={() => setConfirmShowModal(false)}>
+        <Modal type="good" onClose={() => setConfirmShowModal(false)}>
           <div className="text-center">
             <p className="mt-7">{modalMessage}</p>
             <Button
@@ -223,7 +223,7 @@ const Signup: React.FC = () => {
                 setConfirmShowModal(false);
                 window.location.href = "/signin";
               }}
-              className="relative left-[180px] top-[50px] h-[48px] w-[120px]"
+              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
             >
               확인
             </Button>
