@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Input from "@/components/signup/Input";
+import Input from "@/components/common/SignInput";
 
 interface ConfirmPasswordInputProps {
   confirmPassword: string;
@@ -19,6 +19,7 @@ const ConfirmPasswordInput: React.FC<ConfirmPasswordInputProps> = ({
   password,
 }) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const validatePassword = (input: string) => {
     if (input !== password) {
@@ -45,11 +46,15 @@ const ConfirmPasswordInput: React.FC<ConfirmPasswordInputProps> = ({
     validatePassword(confirmPassword);
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="mb-4 flex flex-col">
+    <div className="relative mb-4 flex flex-col">
       <span className="z-0 mb-1">비밀번호 확인</span>
       <Input
-        inputType="password"
+        inputType={showPassword ? "text" : "password"}
         value={confirmPassword}
         errorType={!isTyping && confirmPasswordError ? "ERROR" : ""}
         onChange={handlePasswordChange}
@@ -60,6 +65,12 @@ const ConfirmPasswordInput: React.FC<ConfirmPasswordInputProps> = ({
       {!isTyping && confirmPasswordError && (
         <p className="text-red-400">{confirmPasswordError}</p>
       )}
+      <button
+        className="absolute right-0 top-0 mr-2 mt-1 cursor-pointer text-sm text-gray-500"
+        onClick={togglePasswordVisibility}
+      >
+        {showPassword ? "비밀번호 숨기기" : "비밀번호 표시하기"}
+      </button>
     </div>
   );
 };
