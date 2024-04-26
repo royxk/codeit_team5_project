@@ -1,15 +1,18 @@
 "use client"
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
 import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
+import { formatPhoneNumber } from '@/util/formatPhoneNumber';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import Modal from '@/components/common/SignModal';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
-import { formatPhoneNumber } from '@/util/formatPhoneNumber';
+
+const MODAL_MESSAGE = "등록이 완료되었습니다."
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
@@ -17,6 +20,7 @@ const RegisterProfile = () => {
   const [addressValue, setAddressValue] = useState(userData?.address);
   const [nameErr, setNameErr] = useState('');
   const [phoneErr, setPhoneErr] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
@@ -75,18 +79,26 @@ const RegisterProfile = () => {
     setAddressValue(data);
   }
 
-  //이름, 전화번호 글자 제한
+  const handleCheckClick = () => {
+    setShowModal(false);
+    router.push('/employee');
+  };
+
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  }
+
   const handleSubmit = async () => {
     if (!phoneErr && !nameErr){
       const editValue = {
         name: nameRef.current?.value ?? "",
-        phone: phoneNumRef.current?.value ?? "",
+        phone: formatPhoneNumber(phoneNumRef.current?.value ?? ""),
         address: addressValue as Address ?? userData?.address,
         bio: bioRef.current?.value ?? "",
       }
   
       await mydataEditApiResponse(editValue);
-      router.push('/employee');
+      setShowModal(true);
     }
   }
 
@@ -115,7 +127,7 @@ const RegisterProfile = () => {
               inputRef={phoneNumRef}
               errorType={phoneErr}
               blurEvent={() => handlePhoneBlur(phoneNumRef.current?.value)}
-              defaultValue={userData?.phone}
+              defaultValue={userData?.phone?.replace(/\D/g, '')}
               maxLength={11}/>
           </div>
           <div>
@@ -138,6 +150,22 @@ const RegisterProfile = () => {
         </form>
         <Button size='large' color={phoneErr || nameErr ? 'gray' : 'red'} onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
       </div>
+      {showModal && (
+        <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
+        <div className="flex flex-col gap-8">
+          <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
+
+          <Button
+            color="red"
+            size="small"
+            onClick={handleCheckClick}
+            className="absolute h-[38px] bottom-[28px] right-[28px]"
+          >
+            확인
+          </Button>
+        </div>
+      </Modal>
+      )}
     </>
   );
 };
