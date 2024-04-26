@@ -24,11 +24,20 @@ const NoticeMain = ({ keyword }: Keyword) => {
   const [sortedQuery, setSortedQuery] = useState<ConvertedSortType | null>(
     null,
   );
-  //상세 필터 쿼리 상태
+
+  //현재 상세 필터 쿼리 상태
   const [sortedAdvancedQuery, setSortedAdvancedQuery] =
     useState<AdvancedFilterQuery | null>(null);
+  //이전 상세 필터 쿼리 상태
+  const [prevSortedAdvancedQuery, setPrevSortedAdvancedQuery] =
+    useState<AdvancedFilterQuery | null>(null);
+
   //기본 필터 변경 상태
   const [isFilterChanged, setIsFilterChanged] = useState(false);
+
+  //상세 필터 변경 상태
+  const [isAdvancedFilterChanged, setIsAdvancedFilterChanged] = useState(false);
+
   //현재 선택된 기본 필터 상태
   const [filterSelected, setFilterSelected] = useState<SortType | null>(null);
   //이전에 선택된 기본 필터 상태
@@ -82,16 +91,19 @@ const NoticeMain = ({ keyword }: Keyword) => {
   const handleAdvencedFilterSubmit = async (query: AdvancedFilterQuery) => {
     console.log("상세필터 클릭");
     console.log(sortedQuery);
-    const res = await searchNoticeApiResponse({
-      limit: 6,
-      ...query,
-      ...(sortedQuery && { sort: sortedQuery }),
-      ...(keyword && { keyword: keyword }),
-    });
+    if (isAdvancedFilterChanged) {
+      const res = await searchNoticeApiResponse({
+        limit: 6,
+        ...query,
+        ...(sortedQuery && { sort: sortedQuery }),
+        ...(keyword && { keyword: keyword }),
+      });
+      setFilterdNoticeList(res);
+      setPageCount(res.count);
+      console.log(res);
+    }
     setSortedAdvancedQuery(query);
-    setFilterdNoticeList(res);
-    setPageCount(res.count);
-    console.log(res);
+    setPrevSortedAdvancedQuery(sortedAdvancedQuery);
   };
 
   useEffect(() => {
@@ -121,6 +133,23 @@ const NoticeMain = ({ keyword }: Keyword) => {
 
     executeFilter();
   }, [filterSelected, keyword]);
+
+  useEffect(() => {
+    const executeAdvancedFilter = () => {
+      if (
+        sortedAdvancedQuery !== prevSortedAdvancedQuery &&
+        sortedAdvancedQuery
+      ) {
+        setIsAdvancedFilterChanged(true);
+        handleAdvencedFilterSubmit(sortedAdvancedQuery);
+      } else {
+        setIsAdvancedFilterChanged(false);
+      }
+    };
+
+    executeAdvancedFilter();
+  }, [sortedAdvancedQuery, prevSortedAdvancedQuery, keyword]);
+
 
   return (
     <section className="flex justify-center py-[60px] mob:py-10">
@@ -166,7 +195,9 @@ const NoticeMain = ({ keyword }: Keyword) => {
           setPageCount={setPageCount}
           setIsFilterChanged={setIsFilterChanged}
           isFilterChanged={isFilterChanged}
+          isAdvancedFilterChanged={isAdvancedFilterChanged}
           sortedAdvancedQuery={sortedAdvancedQuery}
+          prevSortedAdvancedQuery={prevSortedAdvancedQuery}
           sortedQuery={sortedQuery}
           filterdNoticeList={filterdNoticeList}
           setFilterdNoticeList={setFilterdNoticeList}

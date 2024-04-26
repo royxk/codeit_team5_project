@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Input from "@/components/signin/Input";
+import Input from "@/components/common/SignInput";
 
 interface EmailInputProps {
   email: string;
