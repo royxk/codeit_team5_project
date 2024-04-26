@@ -12,44 +12,37 @@ import PostEmployer from "@/components/employer/PostEmployer";
 const getServerSideProps = async () => {
   const uid = getServerSideCookie("uid");
 
-  if (uid !== undefined) {
-    const { item } = await mydataApiResponse(uid);
+  if (uid === undefined) {
+    redirect("/signin");
+  }
 
-    if (item.type === "employee") {
-      const type = "employee";
-      return { uid, type };
+  if (uid !== undefined) {
+    const sid = getServerSideCookie("sid");
+
+    if (sid === undefined) {
+      redirect("/");
     }
-    const sid = getServerSideCookie("sid") || item.shop?.item.id;
 
     if (sid) {
       const shopData = await searchShopInformationApiResponse(sid);
       const noticeList = await searchShopNoticeApiResponse(sid, {
         limit: 6,
       });
-      const type = "employer";
-      return { uid, type, shopData, noticeList };
+
+      return { shopData, noticeList };
     }
 
-    if (!sid) {
+    if (sid === "") {
       const shopData = null;
-      const type = "employer";
-      return { uid, type, shopData };
+
+      return { shopData };
     }
   }
-
-  return { uid };
+  return {};
 };
 
 const Employer = async () => {
-  const { uid, type, shopData, noticeList } = await getServerSideProps();
-
-  if (uid === undefined) {
-    redirect("/signin");
-  }
-
-  if (type === "employee") {
-    redirect("/");
-  }
+  const { shopData, noticeList } = await getServerSideProps();
 
   return (
     <div className="flex min-h-[calc(100vh-10.625rem)] flex-col">
