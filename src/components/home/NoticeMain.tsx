@@ -150,6 +150,7 @@ const NoticeMain = ({ keyword }: Keyword) => {
     executeAdvancedFilter();
   }, [sortedAdvancedQuery, prevSortedAdvancedQuery, keyword]);
 
+
   return (
     <section className="flex justify-center py-[60px] mob:py-10">
       <div className=" mx-auto flex w-[964px] flex-col items-center">

@@ -2,7 +2,9 @@
 import NoticeMain from "@/components/home/NoticeMain";
 import { useSearchParams } from "next/navigation";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
+
 import { Suspense } from "react";
+
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -23,3 +25,4 @@ const SearchPageCover = () => {
   );
 };
 export default SearchPageCover;
+
