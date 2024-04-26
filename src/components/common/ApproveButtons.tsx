@@ -5,9 +5,9 @@ import {
 } from "@/util/api";
 import { useParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
-import Modal from "./SignModal";
-import Button from "./Button";
 import { getCookie } from "@/util/cookieSetting";
+import Button from "./Button";
+import Modal from "@/components/common/SignModal";
 
 interface ApproveButtonsProps {
   noticeApplyId: string;
@@ -70,9 +70,9 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         </button>
       </div>
       {showModal && (
-        <Modal onClose={handleOutsideClick}>
+        <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6">
           <div className="flex flex-col gap-8">
-            <p className="text-center">{modalMessage}</p>
+            <p className="text-center font-normal">{modalMessage}</p>
             <div className="flex gap-2">
               <Button
                 color="white"
