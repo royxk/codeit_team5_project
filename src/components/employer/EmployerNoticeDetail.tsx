@@ -1,12 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import EmployerTable from "@/components/common/EmployerTable";
 import StoreDetail from "@/components/common/StoreDetail";
 import { searchSelectedNoticeApiResponse } from "@/util/api";
+import EmployerTable from "@/components/common/EmployerTable";
 import { getCookie } from "@/util/cookieSetting";
 import useNoticeId from "./Hook/useNoticeId";
-
-type Props = {};
 
 const EmployerNoticeDetail = () => {
   const [noticeData, setNoticeData] = useState();
@@ -29,7 +27,7 @@ const EmployerNoticeDetail = () => {
         <StoreDetail data={noticeData} />
       </div>
       <div className="mx-auto max-w-[64.25rem] px-8 py-[3.75rem]">
-        <EmployerTable />
+        <EmployerTable noticeId={noticeId} />
       </div>
     </>
   );
