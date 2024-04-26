@@ -111,6 +111,7 @@ const PostEmployer = ({ shopData, fetchedNoticeList }: any) => {
                 state={state}
                 startTime={startTime}
                 startHour={startHour}
+                originalHourlyPay={shopData.item.originalHourlyPay}
               />
             </Link>
           );
