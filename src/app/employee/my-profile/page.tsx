@@ -15,10 +15,10 @@ const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
   const [isProfileData, setIsProfileData] = useState(true);
   const [addressValue, setAddressValue] = useState(userData?.address);
-  const [bioValue, setBioValue] = useState(userData?.bio);
   const [phoneErr, setPhoneErr] = useState('');
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
+  const bioRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
   const userId = getCookie("uid");
 
@@ -33,15 +33,13 @@ const RegisterProfile = () => {
     const fetchUserData = async () => {
       const data = await getUserData(userId);
       setUserData(data);
-    };
-    fetchUserData();
-    if(userData) {
-      if (Object.keys(userData).length <= 4) {
+      if (data && Object.keys(data).length <= 4) {
         setIsProfileData(false);
       }
       setIsProfileData(true);
-    }
-  }, [userId, router, userData]);
+    };
+    fetchUserData();
+  }, [userId, router]);
 
   const handleClick = () => {
     router.push('/employee');
@@ -71,22 +69,19 @@ const RegisterProfile = () => {
     setAddressValue(data);
   }
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setBioValue(e.target.value);
-  }
-
+  //이름, 전화번호 글자 제한
   const handleSubmit = async () => {
-    if (!phoneErr) {
-      const editValue = {
-        name: nameRef.current?.value ?? "",
-        phone: phoneNumRef.current?.value ?? "",
-        address: addressValue as Address ?? userData?.address,
-        bio: bioValue as string,
-      }
-  
-      await mydataEditApiResponse(editValue);
-      router.push('/employee');
+    const editValue = {
+      name: nameRef.current?.value ?? "",
+      phone: phoneNumRef.current?.value ?? "",
+      address: addressValue as Address ?? userData?.address,
+      bio: bioRef.current?.value ?? "",
     }
+
+    console.log(editValue)
+
+    await mydataEditApiResponse(editValue);
+    router.push('/employee');
   }
 
   return (
@@ -123,7 +118,7 @@ const RegisterProfile = () => {
             <textarea
               className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 focus:outline-none focus:border-blue-20'
               placeholder='자기 소개를 입력해 주세요.'
-              onChange={handleChange}
+              ref={bioRef}
               defaultValue={userData?.bio}
             />
           </div>
