@@ -7,10 +7,8 @@ import {
   INPUT_ERROR_TYPE,
   INPUT_LABELS,
   INPUT_LAST_WORD,
-  INPUT_PLACEHOLDER,
   INPUT_SELECT_DATA_LIST,
   INPUT_SELECT_TYPE,
-  INPUT_TYPES,
 } from "@/util/constants/INPUT_VALUES";
 
 interface InputProps {
@@ -23,7 +21,7 @@ interface InputProps {
   value?: string;
   placeholder?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onFocus?: (event: FocusEvent<HTMLInputElement>) => void; // Add onFocus event prop
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -34,10 +32,8 @@ const Input: React.FC<InputProps> = ({
   value = "",
   placeholder = "",
   onChange,
-  onFocus, // Destructure onFocus from props
+  onFocus,
 }) => {
-  const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
-  const [selectedData, setSelectedData] = useState<string>("");
   if (inputType === "DEFAULT") {
     errorType = "DEFAULT";
   }
@@ -58,13 +54,13 @@ const Input: React.FC<InputProps> = ({
           <input
             id={inputType}
             className="w-full rounded-md focus-visible:outline-none"
-            type={INPUT_TYPES[inputType]}
+            type={inputType}
             onBlur={() => blurEvent()}
             ref={inputRef}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            onFocus={onFocus} // Use onFocus event
+            onFocus={onFocus}
           />
           {INPUT_LAST_WORD[inputType] && (
             <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>

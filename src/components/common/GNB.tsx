@@ -4,8 +4,9 @@ import Link from "next/link";
 import NotificationModalComponent from "./NotificationModal/NotificationModalComponent";
 import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
-import { getCookie } from "@/util/cookieSetting";
+import { deleteCookie, getCookie } from "@/util/cookieSetting";
 import { usePathname } from "next/navigation";
+import { logout } from "@/util/api";
 
 const GNB = () => {
   const pathname = usePathname();
@@ -33,6 +34,12 @@ const GNB = () => {
   }, [pathName]);
 
   if (isSign) return;
+
+  const handleLogout = () => {
+    logout();
+    setIsLogin(false);
+    setIsEmployer(false);
+  };
 
   return (
     <div className="flex h-[70px] w-full items-center justify-center mob:h-[102px] mob:px-3">
@@ -75,6 +82,7 @@ const GNB = () => {
                   </button>
                   <button
                     className="flex h-5 font-bold text-black"
+                    onClick={handleLogout}
                     suppressHydrationWarning
                   >
                     로그아웃
@@ -86,18 +94,22 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    로그인
-                  </button>
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    회원 가입
-                  </button>
+                  <Link href={"/signin"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      suppressHydrationWarning
+                    >
+                      로그인
+                    </button>
+                  </Link>
+                  <Link href={"/signup"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      suppressHydrationWarning
+                    >
+                      회원 가입
+                    </button>
+                  </Link>
                 </div>
               )}
             </>

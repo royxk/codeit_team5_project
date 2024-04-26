@@ -7,11 +7,22 @@ import PasswordInput from "@/components/signin/PasswordInput";
 import Link from "next/link";
 import { signinApiResponse } from "@/util/api";
 import { setAccessTokenCookie, setUserIdCookie } from "@/util/cookieSetting";
-
-import Modal from "@/components/signin/Modal";
+import Modal from "@/components/common/SignModal";
+import Image from "next/image";
 
 interface ModalProps {
   onClose: () => void;
+}
+
+function getCookieValue(cookieName: string): string | undefined {
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(`${cookieName}=`)) {
+      return cookie.substring(`${cookieName}=`.length);
+    }
+  }
+  return undefined;
 }
 
 const Signin: React.FC = () => {
@@ -21,6 +32,8 @@ const Signin: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
+  const [uid, setUid] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   const handleSubmit = async () => {
     if (email.trim() && password.trim() && !emailError && !passwordError) {
@@ -32,17 +45,28 @@ const Signin: React.FC = () => {
           setShowModal(true);
           return;
         }
-
         const userId = item.user.item.id;
-        setAccessTokenCookie(item.token);
+        const userAccessToken = item.token;
+
+        setAccessTokenCookie(userAccessToken);
         setUserIdCookie(userId);
+
+        setAccessToken(item.token);
+        setUid(userId);
+
+        const accessCookie = getCookieValue("accessToken");
+        const userIdCookie = getCookieValue("uid");
+
+        console.log(`accessCookie: ${accessCookie}`);
+        console.log(`userIdCookie: ${userIdCookie}`);
+        console.log(`uid: ${uid}`);
+        console.log(`accessToken: ${accessToken}`);
 
         setEmail("");
         setPassword("");
         setEmailError("");
         setPasswordError("");
-        setModalMessage("로그인에 성공했습니다.");
-        setShowModal(true);
+        window.location.href = "/";
       } catch (error) {
         console.error("로그인 실패:", error);
       }
@@ -56,11 +80,14 @@ const Signin: React.FC = () => {
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
         <div className="m-10 flex items-center justify-center">
-          <img
-            src="/signin/logoIcon.png"
-            alt="logoIcon"
-            className="h-[45px] w-[248px]"
-          />
+          <Link href={"/"}>
+            <Image
+              src="/signin/logoIcon.png"
+              alt="logoIcon"
+              width={248}
+              height={45}
+            />
+          </Link>
         </div>
         <div className="mb-5 flex flex-col ">
           <EmailInput
@@ -100,7 +127,7 @@ const Signin: React.FC = () => {
               color="red"
               size="small"
               onClick={() => setShowModal(false)}
-              className="relative top-[50px] h-[48px] w-[120px] sm:left-[180px]"
+              className="relative left-[180px] top-[50px] h-[48px] w-[120px]"
             >
               확인
             </Button>
