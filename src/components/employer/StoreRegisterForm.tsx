@@ -10,6 +10,7 @@ import {
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
+import Modal from "../common/SignModal";
 
 const StoreRegisterForm = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const StoreRegisterForm = () => {
   const [workType, setWorkType] = useState<any>("");
   const [address1, setAddress1] = useState<any>("");
   const [imagePath, setImagePath] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -75,7 +77,7 @@ const StoreRegisterForm = () => {
       originalHourlyPay: Number(basePay),
     });
 
-    router.push("/employer");
+    setShowModal(true);
   };
 
   useEffect(() => {
@@ -85,6 +87,11 @@ const StoreRegisterForm = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    router.push("/employer");
+  };
 
   return (
     <form
@@ -157,6 +164,22 @@ const StoreRegisterForm = () => {
           등록하기
         </Button>
       </div>
+      {showModal && (
+        <Modal onClose={() => handleModalClose()}>
+          <div className="mt-5">
+            <p className="mb-10">수정이 완료되었습니다</p>
+            <div className="absolute min-w-40">
+              <Button
+                onClick={() => handleModalClose()}
+                size="full"
+                color="red"
+              >
+                확인
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </form>
   );
 };
