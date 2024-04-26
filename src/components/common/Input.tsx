@@ -61,7 +61,6 @@ const Input = ({
         <div className="relative">
           <button
             type="button"
-
             className={`z-[1] flex w-full justify-between rounded-lg border-[1px]  border-gray-30  bg-white px-5 py-4 text-left ${
               isDropdownEnabled ? "text-gray-50" : "text-black"
             }`}
@@ -109,7 +108,7 @@ const Input = ({
         // 일반 input형 코드
         <>
           <label
-            className={`relative z-[1] flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-blue-20 
+            className={`relative z-[1] flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-primary 
             ${inputType !== "date" ? "cursor-text" : ""} bg-white`}
             htmlFor={inputType}
           >
