@@ -1,7 +1,10 @@
 "use client";
 import React from "react";
 import Post from "../common/Post/Post";
-import { formatApiDateData } from "@/util/formatDate";
+import {
+  formatApiDateData,
+  getCurrentRFC3339DateTime,
+} from "@/util/formatDate";
 import type { NoticeResponse, NoticeItem } from "@/app/page";
 import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
@@ -51,21 +54,24 @@ const FilterdNotice = ({
     } else {
       setIsFilterChanged(false);
     }
-
+    console.log(sortedAdvancedQuery);
     console.log(sortedQuery);
 
     const res = await searchNoticeApiResponse({
       offset: offsetNum,
       limit: 6,
       ...(sortedQuery && { sort: sortedQuery }),
-      ...(sortedAdvancedQuery && { ...sortedAdvancedQuery }),
+      ...(sortedAdvancedQuery && {
+        ...sortedAdvancedQuery,
+      }),
+      ...(sortedAdvancedQuery?.startsAtGte && {
+        startsAtGte: getCurrentRFC3339DateTime(),
+      }),
       ...(keyword && { keyword: keyword }),
     });
-    console.log(sortedQuery);
+    console.log(res);
     setPageCount(res.count);
     setFilterdNoticeList(res);
-    console.log(res);
-    console.log(filterdNoticeList);
   };
 
   const saveOnLocalStorage = (data: NoticeItem) => {
