@@ -9,7 +9,7 @@ import {
   putFileFetch,
 } from "@/util/api";
 import { useRouter } from "next/navigation";
-import { getCookie } from "@/util/cookieSetting";
+import { getCookie, setShopIdCookie } from "@/util/cookieSetting";
 import Modal from "../common/SignModal";
 
 const StoreRegisterForm = () => {
@@ -67,7 +67,7 @@ const StoreRegisterForm = () => {
       await putFileFetch(createdImageUrl.item.url, storeImage)
     ).url.split("?")[0];
 
-    await createShopApiResponse({
+    const res = await createShopApiResponse({
       name: storeName,
       category: workType,
       address1: address1,
@@ -76,6 +76,7 @@ const StoreRegisterForm = () => {
       imageUrl: image,
       originalHourlyPay: Number(basePay),
     });
+    setShopIdCookie(res.item.id);
 
     setShowModal(true);
   };
