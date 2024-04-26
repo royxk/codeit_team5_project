@@ -78,8 +78,6 @@ const RegisterProfile = () => {
       bio: bioRef.current?.value ?? "",
     }
 
-    console.log(editValue)
-
     await mydataEditApiResponse(editValue);
     router.push('/employee');
   }
@@ -116,7 +114,7 @@ const RegisterProfile = () => {
           <div className='col-span-3 flex flex-col gap-2 tab:col-span-2 mob:col-span-1'>
             <label>소개</label>
             <textarea
-              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 focus:outline-none focus:border-blue-20'
+              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-blue-20'
               placeholder='자기 소개를 입력해 주세요.'
               ref={bioRef}
               defaultValue={userData?.bio}
