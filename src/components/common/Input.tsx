@@ -21,6 +21,7 @@ interface InputProps {
   dataArray?: string[];
   selectData?: (data: string) => void;
   defaultValue?: string;
+  maxLength?: number;
 }
 
 /**
@@ -41,6 +42,7 @@ const Input = ({
     console.log(`selectedData : ${item}`);
   },
   defaultValue,
+  maxLength,
 }: InputProps) => {
   const [isDropdownEnabled, setIsDropdownEnabled] = useState(false);
   const [selectedData, setSelectedData] = useState<string>("");
@@ -53,7 +55,14 @@ const Input = ({
   return (
     <div className="relative flex w-full flex-col gap-2">
       <label className="text-black" htmlFor={inputType}>
-        {INPUT_LABELS[inputType]}
+        {INPUT_LABELS[inputType].split("*").length === 1 ? (
+          <a>{INPUT_LABELS[inputType]}</a>
+        ) : (
+          <a>
+            {INPUT_LABELS[inputType].split("*")[0]}
+            <span className="text-primary">*</span>
+          </a>
+        )}
       </label>
 
       {isSelectType ? (
@@ -120,6 +129,7 @@ const Input = ({
               ref={inputRef}
               placeholder={INPUT_PLACEHOLDER[inputType]}
               defaultValue={defaultValue || ""}
+              maxLength={maxLength ? maxLength : 524288}
             />
             {INPUT_LAST_WORD[inputType] && (
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
