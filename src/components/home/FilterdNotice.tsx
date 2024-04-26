@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
 import type { NoticeResponse, NoticeItem } from "@/app/page";
@@ -57,6 +57,7 @@ const FilterdNotice = ({
     console.log(res);
     console.log(filterdNoticeList);
   };
+
   const saveOnLocalStorage = (data: NoticeItem) => {
     // Save the data to local storage
     if (data) {
