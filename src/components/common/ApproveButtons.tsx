@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import Modal from "./SignModal";
 import Button from "./Button";
+import { getCookie } from "@/util/cookieSetting";
 
 interface ApproveButtonsProps {
   noticeApplyId: string;
@@ -17,11 +18,9 @@ const MODAL_MESSAGE = ["신청을 거절하시겠어요?", "신청을 승인하�
 const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [reqBody, setReqBody] = useState({});
-  const { shopId, noticeId } = useParams<{
-    shopId: string;
-    noticeId: string;
-  }>();
+  const [reqBody, setReqBody] = useState<StatusBody>({ status: "canceled" });
+  const { noticeId } = useParams<{noticeId: string;}>();
+  const shopId = getCookie("sid");
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
@@ -37,18 +36,18 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
 
   const handleYesBtnClick = async () => {
     setShowModal(false);
-    // await selectedNoticeApplyStatusSettingApiResponse(shopId, noticeId, noticeApplyId, reqBody);
-    console.log("리퀘스트 보냄!");
+    if (shopId) {
+      await selectedNoticeApplyStatusSettingApiResponse(shopId, noticeId, noticeApplyId, reqBody);
+    }
   };
 
   const handleNoBtnClick = () => {
     setShowModal(false);
   };
 
-  // 모달 컴포넌트 수정될 때까지 대기
-  // const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
-  //   setShowModal(false);
-  // }
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  }
 
   return (
     <>
@@ -71,7 +70,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         </button>
       </div>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal onClose={handleOutsideClick}>
           <div className="flex flex-col gap-8">
             <p className="text-center">{modalMessage}</p>
             <div className="flex gap-2">
