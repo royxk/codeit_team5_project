@@ -54,7 +54,9 @@ const EmailInput: React.FC<EmailInputProps> = ({
         onFocus={handleInputFocus}
         placeholder="입력"
       />
-      {!isTyping && emailError && <p className="text-red-400">{emailError}</p>}
+      <p className="h-4 pt-1 text-red-400">
+        {!isTyping && emailError && emailError}
+      </p>
     </div>
   );
 };

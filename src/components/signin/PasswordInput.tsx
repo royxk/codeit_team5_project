@@ -58,10 +58,11 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         onFocus={handleInputFocus}
         placeholder="입력"
       />
-      {!isTyping && passwordError && (
-        <p className="text-red-400">{passwordError}</p>
-      )}
+      <p className="h-4 pt-1 text-red-400">
+        {!isTyping && passwordError && passwordError}
+      </p>
       <button
+        type="button"
         className="absolute right-0 top-0 mr-2 mt-1 cursor-pointer text-sm text-gray-500"
         onClick={togglePasswordVisibility}
       >
