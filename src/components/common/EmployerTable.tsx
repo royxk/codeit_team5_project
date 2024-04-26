@@ -3,7 +3,6 @@ import {
   EmployerTableData,
   convertEmployerTableData,
 } from "@/util/convertData";
-import { USER_API_RESPONSE } from "@/util/constants/table_mock_data";
 import Table from "./Table";
 import { searchSelectedNoticeApplyApiResponse } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
@@ -44,6 +43,7 @@ const EmployerTable = ({ noticeId }: { noticeId: string }) => {
 
   useEffect(() => {
     handleApplyData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return employerData.length ? (
