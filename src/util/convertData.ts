@@ -1,4 +1,7 @@
 // 응답 데이터 필요한 타입 정의
+
+import type { Address } from "./api";
+
 // 알바님(일반회원) 공고 지원 목록 데이터 타입
 export type ApplyListApiResponse = {
   items: {
@@ -95,6 +98,11 @@ export const convertEmployerTableData = (
 //쿼리 정렬 타입
 export type SortType = "마감임박순" | "시급많은순" | "시간적은순" | "가나다순";
 export type ConvertedSortType = "time" | "pay" | "hour" | "shop";
+export interface AdvancedFilterQuery {
+  address?: Address[];
+  startsAtGte?: string;
+  hourlyPayGte?: number;
+}
 export function convertSortType(sortType: SortType): ConvertedSortType {
   let convertedType: ConvertedSortType;
   switch (sortType) {

@@ -3,19 +3,27 @@ import LocationBox from "./LocationBox";
 import Button from "../Button";
 import SelectedLocationBox from "./SelectedLocationBox";
 import SvgCloseButton from "./SvgCloseButton";
+import { formatDateToRFC3339 } from "@/util/formatDate";
+import type { AdvancedFilterQuery } from "@/util/convertData";
+import { Address } from "@/util/api";
+import Link from "next/link";
 
 interface AdvancedFilterProps {
+  setIsAdvancedFilterOpen: (value: React.SetStateAction<boolean>) => void;
+  onAdvencedFilterSubmit: (query: AdvancedFilterQuery) => void;
   onClick: (event: React.MouseEvent) => void;
   setcount?: (count: number) => void;
-  locations: string[];
+  locations: Address[];
   startDate: string;
   price: string;
-  setLocations: (locations: string[]) => void;
+  setLocations: (locations: Address[]) => void;
   setStartDate: (startDate: string) => void;
   setPrice: (price: string) => void;
 }
 
 function AdvancedFilter({
+  setIsAdvancedFilterOpen,
+  onAdvencedFilterSubmit,
   onClick,
   setcount,
   locations,
@@ -38,24 +46,31 @@ function AdvancedFilter({
     updateCount();
   }, [locations, startDate, price]);
 
-  const addLocation = (location: string): void => {
+  const addLocation = (location: Address): void => {
     const newLocations = locations.includes(location)
       ? locations.filter((loc) => loc !== location)
       : [...locations, location];
-    setLocations(newLocations);
+    setLocations(newLocations as Address[]);
   };
 
-  const deleteLocation = (location: string): void => {
-    setLocations(locations.filter((loc) => loc !== location));
+  const deleteLocation = (location: Address): void => {
+    setLocations(locations.filter((loc) => loc !== location) as Address[]);
   };
 
   const handleSubmit = (): void => {
-    const filterData = {
-      locations: locations,
-      startDate: startDate,
-      price: price,
-    };
-    console.log(filterData);
+    const query: { [key: string]: Address[] | string | number } = {};
+    if (locations.length > 0) {
+      query.address = locations as Address[];
+    }
+    if (startDate) {
+      query.startsAtGte = formatDateToRFC3339(startDate);
+    }
+    if (price) {
+      query.hourlyPayGte = Number(price);
+    }
+    console.log(query);
+    onAdvencedFilterSubmit(query);
+    setIsAdvancedFilterOpen(false);
   };
 
   const handleReset = (): void => {
@@ -76,10 +91,10 @@ function AdvancedFilter({
       </div>
       <div className={`flex flex-col gap-2`}>
         <div>위치</div>
-        <LocationBox selectedLocations={locations} handleClick={addLocation} />
+        <LocationBox selectedLocations={locations} onClick={addLocation} />
         <SelectedLocationBox
           selectedLocations={locations}
-          handleClick={deleteLocation}
+          onClick={deleteLocation}
         />
       </div>
       <div className={`flex flex-col gap-2 border-t-2 py-4`}>
@@ -121,9 +136,15 @@ function AdvancedFilter({
         >
           초기화
         </Button>
-        <Button color="red" size="full" onClick={handleSubmit}>
-          적용하기
-        </Button>
+        <Link
+          className="w-full"
+          onClick={handleSubmit}
+          href={"#filterdNoticeSection"}
+        >
+          <Button color="red" size="full">
+            적용하기
+          </Button>
+        </Link>
       </div>
     </div>
   );

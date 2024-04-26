@@ -1,7 +1,8 @@
 "use client";
+import type { Address } from "@/util/api";
 import React from "react";
 
-const S = [
+const S: Address[] = [
   "서울시 송파구",
   "서울시 강남구",
   "서울시 강북구",
@@ -31,11 +32,11 @@ const S = [
 ];
 
 type LocationBoxProps = {
-  selectedLocations: string[];
-  handleClick: (location: string) => void;
+  selectedLocations: Address[];
+  onClick: (location: Address) => void;
 };
 
-const LocationBox = ({ selectedLocations, handleClick }: LocationBoxProps) => {
+const LocationBox = ({ selectedLocations, onClick }: LocationBoxProps) => {
   return (
     <div
       className={`flex h-64 w-full flex-row flex-wrap overflow-y-scroll rounded-xl border px-8 py-4 leading-10 `}
@@ -44,7 +45,7 @@ const LocationBox = ({ selectedLocations, handleClick }: LocationBoxProps) => {
         <div
           className={`w-32 select-none`}
           key={index}
-          onClick={(e) => handleClick(s)}
+          onClick={(e) => onClick(s)}
         >
           {s}
         </div>
