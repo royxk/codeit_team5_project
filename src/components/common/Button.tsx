@@ -1,9 +1,11 @@
-import React, { MouseEventHandler } from "react";
+import React, { KeyboardEventHandler, MouseEventHandler } from "react";
 
 type Props = {
+  type?: string;
   size: Size;
   color: Color;
   className?: string;
+  onKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
 };
@@ -61,9 +63,11 @@ function sizeCssString(size: Size) {
 }
 
 const Button = ({
+  type = "button",
   size = "large",
   color = "red",
   className = "",
+  onKeyDown,
   onClick,
   children,
 }: Props) => {
@@ -72,8 +76,10 @@ const Button = ({
 
   return (
     <button
+      type={type === "button" ? "button" : "submit"}
       disabled={color === "gray"}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       className={`${colorCss} ${sizeCss} ${className} min-w-20 rounded-lg`}
     >
       {children}
