@@ -7,6 +7,7 @@ import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
 import { getCookie } from "@/util/cookieSetting";
 import { usePathname, useRouter } from "next/navigation";
+import { logout } from "@/util/api";
 
 const GNB = () => {
   const pathname = usePathname();
@@ -48,6 +49,12 @@ const GNB = () => {
 
   if (isSign) return;
 
+  const handleLogout = () => {
+    logout();
+    setIsLogin(false);
+    setIsEmployer(false);
+  };
+
   return (
     <div className="flex h-[70px] w-full items-center justify-center mob:h-[102px] mob:px-3">
       <div className="flex w-full max-w-[1080px] flex-col items-center justify-center px-8 tab:px-0">
@@ -83,18 +90,34 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    {isEmployer ? "내 가게" : "내 프로필"}
-                  </button>
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    로그아웃
-                  </button>
+                  {isEmployer ? (
+                    <Link href={"/employer"}>
+                      <button
+                        className="flex h-5 font-bold text-black"
+                        suppressHydrationWarning
+                      >
+                        내 가게
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link href={"/employee"}>
+                      <button
+                        className="flex h-5 font-bold text-black"
+                        suppressHydrationWarning
+                      >
+                        내 프로필
+                      </button>
+                    </Link>
+                  )}
+                  <Link href={"/"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      onClick={handleLogout}
+                      suppressHydrationWarning
+                    >
+                      로그아웃
+                    </button>
+                  </Link>
                   <NotificationModalComponent data={MockData} />
                 </div>
               ) : (
@@ -102,18 +125,22 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    로그인
-                  </button>
-                  <button
-                    className="flex h-5 font-bold text-black"
-                    suppressHydrationWarning
-                  >
-                    회원 가입
-                  </button>
+                  <Link href={"/signin"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      suppressHydrationWarning
+                    >
+                      로그인
+                    </button>
+                  </Link>
+                  <Link href={"/signup"}>
+                    <button
+                      className="flex h-5 font-bold text-black"
+                      suppressHydrationWarning
+                    >
+                      회원 가입
+                    </button>
+                  </Link>
                 </div>
               )}
             </>
