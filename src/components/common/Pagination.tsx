@@ -152,12 +152,11 @@ const Pagination = ({
 
       <div className="flex gap-1">
         {currentPageList.map((item) => (
-          <>
+          <div key={`pagination-${item + 1}`}>
             {enableAnchorNavigation ? (
               <Link href={`#filterdNoticeSection`}>
                 <button
                   type="button"
-                  key={`pagination-${item + 1}`}
                   className={`h-10 w-10 rounded-[4px] mob:h-8 mob:w-8 mob:text-xs 
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
                   onClick={() => handlePageNumberChange(item)}
@@ -168,7 +167,6 @@ const Pagination = ({
             ) : (
               <button
                 type="button"
-                key={`pagination-${item + 1}`}
                 className={`h-10 w-10 rounded-[4px] mob:h-8 mob:w-8 mob:text-xs
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
                 onClick={() => handlePageNumberChange(item)}
@@ -176,7 +174,7 @@ const Pagination = ({
                 {item + 1}
               </button>
             )}
-          </>
+          </div>
         ))}
       </div>
       {enableAnchorNavigation ? (

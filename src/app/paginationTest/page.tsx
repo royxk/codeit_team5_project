@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 type Props = {};
 
 const PaginationTest = (props: Props) => {
-  const [pageNum, setPageNum] = useState(0);
+  const [pageNum, setPageNum] = useState(50);
 
   const inputNum = useRef<HTMLInputElement>(null);
   return (
