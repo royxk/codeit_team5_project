@@ -1,43 +1,73 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
 import type { NoticeResponse, NoticeItem } from "@/app/page";
-import { Query, searchNoticeApiResponse } from "@/util/api";
+import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
 import Link from "next/link";
-import { ConvertedSortType } from "@/util/convertData";
+import type {
+  AdvancedFilterQuery,
+  ConvertedSortType,
+} from "@/util/convertData";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 interface FIlterNoticeProps {
+  keyword: string | null | undefined;
+  isLoading: boolean;
+  pageCount: number;
+  setPageCount: React.Dispatch<React.SetStateAction<number>>;
   setIsFilterChanged: React.Dispatch<React.SetStateAction<boolean>>;
   isFilterChanged: boolean;
+  isAdvancedFilterChanged: boolean;
+  sortedAdvancedQuery: AdvancedFilterQuery | null;
+  prevSortedAdvancedQuery: AdvancedFilterQuery | null;
   sortedQuery: ConvertedSortType | null;
-  basicNoticeList: NoticeResponse | null;
+  filterdNoticeList: NoticeResponse | null;
+  setFilterdNoticeList: React.Dispatch<
+    React.SetStateAction<NoticeResponse | null>
+  >;
 }
 const FilterdNotice = ({
+  keyword,
+  isLoading,
+  pageCount,
+  setPageCount,
   setIsFilterChanged,
   isFilterChanged,
+  isAdvancedFilterChanged,
+  sortedAdvancedQuery,
+  prevSortedAdvancedQuery,
   sortedQuery,
-  basicNoticeList,
+  filterdNoticeList,
+  setFilterdNoticeList,
 }: FIlterNoticeProps) => {
-  const [filterdNoticeList, setFilterdNoticeList] = useState<NoticeResponse>();
-  const [pageCount, setPageCount] = useState(6);
-  const getFilterdNoticeData = async (query?: Query) => {
-    const res = await searchNoticeApiResponse(query);
-    setPageCount(res.count);
-    setFilterdNoticeList(res);
-  };
   const handlePageData = async (num: number) => {
     const offsetNum = num * 6;
+    console.log(sortedAdvancedQuery);
+    console.log(prevSortedAdvancedQuery);
+    if (sortedAdvancedQuery !== prevSortedAdvancedQuery) {
+      setIsFilterChanged(true);
+    } else {
+      setIsFilterChanged(false);
+    }
+
+    console.log(sortedQuery);
+
     const res = await searchNoticeApiResponse({
       offset: offsetNum,
       limit: 6,
       ...(sortedQuery && { sort: sortedQuery }),
+      ...(sortedAdvancedQuery && { ...sortedAdvancedQuery }),
+      ...(keyword && { keyword: keyword }),
     });
     console.log(sortedQuery);
+    setPageCount(res.count);
     setFilterdNoticeList(res);
+    console.log(res);
+    console.log(filterdNoticeList);
   };
+
   const saveOnLocalStorage = (data: NoticeItem) => {
     // Save the data to local storage
     if (data) {
@@ -47,15 +77,7 @@ const FilterdNotice = ({
     console.log(JSON.parse(recentPosts as string));
   };
 
-  useEffect(() => {
-    if (basicNoticeList) {
-      setFilterdNoticeList(basicNoticeList);
-    } else {
-      getFilterdNoticeData({ limit: 6 });
-    }
-  }, [basicNoticeList]);
-
-  if (!filterdNoticeList)
+  if (isLoading)
     return (
       <>
         {
@@ -72,7 +94,7 @@ const FilterdNotice = ({
     <>
       <div className="flex h-[760px] flex-col gap-10 tab:h-[1150px] mob:h-[820px]">
         <div className="grid grid-cols-3 gap-x-[14px] gap-y-[31px] tab:grid-cols-2 mob:auto-rows-auto mob:gap-2">
-          {filterdNoticeList?.items.map(({ item }) =>
+          {filterdNoticeList?.items?.map(({ item }) =>
             item.closed ? (
               <div className="cursor-not-allowed" key={item.id}>
                 <Post
@@ -106,10 +128,18 @@ const FilterdNotice = ({
             ),
           )}
         </div>
+        {filterdNoticeList?.items.length === 0 && (
+          <>
+            <div className="flex h-1/2 w-full items-center justify-center text-5xl">
+              공고가 없습니다
+            </div>
+          </>
+        )}
       </div>
+      <div>{pageCount}</div>
       <Pagination
         setIsFilterChanged={setIsFilterChanged}
-        pageRefreshSwitch={isFilterChanged}
+        pageRefreshSwitch={isFilterChanged || isAdvancedFilterChanged}
         count={pageCount}
         setCurrentPageData={handlePageData}
         pageItemLimit={6}

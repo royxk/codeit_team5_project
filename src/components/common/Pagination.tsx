@@ -152,7 +152,7 @@ const Pagination = ({
 
       <div className="flex gap-1">
         {currentPageList.map((item) => (
-          <div key={`pagination-${item + 1}`}>
+          <React.Fragment key={`pagination-${item + 1}`}>
             {enableAnchorNavigation ? (
               <Link href={`#filterdNoticeSection`}>
                 <button
@@ -174,7 +174,7 @@ const Pagination = ({
                 {item + 1}
               </button>
             )}
-          </div>
+          </React.Fragment>
         ))}
       </div>
       {enableAnchorNavigation ? (

@@ -2,7 +2,7 @@ import AdvancedFilterComponent from "@/components/common/AdvancedFilter/Advanced
 import React from "react";
 
 const FilterTestPage = () => {
-  return <AdvancedFilterComponent />;
+  return <>{/* <AdvancedFilterComponent /> */}</>;
 };
 
 export default FilterTestPage;
