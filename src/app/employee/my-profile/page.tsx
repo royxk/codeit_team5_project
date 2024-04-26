@@ -46,6 +46,11 @@ const RegisterProfile = () => {
     router.push('/employee');
   }
 
+  const checkNameValid = () => {
+    if (!nameRef.current?.value) return setNameErr("BLANK_REQUIRE_VALUE");
+    return setNameErr('');
+  }
+
   const checkPhoneNumValid = () => {
     if (!phoneNumRef.current) return setPhoneErr("INVALID_PHONE_NUMBER");
 
@@ -56,8 +61,8 @@ const RegisterProfile = () => {
   }
 
   //phoneNum의 포커스가 사라질 때, 자동으로 '-'을 넣어주는 함수.
-  const handleBlur = (target: string | undefined) => {
-    if (!target) return setPhoneErr("INVALID_PHONE_NUMBER");
+  const handlePhoneBlur = (target: string | undefined) => {
+    if (!target) return setPhoneErr("BLANK_REQUIRE_VALUE");
 
     checkPhoneNumValid();
     
@@ -99,6 +104,8 @@ const RegisterProfile = () => {
             <Input
               inputType="NAME"
               inputRef={nameRef}
+              errorType={nameErr}
+              blurEvent={() => checkNameValid()}
               defaultValue={userData?.name}
               maxLength={15}/>
           </div>
@@ -107,7 +114,7 @@ const RegisterProfile = () => {
               inputType="PHONE_NUMBER"
               inputRef={phoneNumRef}
               errorType={phoneErr}
-              blurEvent={() => handleBlur(phoneNumRef.current?.value)}
+              blurEvent={() => handlePhoneBlur(phoneNumRef.current?.value)}
               defaultValue={userData?.phone}
               maxLength={11}/>
           </div>
@@ -129,7 +136,7 @@ const RegisterProfile = () => {
             />
           </div>
         </form>
-        <Button size='large' color='red' onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
+        <Button size='large' color={phoneErr || nameErr ? 'gray' : 'red'} onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
       </div>
     </>
   );
