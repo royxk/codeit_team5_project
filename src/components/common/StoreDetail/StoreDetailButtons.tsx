@@ -139,7 +139,7 @@ const StoreDetailButtons = ({
         <Button
           size="full"
           color="white"
-          onClick={() => router.push(`/employer/notice/edit/${postId}`)}
+          onClick={() => router.push(`/employer/notice/${postId}/edit`)}
         >
           공고 편집
         </Button>
