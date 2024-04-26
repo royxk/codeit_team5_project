@@ -51,6 +51,7 @@ const FilterdNotice = ({
     } else {
       setIsFilterChanged(false);
     }
+
     console.log(sortedQuery);
 
     const res = await searchNoticeApiResponse({
@@ -135,6 +136,7 @@ const FilterdNotice = ({
           </>
         )}
       </div>
+      <div>{pageCount}</div>
       <Pagination
         setIsFilterChanged={setIsFilterChanged}
         pageRefreshSwitch={isFilterChanged || isAdvancedFilterChanged}
