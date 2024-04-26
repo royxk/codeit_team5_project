@@ -11,7 +11,6 @@ interface NotificationModalProps {
 
 const NotificationModal = ({ onClick, data }: NotificationModalProps) => {
   const contents = data.items;
-  console.log(contents[0].item.result);
   return (
     <div
       className={`flex min-h-96 w-96 flex-col gap-5 rounded-xl border border-gray-40  bg-red-10 px-5 py-6 mob:h-screen mob:w-full mob:rounded-none  mob:border-0 mob:pt-10`}
@@ -27,7 +26,7 @@ const NotificationModal = ({ onClick, data }: NotificationModalProps) => {
       </div>
 
       <div
-        className={`flex max-h-96 flex-col gap-2 overflow-y-auto mob:max-h-full`}
+        className={`flex max-h-96 flex-col gap-2 overflow-y-auto hide-scrollbar mob:max-h-full`}
       >
         {contents.map((data) => {
           return <NotificationModalMessageBox key={data.item.id} data={data} />;

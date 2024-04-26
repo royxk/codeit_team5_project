@@ -2,6 +2,7 @@ import React from "react";
 import SvgStatusComponent from "./SvgStatusComponent";
 import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 import { formatApiDateData } from "@/util/formatDate";
+import { elapsedTime } from "@/util/eplapsedTime";
 
 type Props = {
   data: NOTIFICATION_API_ITEM_TYPE;
@@ -27,6 +28,9 @@ const NotificationModalMessageBox = ({ data }: Props) => {
           <span className={`text-blue-20`}>승인</span>
         )}
         되었어요.
+      </div>
+      <div className={`text-xs text-gray-40`}>
+        {elapsedTime(data.item.createdAt)}
       </div>
     </div>
   );
