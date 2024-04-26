@@ -3,11 +3,16 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import NotificationModal from "@/components/common/NotificationModal/NotificationModal";
 import SvgNotificationButton from "./SvgNotificationButton";
+import { NOTIFICATION_API_RESPONSE_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 
-const NotificationModalComponent = () => {
+const NotificationModalComponent = ({
+  data,
+}: {
+  data: NOTIFICATION_API_RESPONSE_TYPE;
+}) => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-
+  const content = data?.items.length;
   const toggleNotificationModal = (event: React.MouseEvent) => {
     event.stopPropagation();
     setIsNotificationModalOpen(!isNotificationModalOpen);
@@ -46,7 +51,7 @@ const NotificationModalComponent = () => {
             className={`absolute top-1 ml-10 mt-10 mob:fixed mob:right-0 mob:top-0 mob:mt-0 mob:h-screen mob:w-full`}
             onClick={(event) => event.stopPropagation()}
           >
-            <NotificationModal onClick={toggleNotificationModal} />
+            <NotificationModal data={data} onClick={toggleNotificationModal} />
           </div>
         )}
       </div>

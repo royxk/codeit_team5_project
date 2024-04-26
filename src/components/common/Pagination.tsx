@@ -33,19 +33,8 @@ const Pagination = ({
   const pageData = Math.ceil(count / pageItemLimit);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageList, setCurrentPageList] = useState([0]);
-  console.log(pageData);
-  const isPaginationNeed = pageData > 7;
 
-  const firstPageList: number[] = [];
-  if (!isPaginationNeed) {
-    if (pageData === 0) {
-      firstPageList.push(0);
-    } else {
-      for (let i = 0; i < pageData; i++) {
-        firstPageList.push(i);
-      }
-    }
-  }
+  const isPaginationNeed = pageData > 7;
 
   // 현재 선택 가능한 페이지 리스트를 다루는 함수, pagination이 필요하지 않으면 작동하지 않음
   const handlePageList = (targetPageNumber: number) => {
@@ -105,12 +94,24 @@ const Pagination = ({
   };
 
   useEffect(() => {
+    const firstPageList: number[] = [];
+    if (!isPaginationNeed) {
+      if (pageData === 0) {
+        firstPageList.push(0);
+      } else {
+        for (let i = 0; i < pageData; i++) {
+          firstPageList.push(i);
+        }
+      }
+    }
     setCurrentPageList(firstPageList);
     handlePageNumberChange(0);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count]);
 
   useEffect(() => {
     handlePageNumberChange(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageRefreshSwitch]);
 
   return (
@@ -151,12 +152,11 @@ const Pagination = ({
 
       <div className="flex gap-1">
         {currentPageList.map((item) => (
-          <>
+          <div key={`pagination-${item + 1}`}>
             {enableAnchorNavigation ? (
               <Link href={`#filterdNoticeSection`}>
                 <button
                   type="button"
-                  key={`pagination-${item + 1}`}
                   className={`h-10 w-10 rounded-[4px] mob:h-8 mob:w-8 mob:text-xs 
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
                   onClick={() => handlePageNumberChange(item)}
@@ -167,7 +167,6 @@ const Pagination = ({
             ) : (
               <button
                 type="button"
-                key={`pagination-${item + 1}`}
                 className={`h-10 w-10 rounded-[4px] mob:h-8 mob:w-8 mob:text-xs
             ${currentPage === item ? "bg-red-30 text-white" : "text-black hover:bg-gray-10"}`}
                 onClick={() => handlePageNumberChange(item)}
@@ -175,7 +174,7 @@ const Pagination = ({
                 {item + 1}
               </button>
             )}
-          </>
+          </div>
         ))}
       </div>
       {enableAnchorNavigation ? (
