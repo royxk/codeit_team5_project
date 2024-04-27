@@ -1,5 +1,5 @@
 "use client"
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
@@ -89,7 +89,7 @@ const RegisterProfile = () => {
     setShowModal(false);
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     if (!phoneErr && !nameErr){
       const editValue = {
         name: nameRef.current?.value ?? "",
@@ -112,7 +112,9 @@ const RegisterProfile = () => {
             <Image src={closeIcon} className='w-8 mob:w-6' alt='closeBtn'/>
           </button>
         </div>
-        <form className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'>
+        <form
+          className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'
+          onSubmit={(e) => handleSubmit(e)}>
           <div>
             <Input
               inputType="NAME"
@@ -144,19 +146,27 @@ const RegisterProfile = () => {
             <textarea
               className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-primary'
               placeholder='자기 소개를 입력해 주세요.'
+              maxLength={300}
               ref={bioRef}
               defaultValue={userData?.bio}
             />
           </div>
+          <Button
+            type="submit"
+            size='large'
+            color={phoneErr || nameErr ? 'gray' : 'red'}
+            className='col-span-3 tab:col-span-2 mob:col-span-1'
+            onClick={handleSubmit}
+          >
+            {isProfileData ? '수정하기' : '등록하기' }
+          </Button>
         </form>
-        <Button size='large' color={phoneErr || nameErr ? 'gray' : 'red'} onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
       </div>
       {showModal && (
         <ModalPortal>
           <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
           <div className="flex flex-col gap-8">
             <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
-
             <Button
               color="red"
               size="small"
