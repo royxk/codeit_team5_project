@@ -1,5 +1,5 @@
 "use client"
-import { FormEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
@@ -89,7 +89,7 @@ const RegisterProfile = () => {
     setShowModal(false);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement> | MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async () => {
     if (!phoneErr && !nameErr){
       const editValue = {
         name: nameRef.current?.value ?? "",
@@ -113,8 +113,7 @@ const RegisterProfile = () => {
           </button>
         </div>
         <form
-          className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'
-          onSubmit={(e) => handleSubmit(e)}>
+          className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'>
           <div>
             <Input
               inputType="NAME"
@@ -153,16 +152,15 @@ const RegisterProfile = () => {
               defaultValue={userData?.bio}
             />
           </div>
-          <Button
-            type="submit"
-            size='large'
-            color={phoneErr || nameErr ? 'gray' : 'red'}
-            className='col-span-3 tab:col-span-2 mob:col-span-1'
-            onClick={handleSubmit}
-          >
-            {isProfileData ? '수정하기' : '등록하기' }
-          </Button>
         </form>
+        <Button
+          type='submit'
+          size='large'
+          color={phoneErr || nameErr ? 'gray' : 'red'}
+          onClick={handleSubmit}
+        >
+          {isProfileData ? '수정하기' : '등록하기' }
+        </Button>
       </div>
       {showModal && (
         <ModalPortal>
