@@ -179,7 +179,7 @@ const StoreEditForm = ({ data }: any) => {
         />
       </div>
       <div className="mt-2 flex w-full justify-center">
-        <Button size="large" color="red">
+        <Button size="large" type="submit" color="red">
           수정하기
         </Button>
       </div>
