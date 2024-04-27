@@ -84,14 +84,14 @@ const StoreRegisterForm = () => {
   useEffect(() => {
     const sid = getCookie("sid");
     if (sid !== undefined) {
-      router.push("/employer");
+      router.push("/user/employer");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleModalClose = () => {
     setShowModal(false);
-    router.push("/employer");
+    router.push("/user/employer");
   };
 
   return (
