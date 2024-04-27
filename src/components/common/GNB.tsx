@@ -10,8 +10,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/util/api";
 
 const GNB = () => {
-  const pathname = usePathname();
-  const isSign = pathname.includes("sign");
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +23,7 @@ const GNB = () => {
       if (searchRef.current) {
         const value = searchRef.current.value;
         searchRef.current.value = "";
-        router.push(`/search?keyword=${value}`);
+        router.push(`/user/search?keyword=${value}`);
       }
     }
   };
@@ -46,8 +44,6 @@ const GNB = () => {
     }
     setIsLoading(false);
   }, [pathName]);
-
-  if (isSign) return;
 
   const handleLogout = () => {
     logout();
@@ -90,7 +86,7 @@ const GNB = () => {
                   suppressHydrationWarning
                 >
                   {isEmployer ? (
-                    <Link href={"/employer"}>
+                    <Link href={"/user/employer"}>
                       <button
                         className="flex h-5 font-bold text-black"
                         suppressHydrationWarning
@@ -99,7 +95,7 @@ const GNB = () => {
                       </button>
                     </Link>
                   ) : (
-                    <Link href={"/employee"}>
+                    <Link href={"/user/employee"}>
                       <button
                         className="flex h-5 font-bold text-black"
                         suppressHydrationWarning

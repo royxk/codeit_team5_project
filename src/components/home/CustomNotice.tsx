@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
-import { NoticeResponse } from "@/app/page";
-import { mydataApiResponse, searchNoticeApiResponse } from "@/util/api";
+import { NoticeResponse } from "@/app/user/page";
+import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Link from "next/link";
 import { getCookie } from "@/util/cookieSetting";
@@ -124,7 +124,7 @@ const CustomNotice = () => {
     >
       {customNoticeList?.items.map(({ item }) => (
         <Link
-          href={`/noticeDetail/${item.id}/${item.shop.item.id}`}
+          href={`/user/noticeDetail/${item.id}/${item.shop.item.id}`}
           key={item.id}
         >
           <Post
