@@ -3,7 +3,6 @@ import Image from "next/image";
 import StoreDetailButtons from "./StoreDetailButtons";
 import Button from "../Button";
 import StoreDetailProps from "./StoreDetailTypes";
-import { STORE_DETAIL_ASSIGNED } from "@/util/constants/STORE_DETAIL_ASSIGNED";
 import StoreDetailCardBorder from "./StoreDetailCardBorder";
 import Link from "next/link";
 import { formatApiDateData } from "@/util/formatDate";
@@ -128,10 +127,10 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
         </section>
       </StoreDetailCardBorder>
       {isPostPage && item.description ? (
-        <div className="mt-6 w-full w-full rounded-lg bg-gray-10 p-8">
+        <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
           <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
           <textarea
-            className="body1 mob:body2 mt-3 h-min resize-none"
+            className="body1 mob:body2 mt-3 h-min w-full resize-none"
             value={item.description}
             disabled
           />
