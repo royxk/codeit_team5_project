@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
 import { NoticeResponse } from "@/app/user/page";
-import { searchNoticeApiResponse } from "@/util/api";
+import { mydataApiResponse, searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Link from "next/link";
 import { getCookie } from "@/util/cookieSetting";
