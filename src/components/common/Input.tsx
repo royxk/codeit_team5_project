@@ -54,7 +54,7 @@ const Input = ({
 
   return (
     <div className="relative flex w-full flex-col gap-2">
-      <label className="text-black" htmlFor={inputType}>
+      <label className="body1 text-black" htmlFor={inputType}>
         {INPUT_LABELS[inputType].split("*").length === 1 ? (
           <a>{INPUT_LABELS[inputType]}</a>
         ) : (
@@ -92,12 +92,12 @@ const Input = ({
             <div className="absolute top-16 z-[2] max-h-[230px] w-full cursor-default overflow-y-scroll rounded-lg border-[1px] border-gray-30  bg-white text-center">
               <div className="flex flex-col gap-[1px] bg-gray-20">
                 {dataArray!.length === 0 ? (
-                  <div className="bg-white py-3">데이터가 없습니다.</div>
+                  <div className="body1 bg-white py-3">데이터가 없습니다.</div>
                 ) : (
                   dataArray!.map((item) => (
                     <button
                       type="button"
-                      className="bg-white py-3 hover:bg-gray-5"
+                      className="body1 bg-white py-3 hover:bg-gray-5"
                       key={item}
                       onClick={() => {
                         setSelectedData(item);
@@ -117,13 +117,13 @@ const Input = ({
         // 일반 input형 코드
         <>
           <label
-            className={`relative z-[1] flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-primary 
+            className={`body1 relative z-[1] mb-6 flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-primary 
             ${inputType !== "date" ? "cursor-text" : ""} bg-white`}
             htmlFor={inputType}
           >
             <input
               id={inputType}
-              className="w-full rounded-md focus-visible:outline-none"
+              className="body1 w-full rounded-md focus-visible:outline-none"
               type={INPUT_TYPES[inputType]}
               onBlur={() => blurEvent()}
               ref={inputRef}
@@ -135,9 +135,10 @@ const Input = ({
               <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
             )}
           </label>
-          {INPUT_ERROR_TYPE[errorType] && (
-            <p className="ml-2 text-red-400">{INPUT_ERROR_TYPE[errorType]}</p>
-          )}
+
+          <p className="caption absolute bottom-0 ml-2 text-red-400">
+            {INPUT_ERROR_TYPE[errorType]}
+          </p>
         </>
       )}
     </div>

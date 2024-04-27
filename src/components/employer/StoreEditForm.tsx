@@ -174,7 +174,7 @@ const StoreEditForm = ({ data }: any) => {
         <textarea
           ref={storeDescriptionRef}
           placeholder="가게에 대한 설명을 입력해 주세요."
-          className="body1 h-40 w-full resize-none overflow-y-scroll border-[1px] border-gray-30 px-5 py-4"
+          className="body1 h-40 w-full resize-none overflow-y-scroll border-[1px] border-gray-30 px-5 py-4 focus:border-primary focus:outline-none"
           defaultValue={description}
         />
       </div>
