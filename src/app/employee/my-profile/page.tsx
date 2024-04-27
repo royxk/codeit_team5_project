@@ -1,20 +1,26 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
+"use client"
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
 import { getCookie } from '@/util/cookieSetting';
 import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
 import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
+import { formatPhoneNumber } from '@/util/formatPhoneNumber';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import Modal from '@/components/common/SignModal';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
 
+const MODAL_MESSAGE = "등록이 완료되었습니다."
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
   const [isProfileData, setIsProfileData] = useState(true);
-  const [addressValue, setAddressValue] = useState('');
+  const [addressValue, setAddressValue] = useState(userData?.address);
+  const [nameErr, setNameErr] = useState('');
+  const [phoneErr, setPhoneErr] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
@@ -32,45 +38,68 @@ const RegisterProfile = () => {
     const fetchUserData = async () => {
       const data = await getUserData(userId);
       setUserData(data);
+      if (data && Object.keys(data).length <= 4) {
+        setIsProfileData(false);
+      }
+      setIsProfileData(true);
     };
     fetchUserData();
   }, [userId, router]);
 
-  useEffect(() => {
-    if (userData) {
-      if (nameRef.current) {
-        nameRef.current.value = userData.name ?? '';
-      }
-      if (phoneNumRef.current) {
-        phoneNumRef.current.value = userData.phone ?? '';
-      }
-      if (bioRef.current) {
-        bioRef.current.value = userData.bio ?? '';
-      }
-      if (Object.keys(userData).length <= 4) {
-        setIsProfileData(false);
-      }
-    }
-  }, [userData])
-
   const handleClick = () => {
     router.push('/employee');
+  }
+
+  const checkNameValid = () => {
+    if (!nameRef.current?.value) return setNameErr("BLANK_REQUIRE_VALUE");
+    return setNameErr('');
+  }
+
+  const checkPhoneNumValid = () => {
+    if (!phoneNumRef.current) return setPhoneErr("INVALID_PHONE_NUMBER");
+
+    const phoneNum = phoneNumRef.current.value.replace(/\D/g, '');
+    return (phoneNum.length < 10 || phoneNum.slice(0, 3) !== '010')
+    ? setPhoneErr("INVALID_PHONE_NUMBER")
+    : setPhoneErr('');
+  }
+
+  //phoneNum의 포커스가 사라질 때, 자동으로 '-'을 넣어주는 함수.
+  const handlePhoneBlur = (target: string | undefined) => {
+    if (!target) return setPhoneErr("BLANK_REQUIRE_VALUE");
+
+    checkPhoneNumValid();
+    
+    if(phoneNumRef.current && phoneErr === '') {
+      phoneNumRef.current.value = formatPhoneNumber(target.replace(/\D/g, ''));
+    }
   }
 
   const handleSelect = (data: string) => {
     setAddressValue(data);
   }
 
-  const handleSubmit = async () => {
-    const editValue = {
-      name: nameRef.current?.value ?? "",
-      phone: phoneNumRef.current?.value ?? "",
-      address: addressValue as Address,
-      bio: bioRef.current?.value ?? "",
-    }
-
-    await mydataEditApiResponse(editValue);
+  const handleCheckClick = () => {
+    setShowModal(false);
     router.push('/employee');
+  };
+
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  }
+
+  const handleSubmit = async () => {
+    if (!phoneErr && !nameErr){
+      const editValue = {
+        name: nameRef.current?.value ?? "",
+        phone: formatPhoneNumber(phoneNumRef.current?.value ?? ""),
+        address: addressValue as Address ?? userData?.address,
+        bio: bioRef.current?.value ?? "",
+      }
+  
+      await mydataEditApiResponse(editValue);
+      setShowModal(true);
+    }
   }
 
   return (
@@ -84,29 +113,59 @@ const RegisterProfile = () => {
         </div>
         <form className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'>
           <div>
-            <Input inputType="NAME" inputRef={nameRef}/>
+            <Input
+              inputType="NAME"
+              inputRef={nameRef}
+              errorType={nameErr}
+              blurEvent={() => checkNameValid()}
+              defaultValue={userData?.name}
+              maxLength={15}/>
           </div>
           <div>
-            <Input inputType="PHONE_NUMBER" inputRef={phoneNumRef}/>
+            <Input
+              inputType="PHONE_NUMBER"
+              inputRef={phoneNumRef}
+              errorType={phoneErr}
+              blurEvent={() => handlePhoneBlur(phoneNumRef.current?.value)}
+              defaultValue={userData?.phone?.replace(/\D/g, '')}
+              maxLength={11}/>
           </div>
           <div>
             <Input
               inputType={INPUT_SELECT_TYPE[2]}
               dataArray={INPUT_SELECT_DATA_LIST.MAIN_ADDRESS}
               selectData={handleSelect}
+              defaultValue={userData?.address}
             />
           </div>
           <div className='col-span-3 flex flex-col gap-2 tab:col-span-2 mob:col-span-1'>
             <label>소개</label>
             <textarea
-              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 focus:outline-none focus:border-blue-20'
+              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-primary'
               placeholder='자기 소개를 입력해 주세요.'
               ref={bioRef}
+              defaultValue={userData?.bio}
             />
           </div>
         </form>
-        <Button size='large' color='red' onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
+        <Button size='large' color={phoneErr || nameErr ? 'gray' : 'red'} onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
       </div>
+      {showModal && (
+        <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
+        <div className="flex flex-col gap-8">
+          <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
+
+          <Button
+            color="red"
+            size="small"
+            onClick={handleCheckClick}
+            className="absolute h-[38px] bottom-[28px] right-[28px]"
+          >
+            확인
+          </Button>
+        </div>
+      </Modal>
+      )}
     </>
   );
 };

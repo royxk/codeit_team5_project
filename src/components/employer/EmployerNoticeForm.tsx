@@ -178,7 +178,7 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
         <label htmlFor="noticeDescription">공고 설명</label>
         <textarea
           id="noticeDescription"
-          className="min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4 "
+          className="min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4 focus:border-primary focus:outline-none "
           ref={noticeDescriptionRef}
           defaultValue={noticeDescription}
         />
