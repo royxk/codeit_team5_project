@@ -18,6 +18,7 @@ export default function RootLayout({
         <GNB />
         <main>{children}</main>
         <Footer />
+        <div id="modal-root" />
       </body>
     </html>
   );

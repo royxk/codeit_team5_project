@@ -9,6 +9,8 @@ import EmailInput from "@/components/signup/EmailInput";
 import PasswordInput from "@/components/signup/PasswordInput";
 import ConfirmPasswordInput from "@/components/signup/ConfirmPasswordInput";
 import Modal from "@/components/common/SignModal";
+import ModalPortal from "@/components/common/ModalPortal";
+import { useRouter } from "next/navigation";
 
 enum UserType {
   Employee = "employee",
@@ -16,6 +18,7 @@ enum UserType {
 }
 
 const Signup: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -31,7 +34,10 @@ const Signup: React.FC = () => {
     setUserType(userType);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
     if (!email.trim()) {
       setEmailError("이메일을 입력하세요.");
       return;
@@ -106,86 +112,90 @@ const Signup: React.FC = () => {
             />
           </Link>
         </div>
-        <div className="mb-2 flex flex-col ">
-          <EmailInput
-            email={email}
-            setEmail={setEmail}
-            emailError={emailError}
-            setEmailError={setEmailError}
-          />
-          <PasswordInput
-            password={password}
-            setPassword={setPassword}
-            passwordError={passwordError}
-            setPasswordError={setPasswordError}
-          />
-          <ConfirmPasswordInput
-            password={password}
-            confirmPassword={confirmPassword}
-            setConfirmPassword={setConfirmPassword}
-            confirmPasswordError={confirmPasswordError}
-            setConfirmPasswordError={setConfirmPasswordError}
-          />
-        </div>
-        <div className="flex flex-col">
-          <span className="mb-3">회원 유형</span>
-          <div className="mb-6  flex justify-between gap-[8px]">
-            <button
-              type="button"
-              className={`flex h-[50px] w-[167px] items-center rounded-[30px] border px-[41px] py-[13px] ${
-                userType === UserType.Employee
-                  ? "border-primary"
-                  : "border-gray-30"
-              }`}
-              onClick={() => handleButtonClick(UserType.Employee)}
-            >
-              <Image
-                src={
-                  userType === UserType.Employee
-                    ? "/signup/circleCheckIcon.png"
-                    : "/signup/grayCircleIcon.png"
-                }
-                alt="circleIcon"
-                width={20}
-                height={20}
-                className="relative left-[-4px] top-[1px] mr-2"
-              />
-              알바님
-            </button>
-            <button
-              type="button"
-              className={`flex h-[50px] w-[167px] items-center rounded-[30px] border px-[41px] py-[13px] ${
-                userType === UserType.Employer
-                  ? "border-primary"
-                  : "border-gray-30"
-              }`}
-              onClick={() => handleButtonClick(UserType.Employer)}
-            >
-              <Image
-                src={
-                  userType === UserType.Employer
-                    ? "/signup/circleCheckIcon.png"
-                    : "/signup/grayCircleIcon.png"
-                }
-                alt="circleIcon"
-                width={20}
-                height={20}
-                className="relative left-[-4px] top-[1px] mr-2"
-              />
-              사장님
-            </button>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div className="mb-2 flex flex-col ">
+            <EmailInput
+              email={email}
+              setEmail={setEmail}
+              emailError={emailError}
+              setEmailError={setEmailError}
+            />
+            <PasswordInput
+              password={password}
+              setPassword={setPassword}
+              passwordError={passwordError}
+              setPasswordError={setPasswordError}
+            />
+            <ConfirmPasswordInput
+              password={password}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
+              confirmPasswordError={confirmPasswordError}
+              setConfirmPasswordError={setConfirmPasswordError}
+            />
           </div>
-        </div>
-        <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-          <Button
-            size="large"
-            color="red"
-            onClick={handleSubmit}
-            className="w-[350px] border border-primary"
-          >
-            가입하기
-          </Button>
-        </div>
+
+          <div className="flex flex-col">
+            <span className="mb-3">회원 유형</span>
+            <div className="mb-6  flex justify-between gap-[8px]">
+              <button
+                type="button"
+                className={`flex h-[50px] w-[167px] items-center rounded-[30px] border px-[41px] py-[13px] ${
+                  userType === UserType.Employee
+                    ? "border-primary"
+                    : "border-gray-30"
+                }`}
+                onClick={() => handleButtonClick(UserType.Employee)}
+              >
+                <Image
+                  src={
+                    userType === UserType.Employee
+                      ? "/signup/circleCheckIcon.png"
+                      : "/signup/grayCircleIcon.png"
+                  }
+                  alt="circleIcon"
+                  width={20}
+                  height={20}
+                  className="relative left-[-4px] top-[1px] mr-2"
+                />
+                알바님
+              </button>
+              <button
+                type="button"
+                className={`flex h-[50px] w-[167px] items-center rounded-[30px] border px-[41px] py-[13px] ${
+                  userType === UserType.Employer
+                    ? "border-primary"
+                    : "border-gray-30"
+                }`}
+                onClick={() => handleButtonClick(UserType.Employer)}
+              >
+                <Image
+                  src={
+                    userType === UserType.Employer
+                      ? "/signup/circleCheckIcon.png"
+                      : "/signup/grayCircleIcon.png"
+                  }
+                  alt="circleIcon"
+                  width={20}
+                  height={20}
+                  className="relative left-[-4px] top-[1px] mr-2"
+                />
+                사장님
+              </button>
+            </div>
+          </div>
+          <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
+            <Button
+              type="submit"
+              size="large"
+              color="red"
+              onClick={(e) => handleSubmit(e)}
+              className="w-[350px] border border-primary"
+            >
+              가입하기
+            </Button>
+          </div>
+        </form>
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
           <span className="mr-3">이미 가입하셨나요?</span>{" "}
           <Link
@@ -198,37 +208,41 @@ const Signup: React.FC = () => {
         </div>
       </div>
       {showModal && (
-        <Modal type="bad" onClose={() => setShowModal(false)}>
-          <div className="text-center">
-            <p className="mt-7">{modalMessage}</p>
-            <Button
-              color="red"
-              size="small"
-              onClick={() => setShowModal(false)}
-              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
-            >
-              확인
-            </Button>
-          </div>
-        </Modal>
+        <ModalPortal>
+          <Modal type="bad" onClose={() => setShowModal(false)}>
+            <div className="text-center">
+              <p className="mt-7">{modalMessage}</p>
+              <Button
+                color="red"
+                size="small"
+                onClick={() => setShowModal(false)}
+                className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
+              >
+                확인
+              </Button>
+            </div>
+          </Modal>
+        </ModalPortal>
       )}
       {confirmShowModal && (
-        <Modal type="good" onClose={() => setConfirmShowModal(false)}>
-          <div className="text-center">
-            <p className="mt-7">{modalMessage}</p>
-            <Button
-              color="red"
-              size="small"
-              onClick={() => {
-                setConfirmShowModal(false);
-                window.location.href = "/signin";
-              }}
-              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
-            >
-              확인
-            </Button>
-          </div>
-        </Modal>
+        <ModalPortal>
+          <Modal type="good" onClose={() => setConfirmShowModal(false)}>
+            <div className="text-center">
+              <p className="mt-7">{modalMessage}</p>
+              <Button
+                color="red"
+                size="small"
+                onClick={() => {
+                  setConfirmShowModal(false);
+                  router.push("/signin");
+                }}
+                className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
+              >
+                확인
+              </Button>
+            </div>
+          </Modal>
+        </ModalPortal>
       )}
     </div>
   );

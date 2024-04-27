@@ -39,7 +39,7 @@ const GNB = () => {
       setIsLogin(false);
     }
 
-    if (getCookie("sid")) {
+    if (getCookie("sid") === "" || getCookie("sid")) {
       setIsEmployer(true);
     } else {
       setIsEmployer(false);
@@ -51,8 +51,7 @@ const GNB = () => {
 
   const handleLogout = () => {
     logout();
-    setIsLogin(false);
-    setIsEmployer(false);
+    router.push("/signin");
   };
 
   return (
@@ -109,15 +108,15 @@ const GNB = () => {
                       </button>
                     </Link>
                   )}
-                  <Link href={"/"}>
-                    <button
-                      className="flex h-5 font-bold text-black"
-                      onClick={handleLogout}
-                      suppressHydrationWarning
-                    >
-                      로그아웃
-                    </button>
-                  </Link>
+
+                  <button
+                    className="flex h-5 font-bold text-black"
+                    onClick={handleLogout}
+                    suppressHydrationWarning
+                  >
+                    로그아웃
+                  </button>
+
                   <NotificationModalComponent data={MockData} />
                 </div>
               ) : (
