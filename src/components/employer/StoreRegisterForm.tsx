@@ -84,7 +84,6 @@ const StoreRegisterForm = () => {
 
   useEffect(() => {
     const sid = getCookie("sid");
-    console.log(sid);
     if (sid !== undefined && sid !== "") {
       router.push("/user/employer");
     }
