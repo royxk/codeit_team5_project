@@ -16,11 +16,11 @@ import { getCookie } from "@/util/cookieSetting";
  * @returns
  */
 const StoreDetailButtons = ({
-  isClosed,
+  isClosed = false,
   shopId,
   postId,
 }: {
-  isClosed: boolean;
+  isClosed?: boolean;
   shopId: string;
   postId: string;
 }) => {
