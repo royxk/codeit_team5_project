@@ -9,7 +9,7 @@ import {
   convertSortType,
   type SortType,
 } from "@/util/convertData";
-import type { NoticeResponse } from "@/app/page";
+import type { NoticeResponse } from "@/app/user/page";
 import { Query, searchNoticeApiResponse } from "@/util/api";
 
 interface Keyword {
@@ -149,7 +149,6 @@ const NoticeMain = ({ keyword }: Keyword) => {
 
     executeAdvancedFilter();
   }, [sortedAdvancedQuery, prevSortedAdvancedQuery, keyword]);
-
 
   return (
     <section className="flex justify-center py-[60px] mob:py-10">

@@ -96,7 +96,7 @@ const StoreEditForm = ({ data }: any) => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    router.push("/employer");
+    router.push("/user/employer");
   };
 
   return (

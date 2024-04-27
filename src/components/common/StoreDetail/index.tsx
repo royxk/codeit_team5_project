@@ -28,7 +28,7 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
           <div className="body1 m-auto py-9 text-center">
             내 가게를 소개하고 공고도 등록해 보세요.
             <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
-              <Link href={"/employer/register"}>
+              <Link href={"/user/employer/register"}>
                 <Button size="full" color="red" className="mob:body2-bold">
                   가게 등록하기
                 </Button>
