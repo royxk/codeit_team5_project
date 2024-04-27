@@ -50,5 +50,5 @@ export function setShopIdCookie(data: string) {
 }
 
 export function deleteCookie(name: string) {
-  destroyCookie(null, name);
+  destroyCookie(null, name, { path: "/" });
 }

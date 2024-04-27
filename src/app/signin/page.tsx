@@ -1,9 +1,9 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/common/Button";
 import Link from "next/link";
-import { mydataApiResponse, signinApiResponse } from "@/util/api";
+import { logout, mydataApiResponse, signinApiResponse } from "@/util/api";
 import {
   getCookie,
   setAccessTokenCookie,
@@ -86,14 +86,9 @@ const Signin: React.FC = () => {
     }
   };
 
-  const handleEnterPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
-    if (showModal) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        setShowModal(false);
-      }
-    }
-  };
+  useEffect(() => {
+    logout();
+  }, []);
 
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
@@ -108,7 +103,7 @@ const Signin: React.FC = () => {
             />
           </Link>
         </div>
-        <form onSubmit={(e) => handleSubmit(e)} onKeyDown={handleEnterPress}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-5 flex flex-col ">
             <EmailInput
               email={email}
