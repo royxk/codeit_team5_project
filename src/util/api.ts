@@ -323,7 +323,8 @@ export function alertApiResponse(userId: string | undefined, query?: Query) {
  */
 export function alertReadApiResponse(alertId: string) {
   const uid = getCookie("uid");
-  const url = USERS_URL + uid + ENDPOINT.alerts + alertId;
+  // const url = USERS_URL + uid + ENDPOINT.alerts + alertId;
+  const url = `${USERS_URL}${uid}${ENDPOINT.alerts}/${alertId}`;
   return putApiResponse(url);
 }
 

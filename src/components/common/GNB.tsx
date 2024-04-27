@@ -9,6 +9,7 @@ import { getCookie } from "@/util/cookieSetting";
 import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/util/api";
 import { NOTIFICATION_API_RESPONSE_TYPE } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
+import { NOTIFICATION_API_ITEM_TYPE } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import { alertApiResponse } from "@/util/api";
 
 //TODO: 유져의 알림 목록 조회 API 연동 필요
@@ -17,10 +18,9 @@ const GNB = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
   const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null);
-  const [notificationData, setNotificationData] =
-    useState<NOTIFICATION_API_RESPONSE_TYPE | null>();
 
   const pathName = usePathname();
 
@@ -39,7 +39,6 @@ const GNB = () => {
 
     if (getCookie("accessToken")) {
       setIsLogin(true);
-      getNotificationData();
     } else {
       setIsLogin(false);
     }
@@ -51,12 +50,6 @@ const GNB = () => {
     }
     setIsLoading(false);
   }, [pathName]);
-
-  const getNotificationData = async () => {
-    const uid = getCookie("uid");
-    const response = await alertApiResponse(uid);
-    setNotificationData(response);
-  };
 
   const handleLogout = () => {
     logout();
@@ -126,7 +119,7 @@ const GNB = () => {
                     로그아웃
                   </button>
 
-                  <NotificationModalComponent data={notificationData} />
+                  <NotificationModalComponent />
                 </div>
               ) : (
                 <div

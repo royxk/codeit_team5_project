@@ -4,17 +4,24 @@ import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 import { formatApiDateData } from "@/util/formatDate";
 import { elapsedTime } from "@/util/eplapsedTime";
 import { alertReadApiResponse } from "@/util/api";
+import { get } from "https";
 
 type Props = {
   data: NOTIFICATION_API_ITEM_TYPE;
+  onClick: (event: React.MouseEvent) => void;
+  getNotificationData: () => void;
 };
 
 const NotificationRead = async (id: string) => {
   alertReadApiResponse(id);
-  console.log("read");
+  console.log("read", id);
 };
 
-const NotificationModalMessageBox = ({ data }: Props) => {
+const NotificationModalMessageBox = ({
+  getNotificationData,
+  data,
+  onClick,
+}: Props) => {
   const createdAt = formatApiDateData(
     data.item.notice.item.startsAt,
     data.item.notice.item.workhour,
@@ -22,7 +29,10 @@ const NotificationModalMessageBox = ({ data }: Props) => {
   return (
     <div
       className={`min-h-25 flex flex-col gap-1 rounded-xl border bg-white px-3 py-4 text-[14px] mob:min-h-24`}
-      onClick={() => NotificationRead(data.item.id)}
+      onClick={(event) => {
+        NotificationRead(data.item.id);
+        getNotificationData();
+      }}
     >
       <SvgStatusComponent
         color={data.item.result === "rejected" ? "#FF0080" : "#0080FF"}
@@ -38,6 +48,7 @@ const NotificationModalMessageBox = ({ data }: Props) => {
       </div>
       <div className={`text-xs text-gray-40`}>
         {elapsedTime(data.item.createdAt)}
+        {data.item.read ? " 읽음" : " 안읽음"}
       </div>
     </div>
   );
