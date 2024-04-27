@@ -14,8 +14,6 @@ import { alertApiResponse } from "@/util/api";
 //TODO: 유져의 알림 목록 조회 API 연동 필요
 
 const GNB = () => {
-  const pathname = usePathname();
-  const isSign = pathname.includes("sign");
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +29,7 @@ const GNB = () => {
       if (searchRef.current) {
         const value = searchRef.current.value;
         searchRef.current.value = "";
-        router.push(`/search?keyword=${value}`);
+        router.push(`/user/search?keyword=${value}`);
       }
     }
   };
@@ -53,8 +51,6 @@ const GNB = () => {
     }
     setIsLoading(false);
   }, [pathName]);
-
-  if (isSign) return;
 
   const getNotificationData = async () => {
     const uid = getCookie("uid");
@@ -103,7 +99,7 @@ const GNB = () => {
                   suppressHydrationWarning
                 >
                   {isEmployer ? (
-                    <Link href={"/employer"}>
+                    <Link href={"/user/employer"}>
                       <button
                         className="flex h-5 font-bold text-black"
                         suppressHydrationWarning
@@ -112,7 +108,7 @@ const GNB = () => {
                       </button>
                     </Link>
                   ) : (
-                    <Link href={"/employee"}>
+                    <Link href={"/user/employee"}>
                       <button
                         className="flex h-5 font-bold text-black"
                         suppressHydrationWarning

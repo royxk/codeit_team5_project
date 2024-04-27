@@ -143,7 +143,7 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    router.push(`/employer/notice/${objectNoticeId}`);
+    router.push(`/user/employer/notice/${objectNoticeId}`);
   };
 
   return (

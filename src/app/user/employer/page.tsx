@@ -6,7 +6,7 @@ import {
   searchShopNoticeApiResponse,
 } from "@/util/api";
 import { redirect } from "next/navigation";
-import { getServerSideCookie } from "../utils/serverCookies";
+import { getServerSideCookie } from "../../utils/serverCookies";
 import PostEmployer from "@/components/employer/PostEmployer";
 
 const getServerSideProps = async () => {

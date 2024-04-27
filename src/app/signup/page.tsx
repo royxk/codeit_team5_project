@@ -199,7 +199,7 @@ const Signup: React.FC = () => {
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
           <span className="mr-3">이미 가입하셨나요?</span>{" "}
           <Link
-            href="/signin"
+            href="./signin"
             className="text-[#5534Da]"
             style={{ textDecoration: "underline" }}
           >
