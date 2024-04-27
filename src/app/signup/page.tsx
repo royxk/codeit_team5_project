@@ -31,7 +31,8 @@ const Signup: React.FC = () => {
     setUserType(userType);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!email.trim()) {
       setEmailError("이메일을 입력하세요.");
       return;
@@ -48,11 +49,6 @@ const Signup: React.FC = () => {
       setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
       return;
     }
-    // if (userType === null) {
-    //   setModalMessage("회원 유형을 선택해주세요");
-    //   setShowModal(true);
-    //   return;
-    // }
 
     try {
       console.log(email.trim(), password.trim(), userType);
@@ -93,9 +89,29 @@ const Signup: React.FC = () => {
     }
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (showModal) {
+        setShowModal(false);
+      } else if (confirmShowModal) {
+        setConfirmShowModal(false);
+      } else {
+        const submitButton = document.querySelector('button[type="submit"]');
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.click();
+        }
+      }
+    }
+  };
+
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
-      <div className="flex h-[288px] w-[350px] flex-col">
+      <form
+        onSubmit={handleSubmit}
+        onKeyDown={handleEnterPress}
+        className="flex h-[288px] w-[350px] flex-col"
+      >
         <div className="m-10 flex items-center justify-center">
           <Link href={"/"}>
             <Image
@@ -180,8 +196,8 @@ const Signup: React.FC = () => {
           <Button
             size="large"
             color="red"
-            onClick={handleSubmit}
             className="w-[350px] border border-primary"
+            type="submit"
           >
             가입하기
           </Button>
@@ -196,7 +212,7 @@ const Signup: React.FC = () => {
             로그인하기
           </Link>
         </div>
-      </div>
+      </form>
       {showModal && (
         <Modal type="bad" onClose={() => setShowModal(false)}>
           <div className="text-center">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@/components/common/Button";
 import Link from "next/link";
 import { signinApiResponse } from "@/util/api";
@@ -30,21 +30,6 @@ const Signin: React.FC = () => {
   const [modalMessage, setModalMessage] = useState<string>("");
   const [uid, setUid] = useState("");
   const [accessToken, setAccessToken] = useState("");
-  const loginButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && loginButtonRef.current) {
-        loginButtonRef.current.click();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyPress);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,14 +52,6 @@ const Signin: React.FC = () => {
         setAccessToken(item.token);
         setUid(userId);
 
-        const accessCookie = getCookieValue("accessToken");
-        const userIdCookie = getCookieValue("uid");
-
-        console.log(`accessCookie: ${accessCookie}`);
-        console.log(`userIdCookie: ${userIdCookie}`);
-        console.log(`uid: ${uid}`);
-        console.log(`accessToken: ${accessToken}`);
-
         setEmail("");
         setPassword("");
         setEmailError("");
@@ -89,10 +66,25 @@ const Signin: React.FC = () => {
     }
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (showModal) {
+        setShowModal(false);
+      } else {
+        const submitButton = document.querySelector('button[type="submit"]');
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.click();
+        }
+      }
+    }
+  };
+
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <form
         onSubmit={handleSubmit}
+        onKeyDown={handleEnterPress}
         className="flex h-[288px] w-[350px] flex-col"
       >
         <div className="m-10 flex items-center justify-center">
@@ -120,7 +112,7 @@ const Signin: React.FC = () => {
           />
         </div>
         <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-          <Button ref={loginButtonRef} type="submit" size="large" color="red">
+          <Button type="submit" size="large" color="red">
             로그인 하기
           </Button>
         </div>
@@ -134,22 +126,23 @@ const Signin: React.FC = () => {
             회원가입하기
           </Link>
         </div>
+        {showModal && (
+          <Modal type="bad" onClose={() => setShowModal(false)}>
+            <div className="text-center">
+              <p className="mt-7">{modalMessage}</p>
+              <Button
+                color="red"
+                size="small"
+                onClick={() => setShowModal(false)}
+                className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
+                type="submit"
+              >
+                확인
+              </Button>
+            </div>
+          </Modal>
+        )}
       </form>
-      {showModal && (
-        <Modal type="bad" onClose={() => setShowModal(false)}>
-          <div className="text-center">
-            <p className="mt-7">{modalMessage}</p>
-            <Button
-              color="red"
-              size="small"
-              onClick={() => setShowModal(false)}
-              className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
-            >
-              확인
-            </Button>
-          </div>
-        </Modal>
-      )}
     </div>
   );
 };
