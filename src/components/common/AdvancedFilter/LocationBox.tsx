@@ -39,11 +39,11 @@ type LocationBoxProps = {
 const LocationBox = ({ selectedLocations, onClick }: LocationBoxProps) => {
   return (
     <div
-      className={`flex h-64 w-full flex-row flex-wrap overflow-y-scroll rounded-xl border px-8 py-4 leading-10 `}
+      className={`flex h-64 w-full flex-row flex-wrap items-center justify-between overflow-y-scroll rounded-xl border px-8 py-4 leading-10`}
     >
       {S.map((s, index) => (
         <div
-          className={`w-32 select-none`}
+          className={`w-1/2 select-none text-center hover:rounded-lg hover:bg-gray-10`}
           key={index}
           onClick={(e) => onClick(s)}
         >

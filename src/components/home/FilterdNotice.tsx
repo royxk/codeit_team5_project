@@ -65,7 +65,7 @@ const FilterdNotice = ({
         ...sortedAdvancedQuery,
       }),
       ...(sortedAdvancedQuery?.startsAtGte && {
-        startsAtGte: getCurrentRFC3339DateTime(),
+        startsAtGte: getCurrentRFC3339DateTime(sortedAdvancedQuery.startsAtGte),
       }),
       ...(keyword && { keyword: keyword }),
     });

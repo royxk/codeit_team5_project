@@ -61,7 +61,7 @@ function AdvancedFilter({
       query.address = locations as Address[];
     }
     if (startDate) {
-      query.startsAtGte = getCurrentRFC3339DateTime();
+      query.startsAtGte = getCurrentRFC3339DateTime(startDate);
     }
     if (price) {
       query.hourlyPayGte = Number(price);

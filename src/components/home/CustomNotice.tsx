@@ -3,9 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Post from "../common/Post/Post";
 import { formatApiDateData } from "@/util/formatDate";
 import { NoticeResponse } from "@/app/user/page";
-import { searchNoticeApiResponse } from "@/util/api";
+import { mydataApiResponse, searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Link from "next/link";
+import { getCookie } from "@/util/cookieSetting";
 
 function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
   let timeout: NodeJS.Timeout | null = null;
@@ -31,11 +32,21 @@ const CustomNotice = () => {
   const [isLoading, setIsLoading] = useState(true);
   const getCustomNoticeData = async () => {
     setIsLoading(true);
+    let addressForApi;
+    const uid = getCookie("uid");
+    if (uid) {
+      const { item } = await mydataApiResponse(uid);
+      console.log(item);
+      if (item.address) {
+        console.log("주소 진입?");
+        addressForApi = item.address;
+      }
+    }
+    console.log(`${addressForApi} - 주소 값`);
     const res = await searchNoticeApiResponse({
       offset: 0,
       limit: 6,
-      // address: ["서울시 노원구"],
-      // address: "유저의 주소 사용",
+      ...(addressForApi && { address: addressForApi }),
     });
     console.log(res);
     setCustomNoticeList(res);

@@ -22,8 +22,10 @@ export function getCurrentDate() {
   return formattedDate;
 }
 
-export function getCurrentRFC3339DateTime() {
-  const fiveMinutesLater = addMinutes(new Date(), 5);
+export function getCurrentRFC3339DateTime(time: string) {
+  const date = new Date(time);
+  const setUpperTime = new Date() > date ? new Date() : date;
+  const fiveMinutesLater = addMinutes(setUpperTime, 5);
   const rfc3339DateTime = format(fiveMinutesLater, "yyyy-MM-dd'T'HH:mm:ssXXX");
   return rfc3339DateTime;
 }
