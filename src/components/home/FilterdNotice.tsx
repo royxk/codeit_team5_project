@@ -5,7 +5,7 @@ import {
   formatApiDateData,
   getCurrentRFC3339DateTime,
 } from "@/util/formatDate";
-import type { NoticeResponse, NoticeItem } from "@/app/page";
+import type { NoticeResponse, NoticeItem } from "@/app/user/page";
 import { searchNoticeApiResponse } from "@/util/api";
 import PostSkeleton from "../common/Post/PostSkeleton";
 import Pagination from "../common/Pagination";
@@ -116,7 +116,7 @@ const FilterdNotice = ({
               </div>
             ) : (
               <Link
-                href={`/noticeDetail/${item.id}/${item.shop.item.id}`}
+                href={`/user/noticeDetail/${item.id}/${item.shop.item.id}`}
                 key={item.id}
                 onClick={() => saveOnLocalStorage({ item, links: [] })}
               >

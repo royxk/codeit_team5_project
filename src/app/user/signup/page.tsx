@@ -199,7 +199,7 @@ const Signup: React.FC = () => {
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
           <span className="mr-3">이미 가입하셨나요?</span>{" "}
           <Link
-            href="/signin"
+            href="./signin"
             className="text-[#5534Da]"
             style={{ textDecoration: "underline" }}
           >
@@ -234,7 +234,7 @@ const Signup: React.FC = () => {
                 size="small"
                 onClick={() => {
                   setConfirmShowModal(false);
-                  router.push("/signin");
+                  router.push("./signin");
                 }}
                 className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
               >

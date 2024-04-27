@@ -25,7 +25,7 @@ const GNB = () => {
       if (searchRef.current) {
         const value = searchRef.current.value;
         searchRef.current.value = "";
-        router.push(`/search?keyword=${value}`);
+        router.push(`/user/search?keyword=${value}`);
       }
     }
   };
@@ -51,7 +51,7 @@ const GNB = () => {
 
   const handleLogout = () => {
     logout();
-    router.push("/signin");
+    router.push("/user/signin");
   };
 
   return (
@@ -90,7 +90,7 @@ const GNB = () => {
                   suppressHydrationWarning
                 >
                   {isEmployer ? (
-                    <Link href={"/employer"}>
+                    <Link href={"/user/employer"}>
                       <button
                         className="flex h-5 font-bold text-black"
                         suppressHydrationWarning
@@ -99,7 +99,7 @@ const GNB = () => {
                       </button>
                     </Link>
                   ) : (
-                    <Link href={"/employee"}>
+                    <Link href={"/user/employee"}>
                       <button
                         className="flex h-5 font-bold text-black"
                         suppressHydrationWarning
@@ -124,7 +124,7 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <Link href={"/signin"}>
+                  <Link href={"/user/signin"}>
                     <button
                       className="flex h-5 font-bold text-black"
                       suppressHydrationWarning
@@ -132,7 +132,7 @@ const GNB = () => {
                       로그인
                     </button>
                   </Link>
-                  <Link href={"/signup"}>
+                  <Link href={"/user/signup"}>
                     <button
                       className="flex h-5 font-bold text-black"
                       suppressHydrationWarning

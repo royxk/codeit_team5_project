@@ -125,14 +125,14 @@ const StoreDetailButtons = ({
           <Button
             size="full"
             color="white"
-            onClick={() => router.push("/employer/edit")}
+            onClick={() => router.push("/user/employer/edit")}
           >
             편집하기
           </Button>
           <Button
             size="full"
             color="red"
-            onClick={() => router.push("/employer/notice")}
+            onClick={() => router.push("/user/employer/notice")}
           >
             공고 등록하기
           </Button>
@@ -145,7 +145,7 @@ const StoreDetailButtons = ({
         <Button
           size="full"
           color="white"
-          onClick={() => router.push(`/employer/notice/${postId}/edit`)}
+          onClick={() => router.push(`/user/employer/notice/${postId}/edit`)}
         >
           공고 편집
         </Button>
