@@ -86,6 +86,15 @@ const Signin: React.FC = () => {
     }
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (showModal) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        setShowModal(false);
+      }
+    }
+  };
+
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
@@ -99,7 +108,7 @@ const Signin: React.FC = () => {
             />
           </Link>
         </div>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => handleSubmit(e)} onKeyDown={handleEnterPress}>
           <div className="mb-5 flex flex-col ">
             <EmailInput
               email={email}
