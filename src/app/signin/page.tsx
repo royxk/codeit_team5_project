@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "@/components/common/Button";
 import Link from "next/link";
 import { signinApiResponse } from "@/util/api";
@@ -9,10 +9,6 @@ import Image from "next/image";
 import EmailInput from "@/components/signin/EmailInput";
 import PasswordInput from "@/components/signin/PasswordInput";
 import Modal from "@/components/common/SignModal";
-
-interface ModalProps {
-  onClose: () => void;
-}
 
 function getCookieValue(cookieName: string): string | undefined {
   const cookies = document.cookie.split(";");
@@ -34,8 +30,25 @@ const Signin: React.FC = () => {
   const [modalMessage, setModalMessage] = useState<string>("");
   const [uid, setUid] = useState("");
   const [accessToken, setAccessToken] = useState("");
+  const loginButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && loginButtonRef.current) {
+        loginButtonRef.current.click();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (email.trim() && password.trim() && !emailError && !passwordError) {
       try {
         const { item } = await signinApiResponse({ email, password });
@@ -78,7 +91,10 @@ const Signin: React.FC = () => {
 
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
-      <div className="flex h-[288px] w-[350px] flex-col">
+      <form
+        onSubmit={handleSubmit}
+        className="flex h-[288px] w-[350px] flex-col"
+      >
         <div className="m-10 flex items-center justify-center">
           <Link href={"/"}>
             <Image
@@ -104,7 +120,7 @@ const Signin: React.FC = () => {
           />
         </div>
         <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-          <Button size="large" color="red" onClick={handleSubmit}>
+          <Button ref={loginButtonRef} type="submit" size="large" color="red">
             로그인 하기
           </Button>
         </div>
@@ -118,7 +134,7 @@ const Signin: React.FC = () => {
             회원가입하기
           </Link>
         </div>
-      </div>
+      </form>
       {showModal && (
         <Modal type="bad" onClose={() => setShowModal(false)}>
           <div className="text-center">

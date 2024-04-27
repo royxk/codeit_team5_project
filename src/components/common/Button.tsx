@@ -6,6 +6,7 @@ type Props = {
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
+  type?: "button" | "submit" | "reset";
 };
 
 type Color = "red" | "white" | "gray";
@@ -66,6 +67,7 @@ const Button = ({
   className = "",
   onClick,
   children,
+  type = "button",
 }: Props) => {
   const colorCss = colorCssString(color);
   const sizeCss = sizeCssString(size);
@@ -74,6 +76,7 @@ const Button = ({
     <button
       disabled={color === "gray"}
       onClick={onClick}
+      type={type}
       className={`${colorCss} ${sizeCss} ${className} min-w-20 rounded-lg`}
     >
       {children}

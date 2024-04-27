@@ -109,7 +109,7 @@ const GNB = () => {
                       </button>
                     </Link>
                   )}
-                  <Link href={"/"}>
+                  <Link href={"/signin"}>
                     <button
                       className="flex h-5 font-bold text-black"
                       onClick={handleLogout}
