@@ -29,12 +29,13 @@ const Post = ({
   state,
   originalHourlyPay,
 }: PostProps): React.ReactElement => {
+  const workPay = ((hourlyPay / originalHourlyPay) * 100).toFixed(0);
   return (
     <div
       className={`flex h-[348px] w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-[171px] mob:gap-2 mob:p-3 
       ${state ? "duration-300 ease-in hover:border-red-40 hover:shadow-lg" : "select-none"}`}
     >
-      <div className={`relative h-[160px]`}>
+      <div className={`relative h-[160px] mob:min-h-[83px]`}>
         {!state && (
           <div className="absolute inset-0 z-50 flex items-center justify-center rounded-xl bg-black opacity-80">
             <div className="p-2 text-center font-Spoqa text-3xl font-bold text-white mob:text-xl">
@@ -46,7 +47,8 @@ const Post = ({
           src={imgUrl}
           layout="fill"
           objectFit="cover"
-          className="rounded-xl"
+          className="rounded-xl mob:min-h-[83px]"
+          sizes="278px"
           alt="image"
         />
       </div>
@@ -61,7 +63,7 @@ const Post = ({
             {shopName}
           </div>
 
-          <div className={`flex flex-row items-start gap-4 mob:gap-3`}>
+          <div className={`flex flex-row items-start gap-4 mob:gap-2`}>
             <SvgTimeComponent color={state ? "#FFAF9B" : "#CBC9CF"} />
 
             <div className="gap- flex flex-row gap-4 mob:flex-col mob:gap-1">
@@ -101,43 +103,55 @@ const Post = ({
             </div>
           </Tooltip>
           <Tooltip
-            content={`기존 시급보다 ${((hourlyPay / originalHourlyPay) * 100).toFixed(0)}%`}
+            content={`기존 시급보다 ${workPay}%`}
+            isClosed={state}
           >
             <div
-              className={`flex ${state ? "w-[168px]" : "w-fit"} rounded-3xl p-3 text-sm font-bold text-white mob:w-[130px] mob:bg-white mob:p-0 mob:font-light mob:text-red-40 ${
-                state ? "bg-red-40" : "bg-gray-30 mob:text-gray-30"
+              className={`flex w-[168px] rounded-3xl p-3 text-sm font-bold text-white mob:w-[130px] mob:bg-white mob:p-0 mob:font-light mob:text-red-40 ${
+                !state ? "bg-gray-30 mob:text-gray-30"
+                  : +workPay >= 100 ? "bg-red-40"
+                  : +workPay >= 50 ? "bg-red-30"
+                  :  "bg-red-20"
               }`}
             >
               {state ? (
-                <div className="flex w-[145px] flex-row gap-1 truncate mob:text-[12px] ">
+                <div
+                  className={`flex items-center w-[145px] gap-1 truncate mob:text-[12px] mob:min-w-[140px] ${!state ? "mob:text-gray-30"
+                    : +workPay >= 100 ? "mob:text-red-40"
+                    : +workPay >= 50 ? "mob:text-red-30"
+                    :  "mob:text-red-20"}`}>
                   <div>기존시급보다</div>
 
-                  <div>
-                    {((hourlyPay / originalHourlyPay) * 100).toFixed(0)}%
+                  <div className="truncate">
+                    {workPay}%
+                  </div>
+                  <div className='hidden mob:inline pb-1'>
+                    <SvgArrowComponent 
+                      color={!state ? "#CBC9CF"
+                      : +workPay >= 100 ? "#FF4040"
+                      : +workPay >= 50 ? "#FF8D72"
+                      :  "#FFAF9B"} />
                   </div>
                 </div>
               ) : (
-                <div className="w-[45px] truncate mob:flex mob:w-[140px] mob:flex-row">
-                  <span
-                    className={`${state ? "" : "text-white mob:text-gray-30"}`}
+                <div className="flex items-center w-[145px] gap-1 truncate mob:text-[12px] mob:min-w-[140px]">
+                  <div
+                    className={`flex gap-1 truncate ${state ? "" : "text-white mob:text-gray-30"}`}
                   >
-                    <span className="hidden text-gray-30 mob:inline mob:text-[12px]">
+                    <span className="text-white mob:text-gray-30 mob:inline">
                       기존 시급보다{" "}
                     </span>
-                    <div>
-                      {((hourlyPay / originalHourlyPay) * 100).toFixed(0)}%
+                    <div className="truncate">
+                      {workPay}%
                     </div>
-                  </span>
-                  <div className="hidden mob:inline">
+                  </div>
+                  <div className='hidden mob:inline mob:pb-1'>
                     <SvgArrowComponent color={state ? "#FF4040" : "#CBC9CF"} />
                   </div>
                 </div>
               )}
-              <div className="mob:hidden">
+              <div className='inline mob:hidden'>
                 <SvgArrowComponent color={"#FFFFFF"} />
-              </div>
-              <div className="hidden mob:inline">
-                <SvgArrowComponent color={state ? "#FF4040" : "#CBC9CF"} />
               </div>
             </div>
           </Tooltip>
