@@ -100,6 +100,7 @@ const StoreDetailButtons = ({
     } else {
       alert("먼저 내 정보를 등록해 주세요!");
     }
+    console.log(shopId, postId);
   };
 
   const handleCancelApply = async () => {

@@ -79,11 +79,13 @@ const StoreRegisterForm = () => {
     setShopIdCookie(res.item.id);
 
     setShowModal(true);
+    console.log("submit");
   };
 
   useEffect(() => {
     const sid = getCookie("sid");
-    if (sid !== undefined) {
+    console.log(sid);
+    if (sid !== undefined && sid !== "") {
       router.push("/user/employer");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,7 +163,7 @@ const StoreRegisterForm = () => {
         />
       </div>
       <div className="mt-2 flex w-full justify-center">
-        <Button size="large" color="red">
+        <Button type="submit" size="large" color="red">
           등록하기
         </Button>
       </div>
