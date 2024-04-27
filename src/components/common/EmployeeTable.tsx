@@ -1,25 +1,33 @@
-import { SHOP_APPLY_API_RESPONSE_DATA } from "@/util/constants/table_mock_data";
-import { EmployeeTableData, convertEmployeeTableData } from "@/util/convertData";
+'use client';
+import { ApplyListApiResponse, EmployeeTableData, convertEmployeeTableData } from "@/util/convertData";
+import { searchUserApplyApiResponse } from "@/util/api";
+import { useEffect, useState } from "react";
+import { getCookie } from "@/util/cookieSetting";
 import Table from "./Table";
 import Button from "./Button";
 import Link from "next/link";
-import { getServerSideCookie } from "@/app/utils/serverCookies";
-import { searchUserApplyApiResponse } from "@/util/api";
 
 const EMPLOYEE_TABLE_HEADER = ['가게', '일자', '시급', '상태'];
 
-const getServerSideData = async () => {
-  const uid = getServerSideCookie("uid");
-  if (uid) {
-    const applyData = await searchUserApplyApiResponse(uid);
-    return applyData;
-  }
-  return;
-}
-
-const EmployeeTable = async () => {
-  const applyData = await getServerSideData();
+const EmployeeTable = () => {
+  const [applyData, setApplyData] = useState<ApplyListApiResponse>();
   const employeeData: EmployeeTableData[] = convertEmployeeTableData(applyData);
+
+  const userId = getCookie("uid");
+
+  async function getApplyData(userId: string | undefined) {
+    if (!userId) return;
+    const data = await searchUserApplyApiResponse(userId);
+    return data;
+  }
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const data = await getApplyData(userId);
+      setApplyData(data);
+    };
+    fetchUserData();
+  }, [userId])
 
   return (
     employeeData.length ? <Table<EmployeeTableData> headerData={EMPLOYEE_TABLE_HEADER} applyData={employeeData} />

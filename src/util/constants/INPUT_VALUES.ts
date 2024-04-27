@@ -65,6 +65,7 @@ export const INPUT_ERROR_TYPE: InputValuesType = {
   PASSWORD_INVALID_REGEX: "8자 이상 작성해주세요.",
   PASSWORD_CHECK_NOT_MATCHED: "비밀번호가 일치하지 않습니다.",
   BLANK_REQUIRE_VALUE: "*은 필수 항목입니다.",
+  INVALID_PHONE_NUMBER: "전화번호를 확인해 주세요."
 };
 
 export const INPUT_SELECT_TYPE: string[] = [

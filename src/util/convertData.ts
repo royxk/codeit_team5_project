@@ -3,7 +3,7 @@
 import type { Address } from "./api";
 
 // 알바님(일반회원) 공고 지원 목록 데이터 타입
-type ApplyListApiResponse = {
+export type ApplyListApiResponse = {
   items: {
     item: {
       id: string;
@@ -64,7 +64,7 @@ export interface EmployerTableData extends CommonData {
 
 //Table 컴포넌트에서 사용할 수 있도록 데이터를 변환하는 함수.
 export const convertEmployeeTableData = (
-  responseData: ApplyListApiResponse,
+  responseData: ApplyListApiResponse | undefined,
 ): EmployeeTableData[] => {
   if (!responseData?.items) return [];
   return responseData.items.map((data) => {
