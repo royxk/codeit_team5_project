@@ -54,11 +54,6 @@ const Signup: React.FC = () => {
       setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
       return;
     }
-    // if (userType === null) {
-    //   setModalMessage("회원 유형을 선택해주세요");
-    //   setShowModal(true);
-    //   return;
-    // }
 
     try {
       console.log(email.trim(), password.trim(), userType);
@@ -99,6 +94,15 @@ const Signup: React.FC = () => {
     }
   };
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (showModal || confirmShowModal) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        showModal ? setShowModal(false) : setConfirmShowModal(false);
+      }
+    }
+  };
+
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
@@ -112,7 +116,7 @@ const Signup: React.FC = () => {
             />
           </Link>
         </div>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => handleSubmit(e)} onKeyDown={handleEnterPress}>
           <div className="mb-2 flex flex-col ">
             <EmailInput
               email={email}
