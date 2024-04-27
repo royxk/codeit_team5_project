@@ -8,6 +8,7 @@ import { MouseEvent, useState } from "react";
 import { getCookie } from "@/util/cookieSetting";
 import Button from "./Button";
 import Modal from "@/components/common/SignModal";
+import ModalPortal from "./ModalPortal";
 
 interface ApproveButtonsProps {
   noticeApplyId: string;
@@ -70,29 +71,31 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         </button>
       </div>
       {showModal && (
-        <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6">
-          <div className="flex flex-col gap-8">
-            <p className="text-center font-normal">{modalMessage}</p>
-            <div className="flex gap-2">
-              <Button
-                color="white"
-                size="small"
-                onClick={handleNoBtnClick}
-                className="h-[38px]"
-              >
-                아니오
-              </Button>
-              <Button
-                color="red"
-                size="small"
-                onClick={handleYesBtnClick}
-                className="h-[38px]"
-              >
-                확인
-              </Button>
+        <ModalPortal>
+          <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6">
+            <div className="flex flex-col gap-8">
+              <p className="text-center font-normal">{modalMessage}</p>
+              <div className="flex gap-2">
+                <Button
+                  color="white"
+                  size="small"
+                  onClick={handleNoBtnClick}
+                  className="h-[38px]"
+                >
+                  아니오
+                </Button>
+                <Button
+                  color="red"
+                  size="small"
+                  onClick={handleYesBtnClick}
+                  className="h-[38px]"
+                >
+                  확인
+                </Button>
+              </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        </ModalPortal>
       )}
     </>
   );

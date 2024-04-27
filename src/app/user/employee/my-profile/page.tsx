@@ -1,19 +1,17 @@
-"use client";
-import { MouseEvent, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Address, mydataApiResponse, mydataEditApiResponse } from "@/util/api";
-import { getCookie } from "@/util/cookieSetting";
-import { UserItem } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
-import {
-  INPUT_SELECT_DATA_LIST,
-  INPUT_SELECT_TYPE,
-} from "@/util/constants/INPUT_VALUES";
-import { formatPhoneNumber } from "@/util/formatPhoneNumber";
-import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
-import Modal from "@/components/common/SignModal";
-import Image from "next/image";
-import closeIcon from "/public/close.svg";
+"use client"
+import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Address, mydataApiResponse, mydataEditApiResponse } from '@/util/api';
+import { getCookie } from '@/util/cookieSetting';
+import { UserItem } from '@/util/constants/PROFILE_PAGE_USER_TEST_DATA';
+import { INPUT_SELECT_DATA_LIST, INPUT_SELECT_TYPE } from '@/util/constants/INPUT_VALUES';
+import { formatPhoneNumber } from '@/util/formatPhoneNumber';
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import Modal from '@/components/common/SignModal';
+import Image from 'next/image';
+import closeIcon from '/public/close.svg';
+import ModalPortal from '@/components/common/ModalPortal';
 
 const MODAL_MESSAGE = "등록이 완료되었습니다.";
 
@@ -92,7 +90,7 @@ const RegisterProfile = () => {
   };
 
   const handleSubmit = async () => {
-    if (!phoneErr && !nameErr) {
+    if (!phoneErr && !nameErr){
       const editValue = {
         name: nameRef.current?.value ?? "",
         phone: formatPhoneNumber(phoneNumRef.current?.value ?? ""),
@@ -114,7 +112,8 @@ const RegisterProfile = () => {
             <Image src={closeIcon} className="w-8 mob:w-6" alt="closeBtn" />
           </button>
         </div>
-        <form className="grid w-[964px] grid-cols-3 gap-5 tab:w-[632px] tab:grid-cols-2 mob:w-[350px] mob:grid-cols-1">
+        <form
+          className='grid grid-cols-3 gap-5 w-[964px] tab:grid-cols-2 tab:w-[632px] mob:grid-cols-1 mob:w-[350px]'>
           <div>
             <Input
               inputType="NAME"
@@ -146,40 +145,39 @@ const RegisterProfile = () => {
           <div className="col-span-3 flex flex-col gap-2 tab:col-span-2 mob:col-span-1">
             <label>소개</label>
             <textarea
-              className="h-40 w-full resize-none rounded-lg border border-gray-30 px-5 py-4 focus:border-primary focus:outline-none"
-              placeholder="자기 소개를 입력해 주세요."
+              className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-primary'
+              placeholder='자기 소개를 입력해 주세요.'
+              maxLength={300}
               ref={bioRef}
               defaultValue={userData?.bio}
             />
           </div>
         </form>
         <Button
-          size="large"
-          color={phoneErr || nameErr ? "gray" : "red"}
+          type='submit'
+          size='large'
+          color={phoneErr || nameErr ? 'gray' : 'red'}
           onClick={handleSubmit}
         >
-          {isProfileData ? "수정하기" : "등록하기"}
+          {isProfileData ? '수정하기' : '등록하기' }
         </Button>
       </div>
       {showModal && (
-        <Modal
-          onClose={handleOutsideClick}
-          type={"good"}
-          className="relative gap-3 mob:max-h-[220px] mob:max-w-[327px]"
-        >
+        <ModalPortal>
+          <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
           <div className="flex flex-col gap-8">
-            <p className="text-center text-lg font-normal">{MODAL_MESSAGE}</p>
-
+            <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
             <Button
               color="red"
               size="small"
               onClick={handleCheckClick}
-              className="absolute bottom-[28px] right-[28px] h-[38px]"
+              className="absolute h-[38px] bottom-[28px] right-[28px]"
             >
               확인
             </Button>
           </div>
         </Modal>
+      </ModalPortal>
       )}
     </>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 
-type SvgArrowComponentProps = {
-  color: string;
+interface SvgArrowComponentProps {
+  color?: string;
 };
 
 const SvgArrowComponent = ({ color }: SvgArrowComponentProps) => {
