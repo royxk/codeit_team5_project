@@ -1,18 +1,22 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BasicFilter from "./BasicFilter";
 import AdvancedFilterComponent from "../common/AdvancedFilter/AdvancedFilterComponent";
 import FilterdNotice from "./FilterdNotice";
 import {
-  AdvancedFilterQuery,
-  ConvertedSortType,
+  type AdvancedFilterQuery,
+  type ConvertedSortType,
   convertSortType,
   type SortType,
 } from "@/util/convertData";
 import type { NoticeResponse } from "@/app/page";
 import { Query, searchNoticeApiResponse } from "@/util/api";
 
-const NoticeMain = () => {
+interface Keyword {
+  keyword?: string | null;
+}
+
+const NoticeMain = ({ keyword }: Keyword) => {
   //필터링된 공고리스트 상태
   const [filterdNoticeList, setFilterdNoticeList] =
     useState<NoticeResponse | null>(null);
@@ -20,11 +24,20 @@ const NoticeMain = () => {
   const [sortedQuery, setSortedQuery] = useState<ConvertedSortType | null>(
     null,
   );
-  //상세 필터 쿼리 상태
+
+  //현재 상세 필터 쿼리 상태
   const [sortedAdvancedQuery, setSortedAdvancedQuery] =
     useState<AdvancedFilterQuery | null>(null);
+  //이전 상세 필터 쿼리 상태
+  const [prevSortedAdvancedQuery, setPrevSortedAdvancedQuery] =
+    useState<AdvancedFilterQuery | null>(null);
+
   //기본 필터 변경 상태
   const [isFilterChanged, setIsFilterChanged] = useState(false);
+
+  //상세 필터 변경 상태
+  const [isAdvancedFilterChanged, setIsAdvancedFilterChanged] = useState(false);
+
   //현재 선택된 기본 필터 상태
   const [filterSelected, setFilterSelected] = useState<SortType | null>(null);
   //이전에 선택된 기본 필터 상태
@@ -57,13 +70,16 @@ const NoticeMain = () => {
   };
   const handleBasicFilterClick = async (sortType: SortType | null) => {
     console.log("일반필터 클릭");
+    console.log(sortType);
     if (sortType !== null) {
       const sortQuery = convertSortType(sortType);
       setSortedQuery(sortQuery);
+      console.log(sortedAdvancedQuery);
       if (!sortedAdvancedQuery) {
         const res = await searchNoticeApiResponse({
           limit: 6,
           sort: sortQuery,
+          ...(keyword && { keyword: keyword }),
         });
         setFilterdNoticeList(res);
         console.log(sortQuery);
@@ -74,31 +90,36 @@ const NoticeMain = () => {
 
   const handleAdvencedFilterSubmit = async (query: AdvancedFilterQuery) => {
     console.log("상세필터 클릭");
-    let res;
     console.log(sortedQuery);
-    if (!sortedQuery) {
-      res = await searchNoticeApiResponse({ limit: 6, ...query });
-    } else {
-      res = await searchNoticeApiResponse({
+    if (isAdvancedFilterChanged) {
+      const res = await searchNoticeApiResponse({
         limit: 6,
         ...query,
-        sort: sortedQuery,
+        ...(sortedQuery && { sort: sortedQuery }),
+        ...(keyword && { keyword: keyword }),
       });
+      setFilterdNoticeList(res);
+      setPageCount(res.count);
+      console.log(res);
     }
     setSortedAdvancedQuery(query);
-    setFilterdNoticeList(res);
-    setPageCount(res.count);
-    console.log(res);
+    setPrevSortedAdvancedQuery(sortedAdvancedQuery);
   };
 
   useEffect(() => {
+    setFilterSelected("마감임박순");
+    setSortedQuery(null);
+    setSortedAdvancedQuery(null);
     const getFirstNoticeData = async () => {
       setIsLoading(true);
-      await getFilterdNoticeData({ limit: 6 });
+      await getFilterdNoticeData({
+        limit: 6,
+        ...(keyword && { keyword: keyword }),
+      });
       setIsLoading(false);
     };
     getFirstNoticeData();
-  }, []);
+  }, [keyword]);
 
   useEffect(() => {
     const executeFilter = () => {
@@ -111,7 +132,24 @@ const NoticeMain = () => {
     };
 
     executeFilter();
-  }, [filterSelected]);
+  }, [filterSelected, keyword]);
+
+  useEffect(() => {
+    const executeAdvancedFilter = () => {
+      if (
+        sortedAdvancedQuery !== prevSortedAdvancedQuery &&
+        sortedAdvancedQuery
+      ) {
+        setIsAdvancedFilterChanged(true);
+        handleAdvencedFilterSubmit(sortedAdvancedQuery);
+      } else {
+        setIsAdvancedFilterChanged(false);
+      }
+    };
+
+    executeAdvancedFilter();
+  }, [sortedAdvancedQuery, prevSortedAdvancedQuery, keyword]);
+
 
   return (
     <section className="flex justify-center py-[60px] mob:py-10">
@@ -120,24 +158,46 @@ const NoticeMain = () => {
           id="filterdNoticeSection"
           className="flex w-full justify-between pb-[31px] text-left tracking-[0.56px] mob:flex-col mob:gap-4 mob:pb-3"
         >
-          <h1 className="text-[28px] font-bold mob:text-xl">전체공고</h1>
+          <h1 className="text-[28px] font-bold mob:text-xl">
+            {keyword !== undefined ? (
+              <>
+                {keyword === "" ? (
+                  <>
+                    <span className="text-primary">{`전체 `}</span>
+                    공고목록
+                  </>
+                ) : (
+                  <>
+                    <span className="text-primary">{keyword}</span>에 대한
+                    공고목록
+                  </>
+                )}
+              </>
+            ) : (
+              `전체공고`
+            )}
+          </h1>
           <div className="flex h-[42px] items-center gap-[10px]">
             <BasicFilter
               filterSelected={filterSelected}
               onFilterSelectedClick={handleFilterSelectedClick}
             />
             <AdvancedFilterComponent
+              keyword={keyword}
               onAdvencedFilterSubmit={handleAdvencedFilterSubmit}
             />
           </div>
         </div>
         <FilterdNotice
+          keyword={keyword}
           isLoading={isLoading}
           pageCount={pageCount}
           setPageCount={setPageCount}
           setIsFilterChanged={setIsFilterChanged}
           isFilterChanged={isFilterChanged}
+          isAdvancedFilterChanged={isAdvancedFilterChanged}
           sortedAdvancedQuery={sortedAdvancedQuery}
+          prevSortedAdvancedQuery={prevSortedAdvancedQuery}
           sortedQuery={sortedQuery}
           filterdNoticeList={filterdNoticeList}
           setFilterdNoticeList={setFilterdNoticeList}

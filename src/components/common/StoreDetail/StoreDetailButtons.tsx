@@ -90,10 +90,16 @@ const StoreDetailButtons = ({
   }
 
   const handleSignApply = async () => {
-    await selectedNoticeApplyApiResponse(shopId, postId);
-    setIsUserSignToWork(true);
-    setReloadSwitch(!reloadSwitch);
-    router.refresh();
+    const res = await mydataApiResponse(userId);
+
+    if (res.item.name !== undefined) {
+      await selectedNoticeApplyApiResponse(shopId, postId);
+      setIsUserSignToWork(true);
+      setReloadSwitch(!reloadSwitch);
+      router.refresh();
+    } else {
+      alert("먼저 내 정보를 등록해 주세요!");
+    }
   };
 
   const handleCancelApply = async () => {
@@ -139,7 +145,7 @@ const StoreDetailButtons = ({
         <Button
           size="full"
           color="white"
-          onClick={() => router.push(`/employer/notice/edit/${postId}`)}
+          onClick={() => router.push(`/employer/notice/${postId}/edit`)}
         >
           공고 편집
         </Button>

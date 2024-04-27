@@ -8,9 +8,10 @@ import {
   searchSelectedNoticeApiResponse,
 } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { formatApiDateData } from "@/util/formatDate";
+import useNoticeId from "./Hook/useNoticeId";
+import Modal from "../common/SignModal";
 
 interface EmployerNoticeForm {
   hourlyPay?: number;
@@ -27,11 +28,8 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   const workHourRef = useRef<HTMLInputElement>(null);
   const noticeDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
-  const currentUrl = usePathname();
-  const isEditPage = currentUrl.includes("notice/");
-  const noticeId = isEditPage
-    ? currentUrl.split("notice/")[1].split("/edit")[0]
-    : null;
+  const noticeId = useNoticeId();
+  const isEditPage = noticeId !== null ? true : false;
 
   const [hourlyPay, sethourlyPay] = useState(0);
   const [startDate, setStartDate] = useState("");
@@ -41,6 +39,9 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   const [payError, setPayError] = useState("");
   const [dateError, setDateError] = useState("");
   const [hourError, setHourError] = useState("");
+
+  const [objectNoticeId, setObjectNoticeId] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -104,7 +105,9 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
           description: noticeDescription,
         });
         if (typeof res === "string") throw new Error();
-        router.push(`/employer/notice/${res.item.id}`);
+
+        setObjectNoticeId(res.item.id);
+        setShowModal(true);
       } catch {
         alert(
           "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
@@ -120,7 +123,8 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
         });
         if (typeof res === "string") throw new Error();
 
-        router.push(`/employer/notice/${res.item.id}`);
+        setObjectNoticeId(res.item.id);
+        setShowModal(true);
       } catch {
         alert(
           "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
@@ -135,6 +139,11 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    router.push(`/employer/notice/${objectNoticeId}`);
+  };
 
   return (
     <section className="mobgap-y-5 grid grid-cols-3 gap-x-5 gap-y-8 tab:grid-cols-4 mob:grid-cols-1">
@@ -169,7 +178,7 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
         <label htmlFor="noticeDescription">공고 설명</label>
         <textarea
           id="noticeDescription"
-          className="min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4 "
+          className="min-h-[10rem] resize-none overflow-y-auto rounded-md border-[1px] border-gray-30 bg-white px-5 py-4 focus:border-primary focus:outline-none "
           ref={noticeDescriptionRef}
           defaultValue={noticeDescription}
         />
@@ -179,6 +188,22 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
           {isEditPage ? "수정하기" : "등록하기"}
         </Button>
       </div>
+      {showModal && (
+        <Modal onClose={() => handleModalClose()}>
+          <div className="mt-5">
+            <p className="mb-10">{`${isEditPage ? "수정" : "등록"}이 완료되었습니다`}</p>
+            <div className="absolute min-w-40">
+              <Button
+                onClick={() => handleModalClose()}
+                size="full"
+                color="red"
+              >
+                확인
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </section>
   );
 };

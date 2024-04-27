@@ -1,74 +1,78 @@
-'use client';
-import { StatusBody, selectedNoticeApplyStatusSettingApiResponse } from "@/util/api";
+"use client";
+import {
+  StatusBody,
+  selectedNoticeApplyStatusSettingApiResponse,
+} from "@/util/api";
 import { useParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
-import Modal from "../signin/Modal";
+import { getCookie } from "@/util/cookieSetting";
 import Button from "./Button";
+import Modal from "@/components/common/SignModal";
 
 interface ApproveButtonsProps {
   noticeApplyId: string;
 }
 
-const MODAL_MESSAGE = [
-  "신청을 거절하시겠어요?",
-  "신청을 승인하시겠어요?",
-]
+const MODAL_MESSAGE = ["신청을 거절하시겠어요?", "신청을 승인하시겠어요?"];
 
 const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [reqBody, setReqBody] = useState({})
-  const { shopId, noticeId } = useParams<{ shopId: string; noticeId: string }>();
+  const [modalMessage, setModalMessage] = useState("");
+  const [reqBody, setReqBody] = useState<StatusBody>({ status: "canceled" });
+  const { noticeId } = useParams<{noticeId: string;}>();
+  const shopId = getCookie("sid");
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     const button = e.target as HTMLButtonElement;
     const body = {
-      "status": button.id,
-    } as StatusBody
+      status: button.id,
+    } as StatusBody;
     setReqBody(body);
     setShowModal(true);
-    button.id === "rejected" ? setModalMessage(MODAL_MESSAGE[0]) : setModalMessage(MODAL_MESSAGE[1]);
-  }
+    button.id === "rejected"
+      ? setModalMessage(MODAL_MESSAGE[0])
+      : setModalMessage(MODAL_MESSAGE[1]);
+  };
 
   const handleYesBtnClick = async () => {
     setShowModal(false);
-    // await selectedNoticeApplyStatusSettingApiResponse(shopId, noticeId, noticeApplyId, reqBody);
-    console.log("리퀘스트 보냄!")
-  }
+    if (shopId) {
+      await selectedNoticeApplyStatusSettingApiResponse(shopId, noticeId, noticeApplyId, reqBody);
+    }
+  };
 
   const handleNoBtnClick = () => {
     setShowModal(false);
-  }
+  };
 
-  // 모달 컴포넌트 수정될 때까지 대기
-  // const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
-  //   setShowModal(false);
-  // }
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  }
 
   return (
     <>
-      <div className='flex gap-3 mob:gap-2'>
+      <div className="flex gap-3 mob:gap-2">
         <button
           id="rejected"
-          className='flex items-center bg-white text-primary border border-primary rounded-md h-[38px] px-5 py-[10px] font-bold text-sm hover:bg-red-10 mob:font-normal mob:text-xs mob:px-3 mob:py-2 mob:h-8'
-          type='button'
+          className="flex h-[38px] items-center rounded-md border border-primary bg-white px-5 py-[10px] text-sm font-bold text-primary hover:bg-red-10 mob:h-8 mob:px-3 mob:py-2 mob:text-xs mob:font-normal"
+          type="button"
           onClick={handleClick}
         >
           거절하기
         </button>
         <button
           id="accepted"
-          className='flex items-center bg-white text-blue-20 border border-blue-20 rounded-md h-[38px] px-5 py-[10px] font-bold text-sm hover:bg-blue-10 mob:font-normal mob:text-xs mob:px-3 mob:py-2 mob:h-8'
-          type='button'
+          className="flex h-[38px] items-center rounded-md border border-blue-20 bg-white px-5 py-[10px] text-sm font-bold text-blue-20 hover:bg-blue-10 mob:h-8 mob:px-3 mob:py-2 mob:text-xs mob:font-normal"
+          type="button"
           onClick={handleClick}
         >
           승인하기
         </button>
       </div>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6">
           <div className="flex flex-col gap-8">
-            <p className="text-center">{modalMessage}</p>
+            <p className="text-center font-normal">{modalMessage}</p>
             <div className="flex gap-2">
               <Button
                 color="white"
@@ -92,5 +96,5 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
       )}
     </>
   );
-}
+};
 export default ApproveButtons;

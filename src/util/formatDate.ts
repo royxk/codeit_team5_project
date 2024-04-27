@@ -1,4 +1,4 @@
-import { format, addHours, formatRFC3339 } from "date-fns";
+import { format, addHours, addMinutes } from "date-fns";
 export function formatApiDateData(
   startsAt: string,
   workhour: number,
@@ -16,8 +16,14 @@ export function formatApiDateData(
   ];
 }
 
-export function formatDateToRFC3339(date: string) {
-  const d = new Date(date);
-  const formattedDate = formatRFC3339(d);
+export function getCurrentDate() {
+  const now = new Date();
+  const formattedDate = format(now, "yyyy-MM-dd");
   return formattedDate;
+}
+
+export function getCurrentRFC3339DateTime() {
+  const fiveMinutesLater = addMinutes(new Date(), 5);
+  const rfc3339DateTime = format(fiveMinutesLater, "yyyy-MM-dd'T'HH:mm:ssXXX");
+  return rfc3339DateTime;
 }

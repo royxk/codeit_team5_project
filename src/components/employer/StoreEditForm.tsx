@@ -10,6 +10,7 @@ import {
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
+import Modal from "../common/SignModal";
 
 const StoreEditForm = ({ data }: any) => {
   const {
@@ -37,6 +38,7 @@ const StoreEditForm = ({ data }: any) => {
   const [mainAddress, setMainAddress] = useState<any>(address1);
   const [imagePath, setImagePath] = useState(imageUrl);
   const [isImageChanged, setIsImageChanged] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -89,6 +91,11 @@ const StoreEditForm = ({ data }: any) => {
       originalHourlyPay: Number(basePay),
     });
 
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
     router.push("/employer");
   };
 
@@ -167,7 +174,7 @@ const StoreEditForm = ({ data }: any) => {
         <textarea
           ref={storeDescriptionRef}
           placeholder="가게에 대한 설명을 입력해 주세요."
-          className="body1 h-40 w-full resize-none overflow-y-scroll border-[1px] border-gray-30 px-5 py-4"
+          className="body1 h-40 w-full resize-none overflow-y-scroll border-[1px] border-gray-30 px-5 py-4 focus:border-primary focus:outline-none"
           defaultValue={description}
         />
       </div>
@@ -176,6 +183,22 @@ const StoreEditForm = ({ data }: any) => {
           수정하기
         </Button>
       </div>
+      {showModal && (
+        <Modal onClose={() => handleModalClose()}>
+          <div className="mt-5">
+            <p className="mb-10">수정이 완료되었습니다</p>
+            <div className="absolute min-w-40">
+              <Button
+                onClick={() => handleModalClose()}
+                size="full"
+                color="red"
+              >
+                확인
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </form>
   );
 };
