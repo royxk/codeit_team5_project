@@ -5,9 +5,6 @@ import SvgLocationComponent from "./SvgLocationComponent";
 import SvgArrowComponent from "./SvgArrowComponent";
 import Tooltip from "./Tooltip";
 
-//TODO: 회색 텍스트 같이 만들기
-//TODO:
-
 interface PostProps {
   imgUrl: string;
   shopName: string;

@@ -1,14 +1,12 @@
 "use client";
 
-import React, { RefObject, ChangeEvent, FocusEvent } from "react";
+import React, { useState, RefObject, ChangeEvent, FocusEvent } from "react";
 
 // Contexts
 import {
   INPUT_ERROR_TYPE,
   INPUT_LABELS,
   INPUT_LAST_WORD,
-  INPUT_SELECT_DATA_LIST,
-  INPUT_SELECT_TYPE,
 } from "@/util/constants/INPUT_VALUES";
 
 interface InputProps {
@@ -34,11 +32,10 @@ const Input: React.FC<InputProps> = ({
   onChange,
   onFocus,
 }) => {
+  const [focused, setFocused] = useState<boolean>(false);
   if (inputType === "DEFAULT") {
     errorType = "DEFAULT";
   }
-  const isSelectType = INPUT_SELECT_TYPE.includes(inputType);
-  const dataArray = isSelectType ? INPUT_SELECT_DATA_LIST[inputType] : null;
 
   return (
     <div className="relative flex w-full flex-col gap-2">
@@ -47,20 +44,29 @@ const Input: React.FC<InputProps> = ({
       </label>
       <>
         <label
-          className={`relative z-[1] flex justify-between rounded-lg border-[1px] border-gray-30 px-5 py-4 focus-within:border-blue-20 
-            ${inputType !== "date" ? "cursor-text" : ""} bg-white`}
+          className={`relative z-[1] flex justify-between rounded-lg border-[1px] ${
+            focused ? "border-primary" : "border-gray-300"
+          } px-5 py-4 focus-within:border-primary ${
+            inputType !== "date" ? "cursor-text" : ""
+          } bg-white`}
           htmlFor={inputType}
         >
           <input
             id={inputType}
             className="w-full rounded-md focus-visible:outline-none"
             type={inputType}
-            onBlur={() => blurEvent()}
+            onBlur={() => {
+              setFocused(false);
+              blurEvent();
+            }}
+            onFocus={(e) => {
+              setFocused(true);
+              onFocus && onFocus(e);
+            }}
             ref={inputRef}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            onFocus={onFocus}
           />
           {INPUT_LAST_WORD[inputType] && (
             <p className="text-nowrap">{INPUT_LAST_WORD[inputType]}</p>
