@@ -36,7 +36,7 @@ const ProfileHeader = ({ isProfileData }: ProfileHeaderProps) => {
     isProfileData ?
       <div className="flex flex-col items-center gap-6 w-[964px] border border-gray-20 rounded-lg px-6 py-[60px] tab:w-[632px] mob:text-sm mob:w-[350px]">
         <p className="text-black">내 프로필을 등록하고 원하는 가게에 지원해 보세요</p>
-        <Link href="/employee/my-profile">
+        <Link href="/user/employee/my-profile">
           <Button size="large" color="red" className="mob:px-5 mob:py-[10px] mob:text-sm">내 프로필 등록하기</Button>
         </Link>
       </div>
@@ -59,7 +59,7 @@ const ProfileHeader = ({ isProfileData }: ProfileHeaderProps) => {
         </div>
         <p className="body1 text-black overflow-y-auto leading-tight h-10 hide-scrollbar mob:body2 mob:leading-tight">{userData?.bio}</p>
       </div>
-      <Link href='/employee/my-profile'>
+      <Link href='/user/employee/my-profile'>
         <Button size="medium" color="white" className="absolute top-8 right-8 text-base px-[55px] py-[14px] mob:px-5 mob:py-[10px] mob:top-5 mob:right-5 mob:font-bold mob:text-sm">
           편집하기
         </Button>
