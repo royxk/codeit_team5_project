@@ -310,7 +310,7 @@ export function mydataEditApiResponse(body: MydataEditBody) {
  * @param query - 요청에 포함 될 수도 있는 쿼리 객체입니다.
  * @returns - 서버로부터 받은 JSON 응답을 담은 프로미스 객체를 반환합니다.
  */
-export function alertApiResponse(userId: string, query?: Query) {
+export function alertApiResponse(userId: string | undefined, query?: Query) {
   const url = `${USERS_URL}${userId}${ENDPOINT.alerts}`;
   return query ? getApiResponse(url, query) : getApiResponse(url);
 }
@@ -323,7 +323,8 @@ export function alertApiResponse(userId: string, query?: Query) {
  */
 export function alertReadApiResponse(alertId: string) {
   const uid = getCookie("uid");
-  const url = USERS_URL + uid + ENDPOINT.alerts + alertId;
+  // const url = USERS_URL + uid + ENDPOINT.alerts + alertId;
+  const url = `${USERS_URL}${uid}${ENDPOINT.alerts}/${alertId}`;
   return putApiResponse(url);
 }
 
