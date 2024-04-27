@@ -48,8 +48,8 @@ const StoreDetailButtons = ({
     setIsUserEmployer(isUserEmployer);
 
     if (!isUserEmployer) {
-      const noticeId = pathName.split("/")[2];
-      const shopId = pathName.split("/")[3];
+      const noticeId = pathName.split("/")[3];
+      const shopId = pathName.split("/")[4];
       const signList = await searchUserApplyApiResponse(userId);
       let offset = 0;
       const count = signList.count;
@@ -99,21 +99,22 @@ const StoreDetailButtons = ({
     if (res.item.name !== undefined) {
       await selectedNoticeApplyApiResponse(shopId, postId);
       setIsUserSignToWork(true);
+      setUserSignId(res.item.id);
       setReloadSwitch(!reloadSwitch);
-      router.refresh();
     } else {
       alert("먼저 내 정보를 등록해 주세요!");
     }
-    console.log(shopId, postId);
   };
 
   const handleCancelApply = async () => {
-    await selectedNoticeApplyStatusSettingApiResponse(
+    const res = await selectedNoticeApplyStatusSettingApiResponse(
       shopId,
       postId,
       userSignId,
       { status: "canceled" },
     );
+    console.log(res);
+
     setIsUserSignToWork(false);
     setReloadSwitch(!reloadSwitch);
     router.refresh();
