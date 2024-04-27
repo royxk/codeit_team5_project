@@ -27,7 +27,7 @@ const EmployerStoreDetail = ({ data }: { data: ShopDataType }) => {
   }, []);
 
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
-  if (shopId === "")
+  if (shopId === "" || storeData === undefined)
     return (
       <>
         <h1 className="h1 mob:h3 mob:body2-bold mb-6 text-black mob:mb-4">
