@@ -7,7 +7,7 @@ import SearchSvg from "./GNB/SearchSvg";
 import LogoSvg from "./GNB/LogoSvg";
 import { getCookie } from "@/util/cookieSetting";
 import { usePathname, useRouter } from "next/navigation";
-import { logout } from "@/util/api";
+import { logout, mydataApiResponse } from "@/util/api";
 import { NOTIFICATION_API_RESPONSE_TYPE } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import { NOTIFICATION_API_ITEM_TYPE } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import { alertApiResponse } from "@/util/api";
@@ -18,6 +18,7 @@ const GNB = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNotificationHidden, setIsNotificationHidden] = useState(true);
 
   const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -31,6 +32,14 @@ const GNB = () => {
         searchRef.current.value = "";
         router.push(`/user/search?keyword=${value}`);
       }
+    }
+  };
+
+  const checkUserType = async () => {
+    const userId = getCookie("uid");
+    if (userId !== undefined) {
+      const res = await mydataApiResponse(userId);
+      setIsNotificationHidden(res.item.type !== "employee");
     }
   };
 
@@ -48,6 +57,7 @@ const GNB = () => {
     } else {
       setIsEmployer(false);
     }
+    checkUserType();
     setIsLoading(false);
   }, [pathName]);
 
@@ -119,7 +129,7 @@ const GNB = () => {
                     로그아웃
                   </button>
 
-                  <NotificationModalComponent />
+                  {!isNotificationHidden && <NotificationModalComponent />}
                 </div>
               ) : (
                 <div
