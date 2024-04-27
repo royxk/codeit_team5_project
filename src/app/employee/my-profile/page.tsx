@@ -11,6 +11,7 @@ import Input from '@/components/common/Input';
 import Modal from '@/components/common/SignModal';
 import Image from 'next/image';
 import closeIcon from '/public/close.svg';
+import ModalPortal from '@/components/common/ModalPortal';
 
 const MODAL_MESSAGE = "등록이 완료되었습니다."
 
@@ -151,20 +152,22 @@ const RegisterProfile = () => {
         <Button size='large' color={phoneErr || nameErr ? 'gray' : 'red'} onClick={handleSubmit}>{isProfileData ? '수정하기' : '등록하기' }</Button>
       </div>
       {showModal && (
-        <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
-        <div className="flex flex-col gap-8">
-          <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
+        <ModalPortal>
+          <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
+          <div className="flex flex-col gap-8">
+            <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
 
-          <Button
-            color="red"
-            size="small"
-            onClick={handleCheckClick}
-            className="absolute h-[38px] bottom-[28px] right-[28px]"
-          >
-            확인
-          </Button>
-        </div>
-      </Modal>
+            <Button
+              color="red"
+              size="small"
+              onClick={handleCheckClick}
+              className="absolute h-[38px] bottom-[28px] right-[28px]"
+            >
+              확인
+            </Button>
+          </div>
+        </Modal>
+      </ModalPortal>
       )}
     </>
   );
