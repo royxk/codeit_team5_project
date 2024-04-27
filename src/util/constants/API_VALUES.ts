@@ -4,7 +4,7 @@ export const ENDPOINT = {
   users: "/users",
   notices: "/notices",
   shops: "/shops",
-  alerts: "/alerts",
+  alerts: "/alerts/",
   applications: "/applications",
   images: "/images",
 };

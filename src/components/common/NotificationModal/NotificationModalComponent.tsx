@@ -8,7 +8,7 @@ import { NOTIFICATION_API_RESPONSE_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE
 const NotificationModalComponent = ({
   data,
 }: {
-  data: NOTIFICATION_API_RESPONSE_TYPE;
+  data: NOTIFICATION_API_RESPONSE_TYPE | null | undefined;
 }) => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ const NotificationModalComponent = ({
         id="advanced-filter-modal"
         onClick={toggleNotificationModal}
       >
-        <SvgNotificationButton status={false} />
+        <SvgNotificationButton status={data == null} />
         {isNotificationModalOpen && (
           <div
             ref={modalRef}

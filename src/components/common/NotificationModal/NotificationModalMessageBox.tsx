@@ -3,9 +3,15 @@ import SvgStatusComponent from "./SvgStatusComponent";
 import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 import { formatApiDateData } from "@/util/formatDate";
 import { elapsedTime } from "@/util/eplapsedTime";
+import { alertReadApiResponse } from "@/util/api";
 
 type Props = {
   data: NOTIFICATION_API_ITEM_TYPE;
+};
+
+const NotificationRead = async (id: string) => {
+  alertReadApiResponse(id);
+  console.log("read");
 };
 
 const NotificationModalMessageBox = ({ data }: Props) => {
@@ -16,6 +22,7 @@ const NotificationModalMessageBox = ({ data }: Props) => {
   return (
     <div
       className={`min-h-25 flex flex-col gap-1 rounded-xl border bg-white px-3 py-4 text-[14px] mob:min-h-24`}
+      onClick={() => NotificationRead(data.item.id)}
     >
       <SvgStatusComponent
         color={data.item.result === "rejected" ? "#FF0080" : "#0080FF"}
