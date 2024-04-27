@@ -37,7 +37,7 @@ const RegisterProfile = () => {
   }
 
   useEffect(() => {
-    if (!userId) router.push("/user/signin");
+    if (!userId) router.push("/signin");
     const fetchUserData = async () => {
       const data = await getUserData(userId);
       setUserData(data);

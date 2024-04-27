@@ -10,8 +10,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/util/api";
 
 const GNB = () => {
-  const pathname = usePathname();
-  const isSign = pathname.includes("sign");
   const [isLogin, setIsLogin] = useState(false);
   const [isEmployer, setIsEmployer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,11 +45,9 @@ const GNB = () => {
     setIsLoading(false);
   }, [pathName]);
 
-  if (isSign) return;
-
   const handleLogout = () => {
     logout();
-    router.push("/user/signin");
+    router.push("/signin");
   };
 
   return (
@@ -124,7 +120,7 @@ const GNB = () => {
                   className="flex gap-10 mob:absolute mob:right-5 mob:top-4 mob:gap-4 mob:text-sm"
                   suppressHydrationWarning
                 >
-                  <Link href={"/user/signin"}>
+                  <Link href={"/signin"}>
                     <button
                       className="flex h-5 font-bold text-black"
                       suppressHydrationWarning
@@ -132,7 +128,7 @@ const GNB = () => {
                       로그인
                     </button>
                   </Link>
-                  <Link href={"/user/signup"}>
+                  <Link href={"/signup"}>
                     <button
                       className="flex h-5 font-bold text-black"
                       suppressHydrationWarning

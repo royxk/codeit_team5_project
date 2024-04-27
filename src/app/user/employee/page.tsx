@@ -18,7 +18,7 @@ const Employee = async () => {
   const isProfileData = Object.keys(item).length <= 4;
 
   if (!uid) {
-    redirect("/user/signin");
+    redirect("/signin");
   }
 
   return (

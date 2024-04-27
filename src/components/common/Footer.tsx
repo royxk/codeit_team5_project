@@ -1,7 +1,5 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 
 const FOOTER_ICON_REF = [
@@ -23,10 +21,6 @@ const FOOTER_ICON_REF = [
 ];
 
 const Footer = () => {
-  const pathName = usePathname();
-  const isFooterHidden = pathName.includes("sign");
-  if (isFooterHidden) return;
-
   return (
     <footer className="mx-0 flex w-full justify-center bg-gray-10 px-8 py-[37px] tab:-mx-8 tab:w-screen tab:px-8 mob:-mx-4 mob:w-screen mob:px-5 mob:pb-4">
       <div className="flex w-full max-w-[964px] flex-row items-start justify-between gap-y-10 mob:grid mob:grid-cols-2 ">

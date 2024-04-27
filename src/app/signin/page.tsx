@@ -76,7 +76,7 @@ const Signin: React.FC = () => {
         setPassword("");
         setEmailError("");
         setPasswordError("");
-        router.push("./");
+        router.push("/");
       } catch (error) {
         console.error("로그인 실패:", error);
       }
@@ -128,7 +128,7 @@ const Signin: React.FC = () => {
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
           <span className="mr-3">회원이 아니신가요?</span>{" "}
           <Link
-            href="./signup"
+            href="/signup"
             className="text-[#5534Da]"
             style={{ textDecoration: "underline" }}
           >

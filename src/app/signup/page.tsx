@@ -234,7 +234,7 @@ const Signup: React.FC = () => {
                 size="small"
                 onClick={() => {
                   setConfirmShowModal(false);
-                  router.push("./signin");
+                  router.push("/signin");
                 }}
                 className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
               >
