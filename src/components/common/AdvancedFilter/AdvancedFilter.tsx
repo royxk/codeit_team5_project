@@ -72,6 +72,20 @@ function AdvancedFilter({
     setIsAdvancedFilterOpen(false);
   };
 
+  //숫자로 구성된 문자열로 변환하고 9자를 넘기지 않도록 변경
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const numericValue = newValue.replace(/\D/g, "");
+    setPrice(numericValue.substring(0, 9));
+  };
+
+  //백스페이스와 숫자만 허용
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Backspace" && !/\d/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   // Effect to handle inputs and locations changes
   useEffect(() => {
     updateCount();
@@ -116,9 +130,11 @@ function AdvancedFilter({
               <input
                 className={`focus:outline-none`}
                 placeholder="입력"
-                type="number"
+                type="text"
                 value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                maxLength={9}
+                onKeyDown={(e) => handleInputKeyDown(e)}
+                onChange={(e) => handleInputChange(e)}
               />
               <div>원</div>
             </div>
