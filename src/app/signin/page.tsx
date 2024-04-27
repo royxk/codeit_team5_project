@@ -89,6 +89,7 @@ const Signin: React.FC = () => {
   useEffect(() => {
     logout();
   }, []);
+
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
