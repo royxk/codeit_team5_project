@@ -99,7 +99,9 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
                 <div className="flex-rwo relative mr-1 h-5 w-5 ">
                   <Image src={"/post/time.svg"} alt="" fill />
                 </div>
-                <a className="body1 mob:body2 text-gray-50">{workHour}</a>
+                <a className="body1 mob:body2 text-gray-50">
+                  {" " + workHour[0] + " " + workHour[1]}
+                </a>
               </div>
             )}
 
@@ -125,8 +127,8 @@ const StoreDetail = ({ data }: { data?: StoreDetailProps }) => {
           />
         </section>
       </StoreDetailCardBorder>
-      {isPostPage ? (
-        <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
+      {isPostPage && item.description ? (
+        <div className="mt-6 w-full w-full rounded-lg bg-gray-10 p-8">
           <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
           <textarea
             className="body1 mob:body2 mt-3 h-min resize-none"
