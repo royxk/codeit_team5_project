@@ -1,9 +1,9 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/common/Button";
 import Link from "next/link";
-import { mydataApiResponse, signinApiResponse } from "@/util/api";
+import { logout, mydataApiResponse, signinApiResponse } from "@/util/api";
 import {
   getCookie,
   setAccessTokenCookie,
@@ -86,6 +86,9 @@ const Signin: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    logout();
+  }, []);
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
