@@ -142,11 +142,13 @@ const StoreRegisterForm = () => {
             onChange={() => {
               const img = storeImageRef.current!.files![0];
 
-              const reader = new FileReader();
-              reader.readAsDataURL(img);
-              reader.onload = () => {
-                setImagePath(reader.result as string);
-              };
+              if (undefined !== img) {
+                const reader = new FileReader();
+                reader.readAsDataURL(img);
+                reader.onload = () => {
+                  setImagePath(reader.result as string);
+                };
+              }
             }}
             className="hidden"
           />
