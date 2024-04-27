@@ -67,6 +67,7 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
     setWorkHour(workHour);
     setNoticeDescription(noticeDescription);
     setStartDate(startDateString);
+    console.log(noticeData);
   }
 
   async function handleButtonClick() {
