@@ -122,23 +122,38 @@ const CustomNotice = () => {
       ref={scrollRef}
       className="flex w-full justify-start gap-[14px] overflow-x-scroll hide-scrollbar mob:gap-2"
     >
-      {customNoticeList?.items.map(({ item }) => (
-        <Link
-          href={`/user/noticeDetail/${item.id}/${item.shop.item.id}`}
-          key={item.id}
-        >
-          <Post
-            imgUrl={item.shop.item.imageUrl}
-            shopName={item.shop.item.name}
-            address1={item.shop.item.address1}
-            hourlyPay={item.hourlyPay}
-            startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
-            startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
-            state={!item.closed}
-            originalHourlyPay={item.shop.item.originalHourlyPay}
-          />
-        </Link>
-      ))}
+      {customNoticeList?.items.map(({ item }) =>
+        item.closed ? (
+          <div className="cursor-not-allowed" key={item.id}>
+            <Post
+              imgUrl={item.shop.item.imageUrl}
+              shopName={item.shop.item.name}
+              address1={item.shop.item.address1}
+              hourlyPay={item.hourlyPay}
+              startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+              startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+              state={!item.closed}
+              originalHourlyPay={item.shop.item.originalHourlyPay}
+            />
+          </div>
+        ) : (
+          <Link
+            href={`/user/noticeDetail/${item.id}/${item.shop.item.id}`}
+            key={item.id}
+          >
+            <Post
+              imgUrl={item.shop.item.imageUrl}
+              shopName={item.shop.item.name}
+              address1={item.shop.item.address1}
+              hourlyPay={item.hourlyPay}
+              startTime={formatApiDateData(item.startsAt, item.workhour)[0]}
+              startHour={formatApiDateData(item.startsAt, item.workhour)[1]}
+              state={!item.closed}
+              originalHourlyPay={item.shop.item.originalHourlyPay}
+            />
+          </Link>
+        ),
+      )}
       {customNoticeList?.items.length === 0 && (
         <>
           <div className="flex h-[348px] w-full items-center justify-center text-5xl">
