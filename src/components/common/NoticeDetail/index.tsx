@@ -6,6 +6,8 @@ import { StoreDetailPostType } from "./NoticeDetailTypes";
 import StoreDetailCardBorder from "./NoticeDetailCardBorder";
 import Link from "next/link";
 import { formatApiDateData } from "@/util/formatDate";
+import ImageLoadingComponents from "./ImageLoadingComponents";
+import TextLoadingComponents from "./TextloadingComponents";
 
 /**
  *
@@ -50,13 +52,25 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
       <div className="mb-6 mob:mb-4 ">
         <div>
           <p className="body1-bold mob:body2-bold mb-2 text-primary">식당</p>
-          <h1 className="h1 mob:h3 text-black">{shopData.name}</h1>
+          <h1 className="h1 mob:h3 text-black">
+            {shopData.name ? shopData.name : "불러오는 중"}
+          </h1>
         </div>
       </div>
 
       <StoreDetailCardBorder isBgWhite={true}>
         <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
-          <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              sizes="540px"
+              className="object-cover"
+              fill
+              alt=""
+            />
+          ) : (
+            <ImageLoadingComponents />
+          )}
           {isClosed && (
             <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-80">
               <h1 className="h1 text-white">마감 완료</h1>
@@ -67,19 +81,25 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
           <div className="flex flex-col gap-3">
             <div>
               <h1 className="body1-bold mob:body2-bold text-primary">시급</h1>
-              <div className="mt-2 flex items-center gap-2 mob:gap-1">
-                <h2 className="h1 mob:h2 overflow-x-auto text-nowrap">
-                  {noticeHourlyPay}
-                </h2>
+              <div className="mt-2 flex h-10 w-full items-center gap-2 mob:gap-1">
+                {item.hourlyPay ? (
+                  <>
+                    <h2 className="h1 mob:h2 overflow-x-auto text-nowrap">
+                      {noticeHourlyPay}
+                    </h2>
 
-                <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
-                  기존 시급보다{" "}
-                  {(
-                    (item.hourlyPay / item.shop.item.originalHourlyPay) *
-                    100
-                  ).toFixed(0)}
-                  %
-                </a>
+                    <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
+                      기존 시급보다{" "}
+                      {(
+                        (item.hourlyPay / item.shop.item.originalHourlyPay) *
+                        100
+                      ).toFixed(0)}
+                      %
+                    </a>
+                  </>
+                ) : (
+                  <TextLoadingComponents />
+                )}
               </div>
             </div>
 
@@ -87,39 +107,56 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               <div className="flex-rwo relative mr-1 h-5 w-5 ">
                 <Image src={"/post/time.svg"} alt="" fill />
               </div>
-              <a className="body1 mob:body2 text-gray-50">
-                {" " + workHour[0] + " " + workHour[1]}
-              </a>
+              {item.hourlyPay ? (
+                <a className="body1 mob:body2 text-gray-50">
+                  {" " + workHour[0] + " " + workHour[1]}
+                </a>
+              ) : (
+                <TextLoadingComponents />
+              )}
             </div>
 
             <div className="flex items-center">
               <div className="flex-rwo relative mr-1 h-5 w-5 ">
                 <Image src={"/post/location.svg"} alt="" fill />
               </div>
-              <p className="body1 mob:body2 text-gray-50">
-                {shopData.address1}
-              </p>
+              {shopData.address1 ? (
+                <p className="body1 mob:body2 text-gray-50">
+                  {shopData.address1}
+                </p>
+              ) : (
+                <TextLoadingComponents />
+              )}
             </div>
 
-            <textarea
-              disabled
-              className="body1 mob:body2 h-16 w-full resize-none overflow-y-auto bg-transparent"
-              value={shopData.description}
-            />
+            {shopData.description ? (
+              <textarea
+                disabled
+                className="body1 mob:body2 h-16 w-full resize-none overflow-y-auto bg-transparent"
+                value={shopData.description}
+              />
+            ) : (
+              <div className="h-16 w-full">
+                <TextLoadingComponents />
+              </div>
+            )}
           </div>
           <StoreDetailButtons isClosed={isClosed} />
         </section>
       </StoreDetailCardBorder>
-      {item.description && (
-        <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
-          <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
-          <textarea
-            className="body1 mob:body2 mt-3 h-min w-full resize-none overflow-y-auto"
-            value={item.description}
-            disabled
-          />
-        </div>
-      )}
+
+      <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
+        <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
+        <textarea
+          className="body1 mob:body2 mt-3 h-min w-full resize-none overflow-y-auto"
+          value={
+            shopData.name
+              ? item.description || "이 공고에 대한 자세한 설명이 없습니다."
+              : "정보를 불러오는 중입니다."
+          }
+          disabled
+        />
+      </div>
     </div>
   );
 };
