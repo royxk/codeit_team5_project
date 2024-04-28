@@ -9,6 +9,7 @@ import {
   selectedNoticeApplyStatusSettingApiResponse,
 } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
+
 /**
  * @param {boolean} isClosed post데이터에서 closed를 받아, 현재 공고가 마감된 상태인지를 표시하는 인자입니다.
  * @param {string} shopId 현재 공고의 아이디를 받아 해당 아이디에 해당하는 동작을 실행 시킬 것으로 예상되는 인자입니다.
@@ -16,22 +17,25 @@ import { getCookie } from "@/util/cookieSetting";
  * @returns
  */
 const StoreDetailButtons = ({
-  isClosed,
+  isClosed = false,
   shopId,
   postId,
 }: {
-  isClosed: boolean;
+  isClosed?: boolean;
   shopId: string;
   postId: string;
 }) => {
   const [reloadSwitch, setReloadSwitch] = useState(false);
   const [isUserEmployer, setIsUserEmployer] = useState(false);
   const [isUserSignToWork, setIsUserSignToWork] = useState(false);
+
   const [userSignId, setUserSignId] = useState("");
 
   const pathName = usePathname();
-
   const router = useRouter();
+
+  const currentUserShopId = getCookie("sid");
+  const isNoticeMine = currentUserShopId === shopId;
   const isEmployerMainPage =
     pathName.includes("employer") && !pathName.includes("notice");
 
@@ -44,8 +48,8 @@ const StoreDetailButtons = ({
     setIsUserEmployer(isUserEmployer);
 
     if (!isUserEmployer) {
-      const noticeId = pathName.split("/")[2];
-      const shopId = pathName.split("/")[3];
+      const noticeId = pathName.split("/")[3];
+      const shopId = pathName.split("/")[4];
       const signList = await searchUserApplyApiResponse(userId);
       let offset = 0;
       const count = signList.count;
@@ -95,21 +99,22 @@ const StoreDetailButtons = ({
     if (res.item.name !== undefined) {
       await selectedNoticeApplyApiResponse(shopId, postId);
       setIsUserSignToWork(true);
+      setUserSignId(res.item.id);
       setReloadSwitch(!reloadSwitch);
-      router.refresh();
     } else {
       alert("먼저 내 정보를 등록해 주세요!");
     }
-    console.log(shopId, postId);
   };
 
   const handleCancelApply = async () => {
-    await selectedNoticeApplyStatusSettingApiResponse(
+    const res = await selectedNoticeApplyStatusSettingApiResponse(
       shopId,
       postId,
       userSignId,
       { status: "canceled" },
     );
+    console.log(res);
+
     setIsUserSignToWork(false);
     setReloadSwitch(!reloadSwitch);
     router.refresh();
@@ -142,13 +147,17 @@ const StoreDetailButtons = ({
         <Button size="full" color="gray">
           {isUserEmployer ? "마감함" : "신청 불가"}
         </Button>
-      ) : isUserEmployer ? (
+      ) : isUserEmployer && isNoticeMine ? (
         <Button
           size="full"
           color="white"
           onClick={() => router.push(`/user/employer/notice/${postId}/edit`)}
         >
           공고 편집
+        </Button>
+      ) : isUserEmployer && !isNoticeMine ? (
+        <Button size="full" color="gray">
+          사장은 신청이 불가합니다.
         </Button>
       ) : (
         <>

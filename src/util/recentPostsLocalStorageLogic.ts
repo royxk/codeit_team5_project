@@ -10,8 +10,16 @@ export function saveRecentPostsLocalStorage(data: NoticeItem) {
   // Check if the data is already in the local storage do Nothing
   const recentPosts = getRecentPostsLocalStorage();
   const isExist = recentPosts.find((post) => post.item.id === data.item.id);
-  const newRecentPosts = [data, ...recentPosts].slice(0, 6);
-  localStorage.setItem("recentPosts", JSON.stringify(newRecentPosts));
+  if (isExist) {
+    const newRecentPosts = [
+      data,
+      ...recentPosts.filter((post) => post.item.id !== data.item.id),
+    ].slice(0, 6);
+    localStorage.setItem("recentPosts", JSON.stringify(newRecentPosts));
+  } else {
+    const newRecentPosts = [data, ...recentPosts].slice(0, 6);
+    localStorage.setItem("recentPosts", JSON.stringify(newRecentPosts));
+  }
 }
 
 //Remove Local Storage remove all data

@@ -29,7 +29,7 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   const noticeDescriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const noticeId = useNoticeId();
-  const isEditPage = noticeId !== null ? true : false;
+  const isEditPage = noticeId !== undefined ? true : false;
 
   const [hourlyPay, sethourlyPay] = useState(0);
   const [startDate, setStartDate] = useState("");
@@ -105,31 +105,28 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
           workhour: Number(workHour),
           description: noticeDescription,
         });
-        if (typeof res === "string") throw new Error();
+        if (typeof res === "string") throw new Error(res);
 
         setObjectNoticeId(res.item.id);
         setShowModal(true);
-      } catch {
-        alert(
-          "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
-        );
+      } catch (res) {
+        alert(res);
       }
     } else {
       try {
+        console.log(shopId);
         const res = await addNoticeApiResponse(shopId, {
           hourlyPay: Number(hourlyPay),
           startsAt: String(rfc3339DateTime),
           workhour: Number(workHour),
           description: noticeDescription,
         });
-        if (typeof res === "string") throw new Error();
+        if (typeof res === "string") throw new Error(res);
 
         setObjectNoticeId(res.item.id);
         setShowModal(true);
-      } catch {
-        alert(
-          "최저 시급보다 낮은 시급을 지급하거나, 과거 시간을 선택할 수는 없습니다!",
-        );
+      } catch (res) {
+        alert(res);
       }
     }
   }

@@ -1,13 +1,9 @@
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const useNoticeId = () => {
-  const currentUrl = usePathname();
-  const isEditPage = currentUrl.includes("notice/");
-  const noticeId = isEditPage
-    ? currentUrl.split("notice/")[1].split("/edit")[0]
-    : null;
+  const currentUrl = useParams<{ noticeId: string }>();
 
-  return noticeId;
+  return currentUrl.noticeId;
 };
 
 export default useNoticeId;

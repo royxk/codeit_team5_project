@@ -80,7 +80,7 @@ const StoreDetailPage = () => {
               ))
             : items.map((item) => (
                 <Link
-                  href={`./noticeDetail/${item.item.id}/${item.item.shop.item.id}`}
+                  href={`/user/noticeDetail/${item.item.id}/${item.item.shop.item.id}`}
                   key={item.item.id}
                   onClick={() => saveOnLocalStorage(item)}
                 >

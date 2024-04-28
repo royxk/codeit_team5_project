@@ -36,6 +36,10 @@ const StoreRegisterForm = () => {
     setErr("");
     if (ref.current!.value === "") {
       setErr("BLANK_REQUIRE_VALUE");
+      return;
+    }
+    if (ref === basePayRef && Number(ref.current!.value) < 10000) {
+      setErr("TOO_LOW_WAGE");
     }
   };
 
@@ -52,39 +56,43 @@ const StoreRegisterForm = () => {
       address2 === "" ||
       storeImage === null ||
       workType === "" ||
-      address1 === ""
+      address1 === "" ||
+      Number(basePay) < 10000
     ) {
       handleInputBlur(storeNameRef, setStoreNameErr);
       handleInputBlur(basePayRef, setBasePayErr);
       handleInputBlur(address2Ref, setAddress2Err);
       return;
     }
-    const createdImageUrl = await createImageApiResponse({
-      name: getCookie("uid")!,
-    });
+    try {
+      const createdImageUrl = await createImageApiResponse({
+        name: getCookie("uid")!,
+      });
 
-    const image: string = (
-      await putFileFetch(createdImageUrl.item.url, storeImage)
-    ).url.split("?")[0];
+      const image: string = (
+        await putFileFetch(createdImageUrl.item.url, storeImage)
+      ).url.split("?")[0];
 
-    const res = await createShopApiResponse({
-      name: storeName,
-      category: workType,
-      address1: address1,
-      address2: address2,
-      description: storeDescription,
-      imageUrl: image,
-      originalHourlyPay: Number(basePay),
-    });
-    setShopIdCookie(res.item.id);
+      const res = await createShopApiResponse({
+        name: storeName,
+        category: workType,
+        address1: address1,
+        address2: address2,
+        description: storeDescription,
+        imageUrl: image,
+        originalHourlyPay: Number(basePay),
+      });
+      if (res.item === undefined) throw new Error(res);
+      setShopIdCookie(res.item.id);
 
-    setShowModal(true);
-    console.log("submit");
+      setShowModal(true);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     const sid = getCookie("sid");
-    console.log(sid);
     if (sid !== undefined && sid !== "") {
       router.push("/user/employer");
     }
@@ -143,11 +151,13 @@ const StoreRegisterForm = () => {
             onChange={() => {
               const img = storeImageRef.current!.files![0];
 
-              const reader = new FileReader();
-              reader.readAsDataURL(img);
-              reader.onload = () => {
-                setImagePath(reader.result as string);
-              };
+              if (undefined !== img) {
+                const reader = new FileReader();
+                reader.readAsDataURL(img);
+                reader.onload = () => {
+                  setImagePath(reader.result as string);
+                };
+              }
             }}
             className="hidden"
           />
