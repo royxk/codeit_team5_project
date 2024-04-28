@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import StoreDetail from "@/components/common/StoreDetail";
+import NoticeDetail from "@/components/common/NoticeDetail";
 import { initialStoreDetailPost } from "@/util/constants/STORE_DETAIL_POST";
 import Post from "@/components/common/Post/Post";
 import PostSkeleton from "@/components/common/Post/PostSkeleton";
 import { formatApiDateData } from "@/util/formatDate";
 import { NoticeItem } from "@/components/common/Post/PostListType";
-import StoreDetailProps from "@/components/common/StoreDetail/StoreDetailTypes";
+import { StoreDetailPostType } from "@/components/common/NoticeDetail/NoticeDetailTypes";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 import { searchSelectedNoticeApiResponse } from "@/util/api";
 import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
@@ -18,7 +18,7 @@ import Link from "next/link";
 const StoreDetailPage = () => {
   const router = useParams<{ shopId: string; noticeId: string }>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [item, setIem] = useState<StoreDetailProps>(initialStoreDetailPost);
+  const [item, setIem] = useState<StoreDetailPostType>(initialStoreDetailPost);
   const [items, setItems] = useState<NoticeItem[]>([]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const StoreDetailPage = () => {
     <div
       className={`h-100vh flex w-full flex-col items-center justify-center gap-10`}
     >
-      <StoreDetail data={item} />
+      <NoticeDetail data={item} />
       <div className={`flex flex-col gap-5`}>
         <div className={`text-[28px] font-bold`}>최근에 본 공고</div>
         <div

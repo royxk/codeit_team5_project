@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Post from "../common/Post/Post";
-import StoreDetailCardBorder from "../common/StoreDetail/StoreDetailCardBorder";
+import StoreDetailCardBorder from "../common/NoticeDetail/NoticeDetailCardBorder";
 import Button from "../common/Button";
 import { formatApiDateData } from "@/util/formatDate";
 import { getCookie } from "@/util/cookieSetting";

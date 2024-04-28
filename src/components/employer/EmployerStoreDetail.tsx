@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ShopDataType } from "../common/StoreDetail/StoreDetailTypes";
-import StoreDetailCardBorder from "../common/StoreDetail/StoreDetailCardBorder";
+import { ShopDataType } from "../common/NoticeDetail/NoticeDetailTypes";
+import StoreDetailCardBorder from "../common/NoticeDetail/NoticeDetailCardBorder";
 import Link from "next/link";
 import Button from "../common/Button";
 import Image from "next/image";
