@@ -37,45 +37,25 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
     setIsUserEmployer(isUserEmployer);
 
     if (!isUserEmployer) {
-      const signList = await searchUserApplyApiResponse(userId);
-      let offset = 0;
-      const count = signList.count;
+      const applyCount = await searchUserApplyApiResponse(userId, { limit: 1 });
+      const count = applyCount.count;
+      const entireSignList = await searchUserApplyApiResponse(userId, {
+        limit: count,
+      });
 
-      if (count <= 10) {
-        const workerVerification = signList.items.filter(
-          (item: any) =>
-            item.item.notice.item.id === noticeId &&
-            item.item.shop.item.id === shopId &&
-            item.item.status === "pending",
-        );
+      const workerVerification = entireSignList.items.filter(
+        (item: any) =>
+          item.item.notice.item.id === noticeId &&
+          item.item.shop.item.id === shopId &&
+          item.item.status === "pending",
+      );
 
-        const isWorkerSigned = workerVerification.length > 0;
+      const isWorkerSigned = workerVerification.length > 0;
 
-        if (isWorkerSigned) {
-          setIsUserSignToWork(isWorkerSigned);
-          setUserSignId(workerVerification[0].item.id);
-          return;
-        }
-      } else {
-        while (count > offset) {
-          const signList = await searchUserApplyApiResponse(userId, {
-            offset: offset,
-          });
-          offset += 10;
-
-          const workerVerification = signList.items.filter(
-            (item: any) =>
-              item.item.notice.item.id === noticeId &&
-              item.item.shop.item.id === shopId &&
-              item.item.status === "pending",
-          );
-
-          if (workerVerification.length > 0) {
-            setIsUserSignToWork(true);
-            setUserSignId(workerVerification[0].item.id);
-            return;
-          }
-        }
+      if (isWorkerSigned) {
+        setIsUserSignToWork(isWorkerSigned);
+        setUserSignId(workerVerification[0].item.id);
+        return;
       }
     }
   }
@@ -100,7 +80,6 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
       userSignId,
       { status: "canceled" },
     );
-    console.log(res);
 
     setIsUserSignToWork(false);
     setReloadSwitch(!reloadSwitch);
