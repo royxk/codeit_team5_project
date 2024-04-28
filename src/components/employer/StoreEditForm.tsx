@@ -158,11 +158,13 @@ const StoreEditForm = ({ data }: any) => {
               setIsImageChanged(true);
               const img = storeImageRef.current!.files![0];
 
-              const reader = new FileReader();
-              reader.readAsDataURL(img);
-              reader.onload = () => {
-                setImagePath(reader.result as string);
-              };
+              if (undefined !== img) {
+                const reader = new FileReader();
+                reader.readAsDataURL(img);
+                reader.onload = () => {
+                  setImagePath(reader.result as string);
+                };
+              }
             }}
             className="hidden"
           />
@@ -179,7 +181,7 @@ const StoreEditForm = ({ data }: any) => {
         />
       </div>
       <div className="mt-2 flex w-full justify-center">
-        <Button size="large" color="red">
+        <Button size="large" type="submit" color="red">
           수정하기
         </Button>
       </div>

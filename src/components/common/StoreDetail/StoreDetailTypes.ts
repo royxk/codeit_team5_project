@@ -1,4 +1,4 @@
-interface ShopDataType {
+export interface ShopDataType {
   item: {
     id: string;
     name: string;
@@ -19,7 +19,7 @@ interface ShopDataType {
   };
 }
 
-interface StoreDetailPostType {
+export interface StoreDetailPostType {
   item: {
     id: string;
     hourlyPay: number;
