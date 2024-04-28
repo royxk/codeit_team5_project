@@ -7,7 +7,7 @@ import StoreDetailCardBorder from "./NoticeDetailCardBorder";
 import Link from "next/link";
 import { formatApiDateData } from "@/util/formatDate";
 import ImageLoadingComponents from "./ImageLoadingComponents";
-import TextLoadingComponents from "./TextloadingComponents";
+import TextLoadingComponents from "./TextLoadingComponents";
 
 /**
  *

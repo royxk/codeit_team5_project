@@ -29,26 +29,31 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
   const NOTICE_COUNT = fetchedNoticeList?.count;
   const router = useRouter();
 
-  let fetchOffset = 6;
+  let fetchOffset = 12;
 
   const observeObject = useRef<HTMLDivElement>(null);
 
   async function handleInfiniteScroll(observer: IntersectionObserver) {
     const sid = getCookie("sid");
 
-    const newNoticeList = await searchShopNoticeApiResponse(sid!, {
-      offset: fetchOffset,
-      limit: 6,
+    const newFetchList = await searchShopNoticeApiResponse(sid!, {
+      limit: fetchOffset,
     });
-    const previousNotice = noticeList;
-    setNoticeList([...previousNotice, ...newNoticeList.items]);
 
-    if (fetchOffset + 6 < NOTICE_COUNT) {
+    setNoticeList(newFetchList.items);
+
+    if (fetchOffset < NOTICE_COUNT) {
       fetchOffset += 6;
     } else {
       observer.unobserve(observeObject.current!);
     }
   }
+
+  const handleNoticeListReset = async () => {
+    const sid = getCookie("sid");
+    const res = await searchShopNoticeApiResponse(sid!);
+    setNoticeList(res.items);
+  };
 
   const handleRefreshShopData = async () => {
     const sid = getCookie("sid")!;
@@ -61,6 +66,7 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
     if (shopData === undefined) {
       handleRefreshShopData();
     }
+    handleNoticeListReset();
 
     if (noticeList) {
       const lastNoticeObserver = new IntersectionObserver((entries) => {
