@@ -85,13 +85,16 @@ const Table = <T extends ApplyData>({
                       {isEmployee ? shopName : userName}
                     </td>
                     <td className="w-full min-w-[300px] bg-white pl-3 align-middle">
-                      <button onClick={() => handleClick(bio)}>
-                        <div className="line-clamp-1">
-                          {isEmployee
-                            ? formatApiDateData(startsAt, workHour).join(" ")
-                            : bio}
-                        </div>
-                      </button>
+                      <div className="peer line-clamp-1">
+                        {isEmployee
+                          ? formatApiDateData(startsAt, workHour).join(" ")
+                          : bio}
+                      </div>
+                      {!isEmployee &&
+                        <div
+                          className={`absolute mb-2 hidden w-[400px] line-clamp-3 rounded-md bg-black px-2 py-1 text-xs text-white opacity-0 peer-hover:block peer-hover:opacity-100`}>
+                          {bio}
+                        </div>}
                     </td>
                     <td className="w-full min-w-[200px] bg-white pl-3">
                       {isEmployee ? `${hourlyPay}원` : phoneNumber}
@@ -111,7 +114,7 @@ const Table = <T extends ApplyData>({
         </table>
       </div>
       <Pagination count={applyData.length} setCurrentPageData={handleData} />
-      <ModalPortal>
+      {/* <ModalPortal>
         {showModal && (
           <Modal
             onClose={handleOutsideClick}>
@@ -120,7 +123,7 @@ const Table = <T extends ApplyData>({
             </div>
           </Modal>
         )}
-      </ModalPortal>
+      </ModalPortal> */}
     </div>
   );
 };
