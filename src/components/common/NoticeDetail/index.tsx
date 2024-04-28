@@ -22,21 +22,35 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
   if (item === undefined)
     return (
       <>
-        <h1 className="h1 mob:h3 mob:body2-bold mb-6 text-black mob:mb-4">
-          내 가게
-        </h1>
+        <div className="mb-6 mob:mb-4 ">
+          <div>
+            <p className="body1-bold mob:body2-bold mb-2 text-primary">식당</p>
+            <h1 className="h1 mob:h3 text-black">불러오는 중</h1>
+          </div>
+        </div>
         <StoreDetailCardBorder isBgWhite={true}>
-          <div className="body1 m-auto py-9 text-center">
-            내 가게를 소개하고 공고도 등록해 보세요.
-            <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
-              <Link href={"/user/employer/register"}>
-                <Button size="full" color="red" className="mob:body2-bold">
-                  가게 등록하기
-                </Button>
-              </Link>
+          <div className="body1 m-auto flex flex-col items-center justify-center py-9">
+            정보를 불러오는 중입니다...
+            <div className="mt-6 flex w-full min-w-[21.625rem] items-center justify-center mob:mt-4 mob:min-w-[6.75rem]">
+              <Image
+                width={40}
+                height={40}
+                alt=""
+                className="animate-spin"
+                src={"/store-detail-sample/loading.png"}
+              />
             </div>
           </div>{" "}
         </StoreDetailCardBorder>
+
+        <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
+          <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
+          <textarea
+            className="body1 mob:body2 mt-3 h-min w-full resize-none overflow-y-auto"
+            value={"정보를 불러오는 중입니다."}
+            disabled
+          />
+        </div>
       </>
     );
 
