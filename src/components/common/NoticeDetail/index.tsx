@@ -68,7 +68,9 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
             <div>
               <h1 className="body1-bold mob:body2-bold text-primary">시급</h1>
               <div className="mt-2 flex items-center gap-2 mob:gap-1">
-                <h2 className="h1 mob:h2">{cardTitle}</h2>
+                <h2 className="h1 mob:h2 overflow-x-auto text-nowrap">
+                  {cardTitle}
+                </h2>
 
                 <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
                   기존 시급보다{" "}
@@ -101,7 +103,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
 
             <textarea
               disabled
-              className="body1 mob:body2 h-16 w-full resize-none overflow-y-scroll bg-transparent"
+              className="body1 mob:body2 h-16 w-full resize-none overflow-y-auto bg-transparent"
               value={shopData.description}
             />
           </div>
@@ -116,7 +118,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
         <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
           <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
           <textarea
-            className="body1 mob:body2 mt-3 h-min w-full resize-none"
+            className="body1 mob:body2 mt-3 h-min w-full resize-none overflow-y-auto"
             value={item.description}
             disabled
           />
