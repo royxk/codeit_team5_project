@@ -30,8 +30,6 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
 
   const currentUserShopId = getCookie("sid");
   const isNoticeMine = currentUserShopId === shopId;
-  const isEmployerMainPage =
-    pathName.includes("employer") && !pathName.includes("notice");
 
   const userId = getCookie("uid")!;
 
@@ -114,28 +112,12 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
 
   useEffect(() => {
     handleUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadSwitch]);
 
   return (
     <>
-      {isEmployerMainPage ? (
-        <div className="flex gap-2">
-          <Button
-            size="full"
-            color="white"
-            onClick={() => router.push("/user/employer/edit")}
-          >
-            편집하기
-          </Button>
-          <Button
-            size="full"
-            color="red"
-            onClick={() => router.push("/user/employer/notice")}
-          >
-            공고 등록하기
-          </Button>
-        </div>
-      ) : isClosed ? (
+      {isClosed ? (
         <Button size="full" color="gray">
           {isUserEmployer ? "마감함" : "신청 불가"}
         </Button>
