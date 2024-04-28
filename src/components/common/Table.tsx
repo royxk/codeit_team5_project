@@ -1,12 +1,10 @@
 "use client";
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import ApproveButtons from "./ApproveButtons";
 import Pagination from "./Pagination";
 import StatusLabel from "./StatusLabel";
 import TableHeader from "./TableHeader";
 import { formatApiDateData } from "@/util/formatDate";
-import ModalPortal from "./ModalPortal";
-import Modal from "./SignModal";
 
 interface TableProps<T> {
   headerData: string[];
@@ -35,9 +33,7 @@ const Table = <T extends ApplyData>({
   applyData,
 }: TableProps<T>) => {
   const isEmployee = headerData.includes("가게");
-  const [showModal, setShowModal] = useState(false);
   const [pageData, setPageData] = useState([]);
-  const [bioValue, setBioValue] = useState('');
   const currentPageData: any[] = [];
 
   for (let i = 0; i < applyData.length; i += 5) {
@@ -47,15 +43,6 @@ const Table = <T extends ApplyData>({
   const handleData = (pageData: number) => {
     setPageData(currentPageData[pageData]);
   };
-  
-  const handleClick = (bio: string) => {
-    setBioValue(bio)
-    setShowModal(true);
-  }
-
-  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
-    setShowModal(false);
-  }
 
   return (
     <div className="relative w-full max-w-[964px] overflow-hidden rounded-lg border border-gray-20 mob:text-sm">
@@ -114,16 +101,6 @@ const Table = <T extends ApplyData>({
         </table>
       </div>
       <Pagination count={applyData.length} setCurrentPageData={handleData} />
-      {/* <ModalPortal>
-        {showModal && (
-          <Modal
-            onClose={handleOutsideClick}>
-            <div>
-              {bioValue}
-            </div>
-          </Modal>
-        )}
-      </ModalPortal> */}
     </div>
   );
 };
