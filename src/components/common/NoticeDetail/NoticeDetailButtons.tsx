@@ -23,18 +23,15 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
 
   const [userSignId, setUserSignId] = useState("");
 
-  const pathName = usePathname();
   const router = useRouter();
   const shopId = useShopId()!;
   const noticeId = useNoticeId()!;
-
+  const userId = getCookie("uid")!;
   const currentUserShopId = getCookie("sid");
   const isNoticeMine = currentUserShopId === shopId;
 
-  const userId = getCookie("uid")!;
-
   // 현재 유저가 사장인지 아닌지, 현재 보고있는 공고에 지원했는지 하지않았는지의 여부를 판단하는 함수입니다.
-  async function handleUserData() {
+  async function handleUserCheck() {
     const userData = await mydataApiResponse(userId);
     const isUserEmployer = userData.item.type === "employer";
     setIsUserEmployer(isUserEmployer);
@@ -111,7 +108,7 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
   };
 
   useEffect(() => {
-    handleUserData();
+    handleUserCheck();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadSwitch]);
 
@@ -121,32 +118,46 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
         <Button size="full" color="gray">
           {isUserEmployer ? "마감함" : "신청 불가"}
         </Button>
-      ) : isUserEmployer && isNoticeMine ? (
-        <Button
-          size="full"
-          color="white"
-          onClick={() => router.push(`/user/employer/notice/${noticeId}/edit`)}
-        >
-          공고 편집
-        </Button>
-      ) : isUserEmployer && !isNoticeMine ? (
-        <Button size="full" color="gray">
-          사장은 신청이 불가합니다.
-        </Button>
       ) : (
         <>
-          {isUserSignToWork ? (
-            <Button
-              size="full"
-              color="white"
-              onClick={() => handleCancelApply()}
-            >
-              취소하기
-            </Button>
+          {isUserEmployer ? (
+            <>
+              {isNoticeMine ? (
+                <Button
+                  size="full"
+                  color="white"
+                  onClick={() =>
+                    router.push(`/user/employer/notice/${noticeId}/edit`)
+                  }
+                >
+                  공고 편집
+                </Button>
+              ) : (
+                <Button size="full" color="gray">
+                  사장은 신청이 불가합니다.
+                </Button>
+              )}
+            </>
           ) : (
-            <Button size="full" color="red" onClick={() => handleSignApply()}>
-              신청하기
-            </Button>
+            <>
+              {isUserSignToWork ? (
+                <Button
+                  size="full"
+                  color="white"
+                  onClick={() => handleCancelApply()}
+                >
+                  취소하기
+                </Button>
+              ) : (
+                <Button
+                  size="full"
+                  color="red"
+                  onClick={() => handleSignApply()}
+                >
+                  신청하기
+                </Button>
+              )}
+            </>
           )}
         </>
       )}
