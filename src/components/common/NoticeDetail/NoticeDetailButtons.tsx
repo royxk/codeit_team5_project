@@ -9,22 +9,14 @@ import {
   selectedNoticeApplyStatusSettingApiResponse,
 } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
+import useShopId from "@/components/employer/Hook/useShopId";
+import useNoticeId from "@/components/employer/Hook/useNoticeId";
 
 /**
  * @param {boolean} isClosed post데이터에서 closed를 받아, 현재 공고가 마감된 상태인지를 표시하는 인자입니다.
- * @param {string} shopId 현재 공고의 아이디를 받아 해당 아이디에 해당하는 동작을 실행 시킬 것으로 예상되는 인자입니다.
- * @param {string} postId 현재 공고의 아이디를 받아 해당 아이디에 해당하는 동작을 실행 시킬 것으로 예상되는 인자입니다.
  * @returns
  */
-const StoreDetailButtons = ({
-  isClosed = false,
-  shopId,
-  postId,
-}: {
-  isClosed?: boolean;
-  shopId: string;
-  postId: string;
-}) => {
+const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
   const [reloadSwitch, setReloadSwitch] = useState(false);
   const [isUserEmployer, setIsUserEmployer] = useState(false);
   const [isUserSignToWork, setIsUserSignToWork] = useState(false);
@@ -33,6 +25,8 @@ const StoreDetailButtons = ({
 
   const pathName = usePathname();
   const router = useRouter();
+  const shopId = useShopId()!;
+  const noticeId = useNoticeId()!;
 
   const currentUserShopId = getCookie("sid");
   const isNoticeMine = currentUserShopId === shopId;
@@ -48,8 +42,6 @@ const StoreDetailButtons = ({
     setIsUserEmployer(isUserEmployer);
 
     if (!isUserEmployer) {
-      const noticeId = pathName.split("/")[3];
-      const shopId = pathName.split("/")[4];
       const signList = await searchUserApplyApiResponse(userId);
       let offset = 0;
       const count = signList.count;
@@ -97,7 +89,7 @@ const StoreDetailButtons = ({
     const res = await mydataApiResponse(userId);
 
     if (res.item.name !== undefined) {
-      await selectedNoticeApplyApiResponse(shopId, postId);
+      await selectedNoticeApplyApiResponse(shopId, noticeId);
       setIsUserSignToWork(true);
       setUserSignId(res.item.id);
       setReloadSwitch(!reloadSwitch);
@@ -109,7 +101,7 @@ const StoreDetailButtons = ({
   const handleCancelApply = async () => {
     const res = await selectedNoticeApplyStatusSettingApiResponse(
       shopId,
-      postId,
+      noticeId,
       userSignId,
       { status: "canceled" },
     );
@@ -151,7 +143,7 @@ const StoreDetailButtons = ({
         <Button
           size="full"
           color="white"
-          onClick={() => router.push(`/user/employer/notice/${postId}/edit`)}
+          onClick={() => router.push(`/user/employer/notice/${noticeId}/edit`)}
         >
           공고 편집
         </Button>

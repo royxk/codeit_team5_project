@@ -38,7 +38,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
       </>
     );
 
-  const cardTitle = `${item.hourlyPay.toLocaleString()}원`;
+  const noticeHourlyPay = `${item.hourlyPay.toLocaleString()}원`;
   const imageUrl = item.shop.item.imageUrl;
   const workHour = formatApiDateData(item?.startsAt, item?.workhour);
 
@@ -69,7 +69,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               <h1 className="body1-bold mob:body2-bold text-primary">시급</h1>
               <div className="mt-2 flex items-center gap-2 mob:gap-1">
                 <h2 className="h1 mob:h2 overflow-x-auto text-nowrap">
-                  {cardTitle}
+                  {noticeHourlyPay}
                 </h2>
 
                 <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
@@ -107,11 +107,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               value={shopData.description}
             />
           </div>
-          <StoreDetailButtons
-            isClosed={isClosed}
-            shopId={shopData.id}
-            postId={item.id}
-          />
+          <StoreDetailButtons isClosed={isClosed} />
         </section>
       </StoreDetailCardBorder>
       {item.description && (
