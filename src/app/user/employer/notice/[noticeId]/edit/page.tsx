@@ -1,7 +1,6 @@
 import React from "react";
 import EmployerNoticeForm from "@/components/employer/EmployerNoticeForm";
 import FormCloseButton from "@/components/employer/FormCloseButton";
-import { headers } from "next/headers";
 
 const EmployerNoticeRegister = () => {
   return (

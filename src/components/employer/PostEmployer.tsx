@@ -35,7 +35,7 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
 
   async function handleInfiniteScroll(observer: IntersectionObserver) {
     const sid = getCookie("sid");
-
+    console.log(sid);
     const newFetchList = await searchShopNoticeApiResponse(sid!, {
       limit: fetchOffset,
     });
@@ -50,22 +50,28 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
   }
 
   const handleNoticeListReset = async () => {
+    console.log("여기?");
     const sid = getCookie("sid");
-    const res = await searchShopNoticeApiResponse(sid!);
-    setNoticeList(res.items);
+    console.log(sid);
+    if (sid !== undefined && sid !== "") {
+      const res = await searchShopNoticeApiResponse(sid as string);
+      console.log(res);
+      console.log("넘어가니?");
+      setNoticeList(res.items);
+    }
   };
 
   const handleRefreshShopData = async () => {
-    const sid = getCookie("sid")!;
-    const shopData = await searchShopInformationApiResponse(sid);
-    setShopData(shopData);
+    const sid = getCookie("sid");
+    if (sid !== "") {
+      const shopData = await searchShopInformationApiResponse(sid as string);
+      setShopData(shopData);
+    }
   };
 
   // useEffect를 이용하여 IntersectionObserver을 등록
   useEffect(() => {
-    if (shopData === undefined) {
-      handleRefreshShopData();
-    }
+    handleRefreshShopData();
     handleNoticeListReset();
 
     if (noticeList) {
@@ -82,8 +88,11 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
     }
   }, []);
 
-  if (shopData === undefined || shopData === null) return;
-
+  console.log(shopData);
+  console.log(noticeList);
+  console.log(noticeList?.length);
+  if (shopData === undefined || shopData === null || getCookie("sid") === "")
+    return;
   if (noticeList?.length === 0 || noticeList === undefined) {
     return (
       <div className="mx-auto flex w-full justify-center bg-gray-5 px-8 py-[3.75rem] tab:mx-0">
