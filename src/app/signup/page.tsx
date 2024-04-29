@@ -67,7 +67,7 @@ const Signup: React.FC = () => {
     }
 
     try {
-      const { item, message } = await signupApiResponse({
+      const { message } = await signupApiResponse({
         email: email.trim() as string,
         password: password.trim() as string,
         type: userType,
