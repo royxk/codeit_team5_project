@@ -58,7 +58,7 @@ const StoreRegisterForm = () => {
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === null ||
+      storeImage === undefined ||
       workType === "" ||
       address1 === "" ||
       Number(basePay) < 10000
