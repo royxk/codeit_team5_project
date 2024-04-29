@@ -11,12 +11,13 @@ import Modal from "@/components/common/Modal";
 import ModalPortal from "./ModalPortal";
 
 interface ApproveButtonsProps {
+  onData: ((pageData: number) => Promise<void>) | undefined;
   noticeApplyId: string;
 }
 
 const MODAL_MESSAGE = ["신청을 거절하시겠어요?", "신청을 승인하시겠어요?"];
 
-const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
+const ApproveButtons = ({ onData, noticeApplyId }: ApproveButtonsProps) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [reqBody, setReqBody] = useState<StatusBody>({ status: "canceled" });
@@ -44,6 +45,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         noticeApplyId,
         reqBody,
       );
+      onData?.(0);
     }
   };
 

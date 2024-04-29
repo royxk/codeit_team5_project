@@ -1,14 +1,16 @@
 "use client";
-import { useState } from "react";
 import ApproveButtons from "./ApproveButtons";
 import Pagination from "./Pagination";
 import StatusLabel from "./StatusLabel";
 import TableHeader from "./TableHeader";
 import { formatApiDateData } from "@/util/formatDate";
+import { Status } from "@/util/api";
 
 interface TableProps<T> {
   headerData: string[];
   applyData: T[];
+  count?: number;
+  onData?: (pageData: number) => Promise<void>;
 }
 
 interface ApplyData {
@@ -29,20 +31,12 @@ interface ApplyData {
  */
 
 const Table = <T extends ApplyData>({
+  onData,
+  count,
   headerData,
   applyData,
 }: TableProps<T>) => {
   const isEmployee = headerData.includes("가게");
-  const [pageData, setPageData] = useState([]);
-  const currentPageData: any[] = [];
-
-  for (let i = 0; i < applyData.length; i += 5) {
-    currentPageData.push(applyData.slice(i, i + 5));
-  }
-
-  const handleData = (pageData: number) => {
-    setPageData(currentPageData[pageData]);
-  };
 
   return (
     <div className="relative w-full max-w-[964px] overflow-hidden rounded-lg border border-gray-20 mob:text-sm">
@@ -50,7 +44,7 @@ const Table = <T extends ApplyData>({
         <table>
           <TableHeader headerData={headerData} />
           <tbody>
-            {pageData.map((data) => {
+            {applyData?.map((data) => {
               const {
                 apply_id,
                 status,
@@ -61,7 +55,7 @@ const Table = <T extends ApplyData>({
                 userName,
                 phoneNumber,
                 bio,
-              } = data;
+              } = data as any;
               return (
                 <tr
                   key={apply_id}
@@ -73,23 +67,28 @@ const Table = <T extends ApplyData>({
                   <td className="w-full min-w-[300px] bg-white pl-3 align-middle">
                     <div className="peer line-clamp-1">
                       {isEmployee
-                        ? formatApiDateData(startsAt, workHour).join(" ")
+                        ? formatApiDateData(startsAt!, workHour!).join(" ")
                         : bio}
                     </div>
-                    {!isEmployee &&
+                    {!isEmployee && (
                       <div
-                        className={`absolute mb-2 hidden w-[400px] line-clamp-3 rounded-md bg-black px-2 py-1 text-xs text-white opacity-0 peer-hover:block peer-hover:opacity-100`}>
+                        className={`absolute mb-2 line-clamp-3 hidden w-[400px] rounded-md bg-black px-2 py-1 text-xs text-white opacity-0 peer-hover:block peer-hover:opacity-100`}
+                      >
                         {bio}
-                      </div>}
+                      </div>
+                    )}
                   </td>
                   <td className="w-full min-w-[200px] bg-white pl-3">
                     {isEmployee ? `${hourlyPay}원` : phoneNumber}
                   </td>
                   <td className="w-full min-w-[236px] bg-white pl-3 mob:min-w-[168px]">
                     {!isEmployee && status === "pending" ? (
-                      <ApproveButtons noticeApplyId={apply_id}/>
+                      <ApproveButtons
+                        onData={onData}
+                        noticeApplyId={apply_id}
+                      />
                     ) : (
-                      <StatusLabel status={status} />
+                      <StatusLabel status={status as Status} />
                     )}
                   </td>
                 </tr>
@@ -98,7 +97,7 @@ const Table = <T extends ApplyData>({
           </tbody>
         </table>
       </div>
-      <Pagination count={applyData.length} setCurrentPageData={handleData} />
+      <Pagination count={count!} setCurrentPageData={onData!} />
     </div>
   );
 };
