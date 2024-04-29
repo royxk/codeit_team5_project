@@ -11,6 +11,7 @@ import { logout, mydataApiResponse } from "@/util/api";
 import { NOTIFICATION_API_RESPONSE_TYPE } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import { NOTIFICATION_API_ITEM_TYPE } from "./NotificationModal/NOTIFICATION_API_RESPONSE_TYPE";
 import { alertApiResponse } from "@/util/api";
+import Image from "next/image";
 
 //TODO: 유져의 알림 목록 조회 API 연동 필요
 
