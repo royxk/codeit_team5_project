@@ -19,7 +19,7 @@ const Employee = async () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-start">
+      <div className="flex w-full flex-col items-center justify-start min-h-[calc(100vh-170px)]">
         <header
           className={`flex flex-col gap-6 py-[60px] mob:py-10 
           ${isProfileData ? "mb-[459px] tab:mb-[568px] mob:mb-[269px]" : "mob:gap-4"}`}
