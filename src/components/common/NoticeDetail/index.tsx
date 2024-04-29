@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import StoreDetailButtons from "./NoticeDetailButtons";
-import Button from "../Button";
 import { StoreDetailPostType } from "./NoticeDetailTypes";
 import StoreDetailCardBorder from "./NoticeDetailCardBorder";
-import Link from "next/link";
 import { formatApiDateData } from "@/util/formatDate";
 import ImageLoadingComponents from "./ImageLoadingComponents";
 import TextLoadingComponents from "./TextLoadingComponents";
+import NoticeDetailSkeleton from "./NoticeDetailSkeleton";
+import Tooltip from "../Post/Tooltip";
 
 /**
  *
@@ -21,27 +21,14 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
   if (item === undefined)
     return (
-      <>
+      <div className="w-full max-w-[968px]">
         <div className="mb-6 mob:mb-4 ">
           <div>
             <p className="body1-bold mob:body2-bold mb-2 text-primary">식당</p>
             <h1 className="h1 mob:h3 text-black">불러오는 중</h1>
           </div>
         </div>
-        <StoreDetailCardBorder isBgWhite={true}>
-          <div className="body1 m-auto flex flex-col items-center justify-center py-9">
-            정보를 불러오는 중입니다...
-            <div className="mt-6 flex w-full min-w-[21.625rem] items-center justify-center mob:mt-4 mob:min-w-[6.75rem]">
-              <Image
-                width={40}
-                height={40}
-                alt=""
-                className="animate-spin"
-                src={"/store-detail-sample/loading.png"}
-              />
-            </div>
-          </div>{" "}
-        </StoreDetailCardBorder>
+        <NoticeDetailSkeleton />
 
         <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
           <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
@@ -51,15 +38,20 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
             disabled
           />
         </div>
-      </>
+      </div>
     );
 
-  const noticeHourlyPay = `${item.hourlyPay.toLocaleString()}원`;
+  const originalHourlyPay = item.shop.item.originalHourlyPay;
+  const hourlyPay = item.hourlyPay;
   const imageUrl = item.shop.item.imageUrl;
   const workHour = formatApiDateData(item?.startsAt, item?.workhour);
 
   const shopData = item.shop.item;
   const isClosed = item.closed;
+  const workPay =
+    originalHourlyPay < hourlyPay
+      ? ((hourlyPay / originalHourlyPay) * 100).toFixed(0)
+      : 0;
 
   return (
     <div className="w-[968px] tab:w-full">
@@ -98,18 +90,27 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               <div className="mt-2 flex h-10 w-full items-center gap-2 mob:gap-1">
                 {item.hourlyPay ? (
                   <>
-                    <h2 className="h1 mob:h2 overflow-x-auto text-nowrap">
-                      {noticeHourlyPay}
-                    </h2>
+                    <Tooltip
+                      isClosed={!isClosed}
+                      content={`${hourlyPay.toLocaleString()}원`}
+                    >
+                      <h2 className="h1 mob:h2 w-min max-w-40 cursor-default overflow-x-hidden text-ellipsis text-nowrap">
+                        {hourlyPay}원
+                      </h2>
+                    </Tooltip>
 
-                    <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
-                      기존 시급보다{" "}
-                      {(
-                        (item.hourlyPay / item.shop.item.originalHourlyPay) *
-                        100
-                      ).toFixed(0)}
-                      %
-                    </a>
+                    {+workPay > 0 && (
+                      <Tooltip
+                        isClosed={!isClosed}
+                        content={` 기존 시급보다${workPay}%`}
+                      >
+                        <div className=" flex h-9 max-w-40 items-center rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
+                          <a className="body2-bold mob:caption cursor-default overflow-x-hidden text-ellipsis text-nowrap">
+                            기존 시급보다 {workPay}%
+                          </a>
+                        </div>
+                      </Tooltip>
+                    )}
                   </>
                 ) : (
                   <TextLoadingComponents />

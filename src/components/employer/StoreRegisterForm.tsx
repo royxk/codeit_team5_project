@@ -10,7 +10,7 @@ import {
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie, setShopIdCookie } from "@/util/cookieSetting";
-import Modal from "../common/SignModal";
+import Modal from "../common/Modal";
 import ModalPortal from "../common/ModalPortal";
 
 const StoreRegisterForm = () => {
@@ -58,7 +58,7 @@ const StoreRegisterForm = () => {
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === null ||
+      storeImage === undefined ||
       workType === "" ||
       address1 === "" ||
       Number(basePay) < 10000
@@ -87,7 +87,6 @@ const StoreRegisterForm = () => {
       originalHourlyPay: Number(basePay),
     });
 
-    console.log(res.message);
     if (res.message) {
       setIsError(true);
       setErrorMsg(res.message);
@@ -205,7 +204,10 @@ const StoreRegisterForm = () => {
       )} */}
       {showModal && (
         <ModalPortal>
-          <Modal type={isError ? "bad" : "good"} onClose={handleModalClose}>
+          <Modal
+            iconStatus={isError ? "warning" : "success"}
+            onClose={handleModalClose}
+          >
             <div className="mt-5 flex flex-col items-center gap-5">
               <p className={`max-w-[300px] text-center`}>
                 {isError ? `${errorMsg}` : "등록이 완료되었습니다"}

@@ -1,18 +1,21 @@
 import Image from "next/image";
 import React, { ReactNode, MouseEvent } from "react";
+import CIRCLE_ICON from "/public/circleIcon.png";
+import EXCLAMATION_MARK_ICON from "/public/exclamation_markIcon.png";
+import CHECK_ICON from "/public/checkIcon.png";
 
 interface ModalProps {
   onClose: (e: MouseEvent<HTMLDivElement>) => void;
   children: ReactNode;
   className?: string;
-  type?: "good" | "bad";
+  iconStatus?: "success" | "warning";
 }
 
 const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
   className,
-  type,
+  iconStatus: type,
 }) => {
   const handleNotCloseModalClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -31,15 +34,15 @@ const Modal: React.FC<ModalProps> = ({
             className="flex"
             width={24}
             height={24}
-            src="/circleIcon.png"
+            src={CIRCLE_ICON}
             alt="circle icon"
           />
-          {type === "bad" ? (
+          {type === "warning" ? (
             <Image
               className="relative bottom-[18px] left-[11px]"
               width={2}
               height={13}
-              src="/exclamation_markIcon.png"
+              src={EXCLAMATION_MARK_ICON}
               alt="exclamation_mark icon"
             />
           ) : (
@@ -47,7 +50,7 @@ const Modal: React.FC<ModalProps> = ({
               className="relative bottom-[17px] left-[6px]"
               width={12}
               height={12}
-              src="/checkIcon.png"
+              src={CHECK_ICON}
               alt="check icon"
             />
           )}

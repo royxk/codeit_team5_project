@@ -21,7 +21,7 @@ const ConfirmPasswordInput: React.FC<ConfirmPasswordInputProps> = ({
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const validatePassword = (input: string) => {
+  const validateConfirmPassword = (input: string) => {
     if (input !== password) {
       setConfirmPasswordError("비밀번호가 다릅니다.");
     } else if (input.length < 8) {
@@ -31,24 +31,21 @@ const ConfirmPasswordInput: React.FC<ConfirmPasswordInputProps> = ({
     }
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const inputValue = event.target.value;
     setConfirmPassword(inputValue);
-    validatePassword(inputValue);
+    validateConfirmPassword(inputValue);
   };
 
-  const handleInputFocus = () => {
-    setIsTyping(true);
-  };
-
+  const handleInputFocus = () => setIsTyping(true);
   const handleInputBlur = () => {
     setIsTyping(false);
-    validatePassword(confirmPassword);
+    validateConfirmPassword(confirmPassword);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
     <div className="relative mb-4 flex flex-col">
@@ -57,14 +54,14 @@ const ConfirmPasswordInput: React.FC<ConfirmPasswordInputProps> = ({
         inputType={showPassword ? "text" : "password"}
         value={confirmPassword}
         errorType={!isTyping && confirmPasswordError ? "ERROR" : ""}
-        onChange={handlePasswordChange}
+        onChange={handleConfirmPasswordChange}
         blurEvent={handleInputBlur}
         onFocus={handleInputFocus}
         placeholder="입력"
       />
-      <p className="h-4 pt-1 text-red-400">
-        {!isTyping && confirmPasswordError && confirmPasswordError}
-      </p>
+      {confirmPasswordError && !isTyping && (
+        <p className="h-4 pt-1 text-red-400">{confirmPasswordError}</p>
+      )}
       <button
         type="button"
         className="absolute right-0 top-0 mr-2 mt-1 cursor-pointer text-sm text-gray-500"

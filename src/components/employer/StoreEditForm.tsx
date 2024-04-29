@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import {
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
-import Modal from "../common/SignModal";
+import Modal from "../common/Modal";
 import ModalPortal from "../common/ModalPortal";
 
 const StoreEditForm = ({ data }: any) => {
@@ -64,7 +64,7 @@ const StoreEditForm = ({ data }: any) => {
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === null ||
+      storeImage === undefined ||
       workType === "" ||
       mainAddress === ""
     ) {
@@ -87,7 +87,7 @@ const StoreEditForm = ({ data }: any) => {
     const res = await editShopInformationApiResponse(id, {
       name: storeName,
       category: workType,
-      address1: address1,
+      address1: mainAddress,
       address2: address2,
       description: storeDescription,
       imageUrl: image,
@@ -199,7 +199,10 @@ const StoreEditForm = ({ data }: any) => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal type={isError ? "bad" : "good"} onClose={handleModalClose}>
+          <Modal
+            iconStatus={isError ? "warning" : "success"}
+            onClose={handleModalClose}
+          >
             <div className="mt-5 flex flex-col items-center gap-5">
               <p className={`max-w-[300px] text-center`}>
                 {isError ? `${errorMsg}` : "수정이 완료되었습니다"}

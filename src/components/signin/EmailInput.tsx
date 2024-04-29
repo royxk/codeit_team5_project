@@ -20,11 +20,7 @@ const EmailInput: React.FC<EmailInputProps> = ({
 
   const validateEmail = (input: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regex.test(input)) {
-      setEmailError("이메일 형식이 올바르지 않습니다.");
-    } else {
-      setEmailError("");
-    }
+    setEmailError(regex.test(input) ? "" : "이메일 형식이 올바르지 않습니다.");
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,9 +50,9 @@ const EmailInput: React.FC<EmailInputProps> = ({
         onFocus={handleInputFocus}
         placeholder="입력"
       />
-      <p className="h-4 pt-1 text-red-400">
-        {!isTyping && emailError && emailError}
-      </p>
+      {emailError && !isTyping && (
+        <p className="h-4 pt-1 text-red-400">{emailError}</p>
+      )}
     </div>
   );
 };

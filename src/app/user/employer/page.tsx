@@ -11,33 +11,30 @@ const getServerSideProps = async () => {
   const sid = getServerSideCookie("sid");
 
   if (sid) {
-    const shopData = await searchShopInformationApiResponse(sid);
     const noticeList = await searchShopNoticeApiResponse(sid, {
       limit: 6,
     });
 
-    return { shopData, noticeList };
+    return { noticeList };
   }
 
   if (sid === "") {
-    const shopData = null;
-
-    return { shopData };
+    return {};
   }
 
   return {};
 };
 
 const Employer = async () => {
-  const { shopData, noticeList } = await getServerSideProps();
+  const { noticeList } = await getServerSideProps();
 
   return (
     <div className="flex min-h-[calc(100vh-10.625rem)] flex-col">
       <div className="mx-auto flex w-full max-w-[64.25rem] flex-col px-8 py-[3.75rem] tab:mx-0">
-        <EmployerStoreDetail data={shopData} />
+        <EmployerStoreDetail />
       </div>
 
-      <PostEmployer rawShopData={shopData} fetchedNoticeList={noticeList} />
+      <PostEmployer fetchedNoticeList={noticeList} />
     </div>
   );
 };

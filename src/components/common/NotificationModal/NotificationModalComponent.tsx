@@ -1,17 +1,14 @@
 "use client";
-import React, { use } from "react";
+import React from "react";
 import { useState, useRef, useEffect } from "react";
 import NotificationModal from "@/components/common/NotificationModal/NotificationModal";
 import SvgNotificationButton from "./SvgNotificationButton";
-import { NOTIFICATION_API_RESPONSE_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
+
 import { alertApiResponse } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
 import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
-import { set } from "date-fns";
 
-type Props = {};
-
-const NotificationModalComponent = ({}: Props) => {
+const NotificationModalComponent = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const toggleNotificationModal = (event: React.MouseEvent) => {
@@ -35,13 +32,12 @@ const NotificationModalComponent = ({}: Props) => {
   };
 
   const getNotificationData = async () => {
-    console.log("getNotificationData");
     const uid = getCookie("uid");
     const response = await alertApiResponse(uid);
     const contents = response?.items.filter(
       (item: NOTIFICATION_API_ITEM_TYPE) => item.item.read === false,
     );
-    console.log(contents);
+
     if (contents.length > 0) {
       setNotificationData(contents);
       if (notificationData !== contents) {
