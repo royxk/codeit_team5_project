@@ -88,7 +88,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
             <div>
               <h1 className="body1-bold mob:body2-bold text-primary">시급</h1>
               <div className="mt-2 flex h-10 w-full items-center gap-2 mob:gap-1">
-                {item.hourlyPay ? (
+                {originalHourlyPay ? (
                   <>
                     <Tooltip
                       isClosed={!isClosed}
@@ -122,7 +122,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               <div className="flex-rwo relative mr-1 h-5 w-5 ">
                 <Image src={"/post/time.svg"} alt="" fill />
               </div>
-              {item.hourlyPay ? (
+              {originalHourlyPay ? (
                 <a className="body1 mob:body2 text-gray-50">
                   {" " + workHour[0] + " " + workHour[1]}
                 </a>
@@ -135,7 +135,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               <div className="flex-rwo relative mr-1 h-5 w-5 ">
                 <Image src={"/post/location.svg"} alt="" fill />
               </div>
-              {shopData.address1 ? (
+              {originalHourlyPay ? (
                 <p className="body1 mob:body2 text-gray-50">
                   {shopData.address1}
                 </p>
@@ -144,7 +144,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               )}
             </div>
 
-            {shopData.description ? (
+            {originalHourlyPay ? (
               <textarea
                 disabled
                 className="body1 mob:body2 h-16 w-full resize-none overflow-y-auto bg-transparent"
