@@ -19,10 +19,10 @@ const Employee = async () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center justify-start min-h-[calc(100vh-170px)]">
+      <div className="flex w-full flex-col items-center justify-start">
         <header
           className={`flex flex-col gap-6 py-[60px] mob:py-10 
-          ${isProfileData ? "mb-[459px] tab:mb-[568px] mob:mb-[269px]" : "mob:gap-4"}`}
+          ${isProfileData ? "min-h-[calc(100vh-170px)]" : "mob:gap-4"}`}
         >
           <h1 className="h1 mob:h2">내 프로필</h1>
           <ProfileHeader isProfileData={isProfileData} />
