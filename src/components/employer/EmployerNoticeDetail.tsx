@@ -1,20 +1,29 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import StoreDetail from "@/components/common/StoreDetail";
+import NoticeDetail from "@/components/common/NoticeDetail";
 import { searchSelectedNoticeApiResponse } from "@/util/api";
 import EmployerTable from "@/components/common/EmployerTable";
 import { getCookie } from "@/util/cookieSetting";
 import useNoticeId from "./Hook/useNoticeId";
+import { useRouter } from "next/navigation";
 
 const EmployerNoticeDetail = () => {
   const [noticeData, setNoticeData] = useState();
+  const router = useRouter();
 
   const shopId = getCookie("sid")!;
   const noticeId = useNoticeId()!;
 
   async function handleNoticeData() {
-    const noticeData = await searchSelectedNoticeApiResponse(shopId, noticeId);
-    setNoticeData(noticeData);
+    try {
+      const noticeData = await searchSelectedNoticeApiResponse(
+        shopId,
+        noticeId,
+      );
+      setNoticeData(noticeData);
+    } catch {
+      router.push("/user/employer");
+    }
   }
 
   useEffect(() => {
@@ -24,7 +33,7 @@ const EmployerNoticeDetail = () => {
   return (
     <>
       <div className="mx-auto max-w-[64.25rem] px-8 py-[3.75rem]">
-        <StoreDetail data={noticeData} />
+        <NoticeDetail data={noticeData} />
       </div>
       <div className="mx-auto max-w-[64.25rem] px-8 py-[3.75rem]">
         <EmployerTable noticeId={noticeId} />

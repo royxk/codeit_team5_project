@@ -1,4 +1,6 @@
-import StoreDetailProps from "@/components/common/StoreDetail/StoreDetailTypes";
+import StoreDetailProps, {
+  StoreDetailPostType,
+} from "@/components/common/NoticeDetail/NoticeDetailTypes";
 
 export const STORE_DETAIL_POST = {
   item: {
@@ -78,7 +80,7 @@ export const STORE_DETAIL_POST = {
   ],
 };
 
-export const initialStoreDetailPost: StoreDetailProps = {
+export const initialStoreDetailPost: StoreDetailPostType = {
   item: {
     id: "",
     hourlyPay: 0,
