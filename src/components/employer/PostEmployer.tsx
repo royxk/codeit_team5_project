@@ -52,13 +52,8 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
   const handleNoticeListReset = async () => {
     console.log("여기?");
     const sid = getCookie("sid");
-    console.log(sid);
-    if (sid !== undefined && sid !== "") {
-      const res = await searchShopNoticeApiResponse(sid as string);
-      console.log(res);
-      console.log("넘어가니?");
-      setNoticeList(res.items);
-    }
+    const res = await searchShopNoticeApiResponse(sid!, { limit: 6 });
+    setNoticeList(res.items);
   };
 
   const handleRefreshShopData = async () => {
