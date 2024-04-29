@@ -7,6 +7,7 @@ import { formatApiDateData } from "@/util/formatDate";
 import ImageLoadingComponents from "./ImageLoadingComponents";
 import TextLoadingComponents from "./TextLoadingComponents";
 import NoticeDetailSkeleton from "./NoticeDetailSkeleton";
+import Tooltip from "../Post/Tooltip";
 
 /**
  *
@@ -40,12 +41,17 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
       </div>
     );
 
-  const noticeHourlyPay = `${item.hourlyPay.toLocaleString()}원`;
+  const originalHourlyPay = item.shop.item.originalHourlyPay;
+  const hourlyPay = item.hourlyPay;
   const imageUrl = item.shop.item.imageUrl;
   const workHour = formatApiDateData(item?.startsAt, item?.workhour);
 
   const shopData = item.shop.item;
   const isClosed = item.closed;
+  const workPay =
+    originalHourlyPay < hourlyPay
+      ? ((hourlyPay / originalHourlyPay) * 100).toFixed(0)
+      : 0;
 
   return (
     <div className="w-[968px] tab:w-full">
@@ -84,18 +90,27 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
               <div className="mt-2 flex h-10 w-full items-center gap-2 mob:gap-1">
                 {item.hourlyPay ? (
                   <>
-                    <h2 className="h1 mob:h2 overflow-x-auto text-nowrap">
-                      {noticeHourlyPay}
-                    </h2>
+                    <Tooltip
+                      isClosed={!isClosed}
+                      content={`${hourlyPay.toLocaleString()}원`}
+                    >
+                      <h2 className="h1 mob:h2 w-min max-w-40 cursor-default overflow-x-hidden text-ellipsis text-nowrap">
+                        {hourlyPay}원
+                      </h2>
+                    </Tooltip>
 
-                    <a className="body2-bold mob:caption flex h-9 w-min cursor-default items-center text-nowrap rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
-                      기존 시급보다{" "}
-                      {(
-                        (item.hourlyPay / item.shop.item.originalHourlyPay) *
-                        100
-                      ).toFixed(0)}
-                      %
-                    </a>
+                    {+workPay > 0 && (
+                      <Tooltip
+                        isClosed={!isClosed}
+                        content={` 기존 시급보다${workPay}%`}
+                      >
+                        <div className=" flex h-9 max-w-40 items-center rounded-[1.25rem] bg-primary px-3 text-center text-white mob:h-6 mob:px-2">
+                          <a className="body2-bold mob:caption cursor-default overflow-x-hidden text-ellipsis text-nowrap">
+                            기존 시급보다 {workPay}%
+                          </a>
+                        </div>
+                      </Tooltip>
+                    )}
                   </>
                 ) : (
                   <TextLoadingComponents />
