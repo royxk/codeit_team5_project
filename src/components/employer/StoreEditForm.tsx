@@ -10,7 +10,7 @@ import {
 } from "@/util/api";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
-import Modal from "../common/SignModal";
+import Modal from "../common/Modal";
 
 const StoreEditForm = ({ data }: any) => {
   const {

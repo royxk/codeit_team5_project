@@ -5,7 +5,6 @@ import Button from "@/components/common/Button";
 import Link from "next/link";
 import { logout, mydataApiResponse, signinApiResponse } from "@/util/api";
 import {
-  getCookie,
   setAccessTokenCookie,
   setShopIdCookie,
   setUserIdCookie,
@@ -13,13 +12,17 @@ import {
 import Image from "next/image";
 import EmailInput from "@/components/signin/EmailInput";
 import PasswordInput from "@/components/signin/PasswordInput";
-import Modal from "@/components/common/SignModal";
+import Modal from "@/components/common/Modal";
 import ModalPortal from "@/components/common/ModalPortal";
 import { useRouter } from "next/navigation";
 
-interface ModalProps {
-  onClose: () => void;
-}
+const constant = {
+  MODAL_BUTTON_TEXT: "확인",
+  EMAIL_ERROR_MESSAGE: "이메일 형식이 올바르지 않습니다.",
+  PASSWORD_ERROR_MESSAGE: "8자 이상 입력해주세요.",
+  LOGO_ICON_SRC: "/signin/logoIcon.png",
+  MODAL_MESSAGE: "비밀번호가 일치하지 않습니다.",
+};
 
 const Signin: React.FC = () => {
   const router = useRouter();
@@ -29,24 +32,19 @@ const Signin: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
-  const [uid, setUid] = useState("");
-  const [accessToken, setAccessToken] = useState("");
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email.trim() && password.trim() && !emailError && !passwordError) {
       try {
         const { item } = await signinApiResponse({ email, password });
 
         if (!item) {
-          setModalMessage("비밀번호가 일치하지 않습니다.");
+          setModalMessage(constant.MODAL_MESSAGE);
           setShowModal(true);
           return;
         }
 
-        console.log(item);
         const userId = item.user.item.id;
         const userAccessToken = item.token;
         const userType = item.user.item.type;
@@ -62,15 +60,8 @@ const Signin: React.FC = () => {
             }
           }
         }
-
         setAccessTokenCookie(userAccessToken);
         setUserIdCookie(userId);
-
-        setAccessToken(item.token);
-        setUid(userId);
-
-        console.log(`accessCookie: ${getCookie("accessToken")}`);
-        console.log(`userIdCookie: ${getCookie("uid")}`);
 
         setEmail("");
         setPassword("");
@@ -81,8 +72,8 @@ const Signin: React.FC = () => {
         console.error("로그인 실패:", error);
       }
     } else {
-      if (!email.trim()) setEmailError("이메일 형식이 올바르지 않습니다.");
-      if (!password.trim()) setPasswordError("8자 이상 입력해주세요.");
+      setEmailError(email.trim() ? "" : constant.EMAIL_ERROR_MESSAGE);
+      setPasswordError(password.trim() ? "" : constant.PASSWORD_ERROR_MESSAGE);
     }
   };
 
@@ -96,7 +87,7 @@ const Signin: React.FC = () => {
         <div className="m-10 flex items-center justify-center">
           <Link href={"/"}>
             <Image
-              src="/signin/logoIcon.png"
+              src={constant.LOGO_ICON_SRC}
               alt="logoIcon"
               width={248}
               height={45}
@@ -119,12 +110,7 @@ const Signin: React.FC = () => {
             />
           </div>
           <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-            <Button
-              type="submit"
-              size="large"
-              color="red"
-              onClick={(e) => handleSubmit(e)}
-            >
+            <Button type="submit" size="large" color="red">
               로그인 하기
             </Button>
           </div>
@@ -142,7 +128,7 @@ const Signin: React.FC = () => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal type="bad" onClose={() => setShowModal(false)}>
+          <Modal iconStatus="warning" onClose={() => setShowModal(false)}>
             <div className="text-center">
               <p className="mt-7">{modalMessage}</p>
               <Button
@@ -151,7 +137,7 @@ const Signin: React.FC = () => {
                 onClick={() => setShowModal(false)}
                 className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
               >
-                확인
+                {constant.MODAL_BUTTON_TEXT}
               </Button>
             </div>
           </Modal>
