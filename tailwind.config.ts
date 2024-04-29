@@ -36,6 +36,7 @@ const config: Config = {
         "green-10": "#D4F7D4",
         kakao: "#FEE500",
         primary: "#EA3C12",
+        orange: "	#FFBF00",
       },
       screens: {
         tab: { raw: "(max-width: 1024px)" },

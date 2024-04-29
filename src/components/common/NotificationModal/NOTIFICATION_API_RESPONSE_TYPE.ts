@@ -14,7 +14,7 @@ export interface NOTIFICATION_API_ITEM_TYPE {
   item: {
     id: string;
     createdAt: string;
-    result: "accepted" | "rejected";
+    result: "accepted" | "rejected" | "canceled";
     read: boolean;
     application: {
       item: {
