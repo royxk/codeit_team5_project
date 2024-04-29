@@ -31,7 +31,6 @@ const StoreDetailPage = () => {
       const response = await searchSelectedNoticeApiResponse(shopId, noticeId);
       setIem(response);
     } catch (error) {
-      console.error(error);
     } finally {
       setLoading(false);
     }

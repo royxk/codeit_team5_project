@@ -94,9 +94,7 @@ const Signup: React.FC = () => {
       setConfirmPasswordError("");
       setModalMessage(constant.SIGNUP_SUCCESS_MESSAGE);
       setConfirmShowModal(true);
-    } catch (error) {
-      console.error("회원가입 실패:", error);
-    }
+    } catch (error) {}
   };
 
   const handleEnterPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
