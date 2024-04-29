@@ -8,7 +8,7 @@ import Image from "next/image";
 import EmailInput from "@/components/signup/EmailInput";
 import PasswordInput from "@/components/signup/PasswordInput";
 import ConfirmPasswordInput from "@/components/signup/ConfirmPasswordInput";
-import Modal from "@/components/common/SignModal";
+import Modal from "@/components/common/Modal";
 import ModalPortal from "@/components/common/ModalPortal";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +16,17 @@ enum UserType {
   Employee = "employee",
   Employer = "employer",
 }
+
+const constant = {
+  MODAL_BUTTON_TEXT: "확인",
+  EMAIL_ERROR_MESSAGE: "이메일을 입력하세요.",
+  PASSWORD_ERROR_MESSAGE: "비밀번호를 입력하세요.",
+  CONFIRM_PASSWORD_ERROR_MESSAGE: "비밀번호를 확인하세요.",
+  PASSWORD_MISMATCH_ERROR_MESSAGE: "비밀번호가 일치하지 않습니다.",
+  SIGNUP_SUCCESS_MESSAGE: "회원가입이 완료되었습니다.",
+  EMAIL_EXIST_ERROR_MESSAGE: "이미 존재하는 이메일입니다.",
+  INVALID_EMAIL_ERROR_MESSAGE: "올바른 이메일이 아닙니다.",
+};
 
 const Signup: React.FC = () => {
   const router = useRouter();
@@ -39,39 +50,34 @@ const Signup: React.FC = () => {
   ) => {
     e.preventDefault();
     if (!email.trim()) {
-      setEmailError("이메일을 입력하세요.");
+      setEmailError(constant.EMAIL_ERROR_MESSAGE);
       return;
     }
     if (!password.trim()) {
-      setPasswordError("비밀번호를 입력하세요.");
+      setPasswordError(constant.PASSWORD_ERROR_MESSAGE);
       return;
     }
     if (!confirmPassword.trim()) {
-      setConfirmPasswordError("비밀번호를 확인하세요.");
+      setConfirmPasswordError(constant.CONFIRM_PASSWORD_ERROR_MESSAGE);
       return;
     }
     if (password.trim() !== confirmPassword.trim()) {
-      setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
+      setConfirmPasswordError(constant.PASSWORD_MISMATCH_ERROR_MESSAGE);
       return;
     }
 
     try {
-      console.log(email.trim(), password.trim(), userType);
-      const { item, message } = await signupApiResponse({
+      const { message } = await signupApiResponse({
         email: email.trim() as string,
         password: password.trim() as string,
         type: userType,
       });
 
       if (message) {
-        console.log(message);
-        if (message === "이미 존재하는 이메일입니다.") {
-          setEmail("");
-          setEmailError("");
-          setModalMessage(message);
-          setShowModal(true);
-          return;
-        } else if (message === "올바른 이메일이 아닙니다.") {
+        if (
+          message === constant.EMAIL_EXIST_ERROR_MESSAGE ||
+          message === constant.INVALID_EMAIL_ERROR_MESSAGE
+        ) {
           setEmail("");
           setEmailError("");
           setModalMessage(message);
@@ -86,8 +92,7 @@ const Signup: React.FC = () => {
       setEmailError("");
       setPasswordError("");
       setConfirmPasswordError("");
-      console.log("회원가입 응답:", item);
-      setModalMessage("회원가입이 완료되었습니다.");
+      setModalMessage(constant.SIGNUP_SUCCESS_MESSAGE);
       setConfirmShowModal(true);
     } catch (error) {
       console.error("회원가입 실패:", error);
@@ -106,13 +111,13 @@ const Signup: React.FC = () => {
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
-        <div className="m-10 flex items-center justify-center">
+        <div className="m-10 mt-[-50px] flex items-center justify-center">
           <Link href={"/"}>
             <Image
-              src="/signin/logoIcon.png"
+              src="/signin/logoIcon.svg"
               alt="logoIcon"
-              width={248}
-              height={45}
+              width={360}
+              height={80}
             />
           </Link>
         </div>
@@ -213,7 +218,7 @@ const Signup: React.FC = () => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal type="bad" onClose={() => setShowModal(false)}>
+          <Modal iconStatus="warning" onClose={() => setShowModal(false)}>
             <div className="text-center">
               <p className="mt-7">{modalMessage}</p>
               <Button
@@ -222,7 +227,7 @@ const Signup: React.FC = () => {
                 onClick={() => setShowModal(false)}
                 className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
               >
-                확인
+                {constant.MODAL_BUTTON_TEXT}
               </Button>
             </div>
           </Modal>
@@ -230,7 +235,10 @@ const Signup: React.FC = () => {
       )}
       {confirmShowModal && (
         <ModalPortal>
-          <Modal type="good" onClose={() => setConfirmShowModal(false)}>
+          <Modal
+            iconStatus="success"
+            onClose={() => setConfirmShowModal(false)}
+          >
             <div className="text-center">
               <p className="mt-7">{modalMessage}</p>
               <Button
@@ -242,7 +250,7 @@ const Signup: React.FC = () => {
                 }}
                 className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[13px] font-[400]"
               >
-                확인
+                {constant.MODAL_BUTTON_TEXT}
               </Button>
             </div>
           </Modal>

@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import { getCookie } from "@/util/cookieSetting";
 import Button from "./Button";
-import Modal from "@/components/common/SignModal";
+import Modal from "@/components/common/Modal";
 import ModalPortal from "./ModalPortal";
 
 interface ApproveButtonsProps {
@@ -20,7 +20,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [reqBody, setReqBody] = useState<StatusBody>({ status: "canceled" });
-  const { noticeId } = useParams<{noticeId: string;}>();
+  const { noticeId } = useParams<{ noticeId: string }>();
   const shopId = getCookie("sid");
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -38,7 +38,12 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
   const handleYesBtnClick = async () => {
     setShowModal(false);
     if (shopId) {
-      await selectedNoticeApplyStatusSettingApiResponse(shopId, noticeId, noticeApplyId, reqBody);
+      await selectedNoticeApplyStatusSettingApiResponse(
+        shopId,
+        noticeId,
+        noticeApplyId,
+        reqBody,
+      );
     }
   };
 
@@ -48,7 +53,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
 
   const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
     setShowModal(false);
-  }
+  };
 
   return (
     <>
@@ -72,7 +77,11 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6 pb-4">
+          <Modal
+            onClose={handleOutsideClick}
+            iconStatus={"success"}
+            className="max-h-[184px] max-w-[250px] p-6"
+          >
             <div className="flex flex-col gap-8">
               <p className="text-center font-normal">{modalMessage}</p>
               <div className="flex gap-2">

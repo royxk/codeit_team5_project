@@ -11,7 +11,7 @@ import { getCookie } from "@/util/cookieSetting";
 import { useRouter } from "next/navigation";
 import { formatApiDateData } from "@/util/formatDate";
 import useNoticeId from "./Hook/useNoticeId";
-import Modal from "../common/SignModal";
+import Modal from "../common/Modal";
 import ModalPortal from "../common/ModalPortal";
 
 interface EmployerNoticeForm {
@@ -196,7 +196,10 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal type={isError ? "bad" : "good"} onClose={handleModalClose}>
+          <Modal
+            iconStatus={isError ? "warning" : "success"}
+            onClose={handleModalClose}
+          >
             <div className="mt-5 flex flex-col items-center gap-5">
               <p className={`max-w-[300px] text-center`}>
                 {isError

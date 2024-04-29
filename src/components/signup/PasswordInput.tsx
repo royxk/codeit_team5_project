@@ -20,11 +20,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const validatePassword = (input: string) => {
-    if (input.length < 8) {
-      setPasswordError("8자 이상 입력해주세요.");
-    } else {
-      setPasswordError("");
-    }
+    setPasswordError(input.length < 8 ? "8자 이상 입력해주세요." : "");
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,18 +29,14 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
     validatePassword(inputValue);
   };
 
-  const handleInputFocus = () => {
-    setIsTyping(true);
-  };
-
+  const handleInputFocus = () => setIsTyping(true);
   const handleInputBlur = () => {
     setIsTyping(false);
     validatePassword(password);
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
   return (
     <div className="relative mb-4 flex flex-col">
       <span className="z-0 mb-1">비밀번호</span>
@@ -57,9 +49,9 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         onFocus={handleInputFocus}
         placeholder="입력"
       />
-      <p className="h-2 pb-3 pt-1 text-red-400">
-        {!isTyping && passwordError && passwordError}
-      </p>
+      {passwordError && !isTyping && (
+        <p className="h-2 pb-3 pt-1 text-red-400">{passwordError}</p>
+      )}
       <button
         type="button"
         className="absolute right-0 top-0 mr-2 mt-1 cursor-pointer text-sm text-gray-500"
