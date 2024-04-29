@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Button from "@/components/common/Button";
 import Link from "next/link";
 import { logout, mydataApiResponse, signinApiResponse } from "@/util/api";
 import {
@@ -10,11 +9,9 @@ import {
   setUserIdCookie,
 } from "@/util/cookieSetting";
 import Image from "next/image";
-import EmailInput from "@/components/signin/EmailInput";
-import PasswordInput from "@/components/signin/PasswordInput";
-import Modal from "@/components/common/Modal";
-import ModalPortal from "@/components/common/ModalPortal";
 import { useRouter } from "next/navigation";
+import LoginForm from "@/components/signin/LoginForm";
+import ErrorModal from "@/components/signin/ErrorModal";
 
 const constant = {
   MODAL_BUTTON_TEXT: "확인",
@@ -70,6 +67,8 @@ const Signin: React.FC = () => {
         router.push("/");
       } catch (error) {
         console.error("로그인 실패:", error);
+        setModalMessage("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        setShowModal(true);
       }
     } else {
       setEmailError(email.trim() ? "" : constant.EMAIL_ERROR_MESSAGE);
@@ -88,33 +87,23 @@ const Signin: React.FC = () => {
           <Link href={"/"}>
             <Image
               src={constant.LOGO_ICON_SRC}
-              alt="logoIcon"
+              alt="로고 아이콘"
               width={360}
               height={80}
             />
           </Link>
         </div>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="mb-5 flex flex-col ">
-            <EmailInput
-              email={email}
-              setEmail={setEmail}
-              emailError={emailError}
-              setEmailError={setEmailError}
-            />
-            <PasswordInput
-              password={password}
-              setPassword={setPassword}
-              passwordError={passwordError}
-              setPasswordError={setPasswordError}
-            />
-          </div>
-          <div className="mb-5 flex h-[48px] w-[350px] items-center justify-center">
-            <Button type="submit" size="large" color="red">
-              로그인 하기
-            </Button>
-          </div>
-        </form>
+        <LoginForm
+          email={email}
+          setEmail={setEmail}
+          emailError={emailError}
+          setEmailError={setEmailError}
+          password={password}
+          setPassword={setPassword}
+          passwordError={passwordError}
+          setPasswordError={setPasswordError}
+          onSubmit={handleSubmit}
+        />
         <div className="flex items-center justify-center font-Pretendard text-sm font-normal">
           <span className="mr-3">회원이 아니신가요?</span>{" "}
           <Link
@@ -125,24 +114,12 @@ const Signin: React.FC = () => {
             회원가입하기
           </Link>
         </div>
+        <ErrorModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          modalMessage={modalMessage}
+        />
       </div>
-      {showModal && (
-        <ModalPortal>
-          <Modal iconStatus="warning" onClose={() => setShowModal(false)}>
-            <div className="text-center">
-              <p className="mt-7">{modalMessage}</p>
-              <Button
-                color="red"
-                size="small"
-                onClick={() => setShowModal(false)}
-                className="relative left-[140px] top-[50px] h-[40px] w-[100px] text-[16px] font-[400]"
-              >
-                {constant.MODAL_BUTTON_TEXT}
-              </Button>
-            </div>
-          </Modal>
-        </ModalPortal>
-      )}
     </div>
   );
 };
