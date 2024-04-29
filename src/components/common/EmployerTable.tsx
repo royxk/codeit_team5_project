@@ -30,6 +30,7 @@ type ApplicantListApiResponse = {
 const EmployerTable = ({ noticeId }: { noticeId?: string }) => {
   const [rawEmployerData, setRawEmployerData] =
     useState<ApplicantListApiResponse>();
+  const [count, setCount] = useState(0);
   const shopId = getCookie("sid")!;
 
   const employerData: EmployerTableData[] =
@@ -37,11 +38,25 @@ const EmployerTable = ({ noticeId }: { noticeId?: string }) => {
 
   async function handleApplyData() {
     if (noticeId) {
-      const res: ApplicantListApiResponse =
-        await searchSelectedNoticeApplyApiResponse(shopId, noticeId);
+      const res = await searchSelectedNoticeApplyApiResponse(
+        shopId as string,
+        noticeId as string,
+        { offset: 0, limit: 5 },
+      );
+      setCount(res.count);
       setRawEmployerData(res);
     }
   }
+
+  const handleData = async (pageData: number) => {
+    const offsetNum = pageData * 5;
+    const res = await searchSelectedNoticeApplyApiResponse(
+      shopId as string,
+      noticeId as string,
+      { offset: offsetNum, limit: 5 },
+    );
+    setRawEmployerData(res);
+  };
 
   useEffect(() => {
     handleApplyData();
@@ -50,6 +65,8 @@ const EmployerTable = ({ noticeId }: { noticeId?: string }) => {
 
   return employerData.length ? (
     <Table<EmployerTableData>
+      count={count}
+      onData={handleData}
       headerData={EMPLOYER_TABLE_HEADER}
       applyData={employerData}
     />

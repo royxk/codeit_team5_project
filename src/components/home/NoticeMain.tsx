@@ -94,7 +94,6 @@ const NoticeMain = ({ keyword }: Keyword) => {
       });
       setFilterdNoticeList(res);
       setPageCount(res.count);
-      console.log(res.count);
     }
     setSortedAdvancedQuery(query);
     setPrevSortedAdvancedQuery(sortedAdvancedQuery);
@@ -129,14 +128,11 @@ const NoticeMain = ({ keyword }: Keyword) => {
   }, [filterSelected, keyword]);
 
   useEffect(() => {
-    console.log(sortedAdvancedQuery);
-    console.log(prevSortedAdvancedQuery);
     const executeAdvancedFilter = () => {
       if (
         sortedAdvancedQuery !== prevSortedAdvancedQuery &&
         sortedAdvancedQuery
       ) {
-        console.log("여기오니");
         setIsAdvancedFilterChanged(true);
         handleAdvencedFilterSubmit(sortedAdvancedQuery);
       } else {

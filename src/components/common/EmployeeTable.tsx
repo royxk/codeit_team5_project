@@ -15,18 +15,28 @@ const EMPLOYEE_TABLE_HEADER = ["가게", "일자", "시급", "상태"];
 
 const EmployeeTable = () => {
   const [applyData, setApplyData] = useState<ApplyListApiResponse>();
+  const [count, setCount] = useState(0);
   const employeeData: EmployeeTableData[] = convertEmployeeTableData(applyData);
 
   const userId = getCookie("uid");
 
   async function getApplyData(userId: string | undefined) {
     if (!userId) return;
-    const countData = await searchUserApplyApiResponse(userId, { limit: 1 });
     const data = await searchUserApplyApiResponse(userId, {
-      limit: countData.count,
+      limit: 5,
     });
+    setCount(data.count);
     return data;
   }
+
+  const handleData = async (pageData: number) => {
+    const offsetNum = pageData * 5;
+    const res = await searchUserApplyApiResponse(userId as string, {
+      offset: offsetNum,
+      limit: 5,
+    });
+    setApplyData(res);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,6 +48,8 @@ const EmployeeTable = () => {
 
   return employeeData.length ? (
     <Table<EmployeeTableData>
+      onData={handleData}
+      count={count}
       headerData={EMPLOYEE_TABLE_HEADER}
       applyData={employeeData}
     />
