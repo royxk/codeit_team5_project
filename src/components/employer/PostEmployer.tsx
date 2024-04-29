@@ -143,18 +143,38 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
                 startHour,
               } = dataConvertComponentStandard(item);
               return (
-                <Link key={item.id} href={`/user/employer/notice/${item.id}`}>
-                  <Post
-                    imgUrl={imgUrl}
-                    shopName={shopName}
-                    address1={address1}
-                    hourlyPay={hourlyPay}
-                    state={state}
-                    startTime={startTime}
-                    startHour={startHour}
-                    originalHourlyPay={shopData.item.originalHourlyPay}
-                  />
-                </Link>
+                <>
+                  {state ? (
+                    <Link
+                      key={item.id}
+                      href={`/user/employer/notice/${item.id}`}
+                    >
+                      <Post
+                        imgUrl={imgUrl}
+                        shopName={shopName}
+                        address1={address1}
+                        hourlyPay={hourlyPay}
+                        state={state}
+                        startTime={startTime}
+                        startHour={startHour}
+                        originalHourlyPay={shopData.item.originalHourlyPay}
+                      />
+                    </Link>
+                  ) : (
+                    <div className="cursor-not-allowed">
+                      <Post
+                        imgUrl={imgUrl}
+                        shopName={shopName}
+                        address1={address1}
+                        hourlyPay={hourlyPay}
+                        state={state}
+                        startTime={startTime}
+                        startHour={startHour}
+                        originalHourlyPay={shopData.item.originalHourlyPay}
+                      />
+                    </div>
+                  )}
+                </>
               );
             })}
           </div>
