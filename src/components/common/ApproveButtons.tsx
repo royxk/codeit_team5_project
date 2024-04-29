@@ -79,7 +79,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
         <ModalPortal>
           <Modal
             onClose={handleOutsideClick}
-            iconStatus={"good"}
+            iconStatus={"success"}
             className="max-h-[184px] max-w-[250px] p-6"
           >
             <div className="flex flex-col gap-8">

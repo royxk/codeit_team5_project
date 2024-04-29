@@ -16,7 +16,7 @@ import Image from "next/image";
 import closeIcon from "/public/close.svg";
 import ModalPortal from "@/components/common/ModalPortal";
 
-const MODAL_MESSAGE = "등록이 완료되었습니다.";
+const SUCCESS_MODAL_MESSAGE = "등록이 완료되었습니다.";
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
@@ -25,6 +25,7 @@ const RegisterProfile = () => {
   const [nameErr, setNameErr] = useState("");
   const [phoneErr, setPhoneErr] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState(SUCCESS_MODAL_MESSAGE);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
@@ -83,15 +84,6 @@ const RegisterProfile = () => {
     setAddressValue(data);
   };
 
-  const handleCheckClick = () => {
-    setShowModal(false);
-    router.push("/user/employee");
-  };
-
-  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
-    setShowModal(false);
-  };
-
   const handleSubmit = async () => {
     if (!phoneErr && !nameErr) {
       const editValue = {
@@ -101,9 +93,24 @@ const RegisterProfile = () => {
         bio: bioRef.current?.value ?? "",
       };
 
-      await mydataEditApiResponse(editValue);
+      const res = await mydataEditApiResponse(editValue);
+      if (!res.message) {
+        setModalMessage(SUCCESS_MODAL_MESSAGE);
+      } else {
+        setModalMessage(res.message);
+      }
       setShowModal(true);
     }
+  };
+
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  };
+
+  const handleCheckClick = () => {
+    setShowModal(false);
+    if (modalMessage === SUCCESS_MODAL_MESSAGE) router.push("/user/employee");
+    return;
   };
 
   return (
@@ -168,11 +175,13 @@ const RegisterProfile = () => {
         <ModalPortal>
           <Modal
             onClose={handleOutsideClick}
-            iconStatus={"good"}
+            iconStatus={
+              modalMessage === SUCCESS_MODAL_MESSAGE ? "success" : "warning"
+            }
             className="relative gap-3 mob:max-h-[220px] mob:max-w-[327px]"
           >
             <div className="flex flex-col gap-8">
-              <p className="text-center text-lg font-normal">{MODAL_MESSAGE}</p>
+              <p className="text-center text-lg font-normal">{modalMessage}</p>
               <Button
                 color="red"
                 size="small"

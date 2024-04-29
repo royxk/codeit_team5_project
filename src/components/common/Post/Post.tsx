@@ -92,7 +92,10 @@ const Post = ({
         <div
           className={`flex w-full items-center justify-between gap-2 whitespace-nowrap mob:flex-col mob:items-start mob:gap-0`}
         >
-          <Tooltip content={`${hourlyPay.toLocaleString()}원`}>
+          <Tooltip
+            content={`${hourlyPay.toLocaleString()}원`}
+            isClosed={state}
+          >
             <div
               className={`w-[110px] truncate text-[22px] font-bold mob:text-[18px]  ${state ? "" : "text-gray-30"}`}
             >

@@ -3,40 +3,28 @@ import {
   searchShopInformationApiResponse,
   searchShopNoticeApiResponse,
 } from "@/util/api";
-import { redirect } from "next/navigation";
 import { getServerSideCookie } from "../../utils/serverCookies";
 import PostEmployer from "@/components/employer/PostEmployer";
 import EmployerStoreDetail from "@/components/employer/EmployerStoreDetail";
 
 const getServerSideProps = async () => {
-  const uid = getServerSideCookie("uid");
+  const sid = getServerSideCookie("sid");
 
-  if (uid === undefined) {
-    redirect("/signin");
+  if (sid) {
+    const shopData = await searchShopInformationApiResponse(sid);
+    const noticeList = await searchShopNoticeApiResponse(sid, {
+      limit: 6,
+    });
+
+    return { shopData, noticeList };
   }
 
-  if (uid !== undefined) {
-    const sid = getServerSideCookie("sid");
+  if (sid === "") {
+    const shopData = null;
 
-    if (sid === undefined) {
-      redirect("/");
-    }
-
-    if (sid) {
-      const shopData = await searchShopInformationApiResponse(sid);
-      const noticeList = await searchShopNoticeApiResponse(sid, {
-        limit: 6,
-      });
-
-      return { shopData, noticeList };
-    }
-
-    if (sid === "") {
-      const shopData = null;
-
-      return { shopData };
-    }
+    return { shopData };
   }
+
   return {};
 };
 
