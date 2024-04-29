@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { getCookie, setShopIdCookie } from "@/util/cookieSetting";
 import Modal from "../common/SignModal";
+import ModalPortal from "../common/ModalPortal";
 
 const StoreRegisterForm = () => {
   const router = useRouter();
@@ -28,6 +29,9 @@ const StoreRegisterForm = () => {
   const [address1, setAddress1] = useState<any>("");
   const [imagePath, setImagePath] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -64,31 +68,34 @@ const StoreRegisterForm = () => {
       handleInputBlur(address2Ref, setAddress2Err);
       return;
     }
-    try {
-      const createdImageUrl = await createImageApiResponse({
-        name: getCookie("uid")!,
-      });
 
-      const image: string = (
-        await putFileFetch(createdImageUrl.item.url, storeImage)
-      ).url.split("?")[0];
+    const createdImageUrl = await createImageApiResponse({
+      name: getCookie("uid")!,
+    });
 
-      const res = await createShopApiResponse({
-        name: storeName,
-        category: workType,
-        address1: address1,
-        address2: address2,
-        description: storeDescription,
-        imageUrl: image,
-        originalHourlyPay: Number(basePay),
-      });
-      if (res.item === undefined) throw new Error(res);
+    const image: string = (
+      await putFileFetch(createdImageUrl.item.url, storeImage)
+    ).url.split("?")[0];
+
+    const res = await createShopApiResponse({
+      name: storeName,
+      category: workType,
+      address1: address1,
+      address2: address2,
+      description: storeDescription,
+      imageUrl: image,
+      originalHourlyPay: Number(basePay),
+    });
+
+    console.log(res.message);
+    if (res.message) {
+      setIsError(true);
+      setErrorMsg(res.message);
+    } else {
+      setIsError(false);
       setShopIdCookie(res.item.id);
-
-      setShowModal(true);
-    } catch (e) {
-      console.log(e);
     }
+    setShowModal(true);
   };
 
   useEffect(() => {
@@ -101,7 +108,9 @@ const StoreRegisterForm = () => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    router.push("/user/employer");
+    if (!isError) {
+      router.push("/user/employer");
+    }
   };
 
   return (
@@ -118,6 +127,7 @@ const StoreRegisterForm = () => {
           errorType={storeNameErr}
           inputType="STORE_NAME"
           blurEvent={() => handleInputBlur(storeNameRef, setStoreNameErr)}
+          maxLength={30}
         />
         <Input inputType="WORK_TYPES" selectData={setWorkType} />
         <Input inputType="MAIN_ADDRESS" selectData={setAddress1} />
@@ -177,7 +187,7 @@ const StoreRegisterForm = () => {
           등록하기
         </Button>
       </div>
-      {showModal && (
+      {/* {showModal && (
         <Modal onClose={() => handleModalClose()}>
           <div className="mt-5">
             <p className="mb-10">등록이 완료되었습니다</p>
@@ -192,6 +202,25 @@ const StoreRegisterForm = () => {
             </div>
           </div>
         </Modal>
+      )} */}
+      {showModal && (
+        <ModalPortal>
+          <Modal type={isError ? "bad" : "good"} onClose={handleModalClose}>
+            <div className="mt-5 flex flex-col items-center gap-5">
+              <p className={`max-w-[300px] text-center`}>
+                {isError ? `${errorMsg}` : "등록이 완료되었습니다"}
+              </p>
+              <Button
+                className="max-w-28"
+                onClick={handleModalClose}
+                size="full"
+                color="red"
+              >
+                확인
+              </Button>
+            </div>
+          </Modal>
+        </ModalPortal>
       )}
     </form>
   );

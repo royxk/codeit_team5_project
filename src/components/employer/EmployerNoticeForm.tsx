@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { formatApiDateData } from "@/util/formatDate";
 import useNoticeId from "./Hook/useNoticeId";
 import Modal from "../common/SignModal";
+import ModalPortal from "../common/ModalPortal";
 
 interface EmployerNoticeForm {
   hourlyPay?: number;
@@ -42,6 +43,9 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
 
   const [objectNoticeId, setObjectNoticeId] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -98,36 +102,38 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
     const rfc3339DateTime = localDate.toISOString().replace("0Z", "Z");
 
     if (isEditPage) {
-      try {
-        const res = await editSelectedNoticeApiResponse(shopId, noticeId!, {
-          hourlyPay: Number(hourlyPay),
-          startsAt: String(rfc3339DateTime),
-          workhour: Number(workHour),
-          description: noticeDescription,
-        });
-        if (typeof res === "string") throw new Error(res);
+      const res = await editSelectedNoticeApiResponse(shopId, noticeId!, {
+        hourlyPay: Number(hourlyPay),
+        startsAt: String(rfc3339DateTime),
+        workhour: Number(workHour),
+        description: noticeDescription,
+      });
 
+      if (res.message) {
+        setIsError(true);
+        setErrorMsg(res.message);
+      } else {
+        setIsError(false);
         setObjectNoticeId(res.item.id);
-        setShowModal(true);
-      } catch (res) {
-        alert(res);
       }
+      setShowModal(true);
     } else {
-      try {
-        console.log(shopId);
-        const res = await addNoticeApiResponse(shopId, {
-          hourlyPay: Number(hourlyPay),
-          startsAt: String(rfc3339DateTime),
-          workhour: Number(workHour),
-          description: noticeDescription,
-        });
-        if (typeof res === "string") throw new Error(res);
+      console.log(shopId);
+      const res = await addNoticeApiResponse(shopId, {
+        hourlyPay: Number(hourlyPay),
+        startsAt: String(rfc3339DateTime),
+        workhour: Number(workHour),
+        description: noticeDescription,
+      });
 
+      if (res.message) {
+        setIsError(true);
+        setErrorMsg(res.message);
+      } else {
+        setIsError(false);
         setObjectNoticeId(res.item.id);
-        setShowModal(true);
-      } catch (res) {
-        alert(res);
       }
+      setShowModal(true);
     }
   }
 
@@ -139,8 +145,10 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
   }, []);
 
   const handleModalClose = () => {
+    if (!isError) {
+      router.push(`/user/employer/notice/${objectNoticeId}`);
+    }
     setShowModal(false);
-    router.push(`/user/employer/notice/${objectNoticeId}`);
   };
 
   return (
@@ -187,20 +195,27 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
         </Button>
       </div>
       {showModal && (
-        <Modal onClose={() => handleModalClose()}>
-          <div className="mt-5">
-            <p className="mb-10">{`${isEditPage ? "수정" : "등록"}이 완료되었습니다`}</p>
-            <div className="absolute min-w-40">
+        <ModalPortal>
+          <Modal type={isError ? "bad" : "good"} onClose={handleModalClose}>
+            <div className="mt-5 flex flex-col items-center gap-5">
+              <p className={`max-w-[300px] text-center`}>
+                {isError
+                  ? `${errorMsg}`
+                  : isEditPage
+                    ? `수정이 완료되었습니다`
+                    : `등록이 완료되었습니다`}
+              </p>
               <Button
-                onClick={() => handleModalClose()}
+                className="max-w-28"
+                onClick={handleModalClose}
                 size="full"
                 color="red"
               >
                 확인
               </Button>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        </ModalPortal>
       )}
     </section>
   );

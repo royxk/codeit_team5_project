@@ -6,7 +6,6 @@ import {
 } from "@/util/api";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import React from "react";
 
 const getServerSideProps = async () => {
@@ -38,15 +37,7 @@ const getServerSideProps = async () => {
 };
 
 const EmployerRegisterStore = async () => {
-  const { uid, type, shopData } = await getServerSideProps();
-
-  if (uid === undefined) {
-    redirect("/signin");
-  }
-
-  if (type === "employee") {
-    redirect("/");
-  }
+  const { shopData } = await getServerSideProps();
 
   return (
     <div className="h-full w-full bg-gray-5">
