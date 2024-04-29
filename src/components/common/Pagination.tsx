@@ -23,7 +23,8 @@ interface PaginationProps {
 const Pagination = ({
   count,
   setCurrentPageData = (item) => {
-    console.log(`${item}`);
+    {
+    }
   },
   pageItemLimit = 5,
   pageRefreshSwitch,

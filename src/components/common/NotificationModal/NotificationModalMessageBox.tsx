@@ -4,7 +4,6 @@ import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 import { formatApiDateData } from "@/util/formatDate";
 import { elapsedTime } from "@/util/eplapsedTime";
 import { alertReadApiResponse } from "@/util/api";
-import { get } from "https";
 
 type Props = {
   data: NOTIFICATION_API_ITEM_TYPE;
@@ -14,7 +13,6 @@ type Props = {
 
 const NotificationRead = async (id: string) => {
   alertReadApiResponse(id);
-  console.log("read", id);
 };
 
 const NotificationModalMessageBox = ({

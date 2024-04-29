@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
   inputType = "DEFAULT",
   inputRef,
   errorType = "",
-  blurEvent = () => console.log("blured"),
+  blurEvent = () => {},
   value = "",
   placeholder = "",
   onChange,

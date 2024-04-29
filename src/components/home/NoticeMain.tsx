@@ -52,29 +52,26 @@ const NoticeMain = ({ keyword }: Keyword) => {
   const [pageCount, setPageCount] = useState<number>(0);
 
   const getFilterdNoticeData = async (query?: Query) => {
-    console.log("첫 리스트 api 가져오기 진입");
+    // 첫 리스트 api 가져오기 진입"
     const res = await searchNoticeApiResponse(query);
-    console.log(res);
+
     setFilterdNoticeList(res);
     setPageCount(res.count);
-    console.log(pageCount);
-    console.log(query);
   };
 
   const handleFilterSelectedClick = (e: React.MouseEvent) => {
-    console.log((e.target as HTMLElement).tagName);
     if ((e.target as HTMLElement).tagName === "BUTTON") {
       setFilterSelected((e.target as HTMLButtonElement).innerHTML as SortType);
       setPrevFilterSelected(filterSelected);
     }
   };
   const handleBasicFilterClick = async (sortType: SortType | null) => {
-    console.log("일반필터 클릭");
-    console.log(sortType);
+    // 일반필터 클릭
+
     if (sortType !== null) {
       const sortQuery = convertSortType(sortType);
       setSortedQuery(sortQuery);
-      console.log(sortedAdvancedQuery);
+
       if (!sortedAdvancedQuery) {
         const res = await searchNoticeApiResponse({
           limit: 6,
@@ -82,15 +79,13 @@ const NoticeMain = ({ keyword }: Keyword) => {
           ...(keyword && { keyword: keyword }),
         });
         setFilterdNoticeList(res);
-        console.log(sortQuery);
-        console.log(res);
       }
     }
   };
 
   const handleAdvencedFilterSubmit = async (query: AdvancedFilterQuery) => {
-    console.log("상세필터 클릭");
-    console.log(sortedQuery);
+    // 상세필터 클릭
+
     if (isAdvancedFilterChanged) {
       const res = await searchNoticeApiResponse({
         limit: 6,
@@ -100,7 +95,6 @@ const NoticeMain = ({ keyword }: Keyword) => {
       });
       setFilterdNoticeList(res);
       setPageCount(res.count);
-      console.log(res);
     }
     setSortedAdvancedQuery(query);
     setPrevSortedAdvancedQuery(sortedAdvancedQuery);

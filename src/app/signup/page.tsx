@@ -56,7 +56,6 @@ const Signup: React.FC = () => {
     }
 
     try {
-      console.log(email.trim(), password.trim(), userType);
       const { item, message } = await signupApiResponse({
         email: email.trim() as string,
         password: password.trim() as string,
@@ -64,7 +63,6 @@ const Signup: React.FC = () => {
       });
 
       if (message) {
-        console.log(message);
         if (message === "이미 존재하는 이메일입니다.") {
           setEmail("");
           setEmailError("");
@@ -86,7 +84,7 @@ const Signup: React.FC = () => {
       setEmailError("");
       setPasswordError("");
       setConfirmPasswordError("");
-      console.log("회원가입 응답:", item);
+
       setModalMessage("회원가입이 완료되었습니다.");
       setConfirmShowModal(true);
     } catch (error) {

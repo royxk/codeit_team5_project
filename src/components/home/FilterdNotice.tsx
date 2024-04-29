@@ -47,15 +47,12 @@ const FilterdNotice = ({
 }: FIlterNoticeProps) => {
   const handlePageData = async (num: number) => {
     const offsetNum = num * 6;
-    console.log(sortedAdvancedQuery);
-    console.log(prevSortedAdvancedQuery);
+
     if (sortedAdvancedQuery !== prevSortedAdvancedQuery) {
       setIsFilterChanged(true);
     } else {
       setIsFilterChanged(false);
     }
-    console.log(sortedAdvancedQuery);
-    console.log(sortedQuery);
 
     const res = await searchNoticeApiResponse({
       offset: offsetNum,
@@ -69,8 +66,7 @@ const FilterdNotice = ({
       }),
       ...(keyword && { keyword: keyword }),
     });
-    console.log(res);
-    setPageCount(res.count);
+
     setFilterdNoticeList(res);
   };
 
@@ -80,7 +76,6 @@ const FilterdNotice = ({
       saveRecentPostsLocalStorage(data);
     }
     const recentPosts = localStorage.getItem("recentPosts");
-    console.log(JSON.parse(recentPosts as string));
   };
 
   if (isLoading)

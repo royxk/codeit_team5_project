@@ -5,7 +5,6 @@ import Button from "@/components/common/Button";
 import Link from "next/link";
 import { logout, mydataApiResponse, signinApiResponse } from "@/util/api";
 import {
-  getCookie,
   setAccessTokenCookie,
   setShopIdCookie,
   setUserIdCookie,
@@ -46,7 +45,6 @@ const Signin: React.FC = () => {
           return;
         }
 
-        console.log(item);
         const userId = item.user.item.id;
         const userAccessToken = item.token;
         const userType = item.user.item.type;
@@ -68,9 +66,6 @@ const Signin: React.FC = () => {
 
         setAccessToken(item.token);
         setUid(userId);
-
-        console.log(`accessCookie: ${getCookie("accessToken")}`);
-        console.log(`userIdCookie: ${getCookie("uid")}`);
 
         setEmail("");
         setPassword("");

@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { mydataApiResponse } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
-import { UserItem } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
 import Button from "../common/Button";
 import Link from "next/link";
 import Image from "next/image";
 import phoneIcon from "/public/Icon_phone.svg";
 import locationIcon from "/public/post/location.svg";
+import { UserItem } from "@/app/user/employee/my-profile/page";
 
 interface ProfileHeaderProps {
   isProfileData: boolean;

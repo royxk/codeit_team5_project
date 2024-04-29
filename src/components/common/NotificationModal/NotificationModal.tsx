@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import Data from "@/util/constants/NOTIFICATION_MODAL_MOCK_DATA";
+import React from "react";
 import NotificationModalMessageBox from "./NotificationModalMessageBox";
 import SvgCloseComponent from "./SvgCloseComponent";
-import { NOTIFICATION_API_RESPONSE_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 import { NOTIFICATION_API_ITEM_TYPE } from "./NOTIFICATION_API_RESPONSE_TYPE";
 
 interface NotificationModalProps {
@@ -17,7 +15,6 @@ const NotificationModal = ({
   onClick,
   data,
 }: NotificationModalProps) => {
-  console.log(data);
   return (
     <div
       className={`flex min-h-96 w-96 flex-col gap-5 rounded-xl border border-gray-40  bg-red-10 px-5 py-6 mob:h-screen mob:w-full mob:rounded-none  mob:border-0 mob:pt-10`}
