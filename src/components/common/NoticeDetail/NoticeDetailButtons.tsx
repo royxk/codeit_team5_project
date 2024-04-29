@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   mydataApiResponse,
   searchUserApplyApiResponse,
@@ -20,6 +20,7 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
   const [reloadSwitch, setReloadSwitch] = useState(false);
   const [isUserEmployer, setIsUserEmployer] = useState(false);
   const [isUserSignToWork, setIsUserSignToWork] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [userSignId, setUserSignId] = useState("");
 
@@ -55,9 +56,9 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
       if (isWorkerSigned) {
         setIsUserSignToWork(isWorkerSigned);
         setUserSignId(workerVerification[0].item.id);
-        return;
       }
     }
+    setIsLoading(false);
   }
 
   const handleSignApply = async () => {
@@ -93,52 +94,61 @@ const StoreDetailButtons = ({ isClosed = false }: { isClosed?: boolean }) => {
 
   return (
     <>
-      {isClosed ? (
-        <Button size="full" color="gray">
-          {isUserEmployer ? "마감함" : "신청 불가"}
-        </Button>
-      ) : (
+      {!isLoading && (
         <>
-          {isUserEmployer ? (
-            <>
-              {isNoticeMine ? (
-                <Button
-                  size="full"
-                  color="white"
-                  onClick={() =>
-                    router.push(`/user/employer/notice/${noticeId}/edit`)
-                  }
-                >
-                  공고 편집
-                </Button>
-              ) : (
-                <Button size="full" color="gray">
-                  사장은 신청이 불가합니다.
-                </Button>
-              )}
-            </>
+          {isClosed ? (
+            <Button size="full" color="gray">
+              {isUserEmployer ? "마감함" : "신청 불가"}
+            </Button>
           ) : (
             <>
-              {isUserSignToWork ? (
-                <Button
-                  size="full"
-                  color="white"
-                  onClick={() => handleCancelApply()}
-                >
-                  취소하기
-                </Button>
+              {isUserEmployer ? (
+                <>
+                  {isNoticeMine ? (
+                    <Button
+                      size="full"
+                      color="white"
+                      onClick={() =>
+                        router.push(`/user/employer/notice/${noticeId}/edit`)
+                      }
+                    >
+                      공고 편집
+                    </Button>
+                  ) : (
+                    <Button size="full" color="gray">
+                      사장은 신청이 불가합니다.
+                    </Button>
+                  )}
+                </>
               ) : (
-                <Button
-                  size="full"
-                  color="red"
-                  onClick={() => handleSignApply()}
-                >
-                  신청하기
-                </Button>
+                <>
+                  {isUserSignToWork ? (
+                    <Button
+                      size="full"
+                      color="white"
+                      onClick={() => handleCancelApply()}
+                    >
+                      취소하기
+                    </Button>
+                  ) : (
+                    <Button
+                      size="full"
+                      color="red"
+                      onClick={() => handleSignApply()}
+                    >
+                      신청하기
+                    </Button>
+                  )}
+                </>
               )}
             </>
           )}
         </>
+      )}
+      {isLoading && (
+        <Button size="full" color="gray">
+          잠시만 기다려 주세요...
+        </Button>
       )}
     </>
   );

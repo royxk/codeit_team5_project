@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import Image from "next/image";
@@ -64,7 +64,7 @@ const StoreEditForm = ({ data }: any) => {
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === null ||
+      storeImage === undefined ||
       workType === "" ||
       mainAddress === ""
     ) {
@@ -87,7 +87,7 @@ const StoreEditForm = ({ data }: any) => {
     const res = await editShopInformationApiResponse(id, {
       name: storeName,
       category: workType,
-      address1: address1,
+      address1: mainAddress,
       address2: address2,
       description: storeDescription,
       imageUrl: image,

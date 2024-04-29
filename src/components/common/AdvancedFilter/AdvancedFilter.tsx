@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import LocationBox from "./LocationBox";
 import Button from "../Button";
 import SelectedLocationBox from "./SelectedLocationBox";
@@ -66,8 +66,7 @@ function AdvancedFilter({
     if (price) {
       query.hourlyPayGte = Number(price);
     }
-    console.log(startDate);
-    console.log(query);
+
     onAdvencedFilterSubmit(query);
     setIsAdvancedFilterOpen(false);
   };

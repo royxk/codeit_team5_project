@@ -23,7 +23,7 @@ const Input: React.FunctionComponent<InputProps> = ({
   inputType = "DEFAULT",
   inputRef,
   errorType = null,
-  blurEvent = () => console.log("blurred"),
+  blurEvent = () => {},
   value = "",
   placeholder = "",
   onChange,

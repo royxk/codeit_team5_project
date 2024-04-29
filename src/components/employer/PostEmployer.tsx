@@ -21,11 +21,9 @@ interface PostDataType {
   workhour: number;
 }
 
-const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
-  const [shopData, setShopData] = useState<any>(rawShopData);
-  const [noticeList, setNoticeList] = useState(
-    fetchedNoticeList?.items || undefined,
-  );
+const PostEmployer = ({ fetchedNoticeList }: any) => {
+  const [shopData, setShopData] = useState<any>(undefined);
+  const [noticeList, setNoticeList] = useState<any>(undefined);
   const NOTICE_COUNT = fetchedNoticeList?.count;
   const router = useRouter();
 
@@ -35,28 +33,25 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
 
   async function handleInfiniteScroll(observer: IntersectionObserver) {
     const sid = getCookie("sid");
-    console.log(sid);
-    const newFetchList = await searchShopNoticeApiResponse(sid!, {
-      limit: fetchOffset,
-    });
+    if (sid !== "") {
+      const newFetchList = await searchShopNoticeApiResponse(sid!, {
+        limit: fetchOffset,
+      });
 
-    setNoticeList(newFetchList.items);
+      setNoticeList(newFetchList.items);
 
-    if (fetchOffset < NOTICE_COUNT) {
-      fetchOffset += 6;
-    } else {
-      observer.unobserve(observeObject.current!);
+      if (fetchOffset < NOTICE_COUNT) {
+        fetchOffset += 6;
+      } else {
+        observer.unobserve(observeObject.current!);
+      }
     }
   }
 
   const handleNoticeListReset = async () => {
-    console.log("여기?");
-    const sid = getCookie("sid");
-    console.log(sid);
-    if (sid !== undefined && sid !== "") {
-      const res = await searchShopNoticeApiResponse(sid as string);
-      console.log(res);
-      console.log("넘어가니?");
+    const sid = getCookie("sid")!;
+    if (sid !== "") {
+      const res = await searchShopNoticeApiResponse(sid, { limit: 6 });
       setNoticeList(res.items);
     }
   };
@@ -74,7 +69,7 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
     handleRefreshShopData();
     handleNoticeListReset();
 
-    if (noticeList) {
+    if (NOTICE_COUNT !== 0 && shopData !== undefined) {
       const lastNoticeObserver = new IntersectionObserver((entries) => {
         entries.map((entry) => {
           if (entry.isIntersecting) {
@@ -86,11 +81,8 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
         lastNoticeObserver.observe(observeObject.current!);
       }
     }
-  }, []);
+  }, [shopData?.item.id]);
 
-  console.log(shopData);
-  console.log(noticeList);
-  console.log(noticeList?.length);
   if (shopData === undefined || shopData === null || getCookie("sid") === "")
     return;
   if (noticeList?.length === 0 || noticeList === undefined) {
@@ -113,6 +105,7 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
                 </div>
               </div>
             </StoreDetailCardBorder>
+            <div className="h-[1px] w-full" ref={observeObject} />
           </div>
         </div>
       </div>
@@ -148,18 +141,35 @@ const PostEmployer = ({ rawShopData, fetchedNoticeList }: any) => {
                 startHour,
               } = dataConvertComponentStandard(item);
               return (
-                <Link key={item.id} href={`/user/employer/notice/${item.id}`}>
-                  <Post
-                    imgUrl={imgUrl}
-                    shopName={shopName}
-                    address1={address1}
-                    hourlyPay={hourlyPay}
-                    state={state}
-                    startTime={startTime}
-                    startHour={startHour}
-                    originalHourlyPay={shopData.item.originalHourlyPay}
-                  />
-                </Link>
+                <React.Fragment key={item.id}>
+                  {state ? (
+                    <Link href={`/user/employer/notice/${item.id}`}>
+                      <Post
+                        imgUrl={imgUrl}
+                        shopName={shopName}
+                        address1={address1}
+                        hourlyPay={hourlyPay}
+                        state={state}
+                        startTime={startTime}
+                        startHour={startHour}
+                        originalHourlyPay={shopData.item.originalHourlyPay}
+                      />
+                    </Link>
+                  ) : (
+                    <div className="cursor-not-allowed">
+                      <Post
+                        imgUrl={imgUrl}
+                        shopName={shopName}
+                        address1={address1}
+                        hourlyPay={hourlyPay}
+                        state={state}
+                        startTime={startTime}
+                        startHour={startHour}
+                        originalHourlyPay={shopData.item.originalHourlyPay}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
               );
             })}
           </div>

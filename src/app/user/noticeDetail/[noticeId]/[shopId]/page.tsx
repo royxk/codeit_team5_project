@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import NoticeDetail from "@/components/common/NoticeDetail";
-import { initialStoreDetailPost } from "@/util/constants/STORE_DETAIL_POST";
 import Post from "@/components/common/Post/Post";
 import PostSkeleton from "@/components/common/Post/PostSkeleton";
 import { formatApiDateData } from "@/util/formatDate";
@@ -11,20 +10,19 @@ import { NoticeItem } from "@/components/common/Post/PostListType";
 import { StoreDetailPostType } from "@/components/common/NoticeDetail/NoticeDetailTypes";
 import { saveRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
 import { searchSelectedNoticeApiResponse } from "@/util/api";
-import { removeRecentPostsLocalStorage } from "@/util/recentPostsLocalStorageLogic";
-import { get } from "http";
 import Link from "next/link";
 
 const StoreDetailPage = () => {
   const router = useParams<{ shopId: string; noticeId: string }>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [item, setIem] = useState<StoreDetailPostType>(initialStoreDetailPost);
+  const [item, setIem] = useState<StoreDetailPostType>();
   const [items, setItems] = useState<NoticeItem[]>([]);
 
   useEffect(() => {
     // handleSearchNoticeClick();
     getSelectedNotice(router.noticeId, router.shopId);
     handleGetRecentPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getSelectedNotice = async (noticeId: string, shopId: string) => {
@@ -54,7 +52,6 @@ const StoreDetailPage = () => {
       saveRecentPostsLocalStorage(data);
     }
     const recentPosts = localStorage.getItem("recentPosts");
-    console.log(JSON.parse(recentPosts as string));
   };
 
   return (

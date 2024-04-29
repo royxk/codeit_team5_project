@@ -9,16 +9,14 @@ import Image from "next/image";
 import { searchShopInformationApiResponse } from "@/util/api";
 import { useRouter } from "next/navigation";
 import useShopId from "./Hook/useShopId";
+import Tooltip from "../common/Post/Tooltip";
 
-const EmployerStoreDetail = ({ data }: { data: ShopDataType }) => {
+const EmployerStoreDetail = ({ data }: { data?: ShopDataType }) => {
   const [storeData, setStoreData] = useState<ShopDataType | undefined>(data);
   const router = useRouter();
   const shopId = useShopId();
 
   const handleRefreshShopData = async () => {
-    console.log("여긴가");
-    console.log(shopId);
-
     if (shopId) {
       const storeData = await searchShopInformationApiResponse(shopId);
       setStoreData(storeData);
@@ -35,25 +33,27 @@ const EmployerStoreDetail = ({ data }: { data: ShopDataType }) => {
   // 가게 데이터가 유효하지 않을 경우.
   if (shopId === "" || storeData === undefined)
     return (
-      <>
-        <h1 className="h1 mob:h3 mob:body2-bold mb-6 text-black mob:mb-4">
-          내 가게
-        </h1>
-        <StoreDetailCardBorder isBgWhite={true}>
-          <div className="body1 m-auto py-9 text-center">
-            내 가게를 소개하고 공고도 등록해 보세요.
-            <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
-              <Link href={"/user/employer/register"}>
-                <Button size="full" color="red" className="mob:body2-bold">
-                  가게 등록하기
-                </Button>
-              </Link>
-            </div>
-          </div>{" "}
-        </StoreDetailCardBorder>
-      </>
+      <div className="w-[968px] tab:w-full">
+        <div>
+          <h1 className="h1 mob:h3 mob:body2-bold mb-6 text-black mob:mb-4">
+            내 가게
+          </h1>
+          <StoreDetailCardBorder isBgWhite={true}>
+            <div className="body1 m-auto py-9 text-center">
+              내 가게를 소개하고 공고도 등록해 보세요.
+              <div className="mt-6 w-full min-w-[21.625rem] mob:mt-4 mob:min-w-[6.75rem]">
+                <Link href={"/user/employer/register"}>
+                  <Button size="full" color="red" className="mob:body2-bold">
+                    가게 등록하기
+                  </Button>
+                </Link>
+              </div>
+            </div>{" "}
+          </StoreDetailCardBorder>
+        </div>
+      </div>
     );
-  console.log(storeData);
+
   let shopData;
   let cardTitle;
   let imageUrl;
@@ -62,7 +62,7 @@ const EmployerStoreDetail = ({ data }: { data: ShopDataType }) => {
     cardTitle = shopData.name;
     imageUrl = shopData.imageUrl;
   }
-  console.log(imageUrl);
+
   if (storeData)
     return (
       <div className="w-[968px] tab:w-full">
@@ -72,14 +72,23 @@ const EmployerStoreDetail = ({ data }: { data: ShopDataType }) => {
 
         <StoreDetailCardBorder isBgWhite={false}>
           <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
-            <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
+            <Image
+              src={`${imageUrl}`}
+              sizes="max-width: 768px) 650px, (max-width: 1024px) 800px, 540px"
+              className="object-cover"
+              fill
+              priority
+              alt=""
+            />
           </div>
           <section className="flex min-w-[21.625rem] flex-col justify-between pt-4 tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3">
             <div className="flex flex-col gap-3">
               <div>
                 <h1 className="body1-bold mob:body2-bold text-primary">가게</h1>
                 <div className="mt-2 flex items-center gap-2 mob:gap-1">
-                  <h2 className="h1 mob:h2 truncate">{cardTitle}</h2>
+                  <Tooltip isClosed={true} content={`${cardTitle}`}>
+                    <h2 className="h1 mob:h2 truncate">{cardTitle}</h2>
+                  </Tooltip>
                 </div>
               </div>
 

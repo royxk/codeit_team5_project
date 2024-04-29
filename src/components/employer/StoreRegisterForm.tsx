@@ -58,7 +58,7 @@ const StoreRegisterForm = () => {
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === null ||
+      storeImage === undefined ||
       workType === "" ||
       address1 === "" ||
       Number(basePay) < 10000
@@ -87,7 +87,6 @@ const StoreRegisterForm = () => {
       originalHourlyPay: Number(basePay),
     });
 
-    console.log(res.message);
     if (res.message) {
       setIsError(true);
       setErrorMsg(res.message);
