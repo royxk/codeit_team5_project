@@ -85,7 +85,6 @@ const NoticeMain = ({ keyword }: Keyword) => {
 
   const handleAdvencedFilterSubmit = async (query: AdvancedFilterQuery) => {
     // 상세필터 클릭
-
     if (isAdvancedFilterChanged) {
       const res = await searchNoticeApiResponse({
         limit: 6,
@@ -95,6 +94,7 @@ const NoticeMain = ({ keyword }: Keyword) => {
       });
       setFilterdNoticeList(res);
       setPageCount(res.count);
+      console.log(res.count);
     }
     setSortedAdvancedQuery(query);
     setPrevSortedAdvancedQuery(sortedAdvancedQuery);
@@ -129,11 +129,14 @@ const NoticeMain = ({ keyword }: Keyword) => {
   }, [filterSelected, keyword]);
 
   useEffect(() => {
+    console.log(sortedAdvancedQuery);
+    console.log(prevSortedAdvancedQuery);
     const executeAdvancedFilter = () => {
       if (
         sortedAdvancedQuery !== prevSortedAdvancedQuery &&
         sortedAdvancedQuery
       ) {
+        console.log("여기오니");
         setIsAdvancedFilterChanged(true);
         handleAdvencedFilterSubmit(sortedAdvancedQuery);
       } else {

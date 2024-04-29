@@ -35,7 +35,7 @@ const Post = ({
       className={`flex h-[348px] w-[312px] flex-shrink-0 snap-center flex-col content-center gap-4 rounded-xl border bg-white p-[16px] mob:h-[260px] mob:w-[171px] mob:gap-2 mob:p-3 
       ${state ? "duration-300 ease-in hover:border-red-40 hover:shadow-lg" : "select-none"}`}
     >
-      <div className={`relative h-[160px] mob:min-h-[83px]`}>
+      <div className={`relative h-[154px] mob:h-[83px]`}>
         {!state && (
           <div className="absolute inset-0 z-50 flex items-center justify-center rounded-xl bg-black opacity-80">
             <div className="p-2 text-center font-Spoqa text-3xl font-bold text-white mob:text-xl">
@@ -99,9 +99,9 @@ const Post = ({
         >
           <Tooltip content={`${hourlyPay.toLocaleString()}원`} isClosed={state}>
             <div
-              className={`w-[110px] truncate text-[22px] font-bold mob:text-[18px]  ${state ? "" : "text-gray-30"}`}
+              className={`flex h-11 w-[110px] items-center truncate align-middle text-[22px] font-bold mob:h-6 mob:w-full mob:text-[18px] ${state ? "" : "text-gray-30"}`}
             >
-              {hourlyPay.toLocaleString()}원
+              <div className="truncate">{hourlyPay.toLocaleString()}원</div>
             </div>
           </Tooltip>
           {+workPay > 0 && (
