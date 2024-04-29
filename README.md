@@ -10,6 +10,7 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white">
 <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
 </div>
 <br>
 알바 구인구직을 위한 원스톱 플랫폼 "얹어드림"는 사용자가 손쉽게 일자리를 찾고, 사업주가 빠르게 직원을 모집할 수 있는 서비스를 제공합니다.
@@ -38,7 +39,7 @@
 ## 💻 개발 환경 및 기술 스택
 
 - **Frontend**
-  - Language: JavaScript
+  - Language: TypeScript
   - Library: NEXT.JS 14
 - **협업 도구**
   - Git, Notion, Discord
@@ -48,9 +49,10 @@
 ## 📝 주요 기능
 
 - **알바 검색**: 다양한 필터링 옵션을 통해 맞춤 알바 검색 가능
+- **맞춤 공고**: 구인공고가 지원자 맞춤공고로 뜨게 만드는 기능
 - **구인 등록**: 사업주가 알바 구인공고를 등록하고 관리
 - **지원자 관리**: 사업주가 지원자의 정보를 확인하고 연락
-- **알림 서비스**: 새로운 구인공고나 지원자 알림 기능
+- **알림 서비스**: 지원자 알림 기능
 
 ## ✒️ Project 매니징 문서
 
