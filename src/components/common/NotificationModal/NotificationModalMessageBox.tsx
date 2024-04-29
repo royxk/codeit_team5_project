@@ -37,7 +37,7 @@ const NotificationModalMessageBox = ({
           data.item.result === "accepted"
             ? "#0080FF"
             : data.item.result === "canceled"
-              ? "#FEE500"
+              ? "	#FFBF00"
               : "#FF0080"
         }
       />
@@ -46,7 +46,7 @@ const NotificationModalMessageBox = ({
         {data.item.result === "rejected" ? (
           <span className="text-red-40">거절</span>
         ) : data.item.result === "canceled" ? (
-          <span className="text-kakao">취소</span>
+          <span className="text-orange">취소</span>
         ) : (
           <span className="text-blue-20">승인</span>
         )}
