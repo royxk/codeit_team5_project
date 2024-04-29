@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({
       onClick={onClose}
     >
       <div
-        className={`${className}m-6 mb-4 flex h-[240px] w-[480px] flex-col items-center justify-center rounded-lg bg-white pb-4`}
+        className={`${className} m-6 mb-4 flex h-[240px] w-[480px] flex-col items-center justify-center rounded-lg bg-white pb-4`}
         onClick={handleNotCloseModalClick}
       >
         <div className="relative">
