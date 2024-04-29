@@ -72,7 +72,7 @@ const ApproveButtons = ({ noticeApplyId }: ApproveButtonsProps) => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6">
+          <Modal onClose={handleOutsideClick} type={"good"} className="max-w-[250px] max-h-[184px] p-6 pb-4">
             <div className="flex flex-col gap-8">
               <p className="text-center font-normal">{modalMessage}</p>
               <div className="flex gap-2">

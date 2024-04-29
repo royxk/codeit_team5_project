@@ -8,18 +8,14 @@ const getServerSideData = async () => {
   const uid = getServerSideCookie("uid");
   if (uid) {
     const { item } = await mydataApiResponse(uid);
-    return { uid, item };
+    return { item };
   }
-  return { uid, item: {} };
+  return { item: {} };
 };
 
 const Employee = async () => {
-  const { uid, item } = await getServerSideData();
+  const { item } = await getServerSideData();
   const isProfileData = Object.keys(item).length <= 4;
-
-  if (!uid) {
-    redirect("/signin");
-  }
 
   return (
     <>

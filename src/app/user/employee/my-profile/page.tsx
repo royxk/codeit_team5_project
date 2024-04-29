@@ -13,7 +13,7 @@ import Image from 'next/image';
 import closeIcon from '/public/close.svg';
 import ModalPortal from '@/components/common/ModalPortal';
 
-const MODAL_MESSAGE = "등록이 완료되었습니다.";
+const SUCCESS_MODAL_MESSAGE = "등록이 완료되었습니다.";
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
@@ -22,6 +22,7 @@ const RegisterProfile = () => {
   const [nameErr, setNameErr] = useState("");
   const [phoneErr, setPhoneErr] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState(SUCCESS_MODAL_MESSAGE);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const bioRef = useRef<HTMLTextAreaElement | null>(null);
@@ -80,15 +81,6 @@ const RegisterProfile = () => {
     setAddressValue(data);
   };
 
-  const handleCheckClick = () => {
-    setShowModal(false);
-    router.push("/user/employee");
-  };
-
-  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
-    setShowModal(false);
-  };
-
   const handleSubmit = async () => {
     if (!phoneErr && !nameErr){
       const editValue = {
@@ -98,9 +90,24 @@ const RegisterProfile = () => {
         bio: bioRef.current?.value ?? "",
       };
 
-      await mydataEditApiResponse(editValue);
+      const res = await mydataEditApiResponse(editValue);
+      if (!res.message) {
+        setModalMessage(SUCCESS_MODAL_MESSAGE);
+      } else {
+        setModalMessage(res.message);
+      }
       setShowModal(true);
     }
+  };
+
+  const handleOutsideClick = (e: MouseEvent<HTMLDivElement>) => {
+    setShowModal(false);
+  };
+
+  const handleCheckClick = () => {
+    setShowModal(false);
+    if(modalMessage === SUCCESS_MODAL_MESSAGE) router.push("/user/employee");
+    return;
   };
 
   return (
@@ -147,7 +154,6 @@ const RegisterProfile = () => {
             <textarea
               className='w-full border border-gray-30 rounded-lg h-40 px-5 py-4 resize-none focus:outline-none focus:border-primary'
               placeholder='자기 소개를 입력해 주세요.'
-              maxLength={300}
               ref={bioRef}
               defaultValue={userData?.bio}
             />
@@ -164,9 +170,13 @@ const RegisterProfile = () => {
       </div>
       {showModal && (
         <ModalPortal>
-          <Modal onClose={handleOutsideClick} type={"good"} className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'>
+          <Modal
+            onClose={handleOutsideClick}
+            type={modalMessage === SUCCESS_MODAL_MESSAGE ? "good" : "bad"}
+            className='relative gap-3 mob:max-w-[327px] mob:max-h-[220px]'
+          >
           <div className="flex flex-col gap-8">
-            <p className="text-center font-normal text-lg">{MODAL_MESSAGE}</p>
+            <p className="text-center font-normal text-lg">{modalMessage}</p>
             <Button
               color="red"
               size="small"
