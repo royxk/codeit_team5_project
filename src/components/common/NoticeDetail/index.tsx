@@ -19,7 +19,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
   // 가게 데이터가 유효하지 않을 경우. 현재 유저에 대한 구분이 없으므로, 잘못된 공고 링크로의 접근의 경우 추가 리다이렉트가 필요합니다.
   if (item === undefined)
     return (
-      <>
+      <div className="w-full max-w-[968px]">
         <div className="mb-6 mob:mb-4 ">
           <div>
             <p className="body1-bold mob:body2-bold mb-2 text-primary">식당</p>
@@ -49,7 +49,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
             disabled
           />
         </div>
-      </>
+      </div>
     );
 
   const noticeHourlyPay = `${item.hourlyPay.toLocaleString()}원`;
