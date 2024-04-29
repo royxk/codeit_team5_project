@@ -33,14 +33,22 @@ const NotificationModalMessageBox = ({
       }}
     >
       <SvgStatusComponent
-        color={data.item.result === "rejected" ? "#FF0080" : "#0080FF"}
+        color={
+          data.item.result === "accepted"
+            ? "#0080FF"
+            : data.item.result === "canceled"
+              ? "#FEE500"
+              : "#FF0080"
+        }
       />
       <div>
         {`${data.item.shop.item.name} (${createdAt[0]} ${createdAt[1]}) 공고지원이`}{" "}
-        {data.item.result == `rejected` ? (
-          <span className={`text-red-40`}>거절</span>
+        {data.item.result === "rejected" ? (
+          <span className="text-red-40">거절</span>
+        ) : data.item.result === "canceled" ? (
+          <span className="text-kakao">취소</span>
         ) : (
-          <span className={`text-blue-20`}>승인</span>
+          <span className="text-blue-20">승인</span>
         )}
         되었어요.
       </div>

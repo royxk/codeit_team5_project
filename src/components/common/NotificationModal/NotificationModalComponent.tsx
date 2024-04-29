@@ -62,29 +62,32 @@ const NotificationModalComponent = () => {
   }, []);
 
   return (
-    <div className={`relative z-[100] content-end`}>
-      <div
-        className={`flex justify-end`}
-        id="advanced-filter-modal"
-        onClick={toggleNotificationModal}
-      >
-        <SvgNotificationButton status={status} />
-        {isNotificationModalOpen && (
-          <div
-            ref={modalRef}
-            className={`absolute top-1 ml-10 mt-10 mob:fixed mob:right-0 mob:top-0 mob:mt-0 mob:h-screen mob:w-full`}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <NotificationModal
-              data={notificationData}
-              setStatus={setStatus}
-              getNotificationData={getNotificationData}
-              onClick={toggleNotificationModal}
-            />
-          </div>
-        )}
+    console.log(notificationData),
+    (
+      <div className={`relative z-[100] content-end`}>
+        <div
+          className={`flex justify-end`}
+          id="advanced-filter-modal"
+          onClick={toggleNotificationModal}
+        >
+          <SvgNotificationButton status={status} />
+          {isNotificationModalOpen && (
+            <div
+              ref={modalRef}
+              className={`absolute top-1 ml-10 mt-10 mob:fixed mob:right-0 mob:top-0 mob:mt-0 mob:h-screen mob:w-full`}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <NotificationModal
+                data={notificationData}
+                setStatus={setStatus}
+                getNotificationData={getNotificationData}
+                onClick={toggleNotificationModal}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
