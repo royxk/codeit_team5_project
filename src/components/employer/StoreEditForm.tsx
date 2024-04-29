@@ -93,7 +93,6 @@ const StoreEditForm = ({ data }: any) => {
       imageUrl: image,
       originalHourlyPay: Number(basePay),
     });
-    console.log(res.message);
     if (res.message) {
       setIsError(true);
       setErrorMsg(res.message);
