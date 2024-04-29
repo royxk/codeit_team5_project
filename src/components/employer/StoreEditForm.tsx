@@ -125,6 +125,7 @@ const StoreEditForm = ({ data }: any) => {
           inputType="STORE_NAME"
           blurEvent={() => handleInputBlur(storeNameRef, setStoreNameErr)}
           defaultValue={name}
+          maxLength={30}
         />
         <Input
           inputType="WORK_TYPES"
