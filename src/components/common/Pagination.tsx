@@ -89,8 +89,6 @@ const Pagination = ({
           handlePageNumberChange(currentPage + 1);
         }
         break;
-      default:
-        console.error("이게 뜨면 안됨");
     }
   };
 
