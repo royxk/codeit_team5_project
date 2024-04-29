@@ -87,7 +87,7 @@ const EmployerStoreDetail = ({ data }: { data?: ShopDataType }) => {
                 <h1 className="body1-bold mob:body2-bold text-primary">가게</h1>
                 <div className="mt-2 flex items-center gap-2 mob:gap-1">
                   <Tooltip isClosed={true} content={`${cardTitle}`}>
-                    <h2 className="h1 mob:h2 truncate">{cardTitle}</h2>
+                    <h2 className="h1 mob:h2 max-w-80 truncate">{cardTitle}</h2>
                   </Tooltip>
                 </div>
               </div>
