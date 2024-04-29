@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "더 줄게",
+  title: "얹어드림 | 높은 시급으로 빠른 알바",
+  description: "높은 시급으로 빠른 알바",
 };
 
 export default function RootLayout({
