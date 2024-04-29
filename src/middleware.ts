@@ -20,12 +20,14 @@ export async function middleware(request: NextRequest) {
     url.pathname !== "/signin" &&
     url.pathname !== "/signup"
   ) {
+    console.log("로그인페이지로 이동");
     return NextResponse.redirect(new URL("/signin", request.url));
   }
 
   // accessToken이나 uid가 있는 상태일 때 로그인 페이지 혹은 회원가입 페이지 이동 시 메인 페이지로 이동
-  if (accessToken || uid) {
+  if (accessToken && uid) {
     if (url.pathname === "/signup" || url.pathname === "/signin") {
+      console.log("메인페이지로 이동");
       return NextResponse.redirect(new URL("/user", request.url));
     }
   }

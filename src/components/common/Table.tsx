@@ -63,31 +63,38 @@ const Table = <T extends ApplyData>({
                 bio,
               } = data;
               return (
-                <tr
-                  key={apply_id}
-                  className="h-[68px] border-b border-gray-20 mob:h-[50px]"
-                >
-                  <td className="sticky left-0 z-10 w-full min-w-[226px] bg-white pl-3 mob:min-w-[188px]">
-                    {isEmployee ? shopName : userName}
-                  </td>
-                  <td className="w-full min-w-[300px] bg-white pl-3 align-middle">
-                    <div className="line-clamp-1">
-                      {isEmployee
-                        ? formatApiDateData(startsAt, workHour).join(" ")
-                        : bio}
-                    </div>
-                  </td>
-                  <td className="w-full min-w-[200px] bg-white pl-3">
-                    {isEmployee ? `${hourlyPay}원` : phoneNumber}
-                  </td>
-                  <td className="w-full min-w-[236px] bg-white pl-3 mob:min-w-[168px]">
-                    {!isEmployee && status === "pending" ? (
-                      <ApproveButtons noticeApplyId={apply_id}/>
-                    ) : (
-                      <StatusLabel status={status} />
-                    )}
-                  </td>
-                </tr>
+                <>
+                  <tr
+                    key={apply_id}
+                    className="h-[68px] border-b border-gray-20 mob:h-[50px]"
+                  >
+                    <td className="sticky left-0 z-10 w-full min-w-[226px] bg-white pl-3 mob:min-w-[188px]">
+                      {isEmployee ? shopName : userName}
+                    </td>
+                    <td className="w-full min-w-[300px] bg-white pl-3 align-middle">
+                      <div className="peer line-clamp-1">
+                        {isEmployee
+                          ? formatApiDateData(startsAt, workHour).join(" ")
+                          : bio}
+                      </div>
+                      {!isEmployee &&
+                        <div
+                          className={`absolute mb-2 hidden w-[400px] line-clamp-3 rounded-md bg-black px-2 py-1 text-xs text-white opacity-0 peer-hover:block peer-hover:opacity-100`}>
+                          {bio}
+                        </div>}
+                    </td>
+                    <td className="w-full min-w-[200px] bg-white pl-3">
+                      {isEmployee ? `${hourlyPay}원` : phoneNumber}
+                    </td>
+                    <td className="w-full min-w-[236px] bg-white pl-3 mob:min-w-[168px]">
+                      {!isEmployee && status === "pending" ? (
+                        <ApproveButtons noticeApplyId={apply_id}/>
+                      ) : (
+                        <StatusLabel status={status} />
+                      )}
+                    </td>
+                  </tr>
+                </>
               );
             })}
           </tbody>
