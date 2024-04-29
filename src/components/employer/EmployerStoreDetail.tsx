@@ -72,7 +72,14 @@ const EmployerStoreDetail = ({ data }: { data?: ShopDataType }) => {
 
         <StoreDetailCardBorder isBgWhite={false}>
           <div className="relative h-full w-full  overflow-hidden rounded-xl tab:h-[20.5625rem] mob:max-h-[11.0625rem]">
-            <Image src={`${imageUrl}`} className="object-cover" fill alt="" />
+            <Image
+              src={`${imageUrl}`}
+              sizes="max-width: 768px) 650px, (max-width: 1024px) 800px, 540px"
+              className="object-cover"
+              fill
+              priority
+              alt=""
+            />
           </div>
           <section className="flex min-w-[21.625rem] flex-col justify-between pt-4 tab:min-w-0 tab:gap-10 mob:gap-6 mob:pt-3">
             <div className="flex flex-col gap-3">
