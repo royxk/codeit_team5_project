@@ -71,7 +71,6 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
     setWorkHour(workHour);
     setNoticeDescription(noticeDescription);
     setStartDate(startDateString);
-    console.log(noticeData);
   }
 
   async function handleButtonClick() {
@@ -118,7 +117,6 @@ const EmployerNoticeForm = ({}: EmployerNoticeForm) => {
       }
       setShowModal(true);
     } else {
-      console.log(shopId);
       const res = await addNoticeApiResponse(shopId, {
         hourlyPay: Number(hourlyPay),
         startsAt: String(rfc3339DateTime),
