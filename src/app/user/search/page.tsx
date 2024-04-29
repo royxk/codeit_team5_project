@@ -5,11 +5,10 @@ import { usePageMetadata } from "@/hooks/usePageMetadata";
 
 import { Suspense } from "react";
 
-
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("keyword");
-  const titleWithKeyword = "더 줄게 - " + keyword + " | 검색 결과";
+  const titleWithKeyword = "얹어드림 - " + keyword + " | 검색 결과";
 
   const { SetMetadata } = usePageMetadata();
   SetMetadata({ title: titleWithKeyword as string });
@@ -25,4 +24,3 @@ const SearchPageCover = () => {
   );
 };
 export default SearchPageCover;
-
