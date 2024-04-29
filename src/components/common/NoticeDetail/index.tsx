@@ -6,6 +6,7 @@ import StoreDetailCardBorder from "./NoticeDetailCardBorder";
 import { formatApiDateData } from "@/util/formatDate";
 import ImageLoadingComponents from "./ImageLoadingComponents";
 import TextLoadingComponents from "./TextLoadingComponents";
+import NoticeDetailSkeleton from "./NoticeDetailSkeleton";
 
 /**
  *
@@ -26,20 +27,7 @@ const NoticeDetail = ({ data }: { data?: StoreDetailPostType }) => {
             <h1 className="h1 mob:h3 text-black">불러오는 중</h1>
           </div>
         </div>
-        <StoreDetailCardBorder isBgWhite={true}>
-          <div className="body1 m-auto flex flex-col items-center justify-center py-9">
-            정보를 불러오는 중입니다...
-            <div className="mt-6 flex w-full min-w-[21.625rem] items-center justify-center mob:mt-4 mob:min-w-[6.75rem]">
-              <Image
-                width={40}
-                height={40}
-                alt=""
-                className="animate-spin"
-                src={"/store-detail-sample/loading.png"}
-              />
-            </div>
-          </div>{" "}
-        </StoreDetailCardBorder>
+        <NoticeDetailSkeleton />
 
         <div className="mt-6 w-full rounded-lg bg-gray-10 p-8">
           <h6 className="body1-bold mob:body2-bold">공고 설명</h6>
