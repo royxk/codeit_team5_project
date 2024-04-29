@@ -81,7 +81,7 @@ const PostEmployer = ({ fetchedNoticeList }: any) => {
         lastNoticeObserver.observe(observeObject.current!);
       }
     }
-  }, []);
+  }, [shopData?.item.id]);
 
   if (shopData === undefined || shopData === null || getCookie("sid") === "")
     return;
@@ -105,6 +105,7 @@ const PostEmployer = ({ fetchedNoticeList }: any) => {
                 </div>
               </div>
             </StoreDetailCardBorder>
+            <div className="h-[1px] w-full" ref={observeObject} />
           </div>
         </div>
       </div>
