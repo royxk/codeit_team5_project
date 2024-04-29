@@ -39,7 +39,7 @@
 ## 💻 개발 환경 및 기술 스택
 
 - **Frontend**
-  - Language: JavaScript
+  - Language: TypeScript
   - Library: NEXT.JS 14
 - **협업 도구**
   - Git, Notion, Discord
