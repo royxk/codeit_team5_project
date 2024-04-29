@@ -29,6 +29,7 @@ const StoreRegisterForm = () => {
   const [address1, setAddress1] = useState<any>("");
   const [imagePath, setImagePath] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -66,6 +67,9 @@ const StoreRegisterForm = () => {
       handleInputBlur(storeNameRef, setStoreNameErr);
       handleInputBlur(basePayRef, setBasePayErr);
       handleInputBlur(address2Ref, setAddress2Err);
+      if (storeImage === undefined) {
+        setImageError(true);
+      }
       return;
     }
 
@@ -166,10 +170,14 @@ const StoreRegisterForm = () => {
                 reader.onload = () => {
                   setImagePath(reader.result as string);
                 };
+                setImageError(false);
               }
             }}
             className="hidden"
           />
+          <p className="caption absolute bottom-0 ml-2 text-red-400">
+            {imageError ? "이미지를 꼭 등록해주세요!" : ""}
+          </p>
         </label>
       </div>
 
