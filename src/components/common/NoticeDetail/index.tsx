@@ -1,10 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import StoreDetailButtons from "./NoticeDetailButtons";
-import Button from "../Button";
 import { StoreDetailPostType } from "./NoticeDetailTypes";
 import StoreDetailCardBorder from "./NoticeDetailCardBorder";
-import Link from "next/link";
 import { formatApiDateData } from "@/util/formatDate";
 import ImageLoadingComponents from "./ImageLoadingComponents";
 import TextLoadingComponents from "./TextLoadingComponents";

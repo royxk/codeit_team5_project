@@ -37,9 +37,10 @@ const Input = ({
   inputType = "DEFAULT",
   inputRef,
   errorType = "",
-  blurEvent = () => console.log("blured"),
+  blurEvent = () => {},
   selectData = (item) => {
-    console.log(`selectedData : ${item}`);
+    {
+    }
   },
   defaultValue,
   maxLength,

@@ -36,19 +36,18 @@ const CustomNotice = () => {
     const uid = getCookie("uid");
     if (uid) {
       const { item } = await mydataApiResponse(uid);
-      console.log(item);
+
       if (item.address) {
-        console.log("주소 진입?");
         addressForApi = item.address;
       }
     }
-    console.log(`${addressForApi} - 주소 값`);
+
     const res = await searchNoticeApiResponse({
       offset: 0,
       limit: 6,
       ...(addressForApi && { address: addressForApi }),
     });
-    console.log(res);
+
     setCustomNoticeList(res);
     setIsLoading(false);
   };
@@ -61,7 +60,7 @@ const CustomNotice = () => {
     // 화면 너비에 따라 스크롤 이동 거리를 결정하는 함수
     const checkSizeAndScroll = () => {
       const newScrollDistance = window.innerWidth < 768 ? 178 : 326;
-      console.log(`New scroll distance: ${newScrollDistance}px`);
+
       setScrollDistance(newScrollDistance);
     };
 

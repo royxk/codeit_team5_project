@@ -3,7 +3,6 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Address, mydataApiResponse, mydataEditApiResponse } from "@/util/api";
 import { getCookie } from "@/util/cookieSetting";
-import { UserItem } from "@/util/constants/PROFILE_PAGE_USER_TEST_DATA";
 import {
   INPUT_SELECT_DATA_LIST,
   INPUT_SELECT_TYPE,
@@ -17,6 +16,17 @@ import closeIcon from "/public/close.svg";
 import ModalPortal from "@/components/common/ModalPortal";
 
 const SUCCESS_MODAL_MESSAGE = "등록이 완료되었습니다.";
+
+export interface UserItem {
+  id: string;
+  email: string;
+  type: string;
+  name?: string; // 옵셔널 속성
+  phone?: string; // 옵셔널 속성
+  address?: string; // 옵셔널 속성
+  bio?: string; // 옵셔널 속성
+  shop: null;
+}
 
 const RegisterProfile = () => {
   const [userData, setUserData] = useState<UserItem | null>(null);
