@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/util/cookieSetting";
 import Modal from "../common/SignModal";
+import ModalPortal from "../common/ModalPortal";
 
 const StoreEditForm = ({ data }: any) => {
   const {
@@ -39,6 +40,8 @@ const StoreEditForm = ({ data }: any) => {
   const [imagePath, setImagePath] = useState(imageUrl);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleInputBlur = (
     ref: RefObject<HTMLInputElement>,
@@ -81,7 +84,7 @@ const StoreEditForm = ({ data }: any) => {
         )[0]
       : imageUrl;
 
-    await editShopInformationApiResponse(id, {
+    const res = await editShopInformationApiResponse(id, {
       name: storeName,
       category: workType,
       address1: address1,
@@ -90,13 +93,21 @@ const StoreEditForm = ({ data }: any) => {
       imageUrl: image,
       originalHourlyPay: Number(basePay),
     });
-
+    console.log(res.message);
+    if (res.message) {
+      setIsError(true);
+      setErrorMsg(res.message);
+    } else {
+      setIsError(false);
+    }
     setShowModal(true);
   };
 
   const handleModalClose = () => {
     setShowModal(false);
-    router.push("/user/employer");
+    if (!isError) {
+      router.push("/user/employer");
+    }
   };
 
   return (
@@ -186,20 +197,23 @@ const StoreEditForm = ({ data }: any) => {
         </Button>
       </div>
       {showModal && (
-        <Modal onClose={() => handleModalClose()}>
-          <div className="mt-5">
-            <p className="mb-10">수정이 완료되었습니다</p>
-            <div className="absolute min-w-40">
+        <ModalPortal>
+          <Modal type={isError ? "bad" : "good"} onClose={handleModalClose}>
+            <div className="mt-5 flex flex-col items-center gap-5">
+              <p className={`max-w-[300px] text-center`}>
+                {isError ? `${errorMsg}` : "수정이 완료되었습니다"}
+              </p>
               <Button
-                onClick={() => handleModalClose()}
+                className="max-w-28"
+                onClick={handleModalClose}
                 size="full"
                 color="red"
               >
                 확인
               </Button>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        </ModalPortal>
       )}
     </form>
   );
