@@ -66,7 +66,7 @@ const FilterdNotice = ({
       }),
       ...(keyword && { keyword: keyword }),
     });
-
+    setPageCount(res.count);
     setFilterdNoticeList(res);
   };
 
