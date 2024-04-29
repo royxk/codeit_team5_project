@@ -20,7 +20,7 @@ const constant = {
   MODAL_BUTTON_TEXT: "확인",
   EMAIL_ERROR_MESSAGE: "이메일 형식이 올바르지 않습니다.",
   PASSWORD_ERROR_MESSAGE: "8자 이상 입력해주세요.",
-  LOGO_ICON_SRC: "/signin/logoIcon.png",
+  LOGO_ICON_SRC: "/signin/logoIcon.svg",
   MODAL_MESSAGE: "비밀번호가 일치하지 않습니다.",
 };
 
@@ -89,8 +89,8 @@ const Signin: React.FC = () => {
             <Image
               src={constant.LOGO_ICON_SRC}
               alt="logoIcon"
-              width={248}
-              height={45}
+              width={360}
+              height={80}
             />
           </Link>
         </div>

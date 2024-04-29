@@ -111,13 +111,13 @@ const Signup: React.FC = () => {
   return (
     <div className="relative flex h-screen items-center justify-center pb-[300px]">
       <div className="flex h-[288px] w-[350px] flex-col">
-        <div className="m-10 flex items-center justify-center">
+        <div className="m-10 mt-[-50px] flex items-center justify-center">
           <Link href={"/"}>
             <Image
-              src="/signin/logoIcon.png"
+              src="/signin/logoIcon.svg"
               alt="logoIcon"
-              width={248}
-              height={45}
+              width={360}
+              height={80}
             />
           </Link>
         </div>

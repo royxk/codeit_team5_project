@@ -156,7 +156,6 @@ const RegisterProfile = () => {
             <textarea
               className="h-40 w-full resize-none rounded-lg border border-gray-30 px-5 py-4 focus:border-primary focus:outline-none"
               placeholder="자기 소개를 입력해 주세요."
-              maxLength={300}
               ref={bioRef}
               defaultValue={userData?.bio}
             />
