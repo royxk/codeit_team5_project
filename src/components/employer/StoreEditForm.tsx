@@ -64,7 +64,7 @@ const StoreEditForm = ({ data }: any) => {
       storeName === "" ||
       basePay === "" ||
       address2 === "" ||
-      storeImage === null ||
+      storeImage === undefined ||
       workType === "" ||
       mainAddress === ""
     ) {
