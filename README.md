@@ -63,6 +63,10 @@ API 상세 설명 및 명세서는 아래 링크를 참조해주세요.
 ## 🎉 배포링크
 - https://codeit-team5-project.vercel.app
 
+## 📌 PPT 자료
+- [얹어드림.pdf](https://github.com/royxk/codeit_team5_project/files/15157876/1.pdf)
+
+
 
 
 
